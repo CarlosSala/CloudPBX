@@ -22,7 +22,12 @@ Partial Class Frm_AgregarRegistros
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.SuspendLayout()
+        '
+        'OpenFileDialog1
+        '
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
         'Frm_AgregarRegistros
         '
@@ -35,4 +40,6 @@ Partial Class Frm_AgregarRegistros
         Me.ResumeLayout(False)
 
     End Sub
+
+    Friend WithEvents OpenFileDialog1 As OpenFileDialog
 End Class

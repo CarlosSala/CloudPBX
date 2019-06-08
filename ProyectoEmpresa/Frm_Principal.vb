@@ -1,5 +1,9 @@
 ﻿Imports System.Data.OleDb ' manejo de BD Access
 Public Class Frm_Principal
+
+
+    Dim ConexionString As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & My.Application.Info.DirectoryPath & My.Settings.SetDatabase
+    Dim Conexion As New OleDbConnection(ConexionString)
     Private Sub For1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
     End Sub
@@ -36,8 +40,7 @@ Public Class Frm_Principal
         'letras(9) = "e"
 
         'Conexión, el puente entre la BD y el software
-        Dim Conexion As New OleDbConnection
-        Conexion.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & My.Application.Info.DirectoryPath & My.Settings.SetDatabase
+
 
         While Not EOF(1)
             totalReg += 1
@@ -73,7 +76,7 @@ Public Class Frm_Principal
         End While
 
 
-
+        actualizarGrilla()
 
 
 
@@ -120,6 +123,61 @@ Public Class Frm_Principal
         TextBox_FileName.Text = CDFileCSV.FileName
         GuardarDatos()
     End Sub
+
+    Public Sub actualizarGrilla()
+        'If txtCMMFileCSV.Text = "" Then
+        '    Exit Sub
+        'End If
+
+        Me.Cursor = Cursors.WaitCursor
+        Conexion.Open()
+        Dim iSql As String
+        Dim cmd As New OleDbCommand
+        Dim dt As New DataTable
+        Dim da As New OleDbDataAdapter
+        'If cluster <> 0 Then
+        iSql = "select * from brs_create_group"
+        'Else
+        'iSql = "select * from brs_update_cmm_tmp"
+        'End If
+        Try
+            cmd.Connection = Conexion
+            cmd.CommandText = iSql
+            cmd.CommandType = CommandType.TableDirect
+            da.SelectCommand = cmd
+            da.Fill(dt)
+            ' muestro los resultados en la datagridview 
+            DataGridView1.DataSource = dt
+            DataGridView1.Refresh()
+        Catch ex As Exception
+            MsgBox("Can not open connection ! , " & ex.Message)
+        End Try
+        If DataGridView1.RowCount = 0 Then
+            MsgBox("No se encontraron registros", MsgBoxStyle.Exclamation, "Aviso!")
+            Conexion.Close()
+            'grpCMMUpdRecord.Visible = False
+            'BtnCMMUpdate.Enabled = False
+            Me.Cursor = Cursors.Arrow
+            Exit Sub
+        End If
+        Conexion.Close()
+        'grpCMMUpdRecord.Visible = True
+        'dataCMMGrdUpdate.CurrentCell = dataCMMGrdUpdate.Rows(0).Cells(0)
+        'lblCMMUpdCurrentRow.Text = dataCMMGrdUpdate.CurrentCell.RowIndex + 1
+        'lblCMMUpdTotalRows.Text = dataCMMGrdUpdate.RowCount
+        Me.Cursor = Cursors.Arrow
+    End Sub
+
+
+
+
+
+
+
+
+
+
+
 
     Private Sub BtnCMMOpenFile_Click(sender As Object, e As EventArgs)
 

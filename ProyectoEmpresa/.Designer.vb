@@ -33,8 +33,10 @@ Partial Class Frm_Principal
         Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.CDFileCSV = New System.Windows.Forms.OpenFileDialog()
         Me.btn_procesar = New System.Windows.Forms.Button()
+        Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
+        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -52,6 +54,7 @@ Partial Class Frm_Principal
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.DataGridView1)
         Me.TabPage1.Controls.Add(Me.btn_procesar)
         Me.TabPage1.Controls.Add(Me.TextBox_FileName)
         Me.TabPage1.Controls.Add(Me.BtnCMMBrowseCSV)
@@ -130,12 +133,20 @@ Partial Class Frm_Principal
         '
         'btn_procesar
         '
-        Me.btn_procesar.Location = New System.Drawing.Point(455, 199)
+        Me.btn_procesar.Location = New System.Drawing.Point(455, 203)
         Me.btn_procesar.Name = "btn_procesar"
         Me.btn_procesar.Size = New System.Drawing.Size(88, 55)
         Me.btn_procesar.TabIndex = 50
         Me.btn_procesar.Text = "Procesar"
         Me.btn_procesar.UseVisualStyleBackColor = True
+        '
+        'DataGridView1
+        '
+        Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView1.Location = New System.Drawing.Point(6, 47)
+        Me.DataGridView1.Name = "DataGridView1"
+        Me.DataGridView1.Size = New System.Drawing.Size(537, 150)
+        Me.DataGridView1.TabIndex = 51
         '
         'Frm_Principal
         '
@@ -150,6 +161,7 @@ Partial Class Frm_Principal
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
+        CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -164,4 +176,5 @@ Partial Class Frm_Principal
     Friend WithEvents CDFileCSV As OpenFileDialog
     Friend WithEvents TextBox_FileName As TextBox
     Friend WithEvents btn_procesar As Button
+    Friend WithEvents DataGridView1 As DataGridView
 End Class

@@ -25,13 +25,14 @@ Partial Class Frm_Principal
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Frm_Principal))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.TextBox_FileName = New System.Windows.Forms.TextBox()
+        Me.BtnCMMBrowseCSV = New System.Windows.Forms.Button()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
         Me.TabPage5 = New System.Windows.Forms.TabPage()
-        Me.BtnCMMBrowseCSV = New System.Windows.Forms.Button()
         Me.CDFileCSV = New System.Windows.Forms.OpenFileDialog()
-        Me.TextBox_FileName = New System.Windows.Forms.TextBox()
+        Me.btn_procesar = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.SuspendLayout()
@@ -51,6 +52,7 @@ Partial Class Frm_Principal
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.btn_procesar)
         Me.TabPage1.Controls.Add(Me.TextBox_FileName)
         Me.TabPage1.Controls.Add(Me.BtnCMMBrowseCSV)
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
@@ -60,6 +62,27 @@ Partial Class Frm_Principal
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Crear Grupo"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'TextBox_FileName
+        '
+        Me.TextBox_FileName.Location = New System.Drawing.Point(6, 21)
+        Me.TextBox_FileName.Name = "TextBox_FileName"
+        Me.TextBox_FileName.Size = New System.Drawing.Size(537, 20)
+        Me.TextBox_FileName.TabIndex = 49
+        '
+        'BtnCMMBrowseCSV
+        '
+        Me.BtnCMMBrowseCSV.BackColor = System.Drawing.Color.Transparent
+        Me.BtnCMMBrowseCSV.BackgroundImage = CType(resources.GetObject("BtnCMMBrowseCSV.BackgroundImage"), System.Drawing.Image)
+        Me.BtnCMMBrowseCSV.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.BtnCMMBrowseCSV.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnCMMBrowseCSV.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnCMMBrowseCSV.Location = New System.Drawing.Point(550, 7)
+        Me.BtnCMMBrowseCSV.Margin = New System.Windows.Forms.Padding(4)
+        Me.BtnCMMBrowseCSV.Name = "BtnCMMBrowseCSV"
+        Me.BtnCMMBrowseCSV.Size = New System.Drawing.Size(45, 45)
+        Me.BtnCMMBrowseCSV.TabIndex = 48
+        Me.BtnCMMBrowseCSV.UseVisualStyleBackColor = False
         '
         'TabPage2
         '
@@ -101,30 +124,18 @@ Partial Class Frm_Principal
         Me.TabPage5.Text = "Asignar Dispositivos"
         Me.TabPage5.UseVisualStyleBackColor = True
         '
-        'BtnCMMBrowseCSV
-        '
-        Me.BtnCMMBrowseCSV.BackColor = System.Drawing.Color.Transparent
-        Me.BtnCMMBrowseCSV.BackgroundImage = CType(resources.GetObject("BtnCMMBrowseCSV.BackgroundImage"), System.Drawing.Image)
-        Me.BtnCMMBrowseCSV.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.BtnCMMBrowseCSV.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BtnCMMBrowseCSV.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnCMMBrowseCSV.Location = New System.Drawing.Point(550, 7)
-        Me.BtnCMMBrowseCSV.Margin = New System.Windows.Forms.Padding(4)
-        Me.BtnCMMBrowseCSV.Name = "BtnCMMBrowseCSV"
-        Me.BtnCMMBrowseCSV.Size = New System.Drawing.Size(45, 45)
-        Me.BtnCMMBrowseCSV.TabIndex = 48
-        Me.BtnCMMBrowseCSV.UseVisualStyleBackColor = False
-        '
         'CDFileCSV
         '
         Me.CDFileCSV.FileName = "OpenFileDialog1"
         '
-        'TextBox_FileName
+        'btn_procesar
         '
-        Me.TextBox_FileName.Location = New System.Drawing.Point(6, 21)
-        Me.TextBox_FileName.Name = "TextBox_FileName"
-        Me.TextBox_FileName.Size = New System.Drawing.Size(537, 20)
-        Me.TextBox_FileName.TabIndex = 49
+        Me.btn_procesar.Location = New System.Drawing.Point(455, 199)
+        Me.btn_procesar.Name = "btn_procesar"
+        Me.btn_procesar.Size = New System.Drawing.Size(88, 55)
+        Me.btn_procesar.TabIndex = 50
+        Me.btn_procesar.Text = "Procesar"
+        Me.btn_procesar.UseVisualStyleBackColor = True
         '
         'Frm_Principal
         '
@@ -152,4 +163,5 @@ Partial Class Frm_Principal
     Friend WithEvents BtnCMMBrowseCSV As Button
     Friend WithEvents CDFileCSV As OpenFileDialog
     Friend WithEvents TextBox_FileName As TextBox
+    Friend WithEvents btn_procesar As Button
 End Class

@@ -1,8 +1,85 @@
-﻿Public Class Frm_Principal
+﻿Imports System.Data.OleDb ' manejo de BD Access
+Public Class Frm_Principal
     Private Sub For1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
     End Sub
 
+    Function GuardarDatos() As Boolean
+
+        'Se abre el archivo CSV en modo lectura y se le asigna un id
+        FileOpen(1, TextBox_FileName.Text, OpenMode.Input)
+
+        Dim regLine As String = ""
+        Dim arrLine() As String
+
+        'Se crean variables que contendran las valores que luego se guardaran en access
+        'Convertir al tipo de dato que espera recibir la BD
+        Dim Dominio As String = ""
+        Dim Numeros As Integer
+
+        Dim totalReg As Integer = 0
+        Dim ierr = 0
+
+        'Dim letras(10) As String
+        'Dim contador As Integer = 0
+
+
+        'letras(0) = "s"
+        'letras(1) = "a"
+        'letras(2) = "l"
+        'letras(3) = "u"
+        'letras(4) = "d"
+        'letras(5) = "o"
+        'letras(6) = "t"
+        'letras(7) = "i"
+        'letras(8) = "m"
+        'letras(9) = "e"
+
+        'Conexión, el puente entre la BD y el software
+        Dim Conexion As New OleDbConnection
+        Conexion.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & My.Application.Info.DirectoryPath & My.Settings.SetDatabase
+
+        While Not EOF(1)
+            totalReg += 1
+            regLine = LineInput(1)
+            arrLine = Split(regLine, ";")
+            Dominio = arrLine(0).ToString()
+            Numeros = Convert.ToInt32(arrLine(1))
+
+            MsgBox(arrLine(0) & " " & arrLine(1))
+
+            'Instruccion SQL 
+            'Se insertan datos en la tabla Personal, el nombre de la tabla va en minusculas
+            Dim cadenaSQl As String = "INSERT INTO brs_create_group (dominio, numbers)"
+            cadenaSQl = cadenaSQl + " VALUES ( '" & Dominio & "',"
+            cadenaSQl = cadenaSQl + "         " & Numeros & ")"
+
+            'Crear un comando
+            Dim Comando As OleDbCommand = Conexion.CreateCommand()
+            Comando.CommandText = cadenaSQl
+
+            'Ejecutar la consulta de accion (agregan registros)
+
+            Conexion.Open()
+            Try
+
+                MsgBox("se abrio correctamente la bd")
+                Comando.ExecuteNonQuery()
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+            End Try
+            'contador += 1
+            Conexion.Close()
+        End While
+
+
+
+
+
+
+
+        Return True
+    End Function
     Private Sub AgregarNuevoToolStripMenuItem_Click(sender As Object, e As EventArgs)
         Dim FAR As New Frm_AgregarRegistros
         FAR.ShowDialog()
@@ -41,11 +118,33 @@
         CDFileCSV.FileName = ""
         CDFileCSV.ShowDialog()
         TextBox_FileName.Text = CDFileCSV.FileName
-        'TxtUpdateCSV.Text = System.IO.File.ReadAllText(TxtFileCSV.Text)
-        'llenaCMMGrillaUpdate()
+        GuardarDatos()
     End Sub
 
     Private Sub BtnCMMOpenFile_Click(sender As Object, e As EventArgs)
+
+    End Sub
+    Private Sub Interface_Entrada()
+        'Se ejecuta cuando se carga el formulario
+        'Lab_Id.Enabled = True
+        'Text_Id.Enabled = True
+        'btn_search.Enabled = True
+
+        'Lab_Name.Enabled = False
+        'Text_Name.Enabled = True
+        'Lab_Address.Enabled = False
+        'Text_Address.Enabled = False
+        'Lab_Age.Enabled = False
+        'Text_Age.Enabled = False
+        'btn_save.Enabled = True
+    End Sub
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btn_procesar.Click
+        'GuardarDatos()
+        'Interface_Entrada()
+    End Sub
+
+
+    Private Sub TabPage1_Click(sender As Object, e As EventArgs) Handles TabPage1.Click
 
     End Sub
 End Class

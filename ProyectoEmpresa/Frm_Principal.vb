@@ -10,6 +10,12 @@ Public Class Frm_Principal
 
     Function GuardarDatosEnAccess() As Boolean
 
+        'validar que se escogio un archivo
+        If TextBox_FileName.Text = "" Then
+            Lab_wait.Visible = False
+            Me.Cursor = Cursors.Default
+            Exit Function
+        End If
         'Se abre el archivo CSV selccionado en modo lectura y se le asigna un id
         FileOpen(1, TextBox_FileName.Text, OpenMode.Input)
 
@@ -45,15 +51,11 @@ Public Class Frm_Principal
             readLine = LineInput(1)
             arrayLine = Split(readLine, ";")
             Dominio = arrayLine(0).ToString()
+            'Se debe modificar el tipo de dato, de numero entero largo a -> doble
+            'Access no redondea cifras automaticamente si estas estan en formato general y si no superan los 16 caracteres
+            Numeros = Convert.ToInt64(arrayLine(1))
 
-            MsgBox(Dominio & " " & arrayLine(1).ToString())
-            Try
-                'en access se debe modificar a tipo de dato numero de entero largo a -> doble
-                Numeros = Convert.ToInt64(arrayLine(1))
-            Catch ex As Exception
-                MsgBox(ex.ToString())
-            End Try
-            'MsgBox(Dominio & " " & Numeros)
+            'MsgBox(Dominio & " " & Numeros.ToString())
 
             'Instrucción SQL
             'Se insertan datos en los campos dominio y numbers de la tabla brs_create_group
@@ -83,9 +85,10 @@ Public Class Frm_Principal
     Private Sub btn_BrowseCSV_Click(sender As Object, e As EventArgs) Handles btn_BrowseCSV.Click
         'Se le pasan algunos parametros al openFileDialog
         openFileDialogCSV.Title = "Seleccione un archivo de extensión .CSV"
-        openFileDialogCSV.InitialDirectory = My.Application.Info.DirectoryPath
-        'MsgBox(My.Application.Info.DirectoryPath)
+        openFileDialogCSV.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.Desktop
+        'MsgBox(My.Application.Info.DirectoryPath & Environment.GetFolderPath.DesktopDirectory)
         openFileDialogCSV.FileName = ""
+        openFileDialogCSV.Filter = "Text files (*.csv)|*.csv"
         openFileDialogCSV.ShowDialog()
         TextBox_FileName.Text = openFileDialogCSV.FileName
         Lab_wait.Visible = True
@@ -93,48 +96,30 @@ Public Class Frm_Principal
         GuardarDatosEnAccess()
     End Sub
 
-
-
     Public Sub actualizarGrilla()
-        'If txtCMMFileCSV.Text = "" Then
-        '    Exit Sub
-        'End If
 
         Conexion.Open()
         Dim iSql As String
         Dim cmd As New OleDbCommand
         Dim dt As New DataTable
         Dim da As New OleDbDataAdapter
-        'If cluster <> 0 Then
+
         iSql = "select * from brs_create_group"
-        'Else
-        'iSql = "select * from brs_update_cmm_tmp"
-        'End If
+
         Try
             cmd.Connection = Conexion
             cmd.CommandText = iSql
             cmd.CommandType = CommandType.TableDirect
             da.SelectCommand = cmd
             da.Fill(dt)
-            ' muestro los resultados en la datagridview 
+            'Se muestran los datos en el datagridview 
             DataGridView1.DataSource = dt
             DataGridView1.Refresh()
         Catch ex As Exception
             MsgBox("Can not open connection ! , " & ex.Message)
         End Try
-        'If DataGridView1.RowCount = 0 Then
-        '    MsgBox("No se encontraron registros", MsgBoxStyle.Exclamation, "Aviso!")
-        '    Conexion.Close()
-        '    'grpCMMUpdRecord.Visible = False
-        '    'BtnCMMUpdate.Enabled = False
-        '    Me.Cursor = Cursors.Arrow
-        '    Exit Sub
-        'End If
+
         Conexion.Close()
-        'grpCMMUpdRecord.Visible = True
-        'dataCMMGrdUpdate.CurrentCell = dataCMMGrdUpdate.Rows(0).Cells(0)
-        'lblCMMUpdCurrentRow.Text = dataCMMGrdUpdate.CurrentCell.RowIndex + 1
-        'lblCMMUpdTotalRows.Text = dataCMMGrdUpdate.RowCount
         Lab_wait.Visible = False
         Me.Cursor = Cursors.Default
         Interface_Salida()

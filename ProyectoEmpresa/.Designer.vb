@@ -22,9 +22,11 @@ Partial Class Frm_Principal
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Frm_Principal))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.Lab_wait = New System.Windows.Forms.Label()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.btn_procesar = New System.Windows.Forms.Button()
         Me.TextBox_FileName = New System.Windows.Forms.TextBox()
@@ -34,7 +36,7 @@ Partial Class Frm_Principal
         Me.TabPage4 = New System.Windows.Forms.TabPage()
         Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
-        Me.Lab_wait = New System.Windows.Forms.Label()
+        Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -67,6 +69,19 @@ Partial Class Frm_Principal
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Crear Grupo"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'Lab_wait
+        '
+        Me.Lab_wait.AutoSize = True
+        Me.Lab_wait.BackColor = System.Drawing.Color.White
+        Me.Lab_wait.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lab_wait.ForeColor = System.Drawing.Color.Black
+        Me.Lab_wait.Location = New System.Drawing.Point(275, 166)
+        Me.Lab_wait.Name = "Lab_wait"
+        Me.Lab_wait.Size = New System.Drawing.Size(300, 31)
+        Me.Lab_wait.TabIndex = 0
+        Me.Lab_wait.Text = "Espere un momento..."
+        Me.Lab_wait.Visible = False
         '
         'DataGridView1
         '
@@ -150,19 +165,6 @@ Partial Class Frm_Principal
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
         '
-        'Lab_wait
-        '
-        Me.Lab_wait.AutoSize = True
-        Me.Lab_wait.BackColor = System.Drawing.Color.White
-        Me.Lab_wait.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lab_wait.ForeColor = System.Drawing.Color.Black
-        Me.Lab_wait.Location = New System.Drawing.Point(275, 166)
-        Me.Lab_wait.Name = "Lab_wait"
-        Me.Lab_wait.Size = New System.Drawing.Size(300, 31)
-        Me.Lab_wait.TabIndex = 0
-        Me.Lab_wait.Text = "Espere un momento..."
-        Me.Lab_wait.Visible = False
-        '
         'Frm_Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -193,4 +195,5 @@ Partial Class Frm_Principal
     Friend WithEvents btn_procesar As Button
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents Lab_wait As Label
+    Friend WithEvents ToolTipHelpButtons As ToolTip
 End Class

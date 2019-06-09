@@ -8,13 +8,13 @@ Public Class Frm_Principal
         Interface_Entrada()
     End Sub
 
-    Function GuardarDatosEnAccess() As Boolean
+    Sub GuardarDatosEnAccess()
 
         'validar que se escogio un archivo
         If TextBox_FileName.Text = "" Then
             Lab_wait.Visible = False
             Me.Cursor = Cursors.Default
-            Exit Function
+            Exit Sub
         End If
         'Se abre el archivo CSV selccionado en modo lectura y se le asigna un id
         FileOpen(1, TextBox_FileName.Text, OpenMode.Input)
@@ -79,19 +79,19 @@ Public Class Frm_Principal
         End While
         FileClose(1)
         actualizarGrilla()
-        Return True
-    End Function
+        'Return True
+    End Sub
 
     Private Sub btn_BrowseCSV_Click(sender As Object, e As EventArgs) Handles btn_BrowseCSV.Click
+
         'Se le pasan algunos parametros al openFileDialog
         openFileDialogCSV.Title = "Seleccione un archivo de extensión .CSV"
         openFileDialogCSV.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.Desktop
-        'MsgBox(My.Application.Info.DirectoryPath & Environment.GetFolderPath.DesktopDirectory)
         openFileDialogCSV.FileName = ""
-        openFileDialogCSV.Filter = "Text files (*.csv)|*.csv"
+        openFileDialogCSV.Filter = "Text files (*.csv)|*.csv|Text files (*.txt)|*.txt"
         openFileDialogCSV.ShowDialog()
         TextBox_FileName.Text = openFileDialogCSV.FileName
-        Lab_wait.Visible = True
+        'Lab_wait.Visible = True
         Me.Cursor = Cursors.WaitCursor
         GuardarDatosEnAccess()
     End Sub
@@ -143,7 +143,24 @@ Public Class Frm_Principal
 
     End Sub
 
+
+    Public Sub TooltipAyudaBotones(ByVal TooltipAyuda As ToolTip, ByVal Boton As Button, ByVal mensaje As String)
+
+        ToolTipHelpButtons.RemoveAll()
+        ToolTipHelpButtons.SetToolTip(Boton, mensaje)
+        ToolTipHelpButtons.InitialDelay = 500
+        ToolTipHelpButtons.IsBalloon = False
+    End Sub
+
     Private Sub TabPage1_Click(sender As Object, e As EventArgs) Handles TabPage1.Click
 
+    End Sub
+
+    Private Sub Btn_BrowseCSV_MouseEnter(sender As Object, e As EventArgs) Handles btn_BrowseCSV.MouseEnter
+        TooltipAyudaBotones(ToolTipHelpButtons, btn_BrowseCSV, "Seleccione un archivo")
+    End Sub
+
+    Private Sub Btn_procesar_MouseEnter(sender As Object, e As EventArgs) Handles btn_procesar.MouseEnter
+        TooltipAyudaBotones(ToolTipHelpButtons, btn_procesar, "Procesar y enviar la información")
     End Sub
 End Class

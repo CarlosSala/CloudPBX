@@ -19,7 +19,7 @@ Public Class Frm_Principal
         'Variables que contendrán las valores a guardar en access
         'Convertir al tipo de dato que espera recibir la BD
         Dim Dominio As String = ""
-        Dim Numeros As Integer
+        Dim Numeros As Long
 
         Dim ierr = 0
 
@@ -45,7 +45,14 @@ Public Class Frm_Principal
             readLine = LineInput(1)
             arrayLine = Split(readLine, ";")
             Dominio = arrayLine(0).ToString()
-            Numeros = Convert.ToInt32(arrayLine(1))
+
+            MsgBox(Dominio & " " & arrayLine(1).ToString())
+            Try
+                'en access se debe modificar a tipo de dato numero de entero largo a -> doble
+                Numeros = Convert.ToInt64(arrayLine(1))
+            Catch ex As Exception
+                MsgBox(ex.ToString())
+            End Try
             'MsgBox(Dominio & " " & Numeros)
 
             'Instrucción SQL

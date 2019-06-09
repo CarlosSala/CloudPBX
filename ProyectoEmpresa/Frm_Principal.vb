@@ -25,7 +25,8 @@ Public Class Frm_Principal
         'Variables que contendrán las valores a guardar en access
         'Convertir al tipo de dato que espera recibir la BD
         Dim Dominio As String = ""
-        Dim Numeros As Long
+        Dim Numeros As String = ""
+        'Dim Numeros As Long
 
         Dim ierr = 0
 
@@ -51,17 +52,18 @@ Public Class Frm_Principal
             readLine = LineInput(1)
             arrayLine = Split(readLine, ";")
             Dominio = arrayLine(0).ToString()
+            Numeros = arrayLine(1).ToString()
             'Se debe modificar el tipo de dato, de numero entero largo a -> doble
             'Access no redondea cifras automaticamente si estas estan en formato general y si no superan los 16 caracteres
-            Numeros = Convert.ToInt64(arrayLine(1))
+            'Numeros = Convert.ToInt64(arrayLine(1))
 
             'MsgBox(Dominio & " " & Numeros.ToString())
 
             'Instrucción SQL
             'Se insertan datos en los campos dominio y numbers de la tabla brs_create_group
-            Dim cadenaSQl As String = "INSERT INTO brs_create_group (dominio, numbers)"
+            Dim cadenaSQl As String = "INSERT INTO brs_create_group ([domain], numbers)"
             cadenaSQl = cadenaSQl + " VALUES ( '" & Dominio & "',"
-            cadenaSQl = cadenaSQl + "         " & Numeros & ")"
+            cadenaSQl = cadenaSQl + "          '" & Numeros & "')"
 
             'Crear un comando
             Dim Comando As OleDbCommand = Conexion.CreateCommand()

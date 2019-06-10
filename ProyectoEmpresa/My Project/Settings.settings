@@ -5,5 +5,20 @@
     <Setting Name="SetDatabase" Type="System.String" Scope="User">
       <Value Profile="(Default)">..\..\..\Proyecto_Empresa_BBDD\Database1.accdb</Value>
     </Setting>
+    <Setting Name="SetHost" Type="System.String" Scope="User">
+      <Value Profile="(Default)">172.25.210.32</Value>
+    </Setting>
+    <Setting Name="SetModeQuit" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SetPort" Type="System.String" Scope="User">
+      <Value Profile="(Default)">2208</Value>
+    </Setting>
+    <Setting Name="SetMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)">OCS</Value>
+    </Setting>
+    <Setting Name="SetPathTmp" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\voxcom\tmp</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

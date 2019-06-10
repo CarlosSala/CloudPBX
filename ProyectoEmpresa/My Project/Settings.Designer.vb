@@ -65,6 +65,66 @@ Namespace My
                 Me("SetDatabase") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("172.25.210.32")>  _
+        Public Property SetHost() As String
+            Get
+                Return CType(Me("SetHost"),String)
+            End Get
+            Set
+                Me("SetHost") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property SetModeQuit() As Boolean
+            Get
+                Return CType(Me("SetModeQuit"),Boolean)
+            End Get
+            Set
+                Me("SetModeQuit") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("2208")>  _
+        Public Property SetPort() As String
+            Get
+                Return CType(Me("SetPort"),String)
+            End Get
+            Set
+                Me("SetPort") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("OCS")>  _
+        Public Property SetMode() As String
+            Get
+                Return CType(Me("SetMode"),String)
+            End Get
+            Set
+                Me("SetMode") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\tmp")>  _
+        Public Property SetPathTmp() As String
+            Get
+                Return CType(Me("SetPathTmp"),String)
+            End Get
+            Set
+                Me("SetPathTmp") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

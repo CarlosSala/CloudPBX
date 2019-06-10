@@ -26,6 +26,8 @@ Partial Class Frm_Principal
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Frm_Principal))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.lblCMMUpdTotalRows = New System.Windows.Forms.Label()
+        Me.lblCMMUpdCurrentRow = New System.Windows.Forms.Label()
         Me.Lab_wait = New System.Windows.Forms.Label()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.btn_procesar = New System.Windows.Forms.Button()
@@ -37,6 +39,8 @@ Partial Class Frm_Principal
         Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
+        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
+        Me.LblEstado = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -52,11 +56,15 @@ Partial Class Frm_Principal
         Me.TabControl1.Location = New System.Drawing.Point(12, 12)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(902, 420)
+        Me.TabControl1.Size = New System.Drawing.Size(902, 469)
         Me.TabControl1.TabIndex = 0
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.LblEstado)
+        Me.TabPage1.Controls.Add(Me.ProgressBar1)
+        Me.TabPage1.Controls.Add(Me.lblCMMUpdTotalRows)
+        Me.TabPage1.Controls.Add(Me.lblCMMUpdCurrentRow)
         Me.TabPage1.Controls.Add(Me.Lab_wait)
         Me.TabPage1.Controls.Add(Me.DataGridView1)
         Me.TabPage1.Controls.Add(Me.btn_procesar)
@@ -65,10 +73,28 @@ Partial Class Frm_Principal
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(894, 394)
+        Me.TabPage1.Size = New System.Drawing.Size(894, 443)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Crear Grupo"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'lblCMMUpdTotalRows
+        '
+        Me.lblCMMUpdTotalRows.AutoSize = True
+        Me.lblCMMUpdTotalRows.Location = New System.Drawing.Point(76, 342)
+        Me.lblCMMUpdTotalRows.Name = "lblCMMUpdTotalRows"
+        Me.lblCMMUpdTotalRows.Size = New System.Drawing.Size(39, 13)
+        Me.lblCMMUpdTotalRows.TabIndex = 53
+        Me.lblCMMUpdTotalRows.Text = "Label2"
+        '
+        'lblCMMUpdCurrentRow
+        '
+        Me.lblCMMUpdCurrentRow.AutoSize = True
+        Me.lblCMMUpdCurrentRow.Location = New System.Drawing.Point(6, 343)
+        Me.lblCMMUpdCurrentRow.Name = "lblCMMUpdCurrentRow"
+        Me.lblCMMUpdCurrentRow.Size = New System.Drawing.Size(39, 13)
+        Me.lblCMMUpdCurrentRow.TabIndex = 52
+        Me.lblCMMUpdCurrentRow.Text = "Label1"
         '
         'Lab_wait
         '
@@ -93,9 +119,9 @@ Partial Class Frm_Principal
         '
         'btn_procesar
         '
-        Me.btn_procesar.Location = New System.Drawing.Point(747, 333)
+        Me.btn_procesar.Location = New System.Drawing.Point(703, 342)
         Me.btn_procesar.Name = "btn_procesar"
-        Me.btn_procesar.Size = New System.Drawing.Size(88, 55)
+        Me.btn_procesar.Size = New System.Drawing.Size(132, 75)
         Me.btn_procesar.TabIndex = 50
         Me.btn_procesar.Text = "Procesar"
         Me.btn_procesar.UseVisualStyleBackColor = True
@@ -165,11 +191,27 @@ Partial Class Frm_Principal
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
         '
+        'ProgressBar1
+        '
+        Me.ProgressBar1.Location = New System.Drawing.Point(3, 414)
+        Me.ProgressBar1.Name = "ProgressBar1"
+        Me.ProgressBar1.Size = New System.Drawing.Size(100, 23)
+        Me.ProgressBar1.TabIndex = 54
+        '
+        'LblEstado
+        '
+        Me.LblEstado.AutoSize = True
+        Me.LblEstado.Location = New System.Drawing.Point(109, 424)
+        Me.LblEstado.Name = "LblEstado"
+        Me.LblEstado.Size = New System.Drawing.Size(39, 13)
+        Me.LblEstado.TabIndex = 55
+        Me.LblEstado.Text = "Label1"
+        '
         'Frm_Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(926, 444)
+        Me.ClientSize = New System.Drawing.Size(929, 542)
         Me.Controls.Add(Me.TabControl1)
         Me.Name = "Frm_Principal"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -196,4 +238,8 @@ Partial Class Frm_Principal
     Friend WithEvents DataGridView1 As DataGridView
     Friend WithEvents Lab_wait As Label
     Friend WithEvents ToolTipHelpButtons As ToolTip
+    Friend WithEvents lblCMMUpdTotalRows As Label
+    Friend WithEvents lblCMMUpdCurrentRow As Label
+    Friend WithEvents ProgressBar1 As ProgressBar
+    Friend WithEvents LblEstado As Label
 End Class

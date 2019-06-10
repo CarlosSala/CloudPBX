@@ -1,4 +1,4 @@
-﻿Imports System.Data.OleDb 'manejo de BD Access
+﻿Imports System.Data.OleDb
 Public Class Frm_Principal
 
     Dim ConexionString As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & My.Application.Info.DirectoryPath & My.Settings.SetDatabase
@@ -10,7 +10,7 @@ Public Class Frm_Principal
 
     Sub GuardarDatosEnAccess()
 
-        'validar que se escogio un archivo
+        'Si no se escogió ningun archivo, se cancela la llamada al metodo
         If TextBox_FileName.Text = "" Then
             Lab_wait.Visible = False
             Me.Cursor = Cursors.Default
@@ -23,32 +23,28 @@ Public Class Frm_Principal
         Dim arrayLine() As String
 
         'Variables que contendrán las valores a guardar en access
-        'Convertir al tipo de dato que espera recibir la BD
         Dim Dominio As String = ""
         Dim Numeros As String = ""
         'Dim Numeros As Long
+        'Dim ierr = 0
 
-        Dim ierr = 0
-
-        Conexion.Open()
-        Dim dcUser As OleDbCommand
-        dcUser = New OleDb.OleDbCommand()
-        Dim cmd As New OleDbCommand
-        dcUser.Connection = Conexion
+        Dim cmd As New OleDbCommand()
         cmd.Connection = Conexion
+        Dim instruccionSql As String = "DELETE * FROM brs_create_group"
+        cmd.CommandText = instruccionSql
+
         Try
-            Dim iSql As String = "DELETE * FROM brs_create_group"
-            cmd.CommandText = iSql
+            Conexion.Open()
             cmd.ExecuteNonQuery()
         Catch ex As Exception
             MessageBox.Show(ex.Message)
-            'Continue Do
         End Try
         Conexion.Close()
-        'Se lee linea por linea el archivo hasta que este acabe, EndOfFile
+
+        'Se lee linea por linea el archivo con id = 1, hasta que este acabe, EndOfFile
         While Not EOF(1)
 
-            'Lee una linea del archivo con id = 1
+            'Lee una linea del archivo
             readLine = LineInput(1)
             arrayLine = Split(readLine, ";")
             Dominio = arrayLine(0).ToString()
@@ -56,18 +52,17 @@ Public Class Frm_Principal
             'Se debe modificar el tipo de dato, de numero entero largo a -> doble
             'Access no redondea cifras automaticamente si estas estan en formato general y si no superan los 16 caracteres
             'Numeros = Convert.ToInt64(arrayLine(1))
-
             'MsgBox(Dominio & " " & Numeros.ToString())
 
             'Instrucción SQL
-            'Se insertan datos en los campos dominio y numbers de la tabla brs_create_group
-            Dim cadenaSQl As String = "INSERT INTO brs_create_group ([domain], numbers)"
-            cadenaSQl = cadenaSQl + " VALUES ( '" & Dominio & "',"
-            cadenaSQl = cadenaSQl + "          '" & Numeros & "')"
+            'Se insertan datos en los campos domain y numbers de la tabla brs_create_group
+            Dim cadenaSql As String = "INSERT INTO brs_create_group ([domain], numbers)"
+            cadenaSql = cadenaSql + " VALUES ( '" & Dominio & "',"
+            cadenaSql = cadenaSql + "          '" & Numeros & "')"
 
             'Crear un comando
             Dim Comando As OleDbCommand = Conexion.CreateCommand()
-            Comando.CommandText = cadenaSQl
+            Comando.CommandText = cadenaSql
 
             'Ejecutar la consulta de accion (agregan registros)
             Try
@@ -81,7 +76,6 @@ Public Class Frm_Principal
         End While
         FileClose(1)
         actualizarGrilla()
-        'Return True
     End Sub
 
     Private Sub btn_BrowseCSV_Click(sender As Object, e As EventArgs) Handles btn_BrowseCSV.Click
@@ -90,7 +84,10 @@ Public Class Frm_Principal
         openFileDialogCSV.Title = "Seleccione un archivo de extensión .CSV"
         openFileDialogCSV.InitialDirectory = My.Computer.FileSystem.SpecialDirectories.Desktop
         openFileDialogCSV.FileName = ""
-        openFileDialogCSV.Filter = "Text files (*.csv)|*.csv|Text files (*.txt)|*.txt"
+        'openFileDialogCSV.Filter = "Text files (*.csv)|*.csv|Text files (*.txt)|*.txt"
+        openFileDialogCSV.Filter = "Text files (*.csv; *.txt)|*.csv; *.txt"
+        openFileDialogCSV.Multiselect = False
+        openFileDialogCSV.CheckFileExists = True
         openFileDialogCSV.ShowDialog()
         TextBox_FileName.Text = openFileDialogCSV.FileName
         'Lab_wait.Visible = True
@@ -100,15 +97,13 @@ Public Class Frm_Principal
 
     Public Sub actualizarGrilla()
 
-        Conexion.Open()
-        Dim iSql As String
+        Dim iSql As String = "select * from brs_create_group"
         Dim cmd As New OleDbCommand
         Dim dt As New DataTable
         Dim da As New OleDbDataAdapter
 
-        iSql = "select * from brs_create_group"
-
         Try
+            Conexion.Open()
             cmd.Connection = Conexion
             cmd.CommandText = iSql
             cmd.CommandType = CommandType.TableDirect
@@ -120,7 +115,6 @@ Public Class Frm_Principal
         Catch ex As Exception
             MsgBox("Can not open connection ! , " & ex.Message)
         End Try
-
         Conexion.Close()
         Lab_wait.Visible = False
         Me.Cursor = Cursors.Default

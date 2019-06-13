@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <BroadsoftDocument protocol="OCI" xmlns="C">
-<userId xmlns="">%%%OSS_USER%%%</userId>
+<userId xmlns="">siemens02</userId>
 <command xsi:Type="SystemDomainAddRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <domain>carlos.cl</domain>
 </command>

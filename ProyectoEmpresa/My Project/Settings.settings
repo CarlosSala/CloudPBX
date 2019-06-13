@@ -6,7 +6,7 @@
       <Value Profile="(Default)">..\..\..\Proyecto_Empresa_BBDD\Database1.accdb</Value>
     </Setting>
     <Setting Name="SetHost" Type="System.String" Scope="User">
-      <Value Profile="(Default)">172.25.210.32</Value>
+      <Value Profile="(Default)">172.25.210.56</Value>
     </Setting>
     <Setting Name="SetModeQuit" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -19,6 +19,27 @@
     </Setting>
     <Setting Name="SetPathTmp" Type="System.String" Scope="User">
       <Value Profile="(Default)">\voxcom\tmp</Value>
+    </Setting>
+    <Setting Name="SetPathLog" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\voxcom\log</Value>
+    </Setting>
+    <Setting Name="SetPathAppl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\voxcom</Value>
+    </Setting>
+    <Setting Name="SetUser" Type="System.String" Scope="User">
+      <Value Profile="(Default)">siemens02</Value>
+    </Setting>
+    <Setting Name="SetPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)">siemens.02</Value>
+    </Setting>
+    <Setting Name="SetPathIXML" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\voxcom\xml\input</Value>
+    </Setting>
+    <Setting Name="SetPathOXML" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\voxcom\xml\output</Value>
+    </Setting>
+    <Setting Name="gblCMMIdCluster" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -1,4 +1,12 @@
-﻿Imports System.Data.OleDb
+﻿Imports System.Xml
+Imports System.Data.OleDb
+Imports System.IO
+Imports System.Data.Odbc
+Imports System.Collections
+Imports Microsoft.Office.Interop
+Imports iTextSharp.text
+Imports iTextSharp.text.pdf
+
 Public Class Frm_Principal
 
     Dim ConexionString As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & My.Application.Info.DirectoryPath & My.Settings.SetDatabase
@@ -39,35 +47,39 @@ Public Class Frm_Principal
     Dim gblNumeros As TextBox
     Dim gblConsultaRemote As Boolean = False
     Dim gblCMMNameCluster As String
-    Dim gblCMMIdCluster As String
+    'Dim gblCMMIdCluster As Integer
     Dim gblCallManager As Integer = 0 '0=nada,1=Call Manager,2=Movil
 
 
     Private Sub For1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Interface_Entrada()
         gblSetPathTmp = My.Application.Info.DirectoryPath & My.Settings.SetPathTmp
-        'MsgBox(gblSetPathTmp.ToString())
+        'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp
+        gblSetPathAppl = My.Application.Info.DirectoryPath & My.Settings.SetPathAppl
+        'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom
+        gblSetPathLog = My.Application.Info.DirectoryPath & My.Settings.SetPathLog
+        'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\log
     End Sub
 
     Public Sub executeShellBulk(ByVal fileMIF As String, ByVal cluster As Integer, ByVal codError As Integer, ByVal msgError As String)
         Dim fileConfig As String = ""
         Dim linregConfig As String = ""
         Dim strArguments As String = ""
-        Dim strUser As String = ""
-        Dim strPassword As String = ""
+        Dim strUser As String = "siemens02"
+        Dim strPassword As String = "siemens.02"
 
 
         Dim i As Integer = 0
         Dim regCluster() As String
 
-        For i = 0 To arrayCluster.Length
-            regCluster = Split(arrayCluster(i), ";")
-            If cluster = regCluster(0) Then
-                strUser = regCluster(2)
-                strPassword = regCluster(3)
-                Exit For
-            End If
-        Next
+        'For i = 0 To arrayCluster.Length
+        '    regCluster = Split(arrayCluster(i), ";")
+        '    If cluster = regCluster(0) Then
+        '        strUser = regCluster(2)
+        '        strPassword = regCluster(3)
+        '        Exit For
+        '    End If
+        'Next
 
         'If cluster = 1 Then
         '    strUser = My.Settings.SetUserC1
@@ -83,6 +95,8 @@ Public Class Frm_Principal
         'End If
 
         LblEstado.Text = "Creando archivo de configuración..."
+        ProgressBar1.Value = ProgressBar1.Value + 30
+
         My.Application.DoEvents()
         fileConfig = gblSetPathTmp & "\ociclient.config"
         FileOpen(8, fileConfig, OpenMode.Output, OpenAccess.Write)
@@ -131,6 +145,7 @@ Public Class Frm_Principal
         Try
             Dim proceso As New Process()
             proceso.StartInfo.WorkingDirectory = gblSetPathAppl '"c:\asociclient\"
+            'MsgBox(" directorio de trabajo de proceso " & gblSetPathAppl.ToString())
             proceso.StartInfo.FileName = "startVoxTool.bat"
             proceso.StartInfo.Arguments = Chr(34) & strArguments & Chr(34)
             proceso.StartInfo.UseShellExecute = True
@@ -140,14 +155,14 @@ Public Class Frm_Principal
             'My.Application.DoEvents()
         Catch ex As Exception
             Console.WriteLine(ex.Message)
-            MsgBox("Archivo no ha sido generado")
+            MsgBox("Archivo no ha sido generado " & ex.ToString)
             grabaLog(1, 3, "Error al ejecutar Shell>" & strArguments)
             codError = 1
             msgError = "Archivo no ha sido generado"
-            LblEstado.Text = ""
+            LblEstado.Text = "Error"
             Exit Sub
         End Try
-        LblEstado.Text = ""
+        LblEstado.Text = "Finalizando..."
         My.Application.DoEvents()
     End Sub
 
@@ -162,9 +177,9 @@ Public Class Frm_Principal
     '    Dim iXml As Integer = 0
     '    Dim topeXml As Integer = 0
     '    topeXml = gblUpdTotaliXML
-    '    MyConn.Open()
-    '    dcUser = New OleDb.OleDbCommand()
-    '    dcUser.Connection = MyConn
+    '    Conexion.Open()
+    '    Dim dcUser = New OleDb.OleDbCommand()
+    '    dcUser.Connection = Conexion
     '    Dim fileNameTmp As String = ""
     '    For iXml = 1 To topeXml
     '        exito = False
@@ -188,7 +203,7 @@ Public Class Frm_Principal
     '                                            '    dcUser.CommandText = iSql
     '                                            '    dcUser.ExecuteNonQuery()
     '                                            Try
-    '                                                iSql = "delete from brs_update_tmp where brs_udet_userId = '" & dataCMMGrdUpdate.Rows(i - 1).Cells(4).Value & "';"
+    '                                                iSql = "delete from brs_update_tmp where brs_udet_userId = '" & DataGridView1.Rows(i - 1).Cells(4).Value & "';"
     '                                                dcUser.CommandText = iSql
     '                                                'dc = New OleDb.OleDbCommand(iSql, MyConn)
     '                                                dcUser.ExecuteNonQuery()
@@ -227,8 +242,8 @@ Public Class Frm_Principal
     '        End Try
     '    Next
     '    LblEstado.Text = ""
-    '    MyConn.Close()
-    '    actualizaCMMGrillaUpdate(0)
+    '    Conexion.Close()
+    '    'actualizaCMMGrillaUpdate(0)
     '    My.Application.DoEvents()
 
     'End Sub
@@ -261,6 +276,11 @@ Public Class Frm_Principal
         End If
         linerr = linerr & mensaje
         fileLog = gblSetPathLog & "\LOG_" & DateAndTime.DateString & ".log"
+
+
+        'MsgBox(fileLog.ToString)
+        LblEstado.Text = "Guardando log"
+        ProgressBar1.Value = ProgressBar1.Maximum
         FileOpen(7, fileLog, OpenMode.Append, OpenAccess.Write)
         WriteLine(7, linerr.ToCharArray)
         FileClose(7)
@@ -378,8 +398,6 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
-
-
         DataGridView1.CurrentCell = DataGridView1.Rows(0).Cells(0)
         lblCMMUpdCurrentRow.Text = DataGridView1.CurrentCell.RowIndex + 1
         lblCMMUpdTotalRows.Text = DataGridView1.RowCount
@@ -393,13 +411,13 @@ Public Class Frm_Principal
 
     End Sub
     Private Sub Interface_Entrada()
-        'Se ejecuta cuando se carga el formulario
         btn_procesar.Enabled = False
         btn_BrowseCSV.Enabled = True
         Lab_wait.Visible = False
         'contabilización de filas y colummnas
         lblCMMUpdCurrentRow.Visible = False
         lblCMMUpdTotalRows.Visible = False
+        LblEstado.Text = ""
     End Sub
 
     Private Sub Interface_Salida()
@@ -415,7 +433,7 @@ Public Class Frm_Principal
         Dim fileNameTmp As String = ""
 
         'If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
-        '    'MsgBox("Server pinged successfully.")
+        '    MsgBox("Server pinged successfully.")
         'Else
         '    MsgBox("Servidor fuera de Linea, favor verifique conexion!!!", vbOKOnly, "Error de Comunicación")
         '    Exit Sub
@@ -439,8 +457,8 @@ Public Class Frm_Principal
         'Encabezado de los xmls
         Dim linupd1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim linupd2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim linupd3 As String = "<userId xmlns=" & Chr(34) & Chr(34) & ">siemens02</userId>"
         'Dim linupd3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
-        Dim linupd3 As String = "<userId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</userId>"
 
         '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         '| XML para SystemDomainAddRequest                    |
@@ -457,26 +475,28 @@ Public Class Frm_Principal
         Dim lineaUpddate2_3 As String = "<domain>pruebacarlos.cl</domain>"
         Dim lineaUpddate2_4 As String = "</command>"
 
+        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        '| XML para ServiceProviderDnAddListRequest  |
+        '\\\\\\\\\\\\\\\\\\\\/////////////////////////////////
+        Dim lineaUpddate3_1 As String = "<command xsi : Type = " & Chr(34) & "ServiceProviderDnAddListRequest" & Chr(34) & "xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim lineaUpddate3_2 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim lineaUpddate3_3 As String = "<phoneNumber>232781567</phoneNumber>"
+        Dim lineaUpddate3_4 As String = "</command>"
+
+        'ultima linea de los xml
         Dim lineaUpdate3 As String = "</BroadsoftDocument>"
 
         gblUpdTotalReg = 0
         gblUpdTotaliXML = 0
         ProgressBar1.Minimum = 0
         ProgressBar1.Value = 0
-        ProgressBar1.Maximum = Val(lblCMMUpdTotalRows.Text)
-
-        'MsgBox("llegamos hasta aquí ")
-
-        'Exit Sub
-
-        Dim contador As Integer = 0
-
-
+        ProgressBar1.Maximum = 100
+        'ProgressBar1.Maximum = Val(lblCMMUpdTotalRows.Text)
 
         For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblSetPathTmp, FileIO.SearchOption.SearchAllSubDirectories, "*.*")
+            'My.Computer.FileSystem.DeleteFile(foundFile)
+        Next
 
-                My.Computer.FileSystem.DeleteFile(foundFile)
-            Next
 
         'Try
         '        If foundFile.Count = 0 Then
@@ -496,9 +516,6 @@ Public Class Frm_Principal
         '    MsgBox(ex.ToString())
         'End Try
 
-
-        'Exit Sub
-
         Dim fileIXML As String = ""
         Dim fileOXML As String = ""
         Dim codError As Integer
@@ -507,6 +524,7 @@ Public Class Frm_Principal
         'Dim arrLine() As String
         Dim domain As String
         Dim phoneNumber As String
+        Dim otra As String
 
 
         Dim accessDeviceLevel As String
@@ -521,18 +539,21 @@ Public Class Frm_Principal
         Dim vbrs_user_phone_number As String = ""
 
         LblEstado.Text = "Generando XML..."
+        ProgressBar1.Value = ProgressBar1.Value + 10
+
         My.Application.DoEvents()
         Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile.txt"
         Dim linMIF As String = ""
-        'FileOpen(2, multipleInputFile, OpenMode.Output, OpenAccess.Write)
+        FileOpen(50, multipleInputFile, OpenMode.Output, OpenAccess.Write)
 
-        'For j = 0 To DataGridView1.Rows.Count - 1
-        ProgressBar1.Value = ProgressBar1.Value + 1
-        'If gblCallManager = 1 Then
-        domain = DataGridView1.Rows(0).Cells(0).Value
-        'MsgBox(domain)
 
-        'Exit Sub
+        ''For j = 0 To DataGridView1.Rows.Count - 1
+        '    'If gblCallManager = 1 Then
+        domain = DataGridView1.Rows(j).Cells(0).Value
+        '    phoneNumber = DataGridView1.Rows(j).Cells(1).Value
+        'otra = DataGridView1.Rows(1).Cells(1).Value
+        'MsgBox(domain & " - " & phoneNumber & " - " & otra)
+
         gblUpdTotalReg += 1
         i = i + 1
         If i = 1 Then
@@ -540,150 +561,37 @@ Public Class Frm_Principal
             gblUpdTotaliXML += 1
             fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & iXml & ".xml"
             fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & iXml & ".xml"
-            FileOpen(1, fileIXML, OpenMode.Output)
-            WriteLine(1, linupd1.ToCharArray)
-            WriteLine(1, linupd2.ToCharArray)
-            WriteLine(1, linupd3.ToCharArray)
         End If
 
-        'MsgBox("Se llegó hasta acá")
-        'Exit Sub
 
+
+        FileOpen(1, fileIXML, OpenMode.Output)
+        WriteLine(1, linupd1.ToCharArray)
+        WriteLine(1, linupd2.ToCharArray)
+        WriteLine(1, linupd3.ToCharArray)
         lineaUpddate1_3 = "<domain>" & domain & "</domain>"
-        'lineaUpddate1_3 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
-        'WriteLine(1, lineaUpdate3.ToCharArray)
         WriteLine(1, lineaUpddate1_2.ToCharArray)
         WriteLine(1, lineaUpddate1_3.ToCharArray)
         WriteLine(1, lineaUpddate1_4.ToCharArray)
         WriteLine(1, lineaUpdate3.ToCharArray)
-        'WriteLine(1, linupd1_4.ToCharArray)
-
-
-        MsgBox("Se llegó hasta acá")
         FileClose(1)
-        Exit Sub
+        linMIF = fileIXML & ";" & fileOXML
+        My.Application.DoEvents()
+        i = 0
+        WriteLine(50, linMIF.ToCharArray)
 
+        FileClose(50)
+        My.Application.DoEvents()
 
-        '    linupd2_2 = "<serviceProviderId>" & serviceProviderId & "</serviceProviderId>"
-        '    linupd2_3 = "<groupId>" & groupId & "</groupId>"
-        '    linupd2_4 = "<phoneNumber>" & phoneNumberE & "</phoneNumber>"
-        '    WriteLine(1, linupd2_1.ToCharArray)
-        '    WriteLine(1, linupd2_2.ToCharArray)
-        '    WriteLine(1, linupd2_3.ToCharArray)
-        '    WriteLine(1, linupd2_4.ToCharArray)
-        '    WriteLine(1, linupd2_5.ToCharArray)
+        LblEstado.Text = "Finalizando creación de archivo..."
+        ProgressBar1.Value = ProgressBar1.Value + 30
 
-
-        '    linupd3_2 = "<serviceProviderId>" & serviceProviderId & "</serviceProviderId>"
-        '    linupd3_3 = "<groupId>" & groupId & "</groupId>"
-        '    linupd3_4 = "<userId>" & userId & "</userId>"
-        '    linupd3_5 = "<lastName>" & lastName & "</lastName>"
-        '    linupd3_6 = "<firstName>" & firstName & "</firstName>"
-        '    linupd3_7 = "<callingLineIdLastName>" & lastName & "</callingLineIdLastName>"
-        '    linupd3_8 = "<callingLineIdFirstName>" & firstName & "</callingLineIdFirstName>"
-        '    linupd3_10 = "<nameDialingLastName>" & lastName & "</nameDialingLastName>"
-        '    linupd3_11 = "<nameDialingFirstName>" & firstName & "</nameDialingFirstName>"
-        '    linupd3_13 = "<password>" & password & "</password>"
-
-        '    WriteLine(1, linupd3_1.ToCharArray)
-        '    WriteLine(1, linupd3_2.ToCharArray)
-        '    WriteLine(1, linupd3_3.ToCharArray)
-        '    WriteLine(1, linupd3_4.ToCharArray)
-        '    WriteLine(1, linupd3_5.ToCharArray)
-        '    WriteLine(1, linupd3_6.ToCharArray)
-        '    WriteLine(1, linupd3_7.ToCharArray)
-        '    WriteLine(1, linupd3_8.ToCharArray)
-        '    WriteLine(1, linupd3_9.ToCharArray)
-        '    WriteLine(1, linupd3_10.ToCharArray)
-        '    WriteLine(1, linupd3_11.ToCharArray)
-        '    WriteLine(1, linupd3_12.ToCharArray)
-        '    WriteLine(1, linupd3_13.ToCharArray)
-        '    WriteLine(1, linupd3_14.ToCharArray)
-        '    WriteLine(1, linupd3_15.ToCharArray)
-        '    WriteLine(1, linupd3_16.ToCharArray)
-        '    WriteLine(1, linupd3_17.ToCharArray)
-
-
-
-
-        '    linupd4_2 = "<userId>" & userId & "</userId>"
-        '    linupd4_3 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
-        '    linupd4_4 = "<extension>" & extension & "</extension>"
-        '    WriteLine(1, linupd4_1.ToCharArray)
-        '    WriteLine(1, linupd4_2.ToCharArray)
-        '    WriteLine(1, linupd4_3.ToCharArray)
-        '    WriteLine(1, linupd4_4.ToCharArray)
-        '    WriteLine(1, linupd4_5.ToCharArray)
-        '    WriteLine(1, linupd4_6.ToCharArray)
-
-        '    If gblCallManager = 1 Then
-        '        ' Solo para Call Manager
-        '        linupd4_7CM3 = "<name>" & trunkGDEname & "</name>"
-        '        linupd4_7CM4 = "<linePort>" & trunkGDElinePort & "</linePort>"
-        '        WriteLine(1, linupd4_7CM1.ToCharArray)
-        '        WriteLine(1, linupd4_7CM2.ToCharArray)
-        '        WriteLine(1, linupd4_7CM3.ToCharArray)
-        '        WriteLine(1, linupd4_7CM4.ToCharArray)
-        '        WriteLine(1, linupd4_7CM5.ToCharArray)
-        '        WriteLine(1, linupd4_7CM6.ToCharArray)
-        '        WriteLine(1, linupd4_7CM7.ToCharArray)
-        '        WriteLine(1, linupd4_7CM8.ToCharArray)
-        '        WriteLine(1, linupd4_7CM9.ToCharArray)
-        '    Else
-        '        ' Solo para Moviles
-        '        linupd4_7MV3 = "<deviceLevel>" & accessDeviceLevel & "</deviceLevel>"
-        '        linupd4_7MV4 = "<deviceName>" & accessDeviceName & "</deviceName>"
-        '        linupd4_7MV6 = "<linePort>" & linePort & "</linePort>"
-        '        linupd4_7MV8 = "<contact>" & contactList & "</contact>"
-        '        WriteLine(1, linupd4_7MV1.ToCharArray)
-        '        WriteLine(1, linupd4_7MV2.ToCharArray)
-        '        WriteLine(1, linupd4_7MV3.ToCharArray)
-        '        WriteLine(1, linupd4_7MV4.ToCharArray)
-        '        WriteLine(1, linupd4_7MV5.ToCharArray)
-        '        WriteLine(1, linupd4_7MV6.ToCharArray)
-        '        WriteLine(1, linupd4_7MV7.ToCharArray)
-        '        WriteLine(1, linupd4_7MV8.ToCharArray)
-        '        WriteLine(1, linupd4_7MV9.ToCharArray)
-        '        WriteLine(1, linupd4_7MV10.ToCharArray)
-        '    End If
-        '    WriteLine(1, linupd4_8.ToCharArray)
-        '    WriteLine(1, linupd4_9.ToCharArray)
-
-        '    linupd5_2 = "<userId>" & userId & "</userId>"
-        '    linupd5_3 = "<servicePackName>" & servicePackName & "</servicePackName>"
-
-        '    WriteLine(1, linupd5_1.ToCharArray)
-        '    WriteLine(1, linupd5_2.ToCharArray)
-        '    WriteLine(1, linupd5_3.ToCharArray)
-        '    WriteLine(1, linupd5_4.ToCharArray)
-
-        '    If i = 3 Then
-        '        WriteLine(1, linupd4.ToCharArray)
-        '        FileClose(1)
-        '        linMIF = fileIXML & ";" & fileOXML
-        '        WriteLine(9, linMIF.ToCharArray)
-        '        My.Application.DoEvents()
-        '        i = 0
-        '    End If
-        'Next
-        'If i > 0 Then
-        '    WriteLine(1, linupd4.ToCharArray)
-        '    FileClose(1)
-        '    linMIF = fileIXML & ";" & fileOXML
-        '    WriteLine(9, linMIF.ToCharArray)
-        'End If
-        ''ProgressBar1.Value = 0
-        'FileClose(9)
-        'My.Application.DoEvents()
-        'executeShellBulk(multipleInputFile, gblCMMIdCluster, codError, msgError)
+        'MsgBox(My.Settings.gblCMMIdCluster.ToString())
+        executeShellBulk(multipleInputFile, My.Settings.gblCMMIdCluster, codError, msgError)
         'If codError = 0 Then
-
-        '    'parseXML_update_CMM(codError, msgError)
-
+        '    parseXML_update_CMM(codError, msgError)
         '    'My.Application.DoEvents()
         'End If
-        'ProgressBar1.Minimum = 0
-        'ProgressBar1.Maximum = 0
     End Sub
 
 
@@ -707,4 +615,7 @@ Public Class Frm_Principal
         TooltipAyudaBotones(ToolTipHelpButtons, btn_procesar, "Procesar y enviar la información")
     End Sub
 
+    Private Sub LblEstado_Click(sender As Object, e As EventArgs)
+
+    End Sub
 End Class

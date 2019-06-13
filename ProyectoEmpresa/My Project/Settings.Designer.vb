@@ -68,7 +68,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("172.25.210.32")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("172.25.210.56")>  _
         Public Property SetHost() As String
             Get
                 Return CType(Me("SetHost"),String)
@@ -123,6 +123,90 @@ Namespace My
             End Get
             Set
                 Me("SetPathTmp") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\log")>  _
+        Public Property SetPathLog() As String
+            Get
+                Return CType(Me("SetPathLog"),String)
+            End Get
+            Set
+                Me("SetPathLog") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\voxcom")>  _
+        Public Property SetPathAppl() As String
+            Get
+                Return CType(Me("SetPathAppl"),String)
+            End Get
+            Set
+                Me("SetPathAppl") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("siemens02")>  _
+        Public Property SetUser() As String
+            Get
+                Return CType(Me("SetUser"),String)
+            End Get
+            Set
+                Me("SetUser") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("siemens.02")>  _
+        Public Property SetPassword() As String
+            Get
+                Return CType(Me("SetPassword"),String)
+            End Get
+            Set
+                Me("SetPassword") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\xml\input")>  _
+        Public Property SetPathIXML() As String
+            Get
+                Return CType(Me("SetPathIXML"),String)
+            End Get
+            Set
+                Me("SetPathIXML") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\xml\output")>  _
+        Public Property SetPathOXML() As String
+            Get
+                Return CType(Me("SetPathOXML"),String)
+            End Get
+            Set
+                Me("SetPathOXML") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("2")>  _
+        Public Property gblCMMIdCluster() As Integer
+            Get
+                Return CType(Me("gblCMMIdCluster"),Integer)
+            End Get
+            Set
+                Me("gblCMMIdCluster") = value
             End Set
         End Property
     End Class

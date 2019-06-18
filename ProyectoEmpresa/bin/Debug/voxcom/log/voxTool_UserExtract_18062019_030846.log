@@ -1,0 +1,23 @@
+**** Version Voxcom --> 2019.06.18 15:08:47:320 CLT
+**** Start OCIClient initialization --> 2019.06.18 15:08:47:328 CLT
+**** Sending request at: 2019.06.18 15:08:47:362 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 24 ms)
+AuthenticationRequest command successful
+
+**** Sending request at: 2019.06.18 15:08:47:389 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 12 ms)
+LoginRequest command successful
+
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\CMM_request_tmp_1.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\CMM_response_tmp_1.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\CMM_request_tmp_2.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\CMM_response_tmp_2.xml
+********* Starting Run #: 1 in: 3 ms *********
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\CMM_request_tmp_1.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\CMM_response_tmp_1.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\CMM_request_tmp_1.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\CMM_response_tmp_1.xml
+**** Sending request #: 1 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\CMM_request_tmp_1.xml at: 2019.06.18 15:08:47:417 CLT
+**** Time Out:120

@@ -1,0 +1,6 @@
+**** Version Voxcom --> 2019.06.17 23:33:55:524 CLT
+**** Start OCIClient initialization --> 2019.06.17 23:33:55:531 CLT
+Unable to connect to remote server with OCS
+java.lang.Exception: java.net.ConnectException: Connection timed out: connect
+Failed to disconnect from remote server with BCCT
+java.lang.NullPointerException

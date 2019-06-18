@@ -68,7 +68,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("172.25.210.56")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("172.25.210.32")>  _
         Public Property SetHost() As String
             Get
                 Return CType(Me("SetHost"),String)
@@ -152,7 +152,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("siemens02")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("voxcom02")>  _
         Public Property SetUser() As String
             Get
                 Return CType(Me("SetUser"),String)
@@ -164,7 +164,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("siemens.02")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("voxcom.02")>  _
         Public Property SetPassword() As String
             Get
                 Return CType(Me("SetPassword"),String)

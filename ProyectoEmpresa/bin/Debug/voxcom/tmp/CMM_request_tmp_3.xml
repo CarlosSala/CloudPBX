@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<BroadsoftDocument protocol="OCI" xmlns="C">
+<sessionId xmlns="">%%%OSS_USER%%%</sessionId>
+<command xsi:type="ServiceProviderDnAddListRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<serviceProviderId>CloudPBX_SMB</serviceProviderId>
+<phoneNumber>1112223331</phoneNumber>
+<phoneNumber>1112223332</phoneNumber>
+<phoneNumber>1112223333</phoneNumber>
+<phoneNumber>1112223334</phoneNumber>
+<phoneNumber>1112223335</phoneNumber>
+<phoneNumber>1112223336</phoneNumber>
+</command>
+</BroadsoftDocument>

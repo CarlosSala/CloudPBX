@@ -2,6 +2,6 @@
 <BroadsoftDocument protocol="OCI" xmlns="C">
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
 <command xsi:type="SystemDomainAddRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-<domain>mario.cl</domain>
+<domain>alexis.cl</domain>
 </command>
 </BroadsoftDocument>

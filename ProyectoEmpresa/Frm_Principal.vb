@@ -421,19 +421,7 @@ Public Class Frm_Principal
             Exit Sub
         End If
 
-        ''/////////////////////\\\\\\\\\\\\\\\\\\\\\\
-        ''| XML para autenticacion                    |
-        ''\\\\\\\\\\\\\\\\\\\\////////////////////////
-        'Dim Linea1 = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "UTF-8" & Chr(34) & "?>"
-        'Dim linea2 = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
-        'Dim linea3 = "<userId xmlns=" & Chr(34) & Chr(34) & ">siemens02</userId>"
-        'Dim linea4 = "<command xsi:type=" & Chr(34) & "AuthenticationVerificationRequest20" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
-        'Dim linea5 = "<normalLogin>"
-        'Dim linea6 = "<userId>siemens02</userId>"
-        'Dim linea7 = "<password>XXXXX</password>"
-        'Dim linea8 = "<isPasswordHashed>false</isPasswordHashed>"
-        'Dim linea9 = "</normalLogin>"
-        'Dim linea10 = "</command>"
+
 
         '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         '| XML para SystemDomainAddRequest                    |
@@ -444,7 +432,6 @@ Public Class Frm_Principal
         Dim a_4 As String = "<command xsi:type=" & Chr(34) & "SystemDomainAddRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
         Dim a_5 As String = "<domain>pruebacarlos.cl</domain>"
         Dim a_6 As String = "</command>"
-
 
         '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         '| XML para ServiceProviderDomainAssignListRequest    |
@@ -458,20 +445,40 @@ Public Class Frm_Principal
         Dim b_7 As String = "</command>"
 
         '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-        '| XML para ServiceProviderDomainAssignListRequest    |
+        '| XML para ServiceProviderDnAddListRequest           |
         '\\\\\\\\\\\\\\\\\\\\/////////////////////////////////
-        Dim lineaUpddate2_1 As String = "<command xsi : Type =" & Chr(34) & "ServiceProviderDomainAssignListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
-        Dim lineaUpddate2_2 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
-        Dim lineaUpddate2_3 As String = "<domain>pruebacarlos.cl</domain>"
-        Dim lineaUpddate2_4 As String = "</command>"
+        Dim c_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim c_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim c_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim c_4 As String = "<command xsi:type=" & Chr(34) & "ServiceProviderDnAddListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim c_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim c_6 As String = "<phoneNumber>232781567</phoneNumber>"
+        Dim c_7 As String = "</command>"
+
 
         '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         '| XML para ServiceProviderDnAddListRequest           |
         '\\\\\\\\\\\\\\\\\\\\/////////////////////////////////
-        Dim lineaUpddate3_1 As String = "<command xsi : Type = " & Chr(34) & "ServiceProviderDnAddListRequest" & Chr(34) & "xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
-        Dim lineaUpddate3_2 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
-        Dim lineaUpddate3_3 As String = "<phoneNumber>232781567</phoneNumber>"
-        Dim lineaUpddate3_4 As String = "</command>"
+        Dim d_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim d_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim d_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim d_4 As String = "<command xsi:type=" & Chr(34) & " GroupAddRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & " http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim d_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim d_6 As String = "<groupId>PRUEBACARLOS_cloudpbx</groupId>"
+        Dim d_7 As String = "<defaultDomain>pruebacarlos.cl</defaultDomain>"
+        Dim d_8 As String = "<userLimit>25</userLimit>"
+        Dim d_9 As String = "<groupName>Prueba Carlos cloud</groupName>"
+        Dim d_10 As String = "<callingLineIdName>Prueba Carlos cloud</callingLineIdName>"
+        Dim d_11 As String = "<timeZone>America/Santiago</timeZone>"
+        Dim d_12 As String = "<contact>"
+        Dim d_13 As String = "<contactName>carlos</contactName>"
+        Dim d_14 As String = "<contactNumber>12345</contactNumber>"
+        Dim d_15 As String = "</contact>"
+        Dim d_16 As String = "<address>"
+        Dim d_17 As String = "<addressLine1>Direccion de prueba 12</addressLine1>"
+        Dim d_18 As String = "<city>Santiago</city>"
+        Dim d_19 As String = "</address>"
+        Dim d_20 As String = "</command>"
 
         'ultima linea de los xml
         Dim lineaFinal As String = "</BroadsoftDocument>"
@@ -492,8 +499,8 @@ Public Class Frm_Principal
         Dim indiceXML As Integer = 0
         Dim codError As Integer
         Dim msgError As String = ""
-        Dim domain As String
-        'Dim phoneNumber As String
+        Dim domain As String = ""
+        Dim phoneNumber As String = ""
 
         LblEstado.Text = "Generando XML..."
         ProgressBar1.Value = ProgressBar1.Value + 10
@@ -551,30 +558,31 @@ Public Class Frm_Principal
         My.Application.DoEvents()
         i = 0
         WriteLine(50, lineConfigFile.ToCharArray)
-        FileClose(50)
         My.Application.DoEvents()
 
-        'indiceXML += 1
-        'fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-        'fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
-        ''se escribe un XML
-        'FileOpen(1, fileIXML, OpenMode.Output)
-        'WriteLine(1, Linea1.ToCharArray)
-        'WriteLine(1, linea2.ToCharArray)
-        'WriteLine(1, linea3.ToCharArray)
-        'WriteLine(1, linea4.ToCharArray)
-        'WriteLine(1, linea5.ToCharArray)
-        'WriteLine(1, linea6.ToCharArray)
-        'WriteLine(1, linea7.ToCharArray)
-        'WriteLine(1, linea8.ToCharArray)
-        'WriteLine(1, linea9.ToCharArray)
-        'WriteLine(1, linea10.ToCharArray)
-        'WriteLine(1, lineaFinal.ToCharArray)
-        'FileClose(1)
-        'lineConfigFile = fileIXML & ";" & fileOXML
-        'My.Application.DoEvents()
-        'i = 0
-        'WriteLine(50, linMIF.ToCharArray)
+        indiceXML += 1
+        fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+        fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+        FileOpen(4, fileIXML, OpenMode.Output)
+        WriteLine(4, c_1.ToCharArray)
+        WriteLine(4, c_2.ToCharArray)
+        WriteLine(4, c_3.ToCharArray)
+        WriteLine(4, c_4.ToCharArray)
+        WriteLine(4, c_5.ToCharArray)
+        For j = 0 To DataGridView1.Rows.Count - 2
+
+            phoneNumber = DataGridView1.Rows(j).Cells(1).Value
+            c_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
+            WriteLine(4, c_6.ToCharArray)
+        Next
+        WriteLine(4, c_7.ToCharArray)
+        WriteLine(4, lineaFinal.ToCharArray)
+        FileClose(4)
+        lineConfigFile = fileIXML & ";" & fileOXML
+        My.Application.DoEvents()
+        i = 0
+        WriteLine(50, lineConfigFile.ToCharArray)
+        FileClose(50)
 
         LblEstado.Text = "Finalizando creación de archivo..."
         ProgressBar1.Value = ProgressBar1.Value + 30
@@ -611,4 +619,25 @@ Public Class Frm_Principal
     Private Sub LblEstado_Click(sender As Object, e As EventArgs)
 
     End Sub
+
+
+    ''/////////////////////\\\\\\\\\\\\\\\\\\\\\\
+    ''| XML para autenticacion                    |
+    ''\\\\\\\\\\\\\\\\\\\\////////////////////////
+    'Dim Linea1 = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "UTF-8" & Chr(34) & "?>"
+    'Dim linea2 = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+    'Dim linea3 = "<userId xmlns=" & Chr(34) & Chr(34) & ">siemens02</userId>"
+    'Dim linea4 = "<command xsi:type=" & Chr(34) & "AuthenticationVerificationRequest20" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+    'Dim linea5 = "<normalLogin>"
+    'Dim linea6 = "<userId>siemens02</userId>"
+    'Dim linea7 = "<password>XXXXX</password>"
+    'Dim linea8 = "<isPasswordHashed>false</isPasswordHashed>"
+    'Dim linea9 = "</normalLogin>"
+    'Dim linea10 = "</command>"
+
+
+
+
+
+
 End Class

@@ -5,49 +5,19 @@ Imports System.Data.Odbc
 Imports System.Collections
 Imports Microsoft.Office.Interop
 
-
 Public Class Frm_Principal
 
     Dim ConexionString As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & My.Application.Info.DirectoryPath & My.Settings.SetDatabase
     Dim Conexion As New OleDbConnection(ConexionString)
 
-    Dim gblTotUsers As Integer
-    Dim gblIdCluster As Integer = 0
-    Dim gblNameCluster As String = ""
     Dim gblSession As String = ""
-    Dim gblUserLogin As String = ""
-    Dim gblUserPassword As String = ""
-    Dim arrayTotUserId(100000) As String
-    Dim arrayTotDevice(100000) As String
-    Dim gblTotUserId As Integer
-    Dim gblTotUserDet As Integer = 0
-    Dim gblTotUserDev As Integer
-    Dim gblUpdTotalC1 As Integer = 0
-    Dim gblUpdTotalC2 As Integer = 0
-    Dim gblUpdTotalC3 As Integer = 0
     Dim gblUpdTotalReg As Integer = 0
     Dim gblUpdTotaliXML As Integer = 0
-    Dim arrayCluster(10) As String
-    Dim gblTope As Integer = 15
-    Dim arrayServicios(22, 2) As String
-    Dim gblNAUpdTotalC1 As Integer = 0
-    Dim gblNAUpdTotalC2 As Integer = 0
-    Dim gblNAUpdTotalC3 As Integer = 0
-    Dim gblNAUpdTotalReg As Integer = 0
-    Dim gblNAUpdTotaliXML As Integer = 0
 
     Dim gblSetPathTmp As String
     Dim gblSetPathAppl As String
     Dim gblSetPathLog As String
-    Dim gblUserProfile As Integer = 0
-    Dim gblCancelar As Boolean = False
     Dim gblTimePing As Integer = 2000
-    Dim gblNumeros As TextBox
-    Dim gblConsultaRemote As Boolean = False
-    Dim gblCMMNameCluster As String
-    'Dim gblCMMIdCluster As Integer
-    Dim gblCallManager As Integer = 0 '0=nada,1=Call Manager,2=Movil
-
 
     Private Sub For1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Interface_Entrada()
@@ -129,7 +99,6 @@ Public Class Frm_Principal
         linregConfig = "numberOfRuns = 1"
         WriteLine(8, linregConfig.ToCharArray)
 
-
         linregConfig = "quietMode = " & My.Settings.SetModeQuit
         'linregConfig = "quietMode = " & "False"
         WriteLine(8, linregConfig.ToCharArray)
@@ -165,6 +134,7 @@ Public Class Frm_Principal
         End Try
         ProgressBar1.Value = ProgressBar1.Value + 30
         LblEstado.Text = "Finalizado"
+        btn_procesar.Enabled = False
         My.Application.DoEvents()
     End Sub
 
@@ -427,11 +397,9 @@ Public Class Frm_Principal
     End Sub
     Private Sub btn_procesar_Click(sender As Object, e As EventArgs) Handles btn_procesar.Click
 
-        Dim swCluster As Boolean = False
         Dim mensaje As String = ""
         Dim i As Integer = 0
         Dim j As Integer = 0
-        Dim fileNameTmp As String = ""
 
         If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
             MsgBox("Server pinged successfully.")
@@ -452,7 +420,6 @@ Public Class Frm_Principal
         If MsgBox(mensaje, MsgBoxStyle.OkCancel + MsgBoxStyle.DefaultButton2, "Confirmación") = MsgBoxResult.Cancel Then
             Exit Sub
         End If
-        'Exit Sub
 
         ''/////////////////////\\\\\\\\\\\\\\\\\\\\\\
         ''| XML para autenticacion                    |
@@ -471,12 +438,12 @@ Public Class Frm_Principal
         '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         '| XML para SystemDomainAddRequest                    |
         '\\\\\\\\\\\\\\\\\\\\/////////////////////////////////
-        Dim linea1_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
-        Dim linea1_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
-        Dim linea1_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
-        Dim linea1_4 As String = "<command xsi:type=" & Chr(34) & "SystemDomainAddRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
-        Dim linea1_5 As String = "<domain>pruebacarlos.cl</domain>"
-        Dim linea1_6 As String = "</command>"
+        Dim a_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim a_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim a_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim a_4 As String = "<command xsi:type=" & Chr(34) & "SystemDomainAddRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim a_5 As String = "<domain>pruebacarlos.cl</domain>"
+        Dim a_6 As String = "</command>"
 
         '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         '| XML para ServiceProviderDomainAssignListRequest    |
@@ -508,56 +475,20 @@ Public Class Frm_Principal
             My.Computer.FileSystem.DeleteFile(foundFile)
         Next
 
-
-        'Try
-        '        If foundFile.Count = 0 Then
-        '            'tell user no files
-        '            MsgBox("no hay archivos")
-        '        Else
-        '            MsgBox("hay archivos" & foundFile.Count.ToString)
-
-        '            'For Each file In foundFile
-        '            '    contador += 1
-        '            '    MsgBox(contador.ToString())
-        '            'Next
-        '        End If
-        '        'My.Computer.FileSystem.DeleteFile(foundFile)
-        '    Next
-        'Catch ex As Exception
-        '    MsgBox(ex.ToString())
-        'End Try
-
         Dim fileIXML As String = ""
         Dim fileOXML As String = ""
-        Dim fileIXML1 As String = ""
-        Dim fileOXML1 As String = ""
+        Dim indiceXML As Integer = 0
         Dim codError As Integer
         Dim msgError As String = ""
-        Dim regLine As String = ""
-        'Dim arrLine() As String
         Dim domain As String
-        Dim phoneNumber As String
-
-
-
-        Dim accessDeviceLevel As String
-        Dim accessDeviceName As String
-        Dim linePort As String
-        Dim contactList As String
-
-        Dim iSql As String = ""
-        Dim iXml As Integer = 0
-        Dim vbrs_user_service_provider_id As String = ""
-        Dim vbrs_user_group_id As String = ""
-        Dim vbrs_user_phone_number As String = ""
+        'Dim phoneNumber As String
 
         LblEstado.Text = "Generando XML..."
         ProgressBar1.Value = ProgressBar1.Value + 10
 
         My.Application.DoEvents()
         Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile.txt"
-        Dim linMIF As String = ""
-        'Dim linMIF1 As String = ""
+        Dim lineConfigFile As String = ""
         FileOpen(50, multipleInputFile, OpenMode.Output, OpenAccess.Write)
 
 
@@ -568,19 +499,30 @@ Public Class Frm_Principal
         'otra = DataGridView1.Rows(1).Cells(1).Value
         'MsgBox(domain & " - " & phoneNumber & " - " & otra)
 
+        indiceXML += 1
+        fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+        fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
 
+        FileOpen(2, fileIXML, OpenMode.Output)
+        WriteLine(2, a_1.ToCharArray)
+        WriteLine(2, a_2.ToCharArray)
+        WriteLine(2, a_3.ToCharArray)
+        WriteLine(2, a_4.ToCharArray)
+        a_5 = "<domain>" & domain & "</domain>"
+        WriteLine(2, a_5.ToCharArray)
+        WriteLine(2, a_6.ToCharArray)
+        WriteLine(2, lineaFinal.ToCharArray)
+        FileClose(2)
+        lineConfigFile = fileIXML & ";" & fileOXML
+        My.Application.DoEvents()
+        i = 0
+        WriteLine(50, lineConfigFile.ToCharArray)
+        FileClose(50)
+        My.Application.DoEvents()
 
-        'gblUpdTotalReg += 1
-        'i = i + 1
-        'If i = 1 Then
-        '    iXml += 1
-        '    gblUpdTotaliXML += 1
-        'fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & "1" & ".xml"
-        'fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & "1" & ".xml"
-        fileIXML1 = gblSetPathTmp & "\" & "CMM_request_tmp_" & "2" & ".xml"
-        fileOXML1 = gblSetPathTmp & "\" & "CMM_response_tmp_" & "2" & ".xml"
-        'End If
-
+        'indiceXML += 1
+        'fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+        'fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
         ''se escribe un XML
         'FileOpen(1, fileIXML, OpenMode.Output)
         'WriteLine(1, Linea1.ToCharArray)
@@ -595,29 +537,11 @@ Public Class Frm_Principal
         'WriteLine(1, linea10.ToCharArray)
         'WriteLine(1, lineaFinal.ToCharArray)
         'FileClose(1)
-        'linMIF = fileIXML & ";" & fileOXML
+        'lineConfigFile = fileIXML & ";" & fileOXML
         'My.Application.DoEvents()
         'i = 0
         'WriteLine(50, linMIF.ToCharArray)
 
-
-
-        FileOpen(2, fileIXML1, OpenMode.Output)
-        WriteLine(2, linea1_1.ToCharArray)
-        WriteLine(2, linea1_2.ToCharArray)
-        WriteLine(2, linea1_3.ToCharArray)
-        WriteLine(2, linea1_4.ToCharArray)
-        linea1_5 = "<domain>" & domain & "</domain>"
-        WriteLine(2, linea1_5.ToCharArray)
-        WriteLine(2, linea1_6.ToCharArray)
-        WriteLine(2, lineaFinal.ToCharArray)
-        FileClose(2)
-        linMIF = fileIXML1 & ";" & fileOXML1
-        My.Application.DoEvents()
-        i = 0
-        WriteLine(50, linMIF.ToCharArray)
-        FileClose(50)
-        My.Application.DoEvents()
 
         LblEstado.Text = "Finalizando creación de archivo..."
         ProgressBar1.Value = ProgressBar1.Value + 30

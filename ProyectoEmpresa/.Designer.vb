@@ -28,6 +28,7 @@ Partial Class Frm_Principal
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ProgressBar1 = New System.Windows.Forms.ToolStripProgressBar()
+        Me.LblEstado = New System.Windows.Forms.ToolStripStatusLabel()
         Me.lblCMMUpdTotalRows = New System.Windows.Forms.Label()
         Me.lblCMMUpdCurrentRow = New System.Windows.Forms.Label()
         Me.Lab_wait = New System.Windows.Forms.Label()
@@ -41,7 +42,6 @@ Partial Class Frm_Principal
         Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
-        Me.LblEstado = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -92,6 +92,12 @@ Partial Class Frm_Principal
         '
         Me.ProgressBar1.Name = "ProgressBar1"
         Me.ProgressBar1.Size = New System.Drawing.Size(300, 24)
+        '
+        'LblEstado
+        '
+        Me.LblEstado.Name = "LblEstado"
+        Me.LblEstado.Size = New System.Drawing.Size(107, 25)
+        Me.LblEstado.Text = "Status Progress Bar"
         '
         'lblCMMUpdTotalRows
         '
@@ -208,12 +214,6 @@ Partial Class Frm_Principal
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
         '
-        'LblEstado
-        '
-        Me.LblEstado.Name = "LblEstado"
-        Me.LblEstado.Size = New System.Drawing.Size(107, 25)
-        Me.LblEstado.Text = "Status Progress Bar"
-        '
         'Frm_Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -221,6 +221,8 @@ Partial Class Frm_Principal
         Me.ClientSize = New System.Drawing.Size(1350, 729)
         Me.Controls.Add(Me.TabControl1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MaximizeBox = False
+        Me.MaximumSize = New System.Drawing.Size(1366, 768)
         Me.Name = "Frm_Principal"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Voxcom - CloudPBX"

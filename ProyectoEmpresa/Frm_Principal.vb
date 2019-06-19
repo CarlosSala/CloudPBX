@@ -445,6 +445,18 @@ Public Class Frm_Principal
         Dim a_5 As String = "<domain>pruebacarlos.cl</domain>"
         Dim a_6 As String = "</command>"
 
+
+        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        '| XML para ServiceProviderDomainAssignListRequest    |
+        '\\\\\\\\\\\\\\\\\\\\/////////////////////////////////
+        Dim b_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim b_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim b_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim b_4 As String = "<command xsi:type=" & Chr(34) & "ServiceProviderDomainAssignListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim b_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim b_6 As String = "<domain>pruebacarlos.cl</domain>"
+        Dim b_7 As String = "</command>"
+
         '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         '| XML para ServiceProviderDomainAssignListRequest    |
         '\\\\\\\\\\\\\\\\\\\\/////////////////////////////////
@@ -517,6 +529,28 @@ Public Class Frm_Principal
         My.Application.DoEvents()
         i = 0
         WriteLine(50, lineConfigFile.ToCharArray)
+        'FileClose(50)
+        'My.Application.DoEvents()
+
+        indiceXML += 1
+        fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+        fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+
+        FileOpen(3, fileIXML, OpenMode.Output)
+        WriteLine(3, b_1.ToCharArray)
+        WriteLine(3, b_2.ToCharArray)
+        WriteLine(3, b_3.ToCharArray)
+        WriteLine(3, b_4.ToCharArray)
+        WriteLine(3, b_5.ToCharArray)
+        b_6 = "<domain>" & domain & "</domain>"
+        WriteLine(3, b_6.ToCharArray)
+        WriteLine(3, b_7.ToCharArray)
+        WriteLine(3, lineaFinal.ToCharArray)
+        FileClose(3)
+        lineConfigFile = fileIXML & ";" & fileOXML
+        My.Application.DoEvents()
+        i = 0
+        WriteLine(50, lineConfigFile.ToCharArray)
         FileClose(50)
         My.Application.DoEvents()
 
@@ -542,10 +576,9 @@ Public Class Frm_Principal
         'i = 0
         'WriteLine(50, linMIF.ToCharArray)
 
-
         LblEstado.Text = "Finalizando creación de archivo..."
         ProgressBar1.Value = ProgressBar1.Value + 30
-
+        'Exit Sub
         'MsgBox(My.Settings.gblCMMIdCluster.ToString())
         executeShellBulk(multipleInputFile, My.Settings.gblCMMIdCluster, codError, msgError)
         If codError = 0 Then

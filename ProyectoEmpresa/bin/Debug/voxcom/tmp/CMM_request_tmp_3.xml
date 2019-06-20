@@ -3,11 +3,11 @@
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
 <command xsi:type="ServiceProviderDnAddListRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
-<phoneNumber>1112223331</phoneNumber>
-<phoneNumber>1112223332</phoneNumber>
-<phoneNumber>1112223333</phoneNumber>
-<phoneNumber>1112223334</phoneNumber>
-<phoneNumber>1112223335</phoneNumber>
-<phoneNumber>1112223336</phoneNumber>
+<phoneNumber>567778811</phoneNumber>
+<phoneNumber>567778812</phoneNumber>
+<phoneNumber>567778813</phoneNumber>
+<phoneNumber>567778814</phoneNumber>
+<phoneNumber>567778815</phoneNumber>
+<phoneNumber>567778816</phoneNumber>
 </command>
 </BroadsoftDocument>

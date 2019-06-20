@@ -277,12 +277,18 @@ Public Class Frm_Principal
         'Variables que contendrán las valores a guardar en access
         Dim Dominio As String = ""
         Dim Numeros As String = ""
+        Dim Nombre_grupo As String = ""
+        Dim Nombre_empresa As String = ""
+        Dim Nombre_contacto As String = ""
+        Dim Telefono_contacto As String = ""
+        Dim Direccion_empresa As String = ""
+        Dim Ciudad As String = ""
         'Dim Numeros As Long
         'Dim ierr = 0
 
         Dim cmd As New OleDbCommand()
         cmd.Connection = Conexion
-        Dim instruccionSql As String = "DELETE * FROM brs_create_group"
+        Dim instruccionSql As String = "DELETE * FROM broadsoft_cloudPBX"
         cmd.CommandText = instruccionSql
 
         Try
@@ -293,14 +299,42 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
+        ''Comprobar si el archivo esta vacio
+        'Try
+        '    readLine = LineInput(1)
+        '    MsgBox("texto del archivo: " & readLine)
+        'Catch ex As Exception
+        '    MsgBox(ex.ToString)
+        'End Try
+
+        'If readLine.Length = 0 Then
+        '    'If readLine = "" Then
+        '    MsgBox("El archivo se encuentra vacio")
+        '    FileClose(1)
+        '    Exit Sub
+        'Else
+        '    MsgBox("El archivo no esta vacio")
+        '    FileClose(1)
+        '    Exit Sub
+        'End If
+        'Validar el formato del archivo
+
         'Se lee linea por linea el archivo con id = 1, hasta que este acabe, EndOfFile
         While Not EOF(1)
 
-            'Lee una linea del archivo
+            ''Lee una linea del archivo
             readLine = LineInput(1)
             arrayLine = Split(readLine, ";")
             Dominio = arrayLine(0).ToString()
             Numeros = arrayLine(1).ToString()
+            Nombre_grupo = arrayLine(2).ToString()
+            Nombre_empresa = arrayLine(3).ToString()
+            Nombre_contacto = arrayLine(4).ToString()
+            Telefono_contacto = arrayLine(5).ToString()
+            Direccion_empresa = arrayLine(6).ToString()
+            Ciudad = arrayLine(7).ToString()
+
+
             'Se debe modificar el tipo de dato, de numero entero largo a -> doble
             'Access no redondea cifras automaticamente si estas estan en formato general y si no superan los 16 caracteres
             'Numeros = Convert.ToInt64(arrayLine(1))
@@ -308,9 +342,15 @@ Public Class Frm_Principal
 
             'Instrucción SQL
             'Se insertan datos en los campos domain y numbers de la tabla brs_create_group
-            Dim cadenaSql As String = "INSERT INTO brs_create_group ([domain], numbers)"
+            Dim cadenaSql As String = "INSERT INTO broadsoft_cloudPBX ([domain], numbers, group_id, group_name, contact_name, contact_phone, enterprise_address, city)"
             cadenaSql = cadenaSql + " VALUES ( '" & Dominio & "',"
-            cadenaSql = cadenaSql + "          '" & Numeros & "')"
+            cadenaSql = cadenaSql + "          '" & Numeros & "',"
+            cadenaSql = cadenaSql + "          '" & Nombre_grupo & "',"
+            cadenaSql = cadenaSql + "          '" & Nombre_empresa & "',"
+            cadenaSql = cadenaSql + "          '" & Nombre_contacto & "',"
+            cadenaSql = cadenaSql + "          '" & Telefono_contacto & "',"
+            cadenaSql = cadenaSql + "          '" & Direccion_empresa & "',"
+            cadenaSql = cadenaSql + "          '" & Ciudad & "')"
 
             'Crear un comando
             Dim Comando As OleDbCommand = Conexion.CreateCommand()
@@ -349,7 +389,7 @@ Public Class Frm_Principal
 
     Public Sub actualizarGrilla()
 
-        Dim iSql As String = "select * from brs_create_group"
+        Dim iSql As String = "select * from broadsoft_cloudPBX"
         Dim cmd As New OleDbCommand
         Dim dt As New DataTable
         Dim da As New OleDbDataAdapter
@@ -398,7 +438,6 @@ Public Class Frm_Principal
     Private Sub btn_procesar_Click(sender As Object, e As EventArgs) Handles btn_procesar.Click
 
         Dim mensaje As String = ""
-        Dim i As Integer = 0
         Dim j As Integer = 0
 
         If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
@@ -410,8 +449,9 @@ Public Class Frm_Principal
 
         'Val("    38205 (Distrito Norte)")devuelve 38205 como valor numérico. Los espacios y el resto de cadena
         'a partir de donde no se puede reconocer un valor numérico se ignora, Si la cadena empieza con contenido no numérico Val devuelve cero.
-        If Val(lblCMMUpdTotalRows.Text) = 1 Then
-            mensaje = "Un registro a actualizar ..."
+        If Val(lblCMMUpdTotalRows.Text) = 0 Then
+            mensaje = "No existen datos en el archivo ..."
+            Exit Sub
         Else
             mensaje = lblCMMUpdTotalRows.Text & " registros a actualizar ..."
         End If
@@ -420,7 +460,6 @@ Public Class Frm_Principal
         If MsgBox(mensaje, MsgBoxStyle.OkCancel + MsgBoxStyle.DefaultButton2, "Confirmación") = MsgBoxResult.Cancel Then
             Exit Sub
         End If
-
 
 
         '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -455,14 +494,13 @@ Public Class Frm_Principal
         Dim c_6 As String = "<phoneNumber>232781567</phoneNumber>"
         Dim c_7 As String = "</command>"
 
-
         '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         '| XML para ServiceProviderDnAddListRequest           |
         '\\\\\\\\\\\\\\\\\\\\/////////////////////////////////
         Dim d_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim d_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim d_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
-        Dim d_4 As String = "<command xsi:type=" & Chr(34) & " GroupAddRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & " http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim d_4 As String = "<command xsi:type=" & Chr(34) & " GroupAddRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
         Dim d_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
         Dim d_6 As String = "<groupId>PRUEBACARLOS_cloudpbx</groupId>"
         Dim d_7 As String = "<defaultDomain>pruebacarlos.cl</defaultDomain>"
@@ -491,7 +529,7 @@ Public Class Frm_Principal
         'ProgressBar1.Maximum = Val(lblCMMUpdTotalRows.Text)
 
         For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblSetPathTmp, FileIO.SearchOption.SearchAllSubDirectories, "*.*")
-            My.Computer.FileSystem.DeleteFile(foundFile)
+            'My.Computer.FileSystem.DeleteFile(foundFile)
         Next
 
         Dim fileIXML As String = ""
@@ -501,6 +539,12 @@ Public Class Frm_Principal
         Dim msgError As String = ""
         Dim domain As String = ""
         Dim phoneNumber As String = ""
+        Dim group_id As String = ""
+        Dim group_name As String = ""
+        Dim contact_name As String = ""
+        Dim contact_number As String = ""
+        Dim address As String = ""
+        Dim city As String = ""
 
         LblEstado.Text = "Generando XML..."
         ProgressBar1.Value = ProgressBar1.Value + 10
@@ -534,9 +578,7 @@ Public Class Frm_Principal
         FileClose(2)
         lineConfigFile = fileIXML & ";" & fileOXML
         My.Application.DoEvents()
-        i = 0
         WriteLine(50, lineConfigFile.ToCharArray)
-        'FileClose(50)
         'My.Application.DoEvents()
 
         indiceXML += 1
@@ -556,9 +598,8 @@ Public Class Frm_Principal
         FileClose(3)
         lineConfigFile = fileIXML & ";" & fileOXML
         My.Application.DoEvents()
-        i = 0
         WriteLine(50, lineConfigFile.ToCharArray)
-        My.Application.DoEvents()
+        'My.Application.DoEvents()
 
         indiceXML += 1
         fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
@@ -579,9 +620,83 @@ Public Class Frm_Principal
         WriteLine(4, lineaFinal.ToCharArray)
         FileClose(4)
         lineConfigFile = fileIXML & ";" & fileOXML
-        My.Application.DoEvents()
-        i = 0
+        'My.Application.DoEvents()
         WriteLine(50, lineConfigFile.ToCharArray)
+
+
+        indiceXML += 1
+        fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+        fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+        FileOpen(5, fileIXML, OpenMode.Output)
+        WriteLine(5, d_1.ToCharArray)
+        WriteLine(5, d_2.ToCharArray)
+        WriteLine(5, d_3.ToCharArray)
+        WriteLine(5, d_4.ToCharArray)
+        WriteLine(5, d_5.ToCharArray)
+        group_id = DataGridView1.Rows(0).Cells(2).Value
+        d_6 = "<groupId>" & group_id & "</groupId>"
+        WriteLine(5, d_6.ToCharArray)
+        d_7 = "<defaultDomain>" & domain & "</defaultDomain>"
+        WriteLine(5, d_7.ToCharArray)
+        WriteLine(5, d_8.ToCharArray)
+        group_name = DataGridView1.Rows(0).Cells(3).Value
+        d_9 = "<groupName>" & group_name & "</groupName>"
+        WriteLine(5, d_9.ToCharArray)
+        d_10 = "<callingLineIdName>" & group_name & "</callingLineIdName>"
+        WriteLine(5, d_10.ToCharArray)
+        'WriteLine(5, d_11.ToCharArray)
+        WriteLine(5, d_12.ToCharArray)
+        contact_name = DataGridView1.Rows(0).Cells(4).Value
+        d_13 = "<contactName>" & contact_name & "</contactName>"
+        WriteLine(5, d_13.ToCharArray)
+        contact_number = DataGridView1.Rows(0).Cells(5).Value
+        d_14 = "<contactNumber>" & contact_number & "</contactNumber>"
+        WriteLine(5, d_14.ToCharArray)
+        WriteLine(5, d_15.ToCharArray)
+        WriteLine(5, d_16.ToCharArray)
+        address = DataGridView1.Rows(0).Cells(6).Value
+        d_17 = "<addressLine1>" & address & "</addressLine1>"
+        WriteLine(5, d_17.ToCharArray)
+        city = DataGridView1.Rows(0).Cells(7).Value
+        d_18 = "<city>" & city & "</city>"
+        WriteLine(5, d_18.ToCharArray)
+        WriteLine(5, d_19.ToCharArray)
+        WriteLine(5, d_20.ToCharArray)
+        WriteLine(5, lineaFinal.ToCharArray)
+        FileClose(5)
+        lineConfigFile = fileIXML & ";" & fileOXML
+        My.Application.DoEvents()
+        WriteLine(50, lineConfigFile.ToCharArray)
+        'My.Application.DoEvents()
+
+
+        'XML de los servicios de grupo
+        indiceXML += 1
+        fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+        fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+        lineConfigFile = fileIXML & ";" & fileOXML
+        My.Application.DoEvents()
+        WriteLine(50, lineConfigFile.ToCharArray)
+
+        Try
+            Dim Lines_Array() As String = IO.File.ReadAllLines("C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\CMM_request_tmp_5.xml")
+            Lines_Array(5) = " <groupId>" & group_id & "</groupId>"
+            'MsgBox(Lines_Array(5).ToString())
+            IO.File.WriteAllLines("C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\CMM_request_tmp_5.xml", Lines_Array)
+            MsgBox("se reescribió correctamente el archivo de servicios de grupo")
+        Catch ex As Exception
+            MsgBox("error al modificar el archivo de servicios de grupo " & ex.ToString)
+        End Try
+
+
+        ''XML de los servicios de grupo
+        'indiceXML += 1
+        'fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+        'fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+        'lineConfigFile = fileIXML & ";" & fileOXML
+        'My.Application.DoEvents()
+        'WriteLine(50, lineConfigFile.ToCharArray)
+
         FileClose(50)
 
         LblEstado.Text = "Finalizando creación de archivo..."
@@ -634,10 +749,5 @@ Public Class Frm_Principal
     'Dim linea8 = "<isPasswordHashed>false</isPasswordHashed>"
     'Dim linea9 = "</normalLogin>"
     'Dim linea10 = "</command>"
-
-
-
-
-
 
 End Class

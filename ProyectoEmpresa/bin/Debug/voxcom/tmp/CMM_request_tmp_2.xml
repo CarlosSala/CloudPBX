@@ -3,6 +3,6 @@
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
 <command xsi:type="ServiceProviderDomainAssignListRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
-<domain>alexis.cl</domain>
+<domain>felipe.cl</domain>
 </command>
 </BroadsoftDocument>

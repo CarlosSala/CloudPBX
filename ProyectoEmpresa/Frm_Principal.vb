@@ -156,7 +156,7 @@ Public Class Frm_Principal
         For iXml = 1 To topeXml
             exito = False
             Try
-                parseXMl = gblSetPathTmp & "\" & "CMM_response_tmp_" & iXml & ".xml"
+                parseXMl = gblSetPathTmp & "\CMM_response_tmp_" & iXml & ".xml"
                 reader = New XmlTextReader(parseXMl)
                 Do While (reader.Read())
                     Select Case reader.NodeType
@@ -283,6 +283,11 @@ Public Class Frm_Principal
         Dim Telefono_contacto As String = ""
         Dim Direccion_empresa As String = ""
         Dim Ciudad As String = ""
+        Dim Tipo_dispositivo As String = ""
+        Dim Mac As String = ""
+        Dim Numero_serie As String = ""
+        Dim Locacion_fisica As String = ""
+
         'Dim Numeros As Long
         'Dim ierr = 0
 
@@ -333,7 +338,10 @@ Public Class Frm_Principal
             Telefono_contacto = arrayLine(5).ToString()
             Direccion_empresa = arrayLine(6).ToString()
             Ciudad = arrayLine(7).ToString()
-
+            Tipo_dispositivo = arrayLine(8).ToString()
+            Mac = arrayLine(9).ToString()
+            Numero_serie = arrayLine(10).ToString()
+            Locacion_fisica = arrayLine(11).ToString()
 
             'Se debe modificar el tipo de dato, de numero entero largo a -> doble
             'Access no redondea cifras automaticamente si estas estan en formato general y si no superan los 16 caracteres
@@ -342,7 +350,7 @@ Public Class Frm_Principal
 
             'Instrucción SQL
             'Se insertan datos en los campos domain y numbers de la tabla brs_create_group
-            Dim cadenaSql As String = "INSERT INTO broadsoft_cloudPBX ([domain], numbers, group_id, group_name, contact_name, contact_phone, enterprise_address, city)"
+            Dim cadenaSql As String = "INSERT INTO broadsoft_cloudPBX ([domain], numbers, group_id, group_name, contact_name, contact_phone, enterprise_address, city, device_type, mac, serial_number, physical_location)"
             cadenaSql = cadenaSql + " VALUES ( '" & Dominio & "',"
             cadenaSql = cadenaSql + "          '" & Numeros & "',"
             cadenaSql = cadenaSql + "          '" & Nombre_grupo & "',"
@@ -350,7 +358,11 @@ Public Class Frm_Principal
             cadenaSql = cadenaSql + "          '" & Nombre_contacto & "',"
             cadenaSql = cadenaSql + "          '" & Telefono_contacto & "',"
             cadenaSql = cadenaSql + "          '" & Direccion_empresa & "',"
-            cadenaSql = cadenaSql + "          '" & Ciudad & "')"
+            cadenaSql = cadenaSql + "          '" & Ciudad & "',"
+            cadenaSql = cadenaSql + "          '" & Tipo_dispositivo & "',"
+            cadenaSql = cadenaSql + "          '" & Mac & "',"
+            cadenaSql = cadenaSql + "          '" & Numero_serie & "',"
+            cadenaSql = cadenaSql + "          '" & Locacion_fisica & "')"
 
             'Crear un comando
             Dim Comando As OleDbCommand = Conexion.CreateCommand()
@@ -494,13 +506,13 @@ Public Class Frm_Principal
         Dim c_6 As String = "<phoneNumber>232781567</phoneNumber>"
         Dim c_7 As String = "</command>"
 
-        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-        '| XML para ServiceProviderDnAddListRequest           |
-        '\\\\\\\\\\\\\\\\\\\\/////////////////////////////////
+        '/////////////////////\\\\\\\\\\\\\\\\
+        '| XML para GroupAddRequest           |
+        '\\\\\\\\\\\\\\\\\\\\/////////////////
         Dim d_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim d_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim d_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
-        Dim d_4 As String = "<command xsi:type=" & Chr(34) & " GroupAddRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim d_4 As String = "<command xsi:type=" & Chr(34) & "GroupAddRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
         Dim d_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
         Dim d_6 As String = "<groupId>PRUEBACARLOS_cloudpbx</groupId>"
         Dim d_7 As String = "<defaultDomain>pruebacarlos.cl</defaultDomain>"
@@ -518,7 +530,53 @@ Public Class Frm_Principal
         Dim d_19 As String = "</address>"
         Dim d_20 As String = "</command>"
 
-        'ultima linea de los xml
+        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\
+        '| XML para GroupServiceAssignListRequest     |
+        '\\\\\\\\\\\\\\\\\\\\/////////////////////////
+        Dim e_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim e_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim e_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim e_4 As String = "<command xsi:type=" & Chr(34) & "GroupServiceAssignListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim e_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim e_6 As String = "<groupId>PRUEBACARLOS_cloudpbx</groupId>"
+        Dim e_7 As String = "<serviceName>Account/Authorization Codes</serviceName>"
+        Dim e_8 As String = "<serviceName>Call Capacity Management</serviceName>"
+        Dim e_9 As String = "<serviceName>Call Park</serviceName>"
+        Dim e_10 As String = "<serviceName>Call Pickup</serviceName>"
+        Dim e_11 As String = "<serviceName>Custom Ringback Group</serviceName>"
+        Dim e_12 As String = "<serviceName>Custom Ringback Group - Video</serviceName>"
+        Dim e_13 As String = "<serviceName>Emergency Zones</serviceName>"
+        Dim e_14 As String = "<serviceName>Enhanced Outgoing Calling Plan</serviceName>"
+        Dim e_15 As String = "<serviceName>Group Paging</serviceName>"
+        Dim e_16 As String = "<serviceName>Hunt Group</serviceName>"
+        Dim e_17 As String = "<serviceName>Incoming Calling Plan</serviceName>"
+        Dim e_18 As String = "<serviceName>Instant Group Call</serviceName>"
+        Dim e_19 As String = "<serviceName>Intercept Group</serviceName>"
+        Dim e_20 As String = "<serviceName>Inventory Report</serviceName>"
+        Dim e_21 As String = "<serviceName>LDAP Integration</serviceName>"
+        Dim e_22 As String = "<serviceName>Music On Hold</serviceName>"
+        Dim e_23 As String = "<serviceName>Music On Hold - Video</serviceName>"
+        Dim e_24 As String = "<serviceName>Outgoing Calling Plan</serviceName>"
+        Dim e_25 As String = "<serviceName>Preferred Carrier Group</serviceName>"
+        Dim e_26 As String = "<serviceName>Series Completion</serviceName>"
+        Dim e_27 As String = "<serviceName>Service Scripts Group</serviceName>"
+        Dim e_28 As String = "<serviceName>Voice Messaging Group</serviceName>"
+        Dim e_29 As String = "</command>"
+
+        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\
+        '| XML para GroupDnAssignListRequest          |
+        '\\\\\\\\\\\\\\\\\\\\/////////////////////////
+        Dim f_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim f_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim f_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim f_4 As String = "<command xsi:type=" & Chr(34) & "GroupDnAssignListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim f_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim f_6 As String = "<groupId>PRUEBACARLOS_cloudpbx</groupId>"
+        Dim f_7 As String = "<phoneNumber>+56-232781566</phoneNumber>"
+        Dim f_8 As String = "</command>"
+
+
+        'ultima linea de todos los XML
         Dim lineaFinal As String = "</BroadsoftDocument>"
 
         gblUpdTotalReg = 0
@@ -555,22 +613,16 @@ Public Class Frm_Principal
         FileOpen(50, multipleInputFile, OpenMode.Output, OpenAccess.Write)
 
 
-        ''For j = 0 To DataGridView1.Rows.Count - 1
-        '    'If gblCallManager = 1 Then
-        domain = DataGridView1.Rows(j).Cells(0).Value
-        '    phoneNumber = DataGridView1.Rows(j).Cells(1).Value
-        'otra = DataGridView1.Rows(1).Cells(1).Value
-        'MsgBox(domain & " - " & phoneNumber & " - " & otra)
-
+        'XML PARA CREAR UN DOMINIO-----------------------------------------------------------------------------
         indiceXML += 1
         fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
         fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
-
         FileOpen(2, fileIXML, OpenMode.Output)
         WriteLine(2, a_1.ToCharArray)
         WriteLine(2, a_2.ToCharArray)
         WriteLine(2, a_3.ToCharArray)
         WriteLine(2, a_4.ToCharArray)
+        domain = DataGridView1.Rows(j).Cells(0).Value
         a_5 = "<domain>" & domain & "</domain>"
         WriteLine(2, a_5.ToCharArray)
         WriteLine(2, a_6.ToCharArray)
@@ -579,12 +631,11 @@ Public Class Frm_Principal
         lineConfigFile = fileIXML & ";" & fileOXML
         My.Application.DoEvents()
         WriteLine(50, lineConfigFile.ToCharArray)
-        'My.Application.DoEvents()
 
+        'XML PARA ASIGNAR EL DOMINIO CREADO----------------------------------------------------------------------
         indiceXML += 1
         fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
         fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
-
         FileOpen(3, fileIXML, OpenMode.Output)
         WriteLine(3, b_1.ToCharArray)
         WriteLine(3, b_2.ToCharArray)
@@ -599,8 +650,8 @@ Public Class Frm_Principal
         lineConfigFile = fileIXML & ";" & fileOXML
         My.Application.DoEvents()
         WriteLine(50, lineConfigFile.ToCharArray)
-        'My.Application.DoEvents()
 
+        'XML PARA CREAR NUMERACIÓN------------------------------------------------------------------------------
         indiceXML += 1
         fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
         fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
@@ -611,7 +662,6 @@ Public Class Frm_Principal
         WriteLine(4, c_4.ToCharArray)
         WriteLine(4, c_5.ToCharArray)
         For j = 0 To DataGridView1.Rows.Count - 2
-
             phoneNumber = DataGridView1.Rows(j).Cells(1).Value
             c_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
             WriteLine(4, c_6.ToCharArray)
@@ -620,10 +670,9 @@ Public Class Frm_Principal
         WriteLine(4, lineaFinal.ToCharArray)
         FileClose(4)
         lineConfigFile = fileIXML & ";" & fileOXML
-        'My.Application.DoEvents()
         WriteLine(50, lineConfigFile.ToCharArray)
 
-
+        'XML PARA CREAR PERFIL DE GRUPO-------------------------------------------------------------------------
         indiceXML += 1
         fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
         fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
@@ -667,35 +716,89 @@ Public Class Frm_Principal
         lineConfigFile = fileIXML & ";" & fileOXML
         My.Application.DoEvents()
         WriteLine(50, lineConfigFile.ToCharArray)
-        'My.Application.DoEvents()
 
-
-        'XML de los servicios de grupo
+        'XML PARA LOS SERVICIOS DE GRUPO (ARCHIVO EXTERNO)--------------------------------------------------------------
         indiceXML += 1
         fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
         fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
         lineConfigFile = fileIXML & ";" & fileOXML
         My.Application.DoEvents()
         WriteLine(50, lineConfigFile.ToCharArray)
-
         Try
-            Dim Lines_Array() As String = IO.File.ReadAllLines("C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\CMM_request_tmp_5.xml")
+            Dim Lines_Array() As String = IO.File.ReadAllLines(gblSetPathTmp & "\CMM_request_tmp_5.xml")
             Lines_Array(5) = " <groupId>" & group_id & "</groupId>"
             'MsgBox(Lines_Array(5).ToString())
-            IO.File.WriteAllLines("C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\CMM_request_tmp_5.xml", Lines_Array)
+            IO.File.WriteAllLines(gblSetPathTmp & "\CMM_request_tmp_5.xml", Lines_Array)
             MsgBox("se reescribió correctamente el archivo de servicios de grupo")
         Catch ex As Exception
             MsgBox("error al modificar el archivo de servicios de grupo " & ex.ToString)
         End Try
 
 
-        ''XML de los servicios de grupo
-        'indiceXML += 1
-        'fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-        'fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
-        'lineConfigFile = fileIXML & ";" & fileOXML
-        'My.Application.DoEvents()
-        'WriteLine(50, lineConfigFile.ToCharArray)
+        'XML PARA ASIGNAR LA NUMERACIÓN---------------------------------------------------------------------------------
+        indiceXML += 1
+        fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+        fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+        FileOpen(7, fileIXML, OpenMode.Output)
+        WriteLine(7, e_1.ToCharArray)
+        WriteLine(7, e_2.ToCharArray)
+        WriteLine(7, e_3.ToCharArray)
+        WriteLine(7, e_4.ToCharArray)
+        WriteLine(7, e_5.ToCharArray)
+        e_6 = "<groupId>" & group_id & "</groupId>"
+        WriteLine(7, e_6.ToCharArray)
+        WriteLine(7, e_7.ToCharArray)
+        WriteLine(7, e_8.ToCharArray)
+        WriteLine(7, e_9.ToCharArray)
+        WriteLine(7, e_10.ToCharArray)
+        WriteLine(7, e_11.ToCharArray)
+        WriteLine(7, e_12.ToCharArray)
+        WriteLine(7, e_13.ToCharArray)
+        WriteLine(7, e_14.ToCharArray)
+        WriteLine(7, e_15.ToCharArray)
+        WriteLine(7, e_16.ToCharArray)
+        WriteLine(7, e_17.ToCharArray)
+        WriteLine(7, e_18.ToCharArray)
+        WriteLine(7, e_19.ToCharArray)
+        WriteLine(7, e_20.ToCharArray)
+        WriteLine(7, e_21.ToCharArray)
+        WriteLine(7, e_22.ToCharArray)
+        WriteLine(7, e_23.ToCharArray)
+        WriteLine(7, e_24.ToCharArray)
+        WriteLine(7, e_25.ToCharArray)
+        WriteLine(7, e_26.ToCharArray)
+        WriteLine(7, e_27.ToCharArray)
+        WriteLine(7, e_28.ToCharArray)
+        WriteLine(7, e_29.ToCharArray)
+        WriteLine(7, lineaFinal.ToCharArray)
+        FileClose(7)
+        lineConfigFile = fileIXML & ";" & fileOXML
+        WriteLine(50, lineConfigFile.ToCharArray)
+
+        'XML PARA ASIGNAR LA NUMERACIÓN---------------------------------------------------------------------------------
+        indiceXML += 1
+        fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+        fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+        FileOpen(8, fileIXML, OpenMode.Output)
+        WriteLine(8, f_1.ToCharArray)
+        WriteLine(8, f_2.ToCharArray)
+        WriteLine(8, f_3.ToCharArray)
+        WriteLine(8, f_4.ToCharArray)
+        WriteLine(8, f_5.ToCharArray)
+        f_6 = "<groupId>" & group_id & "</groupId>"
+        WriteLine(8, f_6.ToCharArray)
+        For j = 0 To DataGridView1.Rows.Count - 2
+            phoneNumber = DataGridView1.Rows(j).Cells(1).Value
+            f_7 = "<phoneNumber>+56-" & phoneNumber & "</phoneNumber>"
+            WriteLine(8, f_7.ToCharArray)
+        Next
+        WriteLine(8, f_8.ToCharArray)
+        WriteLine(8, lineaFinal.ToCharArray)
+        FileClose(8)
+        lineConfigFile = fileIXML & ";" & fileOXML
+        My.Application.DoEvents()
+        WriteLine(50, lineConfigFile.ToCharArray)
+
 
         FileClose(50)
 

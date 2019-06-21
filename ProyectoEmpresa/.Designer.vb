@@ -102,7 +102,7 @@ Partial Class Frm_Principal
         'lblCMMUpdTotalRows
         '
         Me.lblCMMUpdTotalRows.AutoSize = True
-        Me.lblCMMUpdTotalRows.Location = New System.Drawing.Point(165, 547)
+        Me.lblCMMUpdTotalRows.Location = New System.Drawing.Point(723, 562)
         Me.lblCMMUpdTotalRows.Name = "lblCMMUpdTotalRows"
         Me.lblCMMUpdTotalRows.Size = New System.Drawing.Size(39, 13)
         Me.lblCMMUpdTotalRows.TabIndex = 53
@@ -111,7 +111,7 @@ Partial Class Frm_Principal
         'lblCMMUpdCurrentRow
         '
         Me.lblCMMUpdCurrentRow.AutoSize = True
-        Me.lblCMMUpdCurrentRow.Location = New System.Drawing.Point(72, 547)
+        Me.lblCMMUpdCurrentRow.Location = New System.Drawing.Point(588, 562)
         Me.lblCMMUpdCurrentRow.Name = "lblCMMUpdCurrentRow"
         Me.lblCMMUpdCurrentRow.Size = New System.Drawing.Size(39, 13)
         Me.lblCMMUpdCurrentRow.TabIndex = 52

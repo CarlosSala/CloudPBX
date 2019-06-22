@@ -268,8 +268,17 @@ Public Class Frm_Principal
             Me.Cursor = Cursors.Default
             Exit Sub
         End If
-        'Se abre el archivo CSV selccionado en modo lectura y se le asigna un id
-        FileOpen(1, TextBox_FileName.Text, OpenMode.Input)
+
+        Try
+            'Se abre el archivo CSV selccionado en modo lectura y se le asigna un id
+            FileOpen(1, TextBox_FileName.Text, OpenMode.Input)
+        Catch ex As Exception
+            MsgBox(ex.ToString())
+            MsgBox("Asegurese de que el archivo no este siendo utlizado por otro proceso")
+            Me.Cursor = Cursors.Default
+            Exit Sub
+        End Try
+
 
         Dim readLine As String = ""
         Dim arrayLine() As String
@@ -287,6 +296,7 @@ Public Class Frm_Principal
         Dim Mac As String = ""
         Dim Numero_serie As String = ""
         Dim Locacion_fisica As String = ""
+        Dim Departamento As String = ""
 
         'Dim Numeros As Long
         'Dim ierr = 0
@@ -342,6 +352,7 @@ Public Class Frm_Principal
             Mac = arrayLine(9).ToString()
             Numero_serie = arrayLine(10).ToString()
             Locacion_fisica = arrayLine(11).ToString()
+            Departamento = arrayLine(12).ToString()
 
             'Se debe modificar el tipo de dato, de numero entero largo a -> doble
             'Access no redondea cifras automaticamente si estas estan en formato general y si no superan los 16 caracteres
@@ -350,7 +361,8 @@ Public Class Frm_Principal
 
             'Instrucción SQL
             'Se insertan datos en los campos domain y numbers de la tabla brs_create_group
-            Dim cadenaSql As String = "INSERT INTO broadsoft_cloudPBX ([domain], numbers, group_id, group_name, contact_name, contact_phone, enterprise_address, city, device_type, mac, serial_number, physical_location)"
+            Dim cadenaSql As String = "INSERT INTO broadsoft_cloudPBX ([domain], numbers, group_id, group_name, contact_name, contact_phone, enterprise_address, city,
+                                                                        device_type, mac, serial_number, physical_location, deparment_name)"
             cadenaSql = cadenaSql + " VALUES ( '" & Dominio & "',"
             cadenaSql = cadenaSql + "          '" & Numeros & "',"
             cadenaSql = cadenaSql + "          '" & Nombre_grupo & "',"
@@ -362,7 +374,8 @@ Public Class Frm_Principal
             cadenaSql = cadenaSql + "          '" & Tipo_dispositivo & "',"
             cadenaSql = cadenaSql + "          '" & Mac & "',"
             cadenaSql = cadenaSql + "          '" & Numero_serie & "',"
-            cadenaSql = cadenaSql + "          '" & Locacion_fisica & "')"
+            cadenaSql = cadenaSql + "          '" & Locacion_fisica & "',"
+            cadenaSql = cadenaSql + "          '" & Departamento & "')"
 
             'Crear un comando
             Dim Comando As OleDbCommand = Conexion.CreateCommand()
@@ -452,12 +465,12 @@ Public Class Frm_Principal
         Dim mensaje As String = ""
         Dim j As Integer = 0
 
-        If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
-            MsgBox("Server pinged successfully.")
-        Else
-            MsgBox("Servidor fuera de Linea, favor verifique conexion!!!", vbOKOnly, "Error de Comunicación")
-            Exit Sub
-        End If
+        'If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
+        '    MsgBox("Server pinged successfully.")
+        'Else
+        '    MsgBox("Servidor fuera de Linea, favor verifique conexion!!!", vbOKOnly, "Error de Comunicación")
+        '    Exit Sub
+        'End If
 
         'Val("    38205 (Distrito Norte)")devuelve 38205 como valor numérico. Los espacios y el resto de cadena
         'a partir de donde no se puede reconocer un valor numérico se ignora, Si la cadena empieza con contenido no numérico Val devuelve cero.
@@ -575,6 +588,32 @@ Public Class Frm_Principal
         Dim f_7 As String = "<phoneNumber>+56-232781566</phoneNumber>"
         Dim f_8 As String = "</command>"
 
+        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\
+        '| XML para GroupAccessDeviceAddRequest14     |
+        '\\\\\\\\\\\\\\\\\\\\/////////////////////////
+        Dim g_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim g_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim g_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim g_4 As String = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceAddRequest14" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim g_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim g_6 As String = "<groupId>PRUEBACARLOS_cloudpbx</groupId>"
+        Dim g_7 As String = "<deviceName>DV_805EC0568966</deviceName>"
+        Dim g_8 As String = "<deviceType>Yealink-T19xE2</deviceType>"
+        Dim g_9 As String = "<protocol>SIP 2.0</protocol>"
+        Dim g_10 As String = "<macAddress>805EC0568966</macAddress>"
+        Dim g_11 As String = "<serialNumber>3127318120900584</serialNumber>"
+        Dim g_12 As String = "<physicalLocation>ZONA_2_28</physicalLocation>"
+        Dim g_13 As String = "<transportProtocol>Unspecified</transportProtocol>"
+        Dim g_14 As String = "</command>"
+
+        Dim h_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim h_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim h_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim h_4 As String = "<command xsi:type=" & Chr(34) & "GroupDepartmentAddRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim h_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim h_6 As String = "<groupId>PRUEBACARLOS_cloudpbx</groupId>"
+        Dim h_7 As String = "<departmentName>Administracion</departmentName>"
+        Dim h_8 As String = "</command>"
 
         'ultima linea de todos los XML
         Dim lineaFinal As String = "</BroadsoftDocument>"
@@ -603,7 +642,11 @@ Public Class Frm_Principal
         Dim contact_number As String = ""
         Dim address As String = ""
         Dim city As String = ""
-
+        Dim device_type As String = ""
+        Dim mac As String = ""
+        Dim serial_number As String = ""
+        Dim physical_location As String = ""
+        Dim department As String = ""
         LblEstado.Text = "Generando XML..."
         ProgressBar1.Value = ProgressBar1.Value + 10
 
@@ -717,7 +760,7 @@ Public Class Frm_Principal
         My.Application.DoEvents()
         WriteLine(50, lineConfigFile.ToCharArray)
 
-        'XML PARA LOS SERVICIOS DE GRUPO (ARCHIVO EXTERNO)--------------------------------------------------------------
+        'XML PARA SELECCIONAR SERVICIOS DE GRUPO (ARCHIVO EXTERNO)--------------------------------------------------------------
         indiceXML += 1
         fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
         fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
@@ -735,7 +778,7 @@ Public Class Frm_Principal
         End Try
 
 
-        'XML PARA ASIGNAR LA NUMERACIÓN---------------------------------------------------------------------------------
+        'XML PARA ASIGNAR LOS SERVICIOS---------------------------------------------------------------------------------
         indiceXML += 1
         fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
         fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
@@ -799,12 +842,76 @@ Public Class Frm_Principal
         My.Application.DoEvents()
         WriteLine(50, lineConfigFile.ToCharArray)
 
+        'XML PARA CREAR LOS DISPOSITIVOS---------------------------------------------------------------------------------
+        Dim numFile As Integer = 8
+        For j = 0 To DataGridView1.Rows.Count - 2
+            numFile += 1
+            indiceXML += 1
+            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, g_1.ToCharArray)
+            WriteLine(numFile, g_2.ToCharArray)
+            WriteLine(numFile, g_3.ToCharArray)
+            WriteLine(numFile, g_4.ToCharArray)
+            WriteLine(numFile, g_5.ToCharArray)
+            group_id = DataGridView1.Rows(0).Cells(2).Value
+            g_6 = "<groupId>" & group_id & "</groupId>"
+            WriteLine(numFile, g_6.ToCharArray)
+            mac = DataGridView1.Rows(j).Cells(9).Value
+            g_7 = "<deviceName>DV_" & mac & "</deviceName>"
+            WriteLine(numFile, g_7.ToCharArray)
+            device_type = DataGridView1.Rows(j).Cells(8).Value
+            g_8 = "<deviceType>" & device_type & "</deviceType>"
+            WriteLine(numFile, g_8.ToCharArray)
+            WriteLine(numFile, g_9.ToCharArray)
+            g_10 = "<macAddress>" & mac & "</macAddress>"
+            WriteLine(numFile, g_10.ToCharArray)
+            serial_number = DataGridView1.Rows(j).Cells(10).Value
+            g_11 = "<serialNumber>" & serial_number & "</serialNumber>"
+            WriteLine(numFile, g_11.ToCharArray)
+            physical_location = DataGridView1.Rows(j).Cells(11).Value
+            g_12 = "<physicalLocation>" & physical_location & "</physicalLocation>"
+            WriteLine(numFile, g_12.ToCharArray)
+            WriteLine(numFile, g_13.ToCharArray)
+            WriteLine(numFile, g_14.ToCharArray)
+            WriteLine(numFile, lineaFinal.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            My.Application.DoEvents()
+            WriteLine(50, lineConfigFile.ToCharArray)
+        Next
+
+        'XML PARA CREAR LOS DEPARTAMENTOS---------------------------------------------------------------------------------
+        numFile += 1
+        'For j = 0 To DataGridView1.Rows.Count - 2
+        indiceXML += 1
+            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, h_1.ToCharArray)
+            WriteLine(numFile, h_2.ToCharArray)
+            WriteLine(numFile, h_3.ToCharArray)
+            WriteLine(numFile, h_4.ToCharArray)
+            WriteLine(numFile, h_5.ToCharArray)
+            h_6 = "<groupId>" & group_id & "</groupId>"
+        WriteLine(numFile, h_6.ToCharArray)
+        department = DataGridView1.Rows(0).Cells(12).Value
+        h_7 = "<departmentName>" & department & "</departmentName>"
+            WriteLine(numFile, h_7.ToCharArray)
+            WriteLine(numFile, h_8.ToCharArray)
+            WriteLine(numFile, lineaFinal.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            My.Application.DoEvents()
+            WriteLine(50, lineConfigFile.ToCharArray)
+        'Next
 
         FileClose(50)
 
-        LblEstado.Text = "Finalizando creación de archivo..."
+        LblEstado.Text = "Creación de archivos finalizada"
         ProgressBar1.Value = ProgressBar1.Value + 30
-        'Exit Sub
+        Exit Sub
         'MsgBox(My.Settings.gblCMMIdCluster.ToString())
         executeShellBulk(multipleInputFile, My.Settings.gblCMMIdCluster, codError, msgError)
         If codError = 0 Then

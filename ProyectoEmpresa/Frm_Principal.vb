@@ -1,9 +1,5 @@
 ﻿Imports System.Xml
 Imports System.Data.OleDb
-Imports System.IO
-Imports System.Data.Odbc
-Imports System.Collections
-Imports Microsoft.Office.Interop
 
 Public Class Frm_Principal
 
@@ -258,8 +254,6 @@ Public Class Frm_Principal
         FileClose(7)
     End Sub
 
-
-
     Sub GuardarDatosEnAccess()
 
         'Si no se escogió ningun archivo, se cancela la llamada al metodo
@@ -337,7 +331,7 @@ Public Class Frm_Principal
         'Se lee linea por linea el archivo con id = 1, hasta que este acabe, EndOfFile
         While Not EOF(1)
 
-            ''Lee una linea del archivo
+            'Lee una linea del archivo
             readLine = LineInput(1)
             arrayLine = Split(readLine, ";")
             Dominio = arrayLine(0).ToString()
@@ -772,7 +766,7 @@ Public Class Frm_Principal
             Lines_Array(5) = " <groupId>" & group_id & "</groupId>"
             'MsgBox(Lines_Array(5).ToString())
             IO.File.WriteAllLines(gblSetPathTmp & "\CMM_request_tmp_5.xml", Lines_Array)
-            MsgBox("se reescribió correctamente el archivo de servicios de grupo")
+            'MsgBox("se reescribió correctamente el archivo de servicios de grupo")
         Catch ex As Exception
             MsgBox("error al modificar el archivo de servicios de grupo " & ex.ToString)
         End Try
@@ -883,9 +877,46 @@ Public Class Frm_Principal
         Next
 
         'XML PARA CREAR LOS DEPARTAMENTOS---------------------------------------------------------------------------------
-        numFile += 1
-        'For j = 0 To DataGridView1.Rows.Count - 2
-        indiceXML += 1
+        Dim varAcumulaDepto As String = ""
+        Dim arreglo() As String
+        Dim arregloDeptos(DataGridView1.Rows.Count - 2) As String
+        Dim indice As Integer
+        Dim numElementos As Integer = 0
+
+        For i = 0 To DataGridView1.Rows.Count - 2
+            varAcumulaDepto += DataGridView1.Rows(i).Cells(12).Value & ";"
+            'MsgBox(Depto.ToString)
+        Next
+
+        arreglo = Split(varAcumulaDepto, ";")
+        'MsgBox("Elementos en el arreglo: " & arreglo.Length)
+
+        For k = 0 To arreglo.Length - 1
+            Try
+                indice = Array.IndexOf(arregloDeptos, arreglo(k))
+                'MsgBox("El elemento " & arreglo(k) & " arroja: " & indice)
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+            End Try
+
+            If indice = -1 And arreglo(k) <> "" And arreglo(k).Length <> 0 Then
+                arregloDeptos(numElementos) = arreglo(k)
+                'MsgBox("Se guardó el elemento: " & arregloDeptos(numElementos) & " en arregloDeptos")
+                numElementos += 1
+            Else
+                'MsgBox("Elemento repetido no se guardó")
+            End If
+        Next
+
+        ReDim Preserve arregloDeptos(numElementos - 1)
+        'MsgBox("cantidad de departamentos a crear " & arregloDeptos.Length)
+        'For Each elemento As String In arregloDeptos
+        '    MsgBox(" arreglo final con los deptos " & vbCrLf & elemento)
+        'Next
+
+        For j = 0 To arregloDeptos.Length - 1
+            numFile += 1
+            indiceXML += 1
             fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
             fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
@@ -895,9 +926,9 @@ Public Class Frm_Principal
             WriteLine(numFile, h_4.ToCharArray)
             WriteLine(numFile, h_5.ToCharArray)
             h_6 = "<groupId>" & group_id & "</groupId>"
-        WriteLine(numFile, h_6.ToCharArray)
-        department = DataGridView1.Rows(0).Cells(12).Value
-        h_7 = "<departmentName>" & department & "</departmentName>"
+            WriteLine(numFile, h_6.ToCharArray)
+            department = arregloDeptos(j).ToString
+            h_7 = "<departmentName>" & department & "</departmentName>"
             WriteLine(numFile, h_7.ToCharArray)
             WriteLine(numFile, h_8.ToCharArray)
             WriteLine(numFile, lineaFinal.ToCharArray)
@@ -905,7 +936,7 @@ Public Class Frm_Principal
             lineConfigFile = fileIXML & ";" & fileOXML
             My.Application.DoEvents()
             WriteLine(50, lineConfigFile.ToCharArray)
-        'Next
+        Next
 
         FileClose(50)
 
@@ -920,9 +951,7 @@ Public Class Frm_Principal
         End If
     End Sub
 
-
     Public Sub TooltipAyudaBotones(ByVal TooltipAyuda As ToolTip, ByVal Boton As Button, ByVal mensaje As String)
-
         ToolTipHelpButtons.RemoveAll()
         ToolTipHelpButtons.SetToolTip(Boton, mensaje)
         ToolTipHelpButtons.InitialDelay = 500
@@ -944,20 +973,5 @@ Public Class Frm_Principal
     Private Sub LblEstado_Click(sender As Object, e As EventArgs)
 
     End Sub
-
-
-    ''/////////////////////\\\\\\\\\\\\\\\\\\\\\\
-    ''| XML para autenticacion                    |
-    ''\\\\\\\\\\\\\\\\\\\\////////////////////////
-    'Dim Linea1 = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "UTF-8" & Chr(34) & "?>"
-    'Dim linea2 = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
-    'Dim linea3 = "<userId xmlns=" & Chr(34) & Chr(34) & ">siemens02</userId>"
-    'Dim linea4 = "<command xsi:type=" & Chr(34) & "AuthenticationVerificationRequest20" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
-    'Dim linea5 = "<normalLogin>"
-    'Dim linea6 = "<userId>siemens02</userId>"
-    'Dim linea7 = "<password>XXXXX</password>"
-    'Dim linea8 = "<isPasswordHashed>false</isPasswordHashed>"
-    'Dim linea9 = "</normalLogin>"
-    'Dim linea10 = "</command>"
 
 End Class

@@ -61,7 +61,7 @@ Public Class Frm_Principal
         LblEstado.Text = "Creando archivo de configuración..."
         ProgressBar1.Value = ProgressBar1.Value + 30
 
-        My.Application.DoEvents()
+        'My.Application.DoEvents()
         fileConfig = gblSetPathTmp & "\ociclient.config"
         FileOpen(8, fileConfig, OpenMode.Output, OpenAccess.Write)
         linregConfig = "userId = " & My.Settings.SetUser
@@ -131,88 +131,235 @@ Public Class Frm_Principal
         ProgressBar1.Value = ProgressBar1.Value + 30
         LblEstado.Text = "Finalizado"
         btn_procesar.Enabled = False
-        My.Application.DoEvents()
+        'My.Application.DoEvents()
     End Sub
 
 
     Sub parseXML_update_CMM(ByRef codError As Integer, ByRef msgError As String)
-        Dim reader As XmlTextReader
-        Dim swCol As Boolean = False
-        Dim exito As Boolean = False
-        Dim parseXMl As String
-        Dim i As Integer = 0
-        Dim iSql As String = ""
-        Dim iXml As Integer = 0
-        Dim topeXml As Integer = 0
-        topeXml = gblUpdTotaliXML
-        Conexion.Open()
-        Dim dcUser = New OleDb.OleDbCommand()
-        dcUser.Connection = Conexion
-        Dim fileNameTmp As String = ""
-        For iXml = 1 To topeXml
-            exito = False
-            Try
-                parseXMl = gblSetPathTmp & "\CMM_response_tmp_" & iXml & ".xml"
-                reader = New XmlTextReader(parseXMl)
-                Do While (reader.Read())
-                    Select Case reader.NodeType
-                        Case XmlNodeType.Element 'Display beginning of element.
-                            '                    Console.Write("<" + reader.Name)
-                            If reader.Name = "command" Then
-                                i += 1
-                                If reader.HasAttributes Then 'If attributes exist
-                                    While reader.MoveToNextAttribute()
-                                        'Display attribute name and value.
-                                        Console.Write(" {0}='{1}'", reader.Name, reader.Value)
-                                        If reader.Name = "xsi:type" Then
-                                            If reader.Value = "c:SuccessResponse" Then
-                                                'Try
-                                                '    iSql = "UPDATE brs_user set brs_user_number_activation = '" & Trim(dataNAGrdUpdate.Rows(i - 1).Cells(3).Value) & "' WHERE brs_user_userId = '" & dataNAGrdUpdate.Rows(i - 1).Cells(4).Value & "';"
-                                                '    dcUser.CommandText = iSql
-                                                '    dcUser.ExecuteNonQuery()
-                                                Try
-                                                    iSql = "delete from brs_update_tmp where brs_udet_userId = '" & DataGridView1.Rows(i - 1).Cells(4).Value & "';"
-                                                    dcUser.CommandText = iSql
-                                                    'dc = New OleDb.OleDbCommand(iSql, MyConn)
-                                                    dcUser.ExecuteNonQuery()
-                                                    'MessageBox.Show("Access created Succesfully for brs_user " + fila)
-                                                Catch ex As Exception
-                                                    'MessageBox.Show(ex.Message)
-                                                    'codError = 2
-                                                    'msgError = "No actualizado en BD"
-                                                End Try
-                                                'Catch ex As Exception
-                                                '    'MessageBox.Show(ex.Message)
-                                                '    'codError = 2
-                                                '    'msgError = "No actualizado en BD"
-                                                'End Try
-                                            Else
-                                                'dataGrdUpdate.Rows(i - 1).Cells("Column2").Value = imgListUpdate.Images(2)
-                                            End If
-                                        End If
-                                    End While
-                                End If
-                            End If
-                            'Case XmlNodeType.Text 'Display the text in each element.
-                            '    'Console.WriteLine(reader.Value)
-                            'Case XmlNodeType.EndElement 'Display end of element.
-                            '    If reader.Name = "command" Then
-                            '        swCol = False
-                            '    End If
-                    End Select
-                Loop
-                reader.Close()
-            Catch ex As Exception
-                'MsgBox("Archivo de Respuesta no ha sido encontrado!", vbExclamation, "Error")
-                grabaLog(1, 2, "Error al leer archivo XML>" & gblSetPathTmp & "\CMM_response_tmp_" & iXml & ".xml")
-                codError = 1
-                msgError = "Respuesta No Generada"
-            End Try
-        Next
-        LblEstado.Text = ""
-        Conexion.Close()
-        'actualizaCMMGrillaUpdate(0)
-        My.Application.DoEvents()
+
+
+
+        'Dim Xml As XmlDocument
+        'Dim NodeList As XmlNodeList
+        'Dim Node As XmlNode
+        'Try
+        '    Xml = New XmlDocument()
+        '    Xml.Load(gblSetPathTmp & "\CMM_response_tmp_1.xml")
+        '    NodeList = doc.GetElementsByTagName("FileContent")
+        '    'NodeList = Xml.SelectNodes("/BroadsoftDocument/sessionId/command/summary")
+        '    'NodeList = Xml.SelectNodes("/songs/song")
+
+        '    MsgBox("Nodos por Leer:  " & NodeList.Count & vbNewLine)
+
+        '    'MsgBox(NodeList.GetNamedItem("id").Value)
+
+        '    'For Each Node In NodeList
+        '    '    With Node.Attributes
+        '    '        Console.WriteLine("ID: " & .GetNamedItem("id").Value)
+        '    '        Console.WriteLine("Artist: " & .GetNamedItem("artist").Value)
+        '    '        Console.WriteLine("Title: " & .GetNamedItem("title").Value)
+        '    '        Console.Write(vbNewLine)
+        '    '    End With
+        '    'Next
+
+        'Catch ex As Exception
+        '    MsgBox(ex.GetType.ToString & vbNewLine & ex.Message.ToString)
+        'Finally
+        '    'Console.Read()
+        'End Try
+
+
+
+
+
+
+
+
+
+
+
+
+        'Dim Xml As XmlDocument
+        'Dim NodeList As XmlNodeList
+        'Dim Node As XmlNode
+
+        'Try
+        '    Xml = New XmlDocument()
+        '    Xml.Load(gblSetPathTmp & "\CMM_response_tmp_1.xml")
+        '    NodeList = Xml.SelectNodes("/BroadsoftDocument/command/summary")
+
+        '    MsgBox(NodeList.Count)
+        '    'Console.WriteLine("Nodos por Leer: " & NodeList.Count & vbNewLine)
+
+        '    For Each Node In NodeList
+        '        With Node.Attributes
+
+        '            'Console.Write("ID: " & .GetNamedItem("id").Value)
+        '            'Console.WriteLine("Artist: " & .GetNamedItem("artist").Value)
+        '            'Console.WriteLine("Title: " & .GetNamedItem("title").Value)
+        '            'Console.Write(vbNewLine)
+        '            'Console.ReadLine()
+        '        End With
+        '    Next
+
+        'Catch ex As Exception
+        '    'Console.WriteLine(ex.GetType.ToString & vbNewLine & ex.Message.ToString)
+        'Finally
+        '    'Console.Read()
+        'End Try
+
+
+
+
+        'Try
+
+        '    Dim documentoXML As XmlDocument
+        '    Dim nodelist As XmlNodeList
+        '    Dim nodo As XmlNode
+        '    documentoXML = New XmlDocument
+        '    documentoXML.Load(gblSetPathTmp & "\CMM_response_tmp_1.xml")
+        '    nodelist = documentoXML.SelectNodes("/BroadsoftDocument/command/summary")
+
+        '    For Each nodo In nodelist
+        '        MsgBox(nodelist.ToString)
+        '        Dim minodo = nodo.ChildNodes(0).InnerText
+        '        MsgBox(minodo)
+        '    Next
+
+        'Catch ex As Exception
+        '    MsgBox(ex.ToString)
+        'End Try
+
+
+
+        ''MsgBox("dentro del parse")
+        'Dim reader As XmlTextReader
+        'reader = New XmlTextReader(gblSetPathTmp & "\CMM_response_tmp_1.xml")
+        'Dim SultimaEtiqueta As String = ""
+
+        'While (reader.Read())
+
+        '    If (reader.NodeType = XmlNodeType.Element) Then
+
+        '        If reader.Name = "command" Then
+        '            'i += 1
+        '            If reader.HasAttributes Then 'If attributes exist
+        '                While reader.MoveToNextAttribute()
+        '                    'Display attribute name and value.
+        '                    Console.Write(" {0}='{1}'", reader.Name, reader.Value)
+        '                    If reader.Name = "xsi:type" Then
+        '                    End If
+        '                    If reader.Value = "c:SuccessResponse" Then
+        '                        MsgBox("exito")
+        '                    ElseIf reader.Value = "c:ErrorResponse" Then
+        '                        MsgBox("error")
+        '                    End If
+        '                End While
+        '            End If
+        '        End If
+        '    ElseIf reader.NodeType = XmlNodeType.Text Then
+        '        MsgBox(reader.Name.ToString)
+        '    Else
+        '        MsgBox(reader.Name)
+        '    End If
+        'End While
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        'Dim reader As XmlTextReader
+        'Dim swCol As Boolean = False
+        'Dim exito As Boolean = False
+        'Dim parseXMl As String
+        'Dim i As Integer = 0
+        'Dim iSql As String = ""
+        'Dim iXml As Integer = 0
+        'Dim topeXml As Integer = 0
+        'topeXml = gblUpdTotaliXML
+        'Conexion.Open()
+        'Dim dcUser = New OleDb.OleDbCommand()
+        'dcUser.Connection = Conexion
+        'Dim fileNameTmp As String = ""
+        'For iXml = 1 To topeXml
+        '    exito = False
+        '    Try
+        '        parseXMl = gblSetPathTmp & "\CMM_response_tmp_" & iXml & ".xml"
+        '        reader = New XmlTextReader(parseXMl)
+        '        Do While (reader.Read())
+        '            Select Case reader.NodeType
+        '                Case XmlNodeType.Element 'Display beginning of element.
+        '                    '                    Console.Write("<" + reader.Name)
+        '                    If reader.Name = "command" Then
+        '                        i += 1
+        '                        If reader.HasAttributes Then 'If attributes exist
+        '                            While reader.MoveToNextAttribute()
+        '                                'Display attribute name and value.
+        '                                Console.Write(" {0}='{1}'", reader.Name, reader.Value)
+        '                                If reader.Name = "xsi:type" Then
+        '                                    If reader.Value = "c:SuccessResponse" Then
+        '                                        'Try
+        '                                        '    iSql = "UPDATE brs_user set brs_user_number_activation = '" & Trim(dataNAGrdUpdate.Rows(i - 1).Cells(3).Value) & "' WHERE brs_user_userId = '" & dataNAGrdUpdate.Rows(i - 1).Cells(4).Value & "';"
+        '                                        '    dcUser.CommandText = iSql
+        '                                        '    dcUser.ExecuteNonQuery()
+        '                                        Try
+        '                                            iSql = "delete from brs_update_tmp where brs_udet_userId = '" & DataGridView1.Rows(i - 1).Cells(4).Value & "';"
+        '                                            dcUser.CommandText = iSql
+        '                                            'dc = New OleDb.OleDbCommand(iSql, MyConn)
+        '                                            dcUser.ExecuteNonQuery()
+        '                                            'MessageBox.Show("Access created Succesfully for brs_user " + fila)
+        '                                        Catch ex As Exception
+        '                                            'MessageBox.Show(ex.Message)
+        '                                            'codError = 2
+        '                                            'msgError = "No actualizado en BD"
+        '                                        End Try
+        '                                        'Catch ex As Exception
+        '                                        '    'MessageBox.Show(ex.Message)
+        '                                        '    'codError = 2
+        '                                        '    'msgError = "No actualizado en BD"
+        '                                        'End Try
+        '                                    Else
+        '                                        'dataGrdUpdate.Rows(i - 1).Cells("Column2").Value = imgListUpdate.Images(2)
+        '                                    End If
+        '                                End If
+        '                            End While
+        '                        End If
+        '                    End If
+        '                    'Case XmlNodeType.Text 'Display the text in each element.
+        '                    '    'Console.WriteLine(reader.Value)
+        '                    'Case XmlNodeType.EndElement 'Display end of element.
+        '                    '    If reader.Name = "command" Then
+        '                    '        swCol = False
+        '                    '    End If
+        '            End Select
+        '        Loop
+        '        reader.Close()
+        '    Catch ex As Exception
+        '        'MsgBox("Archivo de Respuesta no ha sido encontrado!", vbExclamation, "Error")
+        '        grabaLog(1, 2, "Error al leer archivo XML>" & gblSetPathTmp & "\CMM_response_tmp_" & iXml & ".xml")
+        '        codError = 1
+        '        msgError = "Respuesta No Generada"
+        '    End Try
+        'Next
+        'LblEstado.Text = ""
+        'Conexion.Close()
+        ''actualizaCMMGrillaUpdate(0)
+        'My.Application.DoEvents()
 
     End Sub
 
@@ -291,6 +438,12 @@ Public Class Frm_Principal
         Dim Numero_serie As String = ""
         Dim Locacion_fisica As String = ""
         Dim Departamento As String = ""
+        Dim Nombre_usuario As String = ""
+        Dim Apellido_usuario As String = ""
+        Dim Correo_usuario As String = ""
+        Dim Direccion_usuario As String = ""
+        Dim Ciudad_usuario As String = ""
+        Dim Proxy As String = ""
 
         'Dim Numeros As Long
         'Dim ierr = 0
@@ -347,6 +500,13 @@ Public Class Frm_Principal
             Numero_serie = arrayLine(10).ToString()
             Locacion_fisica = arrayLine(11).ToString()
             Departamento = arrayLine(12).ToString()
+            Nombre_usuario = arrayLine(13).ToString()
+            Apellido_usuario = arrayLine(14).ToString()
+            Correo_usuario = arrayLine(15).ToString()
+            Direccion_usuario = arrayLine(16).ToString()
+            Ciudad_usuario = arrayLine(17).ToString()
+            Proxy = arrayLine(18).ToString()
+
 
             'Se debe modificar el tipo de dato, de numero entero largo a -> doble
             'Access no redondea cifras automaticamente si estas estan en formato general y si no superan los 16 caracteres
@@ -356,7 +516,8 @@ Public Class Frm_Principal
             'Instrucción SQL
             'Se insertan datos en los campos domain y numbers de la tabla brs_create_group
             Dim cadenaSql As String = "INSERT INTO broadsoft_cloudPBX ([domain], numbers, group_id, group_name, contact_name, contact_phone, enterprise_address, city,
-                                                                        device_type, mac, serial_number, physical_location, deparment_name)"
+                                                                        device_type, mac, serial_number, physical_location, deparment_name,
+                                                                        first_name, last_name, user_email, user_address, user_city, proxy)"
             cadenaSql = cadenaSql + " VALUES ( '" & Dominio & "',"
             cadenaSql = cadenaSql + "          '" & Numeros & "',"
             cadenaSql = cadenaSql + "          '" & Nombre_grupo & "',"
@@ -369,8 +530,13 @@ Public Class Frm_Principal
             cadenaSql = cadenaSql + "          '" & Mac & "',"
             cadenaSql = cadenaSql + "          '" & Numero_serie & "',"
             cadenaSql = cadenaSql + "          '" & Locacion_fisica & "',"
-            cadenaSql = cadenaSql + "          '" & Departamento & "')"
-
+            cadenaSql = cadenaSql + "          '" & Departamento & "',"
+            cadenaSql = cadenaSql + "          '" & Nombre_usuario & "',"
+            cadenaSql = cadenaSql + "          '" & Apellido_usuario & "',"
+            cadenaSql = cadenaSql + "          '" & Correo_usuario & "',"
+            cadenaSql = cadenaSql + "          '" & Direccion_usuario & "',"
+            cadenaSql = cadenaSql + "          '" & Ciudad_usuario & "',"
+            cadenaSql = cadenaSql + "          '" & Proxy & "')"
             'Crear un comando
             Dim Comando As OleDbCommand = Conexion.CreateCommand()
             Comando.CommandText = cadenaSql
@@ -459,12 +625,12 @@ Public Class Frm_Principal
         Dim mensaje As String = ""
         Dim j As Integer = 0
 
-        'If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
-        '    MsgBox("Server pinged successfully.")
-        'Else
-        '    MsgBox("Servidor fuera de Linea, favor verifique conexion!!!", vbOKOnly, "Error de Comunicación")
-        '    Exit Sub
-        'End If
+        If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
+            MsgBox("Server pinged successfully.")
+        Else
+            MsgBox("Servidor fuera de Linea, favor verifique conexion!!!", vbOKOnly, "Error de Comunicación")
+            Exit Sub
+        End If
 
         'Val("    38205 (Distrito Norte)")devuelve 38205 como valor numérico. Los espacios y el resto de cadena
         'a partir de donde no se puede reconocer un valor numérico se ignora, Si la cadena empieza con contenido no numérico Val devuelve cero.
@@ -600,6 +766,9 @@ Public Class Frm_Principal
         Dim g_13 As String = "<transportProtocol>Unspecified</transportProtocol>"
         Dim g_14 As String = "</command>"
 
+        '/////////////////////\\\\\\\\\\\\\\\\\\\
+        '| XML para GroupDepartmentAddRequest    |
+        '\\\\\\\\\\\\\\\\\\\\////////////////////
         Dim h_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim h_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim h_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -609,11 +778,54 @@ Public Class Frm_Principal
         Dim h_7 As String = "<departmentName>Administracion</departmentName>"
         Dim h_8 As String = "</command>"
 
+        '/////////////////////\\\\\\\\\\\\\\\
+        '| XML para "UserAddRequest17sp4"    |
+        '\\\\\\\\\\\\\\\\\\\\////////////////
+        Dim i_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim i_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim i_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim i_4 As String = "<command xsi:type=" & Chr(34) & "UserAddRequest17sp4" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim i_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim i_6 As String = "<groupId>AUTOPRO_cloudpbx</groupId>"
+        Dim i_7 As String = "<userId>226337160@autopro.cl</userId>"
+        Dim i_8 As String = "<lastName>GONZALEZ</lastName>"
+        Dim i_9 As String = "<firstName>GLADIS</firstName>"
+        Dim i_10 As String = "<callingLineIdLastName>GONZALEZ</callingLineIdLastName>"
+        Dim i_11 As String = "<callingLineIdFirstName>GLADIS</callingLineIdFirstName>"
+        Dim i_12 As String = "<password>a1234567</password>"
+        Dim i_13 As String = "<department xsi:type=" & Chr(34) & "GroupDepartmentKey" & Chr(34) & ">"
+        Dim i_14 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim i_15 As String = "<groupId>AUTOPRO_cloudpbx</groupId>"
+        Dim i_16 As String = "<name>RECEPCION</name>"
+        Dim i_17 As String = "</department>"
+        Dim i_18 As String = "<language>Spanish</language>"
+        Dim i_19 As String = "<timeZone>Chile/Continental</timeZone>"
+        Dim i_20 As String = "<emailAddress>GGONZALEZ@PROSAL.CL</emailAddress>"
+        Dim i_21 As String = "<address>"
+        Dim i_22 As String = "<addressLine1>MONEDA 2387 PISO 1 , SANTIAGO</addressLine1>"
+        Dim i_23 As String = "<city>Santiago</city>"
+        Dim i_24 As String = "</address>"
+        Dim i_25 As String = "</command>"
+
+
+        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        '| XML para "GroupAccessDeviceCustomTagAddRequest"     |
+        '\\\\\\\\\\\\\\\\\\\\//////////////////////////////////
+        Dim j_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim j_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim j_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim j_4 As String = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceCustomTagAddRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim j_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim j_6 As String = "<groupId>AUTOPRO_cloudpbx</groupId>"
+        Dim j_7 As String = "<deviceName>DV_805EC02EC440</deviceName>"
+        Dim j_8 As String = "<tagName>%SBC_ADDRESS%</tagName>"
+        Dim j_9 As String = "<tagValue>172.24.16.211</tagValue>"
+        Dim j_10 As String = "</command>"
+
         'ultima linea de todos los XML
         Dim lineaFinal As String = "</BroadsoftDocument>"
 
         gblUpdTotalReg = 0
-        gblUpdTotaliXML = 0
         ProgressBar1.Minimum = 0
         ProgressBar1.Value = 0
         ProgressBar1.Maximum = 100
@@ -641,10 +853,17 @@ Public Class Frm_Principal
         Dim serial_number As String = ""
         Dim physical_location As String = ""
         Dim department As String = ""
+        Dim first_name As String = ""
+        Dim last_name As String = ""
+        Dim user_email As String = ""
+        Dim user_address As String = ""
+        Dim user_city As String = ""
+        Dim proxy As String = ""
+
         LblEstado.Text = "Generando XML..."
         ProgressBar1.Value = ProgressBar1.Value + 10
 
-        My.Application.DoEvents()
+        'My.Application.DoEvents()
         Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile.txt"
         Dim lineConfigFile As String = ""
         FileOpen(50, multipleInputFile, OpenMode.Output, OpenAccess.Write)
@@ -666,7 +885,7 @@ Public Class Frm_Principal
         WriteLine(2, lineaFinal.ToCharArray)
         FileClose(2)
         lineConfigFile = fileIXML & ";" & fileOXML
-        My.Application.DoEvents()
+        'My.Application.DoEvents()
         WriteLine(50, lineConfigFile.ToCharArray)
 
         'XML PARA ASIGNAR EL DOMINIO CREADO----------------------------------------------------------------------
@@ -685,7 +904,7 @@ Public Class Frm_Principal
         WriteLine(3, lineaFinal.ToCharArray)
         FileClose(3)
         lineConfigFile = fileIXML & ";" & fileOXML
-        My.Application.DoEvents()
+        'My.Application.DoEvents()
         WriteLine(50, lineConfigFile.ToCharArray)
 
         'XML PARA CREAR NUMERACIÓN------------------------------------------------------------------------------
@@ -751,7 +970,7 @@ Public Class Frm_Principal
         WriteLine(5, lineaFinal.ToCharArray)
         FileClose(5)
         lineConfigFile = fileIXML & ";" & fileOXML
-        My.Application.DoEvents()
+        'My.Application.DoEvents()
         WriteLine(50, lineConfigFile.ToCharArray)
 
         'XML PARA SELECCIONAR SERVICIOS DE GRUPO (ARCHIVO EXTERNO)--------------------------------------------------------------
@@ -759,7 +978,7 @@ Public Class Frm_Principal
         fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
         fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
         lineConfigFile = fileIXML & ";" & fileOXML
-        My.Application.DoEvents()
+        'My.Application.DoEvents()
         WriteLine(50, lineConfigFile.ToCharArray)
         Try
             Dim Lines_Array() As String = IO.File.ReadAllLines(gblSetPathTmp & "\CMM_request_tmp_5.xml")
@@ -833,7 +1052,7 @@ Public Class Frm_Principal
         WriteLine(8, lineaFinal.ToCharArray)
         FileClose(8)
         lineConfigFile = fileIXML & ";" & fileOXML
-        My.Application.DoEvents()
+        'My.Application.DoEvents()
         WriteLine(50, lineConfigFile.ToCharArray)
 
         'XML PARA CREAR LOS DISPOSITIVOS---------------------------------------------------------------------------------
@@ -872,7 +1091,7 @@ Public Class Frm_Principal
             WriteLine(numFile, lineaFinal.ToCharArray)
             FileClose(numFile)
             lineConfigFile = fileIXML & ";" & fileOXML
-            My.Application.DoEvents()
+            'My.Application.DoEvents()
             WriteLine(50, lineConfigFile.ToCharArray)
         Next
 
@@ -934,16 +1153,112 @@ Public Class Frm_Principal
             WriteLine(numFile, lineaFinal.ToCharArray)
             FileClose(numFile)
             lineConfigFile = fileIXML & ";" & fileOXML
-            My.Application.DoEvents()
+            'My.Application.DoEvents()
+            WriteLine(50, lineConfigFile.ToCharArray)
+        Next
+
+        'XML PARA CREAR LOS USUARIOS---------------------------------------------------------------------------------
+        For j = 0 To DataGridView1.RowCount - 2
+            numFile += 1
+            indiceXML += 1
+            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, i_1.ToCharArray)
+            WriteLine(numFile, i_2.ToCharArray)
+            WriteLine(numFile, i_3.ToCharArray)
+            WriteLine(numFile, i_4.ToCharArray)
+            WriteLine(numFile, i_5.ToCharArray)
+            i_6 = "<groupId>" & group_id & "</groupId>"
+            WriteLine(numFile, i_6.ToCharArray)
+            phoneNumber = DataGridView1.Rows(j).Cells(1).Value
+            i_7 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
+            WriteLine(numFile, i_7.ToCharArray)
+            last_name = DataGridView1.Rows(j).Cells(13).Value
+            i_8 = "<lastName>" & last_name & "</lastName>"
+            WriteLine(numFile, i_8.ToCharArray)
+            first_name = DataGridView1.Rows(j).Cells(14).Value
+            i_9 = "<firstName>" & first_name & "</firstName>"
+            WriteLine(numFile, i_9.ToCharArray)
+            i_10 = "<callingLineIdLastName>" & last_name & "</callingLineIdLastName>"
+            WriteLine(numFile, i_10.ToCharArray)
+            i_11 = "<callingLineIdFirstName>" & first_name & "</callingLineIdFirstName>"
+            WriteLine(numFile, i_11.ToCharArray)
+            WriteLine(numFile, i_12.ToCharArray)
+            department = DataGridView1.Rows(j).Cells(12).Value
+            If department <> "" And department.Length <> 0 And department <> Nothing Then
+                WriteLine(numFile, i_13.ToCharArray)
+                WriteLine(numFile, i_14.ToCharArray)
+                i_15 = "<groupId>" & group_id & "</groupId>"
+                WriteLine(numFile, i_15.ToCharArray)
+                i_16 = "<name>" & department & "</name>"
+                WriteLine(numFile, i_16.ToCharArray)
+                WriteLine(numFile, i_17.ToCharArray)
+            End If
+            WriteLine(numFile, i_18.ToCharArray)
+            WriteLine(numFile, i_19.ToCharArray)
+            user_email = DataGridView1.Rows(j).Cells(15).Value
+            If user_email <> "" And user_email.Length <> 0 And user_email <> Nothing Then
+                i_20 = "<emailAddress>" & user_email & "</emailAddress>"
+                WriteLine(numFile, i_20.ToCharArray)
+            End If
+            WriteLine(numFile, i_21.ToCharArray)
+            user_address = DataGridView1.Rows(j).Cells(16).Value
+            i_22 = "<addressLine1>" & user_address & "</addressLine1>"
+            WriteLine(numFile, i_22.ToCharArray)
+            user_city = DataGridView1.Rows(j).Cells(17).Value
+            i_23 = "<city>" & user_city & "</city>"
+            WriteLine(numFile, i_23.ToCharArray)
+            WriteLine(numFile, i_24.ToCharArray)
+            WriteLine(numFile, i_25.ToCharArray)
+            WriteLine(numFile, lineaFinal.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            'My.Application.DoEvents()
+            WriteLine(50, lineConfigFile.ToCharArray)
+        Next
+
+
+        'XML PARA EL PROXY---------------------------------------------------------------------------------
+        For j = 0 To DataGridView1.RowCount - 2
+            numFile += 1
+            indiceXML += 1
+            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, j_1.ToCharArray)
+            WriteLine(numFile, j_2.ToCharArray)
+            WriteLine(numFile, j_3.ToCharArray)
+            WriteLine(numFile, j_4.ToCharArray)
+            WriteLine(numFile, j_5.ToCharArray)
+            j_6 = "<groupId>" & group_id & "</groupId>"
+            WriteLine(numFile, j_6.ToCharArray)
+            mac = DataGridView1.Rows(j).Cells(9).Value
+            j_7 = "<deviceName>DV_" & mac & "</deviceName>"
+            WriteLine(numFile, j_7.ToCharArray)
+            WriteLine(numFile, j_8.ToCharArray)
+            proxy = DataGridView1.Rows(0).Cells(18).Value
+            j_9 = "<tagValue>" & proxy & "</tagValue>"
+            WriteLine(numFile, j_9.ToCharArray)
+            WriteLine(numFile, j_10.ToCharArray)
+            WriteLine(numFile, lineaFinal.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            'My.Application.DoEvents()
             WriteLine(50, lineConfigFile.ToCharArray)
         Next
 
         FileClose(50)
+        gblUpdTotaliXML = indiceXML
 
         LblEstado.Text = "Creación de archivos finalizada"
         ProgressBar1.Value = ProgressBar1.Value + 30
-        Exit Sub
+        'Exit Sub
+
         'MsgBox(My.Settings.gblCMMIdCluster.ToString())
+
+        'parseXML_update_CMM(codError, msgError)
+
         executeShellBulk(multipleInputFile, My.Settings.gblCMMIdCluster, codError, msgError)
         If codError = 0 Then
             parseXML_update_CMM(codError, msgError)

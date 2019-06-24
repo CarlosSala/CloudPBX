@@ -4,15 +4,15 @@
 <command xsi:type="GroupDnAssignListRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
 <groupId>miguel_grupo</groupId>
-<phoneNumber>+56-227778811</phoneNumber>
-<phoneNumber>+56-227778812</phoneNumber>
-<phoneNumber>+56-227778813</phoneNumber>
-<phoneNumber>+56-227778814</phoneNumber>
-<phoneNumber>+56-227778815</phoneNumber>
-<phoneNumber>+56-227778816</phoneNumber>
-<phoneNumber>+56-227778817</phoneNumber>
-<phoneNumber>+56-227778818</phoneNumber>
-<phoneNumber>+56-227778819</phoneNumber>
-<phoneNumber>+56-227778820</phoneNumber>
+<phoneNumber>+56-222360347</phoneNumber>
+<phoneNumber>+56-232781882</phoneNumber>
+<phoneNumber>+56-232781883</phoneNumber>
+<phoneNumber>+56-232781884</phoneNumber>
+<phoneNumber>+56-232781885</phoneNumber>
+<phoneNumber>+56-232781886</phoneNumber>
+<phoneNumber>+56-232781887</phoneNumber>
+<phoneNumber>+56-232781888</phoneNumber>
+<phoneNumber>+56-232781889</phoneNumber>
+<phoneNumber>+56-232781890</phoneNumber>
 </command>
 </BroadsoftDocument>

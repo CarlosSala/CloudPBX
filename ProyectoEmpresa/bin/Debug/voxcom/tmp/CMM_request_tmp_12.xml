@@ -4,11 +4,11 @@
 <command xsi:type="GroupAccessDeviceAddRequest14" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
 <groupId>miguel_grupo</groupId>
-<deviceName>DV_805EC05689664</deviceName>
+<deviceName>DV_805EC0568BB8</deviceName>
 <deviceType>Yealink-T27G</deviceType>
 <protocol>SIP 2.0</protocol>
-<macAddress>805EC05689664</macAddress>
-<serialNumber>3127318070907270</serialNumber>
+<macAddress>805EC0568BB8</macAddress>
+<serialNumber>3127318120901050</serialNumber>
 <physicalLocation>ZONA_2_28</physicalLocation>
 <transportProtocol>Unspecified</transportProtocol>
 </command>

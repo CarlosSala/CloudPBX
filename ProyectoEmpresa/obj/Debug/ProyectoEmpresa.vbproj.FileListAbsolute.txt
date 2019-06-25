@@ -33,4 +33,3 @@ C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Debug\Proy
 C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Debug\ProyectoEmpresa.exe
 C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Debug\ProyectoEmpresa.xml
 C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Debug\ProyectoEmpresa.pdb
-C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Debug\ProyectoEmpresa.vbprojAssemblyReference.cache

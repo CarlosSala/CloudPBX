@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<BroadsoftDocument protocol="OCI" xmlns="C">
+<sessionId xmlns="">%%%OSS_USER%%%</sessionId>
+<command xsi:type="UserModifyRequest17sp4" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<userId>232781890@felipe.cl</userId>
+<phoneNumber>232781890</phoneNumber>
+<extension>1890</extension>
+<sipAliasList xsi:nil="True"/>
+<endpoint>
+<accessDeviceEndpoint>
+<accessDevice>
+<deviceLevel>Group</deviceLevel>
+<deviceName>DV_805EC0568BCA</deviceName>
+</accessDevice>
+<linePort>232781890@felipe.cl</linePort>
+<contactList xsi:nil="True"/>
+</accessDeviceEndpoint>
+</endpoint>
+</command>
+</BroadsoftDocument>

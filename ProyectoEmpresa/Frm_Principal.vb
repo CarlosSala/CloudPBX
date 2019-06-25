@@ -444,6 +444,7 @@ Public Class Frm_Principal
         Dim Direccion_usuario As String = ""
         Dim Ciudad_usuario As String = ""
         Dim Proxy As String = ""
+        Dim Extensiones As String = ""
 
         'Dim Numeros As Long
         'Dim ierr = 0
@@ -506,6 +507,7 @@ Public Class Frm_Principal
             Direccion_usuario = arrayLine(16).ToString()
             Ciudad_usuario = arrayLine(17).ToString()
             Proxy = arrayLine(18).ToString()
+            Extensiones = arrayLine(19).ToString()
 
 
             'Se debe modificar el tipo de dato, de numero entero largo a -> doble
@@ -517,7 +519,8 @@ Public Class Frm_Principal
             'Se insertan datos en los campos domain y numbers de la tabla brs_create_group
             Dim cadenaSql As String = "INSERT INTO broadsoft_cloudPBX ([domain], numbers, group_id, group_name, contact_name, contact_phone, enterprise_address, city,
                                                                         device_type, mac, serial_number, physical_location, deparment_name,
-                                                                        first_name, last_name, user_email, user_address, user_city, proxy)"
+                                                                        first_name, last_name, user_email, user_address, user_city,
+                                                                        proxy, extensions)"
             cadenaSql = cadenaSql + " VALUES ( '" & Dominio & "',"
             cadenaSql = cadenaSql + "          '" & Numeros & "',"
             cadenaSql = cadenaSql + "          '" & Nombre_grupo & "',"
@@ -536,7 +539,8 @@ Public Class Frm_Principal
             cadenaSql = cadenaSql + "          '" & Correo_usuario & "',"
             cadenaSql = cadenaSql + "          '" & Direccion_usuario & "',"
             cadenaSql = cadenaSql + "          '" & Ciudad_usuario & "',"
-            cadenaSql = cadenaSql + "          '" & Proxy & "')"
+            cadenaSql = cadenaSql + "          '" & Proxy & "',"
+            cadenaSql = cadenaSql + "          '" & Extensiones & "')"
             'Crear un comando
             Dim Comando As OleDbCommand = Conexion.CreateCommand()
             Comando.CommandText = cadenaSql
@@ -625,12 +629,12 @@ Public Class Frm_Principal
         Dim mensaje As String = ""
         Dim j As Integer = 0
 
-        If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
-            MsgBox("Server pinged successfully.")
-        Else
-            MsgBox("Servidor fuera de Linea, favor verifique conexion!!!", vbOKOnly, "Error de Comunicación")
-            Exit Sub
-        End If
+        'If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
+        '    MsgBox("Server pinged successfully.")
+        'Else
+        '    MsgBox("Servidor fuera de Linea, favor verifique conexion!!!", vbOKOnly, "Error de Comunicación")
+        '    Exit Sub
+        'End If
 
         'Val("    38205 (Distrito Norte)")devuelve 38205 como valor numérico. Los espacios y el resto de cadena
         'a partir de donde no se puede reconocer un valor numérico se ignora, Si la cadena empieza con contenido no numérico Val devuelve cero.
@@ -822,7 +826,32 @@ Public Class Frm_Principal
         Dim j_9 As String = "<tagValue>172.24.16.211</tagValue>"
         Dim j_10 As String = "</command>"
 
-        'ultima linea de todos los XML
+
+        '/////////////////////\\\\\\\\\\\\\\\\\\\
+        '| XML para "UserModifyRequest17sp4"     |
+        '\\\\\\\\\\\\\\\\\\\\////////////////////
+        Dim k_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim k_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim k_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim k_4 As String = "<command xsi:type=" & Chr(34) & "UserModifyRequest17sp4" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim k_5 As String = "<userId>226337160@autopro.cl</userId>"
+        Dim k_6 As String = "<phoneNumber>226337160</phoneNumber>"
+        Dim k_7 As String = "<extension>7160</extension>"
+        Dim k_8 As String = "<sipAliasList xsi:nil=" & Chr(34) & "True" & Chr(34) & "/>"
+        Dim k_9 As String = "<endpoint>"
+        Dim k_10 As String = "<accessDeviceEndpoint>"
+        Dim k_11 As String = "<accessDevice>"
+        Dim k_12 As String = "<deviceLevel>Group</deviceLevel>"
+        Dim k_13 As String = "<deviceName>DV_805EC02EC440</deviceName>"
+        Dim k_14 As String = "</accessDevice>"
+        Dim k_15 As String = "<linePort>226337160@autopro.cl</linePort>"
+        Dim k_16 As String = "<contactList xsi:nil=" & Chr(34) & "True" & Chr(34) & "/>"
+        Dim k_17 As String = "</accessDeviceEndpoint>"
+        Dim k_18 As String = "</endpoint>"
+        Dim k_19 As String = "</command>"
+
+
+        'Ultima linea de todos los XML
         Dim lineaFinal As String = "</BroadsoftDocument>"
 
         gblUpdTotalReg = 0
@@ -859,6 +888,7 @@ Public Class Frm_Principal
         Dim user_address As String = ""
         Dim user_city As String = ""
         Dim proxy As String = ""
+        Dim extensions As String = ""
 
         LblEstado.Text = "Generando XML..."
         ProgressBar1.Value = ProgressBar1.Value + 10
@@ -866,7 +896,7 @@ Public Class Frm_Principal
         'My.Application.DoEvents()
         Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile.txt"
         Dim lineConfigFile As String = ""
-        FileOpen(50, multipleInputFile, OpenMode.Output, OpenAccess.Write)
+        FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
 
 
         'XML PARA CREAR UN DOMINIO-----------------------------------------------------------------------------
@@ -886,7 +916,7 @@ Public Class Frm_Principal
         FileClose(2)
         lineConfigFile = fileIXML & ";" & fileOXML
         'My.Application.DoEvents()
-        WriteLine(50, lineConfigFile.ToCharArray)
+        WriteLine(1, lineConfigFile.ToCharArray)
 
         'XML PARA ASIGNAR EL DOMINIO CREADO----------------------------------------------------------------------
         indiceXML += 1
@@ -905,7 +935,7 @@ Public Class Frm_Principal
         FileClose(3)
         lineConfigFile = fileIXML & ";" & fileOXML
         'My.Application.DoEvents()
-        WriteLine(50, lineConfigFile.ToCharArray)
+        WriteLine(1, lineConfigFile.ToCharArray)
 
         'XML PARA CREAR NUMERACIÓN------------------------------------------------------------------------------
         indiceXML += 1
@@ -926,7 +956,7 @@ Public Class Frm_Principal
         WriteLine(4, lineaFinal.ToCharArray)
         FileClose(4)
         lineConfigFile = fileIXML & ";" & fileOXML
-        WriteLine(50, lineConfigFile.ToCharArray)
+        WriteLine(1, lineConfigFile.ToCharArray)
 
         'XML PARA CREAR PERFIL DE GRUPO-------------------------------------------------------------------------
         indiceXML += 1
@@ -971,7 +1001,7 @@ Public Class Frm_Principal
         FileClose(5)
         lineConfigFile = fileIXML & ";" & fileOXML
         'My.Application.DoEvents()
-        WriteLine(50, lineConfigFile.ToCharArray)
+        WriteLine(1, lineConfigFile.ToCharArray)
 
         'XML PARA SELECCIONAR SERVICIOS DE GRUPO (ARCHIVO EXTERNO)--------------------------------------------------------------
         indiceXML += 1
@@ -979,7 +1009,7 @@ Public Class Frm_Principal
         fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
         lineConfigFile = fileIXML & ";" & fileOXML
         'My.Application.DoEvents()
-        WriteLine(50, lineConfigFile.ToCharArray)
+        WriteLine(1, lineConfigFile.ToCharArray)
         Try
             Dim Lines_Array() As String = IO.File.ReadAllLines(gblSetPathTmp & "\CMM_request_tmp_5.xml")
             Lines_Array(5) = " <groupId>" & group_id & "</groupId>"
@@ -1029,7 +1059,7 @@ Public Class Frm_Principal
         WriteLine(7, lineaFinal.ToCharArray)
         FileClose(7)
         lineConfigFile = fileIXML & ";" & fileOXML
-        WriteLine(50, lineConfigFile.ToCharArray)
+        WriteLine(1, lineConfigFile.ToCharArray)
 
         'XML PARA ASIGNAR LA NUMERACIÓN---------------------------------------------------------------------------------
         indiceXML += 1
@@ -1053,7 +1083,7 @@ Public Class Frm_Principal
         FileClose(8)
         lineConfigFile = fileIXML & ";" & fileOXML
         'My.Application.DoEvents()
-        WriteLine(50, lineConfigFile.ToCharArray)
+        WriteLine(1, lineConfigFile.ToCharArray)
 
         'XML PARA CREAR LOS DISPOSITIVOS---------------------------------------------------------------------------------
         Dim numFile As Integer = 8
@@ -1092,7 +1122,7 @@ Public Class Frm_Principal
             FileClose(numFile)
             lineConfigFile = fileIXML & ";" & fileOXML
             'My.Application.DoEvents()
-            WriteLine(50, lineConfigFile.ToCharArray)
+            WriteLine(1, lineConfigFile.ToCharArray)
         Next
 
         'XML PARA CREAR LOS DEPARTAMENTOS---------------------------------------------------------------------------------
@@ -1154,7 +1184,7 @@ Public Class Frm_Principal
             FileClose(numFile)
             lineConfigFile = fileIXML & ";" & fileOXML
             'My.Application.DoEvents()
-            WriteLine(50, lineConfigFile.ToCharArray)
+            WriteLine(1, lineConfigFile.ToCharArray)
         Next
 
         'XML PARA CREAR LOS USUARIOS---------------------------------------------------------------------------------
@@ -1215,7 +1245,7 @@ Public Class Frm_Principal
             FileClose(numFile)
             lineConfigFile = fileIXML & ";" & fileOXML
             'My.Application.DoEvents()
-            WriteLine(50, lineConfigFile.ToCharArray)
+            WriteLine(1, lineConfigFile.ToCharArray)
         Next
 
 
@@ -1245,15 +1275,58 @@ Public Class Frm_Principal
             FileClose(numFile)
             lineConfigFile = fileIXML & ";" & fileOXML
             'My.Application.DoEvents()
-            WriteLine(50, lineConfigFile.ToCharArray)
+            WriteLine(1, lineConfigFile.ToCharArray)
         Next
 
-        FileClose(50)
+        'XML PARA ASIGNAR DISPOSITIVOS A USUARIOS---------------------------------------------------------------------
+        For j = 0 To DataGridView1.RowCount - 2
+            numFile += 1
+            indiceXML += 1
+            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, k_1.ToCharArray)
+            WriteLine(numFile, k_2.ToCharArray)
+            WriteLine(numFile, k_3.ToCharArray)
+            WriteLine(numFile, k_4.ToCharArray)
+            phoneNumber = DataGridView1.Rows(j).Cells(1).Value
+            k_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
+            WriteLine(numFile, k_5.ToCharArray)
+            k_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
+            WriteLine(numFile, k_6.ToCharArray)
+            extensions = DataGridView1.Rows(j).Cells(19).Value
+            k_7 = "<extension>" & extensions & "</extension>"
+            WriteLine(numFile, k_7.ToCharArray)
+            WriteLine(numFile, k_8.ToCharArray)
+            WriteLine(numFile, k_9.ToCharArray)
+            WriteLine(numFile, k_10.ToCharArray)
+            WriteLine(numFile, k_11.ToCharArray)
+            WriteLine(numFile, k_12.ToCharArray)
+            mac = DataGridView1.Rows(j).Cells(9).Value
+            k_13 = "<deviceName>DV_" & mac & "</deviceName>"
+            WriteLine(numFile, k_13.ToCharArray)
+            WriteLine(numFile, k_14.ToCharArray)
+            k_15 = "<linePort>" & phoneNumber & "@" & domain & "</linePort>"
+            WriteLine(numFile, k_15.ToCharArray)
+            WriteLine(numFile, k_16.ToCharArray)
+            WriteLine(numFile, k_17.ToCharArray)
+            WriteLine(numFile, k_18.ToCharArray)
+            WriteLine(numFile, k_19.ToCharArray)
+            WriteLine(numFile, lineaFinal.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            'My.Application.DoEvents()
+            WriteLine(1, lineConfigFile.ToCharArray)
+        Next
+
+
+
+        FileClose(1)
         gblUpdTotaliXML = indiceXML
 
         LblEstado.Text = "Creación de archivos finalizada"
         ProgressBar1.Value = ProgressBar1.Value + 30
-        'Exit Sub
+        Exit Sub
 
         'MsgBox(My.Settings.gblCMMIdCluster.ToString())
 

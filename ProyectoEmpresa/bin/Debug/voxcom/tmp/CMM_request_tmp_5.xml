@@ -10,7 +10,9 @@
     </servicePackAuthorization>
     <servicePackAuthorization>
       <servicePackName>Pack_Estandar</servicePackName>
-      <unauthorized>true</unauthorized>
+      <authorizedQuantity>
+        <unlimited>true</unlimited>
+      </authorizedQuantity>
     </servicePackAuthorization>
     <servicePackAuthorization>
       <servicePackName>Pack_Basico</servicePackName>

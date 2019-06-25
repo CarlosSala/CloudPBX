@@ -2,18 +2,18 @@
 <BroadsoftDocument protocol="OCI" xmlns="C">
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
 <command xsi:type="UserModifyRequest17sp4" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-<userId>232781881@felipe.cl</userId>
-<phoneNumber>232781881</phoneNumber>
+<userId>222360347@felipe.cl</userId>
+<phoneNumber>222360347</phoneNumber>
 <extension>1881</extension>
-<sipAliasList xsi:nil="True"/>
+<sipAliasList xsi:nil="true"/>
 <endpoint>
 <accessDeviceEndpoint>
 <accessDevice>
 <deviceLevel>Group</deviceLevel>
 <deviceName>DV_805EC0568966</deviceName>
 </accessDevice>
-<linePort>232781881@felipe.cl</linePort>
-<contactList xsi:nil="True"/>
+<linePort>222360347@felipe.cl</linePort>
+<contactList xsi:nil="true"/>
 </accessDeviceEndpoint>
 </endpoint>
 </command>

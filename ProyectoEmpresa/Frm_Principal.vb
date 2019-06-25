@@ -445,7 +445,12 @@ Public Class Frm_Principal
         Dim Ciudad_usuario As String = ""
         Dim Proxy As String = ""
         Dim Extensiones As String = ""
-
+        Dim OCP_local As String = ""
+        Dim OCP_linea_gratis As String = ""
+        Dim OCP_internacional As String = ""
+        Dim OCP_especial1 As String = ""
+        Dim OCP_especial2 As String = ""
+        Dim OCP_premium1 As String = ""
         'Dim Numeros As Long
         'Dim ierr = 0
 
@@ -508,6 +513,12 @@ Public Class Frm_Principal
             Ciudad_usuario = arrayLine(17).ToString()
             Proxy = arrayLine(18).ToString()
             Extensiones = arrayLine(19).ToString()
+            OCP_local = arrayLine(20).ToString()
+            OCP_linea_gratis = arrayLine(21).ToString()
+            OCP_internacional = arrayLine(22).ToString()
+            OCP_especial1 = arrayLine(23).ToString()
+            OCP_especial2 = arrayLine(24).ToString()
+            OCP_premium1 = arrayLine(25).ToString()
 
 
             'Se debe modificar el tipo de dato, de numero entero largo a -> doble
@@ -520,27 +531,37 @@ Public Class Frm_Principal
             Dim cadenaSql As String = "INSERT INTO broadsoft_cloudPBX ([domain], numbers, group_id, group_name, contact_name, contact_phone, enterprise_address, city,
                                                                         device_type, mac, serial_number, physical_location, deparment_name,
                                                                         first_name, last_name, user_email, user_address, user_city,
-                                                                        proxy, extensions)"
-            cadenaSql = cadenaSql + " VALUES ( '" & Dominio & "',"
-            cadenaSql = cadenaSql + "          '" & Numeros & "',"
-            cadenaSql = cadenaSql + "          '" & Nombre_grupo & "',"
-            cadenaSql = cadenaSql + "          '" & Nombre_empresa & "',"
-            cadenaSql = cadenaSql + "          '" & Nombre_contacto & "',"
-            cadenaSql = cadenaSql + "          '" & Telefono_contacto & "',"
-            cadenaSql = cadenaSql + "          '" & Direccion_empresa & "',"
-            cadenaSql = cadenaSql + "          '" & Ciudad & "',"
-            cadenaSql = cadenaSql + "          '" & Tipo_dispositivo & "',"
-            cadenaSql = cadenaSql + "          '" & Mac & "',"
-            cadenaSql = cadenaSql + "          '" & Numero_serie & "',"
-            cadenaSql = cadenaSql + "          '" & Locacion_fisica & "',"
-            cadenaSql = cadenaSql + "          '" & Departamento & "',"
-            cadenaSql = cadenaSql + "          '" & Nombre_usuario & "',"
-            cadenaSql = cadenaSql + "          '" & Apellido_usuario & "',"
-            cadenaSql = cadenaSql + "          '" & Correo_usuario & "',"
-            cadenaSql = cadenaSql + "          '" & Direccion_usuario & "',"
-            cadenaSql = cadenaSql + "          '" & Ciudad_usuario & "',"
-            cadenaSql = cadenaSql + "          '" & Proxy & "',"
-            cadenaSql = cadenaSql + "          '" & Extensiones & "')"
+                                                                        proxy, extensions,
+                                                                        ocp_local, ocp_tollFree, ocp_international, specialServices1, specialServices2, premiumServices1)"
+            cadenaSql += " VALUES ( '" & Dominio & "',"
+            cadenaSql += "          '" & Numeros & "',"
+            cadenaSql += "          '" & Nombre_grupo & "',"
+            cadenaSql += "          '" & Nombre_empresa & "',"
+            cadenaSql += "          '" & Nombre_contacto & "',"
+            cadenaSql += "          '" & Telefono_contacto & "',"
+            cadenaSql += "          '" & Direccion_empresa & "',"
+            cadenaSql += "          '" & Ciudad & "',"
+            cadenaSql += "          '" & Tipo_dispositivo & "',"
+            cadenaSql += "          '" & Mac & "',"
+            cadenaSql += "          '" & Numero_serie & "',"
+            cadenaSql += "          '" & Locacion_fisica & "',"
+            cadenaSql += "          '" & Departamento & "',"
+            cadenaSql += "          '" & Nombre_usuario & "',"
+            cadenaSql += "          '" & Apellido_usuario & "',"
+            cadenaSql += "          '" & Correo_usuario & "',"
+            cadenaSql += "          '" & Direccion_usuario & "',"
+            cadenaSql += "          '" & Ciudad_usuario & "',"
+            cadenaSql += "          '" & Proxy & "',"
+            cadenaSql += "          '" & Extensiones & "',"
+            cadenaSql += "          '" & OCP_local & "',"
+            cadenaSql += "          '" & OCP_linea_gratis & "',"
+            cadenaSql += "          '" & OCP_internacional & "',"
+            cadenaSql += "          '" & OCP_especial1 & "',"
+            cadenaSql += "          '" & OCP_especial2 & "',"
+            cadenaSql += "          '" & OCP_premium1 & "')"
+
+
+
             'Crear un comando
             Dim Comando As OleDbCommand = Conexion.CreateCommand()
             Comando.CommandText = cadenaSql
@@ -837,7 +858,7 @@ Public Class Frm_Principal
         Dim k_5 As String = "<userId>226337160@autopro.cl</userId>"
         Dim k_6 As String = "<phoneNumber>226337160</phoneNumber>"
         Dim k_7 As String = "<extension>7160</extension>"
-        Dim k_8 As String = "<sipAliasList xsi:nil=" & Chr(34) & "True" & Chr(34) & "/>"
+        Dim k_8 As String = "<sipAliasList xsi:nil=" & Chr(34) & "true" & Chr(34) & "/>"
         Dim k_9 As String = "<endpoint>"
         Dim k_10 As String = "<accessDeviceEndpoint>"
         Dim k_11 As String = "<accessDevice>"
@@ -845,10 +866,78 @@ Public Class Frm_Principal
         Dim k_13 As String = "<deviceName>DV_805EC02EC440</deviceName>"
         Dim k_14 As String = "</accessDevice>"
         Dim k_15 As String = "<linePort>226337160@autopro.cl</linePort>"
-        Dim k_16 As String = "<contactList xsi:nil=" & Chr(34) & "True" & Chr(34) & "/>"
+        Dim k_16 As String = "<contactList xsi:nil=" & Chr(34) & "true" & Chr(34) & "/>"
         Dim k_17 As String = "</accessDeviceEndpoint>"
         Dim k_18 As String = "</endpoint>"
         Dim k_19 As String = "</command>"
+
+
+        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\
+        '| XML para "UserServiceAssignListRequest"     |
+        '\\\\\\\\\\\\\\\\\\\\//////////////////////////
+        Dim l_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim l_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim l_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim l_4 As String = "<command xsi:type=" & Chr(34) & "UserServiceAssignListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim l_5 As String = "<userId>226337160@autopro.cl</userId>"
+        Dim l_6 As String = "<servicePackName>Pack_Basico</servicePackName>"
+        Dim l_7 As String = "</command>"
+
+
+        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        '| XML para "UserOutgoingCallingPlanOriginatingModifyRequest"    |
+        '\\\\\\\\\\\\\\\\\\\\////////////////////////////////////////////
+        Dim m_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim m_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim m_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim m_4 As String = "<command xsi:type=" & Chr(34) & "UserOutgoingCallingPlanOriginatingModifyRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim m_5 As String = "<userId>226337160@autopro.cl</userId>"
+        Dim m_6 As String = "<useCustomSettings>true</useCustomSettings>"
+        Dim m_7 As String = "<userPermissions>"
+        Dim m_8 As String = "<group>Allow</group>"
+        Dim m_9 As String = "<local>Allow</local>"
+        Dim m_10 As String = "<tollFree>Allow</tollFree>"
+        Dim m_11 As String = "<toll>Allow</toll>"
+        Dim m_12 As String = "<international>Disallow</international>"
+        Dim m_13 As String = "<operatorAssisted>Allow</operatorAssisted>"
+        Dim m_14 As String = "<chargeableDirectoryAssisted>Allow</chargeableDirectoryAssisted>"
+        Dim m_15 As String = "<specialServicesI>Allow</specialServicesI>"
+        Dim m_16 As String = "<specialServicesII>Allow</specialServicesII>"
+        Dim m_17 As String = "<premiumServicesI>Disallow</premiumServicesI>"
+        Dim m_18 As String = "<premiumServicesII>Disallow</premiumServicesII>"
+        Dim m_19 As String = "<casual>Disallow</casual>"
+        Dim m_20 As String = "<urlDialing>Allow</urlDialing>"
+        Dim m_21 As String = "<unknown>Allow</unknown>"
+        Dim m_22 As String = "</userPermissions>"
+        Dim m_23 As String = "</command>"
+
+
+        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\
+        '| XML para "UserAuthenticationModifyRequest"   |
+        '\\\\\\\\\\\\\\\\\\\\///////////////////////////
+        Dim n_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim n_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim n_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim n_4 As String = "<command xsi:type=" & Chr(34) & "UserAuthenticationModifyRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim n_5 As String = "<userId>226337160@autopro.cl</userId>"
+        Dim n_6 As String = "<userName>226337160</userName>"
+        Dim n_7 As String = "<newPassword>XXXXX</newPassword>"
+        Dim n_8 As String = "</command>"
+
+
+        '/////////////////////\\\\\\\\\\\\\\\\\\\\\
+        '| XML para "GroupDnActivateListRequest"   |
+        '\\\\\\\\\\\\\\\\\\\\//////////////////////
+        Dim o_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim o_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim o_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim o_4 As String = "<command xsi:type=" & Chr(34) & "GroupDnActivateListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim o_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim o_6 As String = "<groupId>AUTOPRO_cloudpbx</groupId>"
+        Dim o_7 As String = "<phoneNumber>+56-226337160</phoneNumber>"
+        Dim o_8 As String = "</command>"
+
+
 
 
         'Ultima linea de todos los XML
@@ -889,7 +978,12 @@ Public Class Frm_Principal
         Dim user_city As String = ""
         Dim proxy As String = ""
         Dim extensions As String = ""
-
+        Dim ocp_local As String = ""
+        Dim ocp_tollFree As String = ""
+        Dim ocp_internacional As String = ""
+        Dim ocp_special1 As String = ""
+        Dim ocp_special2 As String = ""
+        Dim ocp_premium1 As String = ""
         LblEstado.Text = "Generando XML..."
         ProgressBar1.Value = ProgressBar1.Value + 10
 
@@ -1319,14 +1413,177 @@ Public Class Frm_Principal
             WriteLine(1, lineConfigFile.ToCharArray)
         Next
 
+        'XML PARA ASIGNAR PACK DE SERVICIOS---------------------------------------------------------------------
+        For j = 0 To DataGridView1.RowCount - 2
+            numFile += 1
+            indiceXML += 1
+            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, l_1.ToCharArray)
+            WriteLine(numFile, l_2.ToCharArray)
+            WriteLine(numFile, l_3.ToCharArray)
+            WriteLine(numFile, l_4.ToCharArray)
+            phoneNumber = DataGridView1.Rows(j).Cells(1).Value
+            l_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
+            WriteLine(numFile, l_5.ToCharArray)
 
+            If DataGridView1.Rows(j).Cells(8).Value = "Yealink-T19xE2" Then
+                l_6 = "<servicePackName>Pack_Basico</servicePackName>"
+
+            ElseIf DataGridView1.Rows(j).Cells(8).Value = "Yealink-T21xE2" Then
+                l_6 = "<servicePackName>Pack_Estandar</servicePackName>"
+
+            ElseIf DataGridView1.Rows(j).Cells(8).Value = "Yealink-T27G" Then
+                l_6 = "<servicePackName>Pack_Avanzado</servicePackName>"
+
+            Else
+                l_6 = "<servicePackName>Pack_Basico</servicePackName>"
+            End If
+            WriteLine(numFile, l_6.ToCharArray)
+            WriteLine(numFile, l_7.ToCharArray)
+            WriteLine(numFile, lineaFinal.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            'My.Application.DoEvents()
+            WriteLine(1, lineConfigFile.ToCharArray)
+        Next
+
+        'XML PARA OCP OUTGOING-CALLING-PLAN------------------------------------------------------------------------
+        For j = 0 To DataGridView1.RowCount - 2
+            numFile += 1
+            indiceXML += 1
+            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, m_1.ToCharArray)
+            WriteLine(numFile, m_2.ToCharArray)
+            WriteLine(numFile, m_3.ToCharArray)
+            WriteLine(numFile, m_4.ToCharArray)
+            phoneNumber = DataGridView1.Rows(j).Cells(1).Value
+            m_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
+            WriteLine(numFile, m_5.ToCharArray)
+            WriteLine(numFile, m_6.ToCharArray)
+            WriteLine(numFile, m_7.ToCharArray)
+            WriteLine(numFile, m_8.ToCharArray)
+            ocp_local = DataGridView1.Rows(j).Cells(20).Value
+            If ocp_local = "bloqueado" Or ocp_local = "Bloqueado" Then
+                m_9 = "<local>Disallow</local>"
+            ElseIf ocp_local = "desbloqueado" Or ocp_local = "Desbloqueado" Then
+                m_9 = "<local>Allow</local>"
+            End If
+            WriteLine(numFile, m_9.ToCharArray)
+            ocp_tollFree = DataGridView1.Rows(j).Cells(21).Value
+            If ocp_tollFree = "bloqueado" Or ocp_tollFree = "Bloqueado" Then
+                m_10 = "<tollFree>Disallow</tollFree>"
+            ElseIf ocp_tollFree = "desbloqueado" Or ocp_tollFree = "Desbloqueado" Then
+                m_10 = "<tollFree>Allow</tollFree>"
+            End If
+            WriteLine(numFile, m_10.ToCharArray)
+            WriteLine(numFile, m_11.ToCharArray)
+            ocp_internacional = DataGridView1.Rows(j).Cells(22).Value
+            If ocp_internacional = "bloqueado" Or ocp_internacional = "Bloqueado" Then
+                m_12 = "<international>Disallow</international>"
+            ElseIf ocp_internacional = "desbloqueado" Or ocp_internacional = "Desbloqueado" Then
+                m_12 = "<international>Allow</international>"
+            End If
+            WriteLine(numFile, m_12.ToCharArray)
+            WriteLine(numFile, m_13.ToCharArray)
+            WriteLine(numFile, m_14.ToCharArray)
+            ocp_special1 = DataGridView1.Rows(j).Cells(23).Value
+            If ocp_special1 = "bloqueado" Or ocp_special1 = "Bloqueado" Then
+                m_15 = "<specialServicesI>Disallow</specialServicesI>"
+            ElseIf ocp_special1 = "desbloqueado" Or ocp_special1 = "Desbloqueado" Then
+                m_15 = "<specialServicesI>Allow</specialServicesI>"
+            End If
+            WriteLine(numFile, m_15.ToCharArray)
+            ocp_special2 = DataGridView1.Rows(j).Cells(24).Value
+            If ocp_special2 = "bloqueado" Or ocp_special2 = "Bloqueado" Then
+                m_16 = "<specialServicesII>Disallow</specialServicesII>"
+            ElseIf ocp_special2 = "desbloqueado" Or ocp_special2 = "Desbloqueado" Then
+                m_16 = "<specialServicesII>Allow</specialServicesII>"
+            End If
+            WriteLine(numFile, m_16.ToCharArray)
+            ocp_premium1 = DataGridView1.Rows(j).Cells(25).Value
+            If ocp_premium1 = "bloqueado" Or ocp_premium1 = "Bloqueado" Then
+                m_17 = "<premiumServicesI>Disallow</premiumServicesI>"
+            ElseIf ocp_premium1 = "desbloqueado" Or ocp_premium1 = "Desbloqueado" Then
+                m_17 = "<premiumServicesI>Allow</premiumServicesI>"
+            End If
+            WriteLine(numFile, m_17.ToCharArray)
+            WriteLine(numFile, m_18.ToCharArray)
+            WriteLine(numFile, m_19.ToCharArray)
+            WriteLine(numFile, m_20.ToCharArray)
+            WriteLine(numFile, m_21.ToCharArray)
+            WriteLine(numFile, m_22.ToCharArray)
+            WriteLine(numFile, m_23.ToCharArray)
+            WriteLine(numFile, lineaFinal.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            'My.Application.DoEvents()
+            WriteLine(1, lineConfigFile.ToCharArray)
+        Next
+
+
+        'XML PARA ASIGNAR CONTRASEÑA SIP------------------------------------------------------------------------
+        For j = 0 To DataGridView1.RowCount - 2
+            numFile += 1
+            indiceXML += 1
+            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, n_1.ToCharArray)
+            WriteLine(numFile, n_2.ToCharArray)
+            WriteLine(numFile, n_3.ToCharArray)
+            WriteLine(numFile, n_4.ToCharArray)
+            phoneNumber = DataGridView1.Rows(j).Cells(1).Value
+            n_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
+            WriteLine(numFile, n_5.ToCharArray)
+            n_6 = "<userName>" & phoneNumber & "</userName>"
+            WriteLine(numFile, n_6.ToCharArray)
+            'Dim domi As String = Mid(domain.ToString, 0, 4)
+            Dim letras As String = domain.Substring(0, 4)
+            n_7 = "<newPassword>" & letras & phoneNumber & "</newPassword>"
+            WriteLine(numFile, n_7.ToCharArray)
+            WriteLine(numFile, n_8.ToCharArray)
+            WriteLine(numFile, lineaFinal.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            'My.Application.DoEvents()
+            WriteLine(1, lineConfigFile.ToCharArray)
+        Next
+
+        'XML PARA ACTIVAR LOS NUMEROS------------------------------------------------------------------------
+        For j = 0 To DataGridView1.RowCount - 2
+            numFile += 1
+            indiceXML += 1
+            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
+            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, o_1.ToCharArray)
+            WriteLine(numFile, o_2.ToCharArray)
+            WriteLine(numFile, o_3.ToCharArray)
+            WriteLine(numFile, o_4.ToCharArray)
+            WriteLine(numFile, o_5.ToCharArray)
+            o_6 = "<groupId>" & group_id & "</groupId>"
+            WriteLine(numFile, o_6.ToCharArray)
+            phoneNumber = DataGridView1.Rows(j).Cells(1).Value
+            o_7 = "<phoneNumber>+56-" & phoneNumber & "</phoneNumber>"
+            WriteLine(numFile, o_7.ToCharArray)
+            WriteLine(numFile, o_8.ToCharArray)
+            WriteLine(numFile, lineaFinal.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            'My.Application.DoEvents()
+            WriteLine(1, lineConfigFile.ToCharArray)
+        Next
 
         FileClose(1)
         gblUpdTotaliXML = indiceXML
 
         LblEstado.Text = "Creación de archivos finalizada"
         ProgressBar1.Value = ProgressBar1.Value + 30
-        Exit Sub
+        'Exit Sub
 
         'MsgBox(My.Settings.gblCMMIdCluster.ToString())
 

@@ -5,7 +5,7 @@
 <userId>232781885@felipe.cl</userId>
 <phoneNumber>232781885</phoneNumber>
 <extension>1885</extension>
-<sipAliasList xsi:nil="True"/>
+<sipAliasList xsi:nil="true"/>
 <endpoint>
 <accessDeviceEndpoint>
 <accessDevice>
@@ -13,7 +13,7 @@
 <deviceName>DV_805EC0568BB8</deviceName>
 </accessDevice>
 <linePort>232781885@felipe.cl</linePort>
-<contactList xsi:nil="True"/>
+<contactList xsi:nil="true"/>
 </accessDeviceEndpoint>
 </endpoint>
 </command>

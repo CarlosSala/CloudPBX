@@ -89,30 +89,6 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Frm_ListarRegistros.Designer.vb">
-      <DependentUpon>Frm_ListarRegistros.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_ListarRegistros.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_ModificarRegistros.Designer.vb">
-      <DependentUpon>Frm_ModificarRegistros.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_ModificarRegistros.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_AgregarRegistros.Designer.vb">
-      <DependentUpon>Frm_AgregarRegistros.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_AgregarRegistros.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Frm_EliminarRegistros.Designer.vb">
-      <DependentUpon>Frm_EliminarRegistros.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_EliminarRegistros.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Frm_Principal.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -144,20 +120,8 @@
     <Compile Include="Settings.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Frm_ListarRegistros.resx">
-      <DependentUpon>Frm_ListarRegistros.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Frm_Login.resx">
       <DependentUpon>Frm_Login.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_ModificarRegistros.resx">
-      <DependentUpon>Frm_ModificarRegistros.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_AgregarRegistros.resx">
-      <DependentUpon>Frm_AgregarRegistros.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_EliminarRegistros.resx">
-      <DependentUpon>Frm_EliminarRegistros.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_Principal.resx">
       <DependentUpon>Frm_Principal.vb</DependentUpon>

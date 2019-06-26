@@ -22,6 +22,7 @@ Partial Class Frm_Login
     'No lo modifique con el editor de código.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Frm_Login))
         Me.Lab_user = New System.Windows.Forms.Label()
         Me.Lab_password = New System.Windows.Forms.Label()
         Me.Text_user = New System.Windows.Forms.TextBox()
@@ -102,6 +103,7 @@ Partial Class Frm_Login
         Me.Controls.Add(Me.Text_user)
         Me.Controls.Add(Me.Lab_password)
         Me.Controls.Add(Me.Lab_user)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Frm_Login"
         Me.Text = "Login"
         Me.ResumeLayout(False)

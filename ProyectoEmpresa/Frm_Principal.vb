@@ -29,80 +29,52 @@ Public Class Frm_Principal
         Dim fileConfig As String = ""
         Dim linregConfig As String = ""
         Dim strArguments As String = ""
-        'Dim strUser As String = "siemens02"
-        'Dim strPassword As String = "siemens.02"
-
-
-        Dim i As Integer = 0
-        'Dim regCluster() As String
-
-        'For i = 0 To arrayCluster.Length
-        '    regCluster = Split(arrayCluster(i), ";")
-        '    If cluster = regCluster(0) Then
-        '        strUser = regCluster(2)
-        '        strPassword = regCluster(3)
-        '        Exit For
-        '    End If
-        'Next
-
-        'If cluster = 1 Then
-        '    strUser = My.Settings.SetUserC1
-        '    strPassword = My.Settings.SetPasswordC1
-        'End If
-        'If cluster = 2 Then
-        '    strUser = My.Settings.SetUserC2
-        '    strPassword = My.Settings.SetPasswordC2
-        'End If
-        'If cluster = 3 Then
-        '    strUser = My.Settings.SetUserC3
-        '    strPassword = My.Settings.SetPasswordC3
-        'End If
 
         LblEstado.Text = "Creando archivo de configuración..."
         ProgressBar1.Value = ProgressBar1.Value + 30
 
         'My.Application.DoEvents()
         fileConfig = gblSetPathTmp & "\ociclient.config"
-        FileOpen(8, fileConfig, OpenMode.Output, OpenAccess.Write)
+        FileOpen(1, fileConfig, OpenMode.Output, OpenAccess.Write)
         linregConfig = "userId = " & My.Settings.SetUser
 
-        WriteLine(8, linregConfig.ToCharArray)
+        WriteLine(1, linregConfig.ToCharArray)
 
         linregConfig = "password = " & My.Settings.SetPassword
-        WriteLine(8, linregConfig.ToCharArray)
+        WriteLine(1, linregConfig.ToCharArray)
 
         linregConfig = "hostname = " & My.Settings.SetHost
-        WriteLine(8, linregConfig.ToCharArray)
+        WriteLine(1, linregConfig.ToCharArray)
 
         linregConfig = "port = " & My.Settings.SetPort
-        WriteLine(8, linregConfig.ToCharArray)
+        WriteLine(1, linregConfig.ToCharArray)
 
         linregConfig = "sessionID = " & gblSession
-        WriteLine(8, linregConfig.ToCharArray)
+        WriteLine(1, linregConfig.ToCharArray)
 
         linregConfig = "connectionMode = " & My.Settings.SetMode
-        WriteLine(8, linregConfig.ToCharArray)
+        WriteLine(1, linregConfig.ToCharArray)
 
         linregConfig = "runMode =  Multiple"
-        WriteLine(8, linregConfig.ToCharArray)
+        WriteLine(1, linregConfig.ToCharArray)
 
         linregConfig = "multipleInputFile = " & fileMIF
-        WriteLine(8, linregConfig.ToCharArray)
+        WriteLine(1, linregConfig.ToCharArray)
 
         linregConfig = "pauseTimeBeforeRunStart = 3"
-        WriteLine(8, linregConfig.ToCharArray)
+        WriteLine(1, linregConfig.ToCharArray)
 
         linregConfig = "numberOfRuns = 1"
-        WriteLine(8, linregConfig.ToCharArray)
+        WriteLine(1, linregConfig.ToCharArray)
 
         linregConfig = "quietMode = " & My.Settings.SetModeQuit
         'linregConfig = "quietMode = " & "False"
-        WriteLine(8, linregConfig.ToCharArray)
+        WriteLine(1, linregConfig.ToCharArray)
 
         linregConfig = "resultOutputFile = " & gblSetPathLog & "\voxTool_UserExtract_" & Format(Now(), "ddMMyyyy_hhmmss") & ".log"
-        WriteLine(8, linregConfig.ToCharArray)
+        WriteLine(1, linregConfig.ToCharArray)
 
-        FileClose(8)
+        FileClose(1)
         strArguments &= fileConfig
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\ociclient.config
 
@@ -137,8 +109,6 @@ Public Class Frm_Principal
 
     Sub parseXML_update_CMM(ByRef codError As Integer, ByRef msgError As String)
 
-
-
         'Dim Xml As XmlDocument
         'Dim NodeList As XmlNodeList
         'Dim Node As XmlNode
@@ -168,17 +138,6 @@ Public Class Frm_Principal
         '    'Console.Read()
         'End Try
 
-
-
-
-
-
-
-
-
-
-
-
         'Dim Xml As XmlDocument
         'Dim NodeList As XmlNodeList
         'Dim Node As XmlNode
@@ -207,8 +166,6 @@ Public Class Frm_Principal
         'Finally
         '    'Console.Read()
         'End Try
-
-
 
 
         'Try
@@ -263,24 +220,6 @@ Public Class Frm_Principal
         '        MsgBox(reader.Name)
         '    End If
         'End While
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         'Dim reader As XmlTextReader
@@ -396,9 +335,9 @@ Public Class Frm_Principal
         'MsgBox(fileLog.ToString)
         LblEstado.Text = "Guardando log"
         ProgressBar1.Value = ProgressBar1.Maximum
-        FileOpen(7, fileLog, OpenMode.Append, OpenAccess.Write)
-        WriteLine(7, linerr.ToCharArray)
-        FileClose(7)
+        FileOpen(2, fileLog, OpenMode.Append, OpenAccess.Write)
+        WriteLine(2, linerr.ToCharArray)
+        FileClose(2)
     End Sub
 
     Sub GuardarDatosEnAccess()
@@ -414,12 +353,12 @@ Public Class Frm_Principal
             'Se abre el archivo CSV selccionado en modo lectura y se le asigna un id
             FileOpen(1, TextBox_FileName.Text, OpenMode.Input)
         Catch ex As Exception
-            MsgBox(ex.ToString())
-            MsgBox("Asegurese de que el archivo no este siendo utlizado por otro proceso")
+            MsgBox(ex.ToString, MsgBoxStyle.Exclamation)
+            MsgBox("Asegurese de que el archivo no este siendo utlizado por otro proceso", MsgBoxStyle.Information)
             Me.Cursor = Cursors.Default
+            FileClose(1)
             Exit Sub
         End Try
-
 
         Dim readLine As String = ""
         Dim arrayLine() As String
@@ -467,25 +406,9 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
-        ''Comprobar si el archivo esta vacio
-        'Try
-        '    readLine = LineInput(1)
-        '    MsgBox("texto del archivo: " & readLine)
-        'Catch ex As Exception
-        '    MsgBox(ex.ToString)
-        'End Try
-
-        'If readLine.Length = 0 Then
-        '    'If readLine = "" Then
-        '    MsgBox("El archivo se encuentra vacio")
-        '    FileClose(1)
-        '    Exit Sub
-        'Else
-        '    MsgBox("El archivo no esta vacio")
-        '    FileClose(1)
-        '    Exit Sub
-        'End If
         'Validar el formato del archivo
+        Dim controlNumColummnas As Integer = 0
+        Dim controlArchivoVacio As Integer = 0
 
         'Se lee linea por linea el archivo con id = 1, hasta que este acabe, EndOfFile
         While Not EOF(1)
@@ -493,6 +416,19 @@ Public Class Frm_Principal
             'Lee una linea del archivo
             readLine = LineInput(1)
             arrayLine = Split(readLine, ";")
+
+            'Comprueba que la primera linea del archivo contenga 26 columnas
+            If arrayLine.Length <> 26 And controlNumColummnas = 0 Then
+                MsgBox("Revisa el número de columnas del archivo cargado", MsgBoxStyle.Exclamation)
+                FileClose(1)
+                Me.Cursor = Cursors.Default
+                Exit Sub
+            End If
+
+            'Si el programa modifica la variable controlArchivoVacio a 1, significa
+            'que ingreso al while donde se lee el archivo y por ende este no esta vacio
+            controlArchivoVacio = 1
+
             Dominio = arrayLine(0).ToString()
             Numeros = arrayLine(1).ToString()
             Nombre_grupo = arrayLine(2).ToString()
@@ -520,6 +456,9 @@ Public Class Frm_Principal
             OCP_especial2 = arrayLine(24).ToString()
             OCP_premium1 = arrayLine(25).ToString()
 
+            'Se modifica el valor de esta variable para que no se realice una validacion del numero de columnas
+            'a partir de la segunda linea del archivo
+            controlNumColummnas = 1
 
             'Se debe modificar el tipo de dato, de numero entero largo a -> doble
             'Access no redondea cifras automaticamente si estas estan en formato general y si no superan los 16 caracteres
@@ -560,8 +499,6 @@ Public Class Frm_Principal
             cadenaSql += "          '" & OCP_especial2 & "',"
             cadenaSql += "          '" & OCP_premium1 & "')"
 
-
-
             'Crear un comando
             Dim Comando As OleDbCommand = Conexion.CreateCommand()
             Comando.CommandText = cadenaSql
@@ -576,6 +513,14 @@ Public Class Frm_Principal
             End Try
             Conexion.Close()
         End While
+        'Si el valor de controlArchivoVacio no cambio a 1, quiere decir que se salto el bucle While
+        'debido a que el archivo estaba vacio
+        If controlArchivoVacio = 0 Then
+            MsgBox("El archivo esta vacio", MsgBoxStyle.Exclamation)
+            FileClose(1)
+            Me.Cursor = Cursors.Default
+            Exit Sub
+        End If
         FileClose(1)
         actualizarGrilla()
     End Sub
@@ -650,26 +595,26 @@ Public Class Frm_Principal
         Dim mensaje As String = ""
         Dim j As Integer = 0
 
-        'If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
-        '    MsgBox("Server pinged successfully.")
-        'Else
-        '    MsgBox("Servidor fuera de Linea, favor verifique conexion!!!", vbOKOnly, "Error de Comunicación")
-        '    Exit Sub
-        'End If
+        If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
+            MsgBox("Server pinged successfully.")
+        Else
+            MsgBox("Servidor fuera de Linea, favor verifique conexion!!!", vbOKOnly, "Error de Comunicación")
+            Exit Sub
+        End If
 
         'Val("    38205 (Distrito Norte)")devuelve 38205 como valor numérico. Los espacios y el resto de cadena
         'a partir de donde no se puede reconocer un valor numérico se ignora, Si la cadena empieza con contenido no numérico Val devuelve cero.
-        If Val(lblCMMUpdTotalRows.Text) = 0 Then
-            mensaje = "No existen datos en el archivo ..."
-            Exit Sub
-        Else
-            mensaje = lblCMMUpdTotalRows.Text & " registros a actualizar ..."
-        End If
-        'vbCrLf para un salto de linea
-        mensaje &= vbCrLf & vbCrLf & "Presione Aceptar para confirmar actualización..."
-        If MsgBox(mensaje, MsgBoxStyle.OkCancel + MsgBoxStyle.DefaultButton2, "Confirmación") = MsgBoxResult.Cancel Then
-            Exit Sub
-        End If
+        'If Val(lblCMMUpdTotalRows.Text) = 0 Then
+        '    mensaje = "No existen datos en el archivo ..."
+        '    Exit Sub
+        'Else
+        '    mensaje = lblCMMUpdTotalRows.Text & " registros a actualizar ..."
+        'End If
+        ''vbCrLf para un salto de linea
+        'mensaje &= vbCrLf & vbCrLf & "Presione Aceptar para confirmar actualización..."
+        'If MsgBox(mensaje, MsgBoxStyle.OkCancel + MsgBoxStyle.DefaultButton2, "Confirmación") = MsgBoxResult.Cancel Then
+        '    Exit Sub
+        'End If
 
 
         '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -937,9 +882,6 @@ Public Class Frm_Principal
         Dim o_7 As String = "<phoneNumber>+56-226337160</phoneNumber>"
         Dim o_8 As String = "</command>"
 
-
-
-
         'Ultima linea de todos los XML
         Dim lineaFinal As String = "</BroadsoftDocument>"
 
@@ -990,125 +932,131 @@ Public Class Frm_Principal
         'My.Application.DoEvents()
         Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile.txt"
         Dim lineConfigFile As String = ""
+        Dim numFile As Integer = 1
+
         FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
 
-
         'XML PARA CREAR UN DOMINIO-----------------------------------------------------------------------------
+        numFile += 1
         indiceXML += 1
-        fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-        fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
-        FileOpen(2, fileIXML, OpenMode.Output)
-        WriteLine(2, a_1.ToCharArray)
-        WriteLine(2, a_2.ToCharArray)
-        WriteLine(2, a_3.ToCharArray)
-        WriteLine(2, a_4.ToCharArray)
+        fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateDomain_request_tmp.xml"
+        fileOXML = gblSetPathTmp & "\" & indiceXML & "_CreateDomain_response_tmp.xml"
+        FileOpen(numFile, fileIXML, OpenMode.Output)
+        WriteLine(numFile, a_1.ToCharArray)
+        WriteLine(numFile, a_2.ToCharArray)
+        WriteLine(numFile, a_3.ToCharArray)
+        WriteLine(numFile, a_4.ToCharArray)
         domain = DataGridView1.Rows(j).Cells(0).Value
         a_5 = "<domain>" & domain & "</domain>"
-        WriteLine(2, a_5.ToCharArray)
-        WriteLine(2, a_6.ToCharArray)
-        WriteLine(2, lineaFinal.ToCharArray)
-        FileClose(2)
+        WriteLine(numFile, a_5.ToCharArray)
+        WriteLine(numFile, a_6.ToCharArray)
+        WriteLine(numFile, lineaFinal.ToCharArray)
+        FileClose(numFile)
         lineConfigFile = fileIXML & ";" & fileOXML
         'My.Application.DoEvents()
         WriteLine(1, lineConfigFile.ToCharArray)
 
         'XML PARA ASIGNAR EL DOMINIO CREADO----------------------------------------------------------------------
+        numFile += 1
         indiceXML += 1
-        fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-        fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
-        FileOpen(3, fileIXML, OpenMode.Output)
-        WriteLine(3, b_1.ToCharArray)
-        WriteLine(3, b_2.ToCharArray)
-        WriteLine(3, b_3.ToCharArray)
-        WriteLine(3, b_4.ToCharArray)
-        WriteLine(3, b_5.ToCharArray)
+        fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignDomain_request_tmp.xml"
+        fileOXML = gblSetPathTmp & "\" & indiceXML & "_AssignDomain_response_tmp.xml"
+        FileOpen(numFile, fileIXML, OpenMode.Output)
+        WriteLine(numFile, b_1.ToCharArray)
+        WriteLine(numFile, b_2.ToCharArray)
+        WriteLine(numFile, b_3.ToCharArray)
+        WriteLine(numFile, b_4.ToCharArray)
+        WriteLine(numFile, b_5.ToCharArray)
         b_6 = "<domain>" & domain & "</domain>"
-        WriteLine(3, b_6.ToCharArray)
-        WriteLine(3, b_7.ToCharArray)
-        WriteLine(3, lineaFinal.ToCharArray)
-        FileClose(3)
+        WriteLine(numFile, b_6.ToCharArray)
+        WriteLine(numFile, b_7.ToCharArray)
+        WriteLine(numFile, lineaFinal.ToCharArray)
+        FileClose(numFile)
         lineConfigFile = fileIXML & ";" & fileOXML
         'My.Application.DoEvents()
         WriteLine(1, lineConfigFile.ToCharArray)
 
         'XML PARA CREAR NUMERACIÓN------------------------------------------------------------------------------
+        numFile += 1
         indiceXML += 1
-        fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-        fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
-        FileOpen(4, fileIXML, OpenMode.Output)
-        WriteLine(4, c_1.ToCharArray)
-        WriteLine(4, c_2.ToCharArray)
-        WriteLine(4, c_3.ToCharArray)
-        WriteLine(4, c_4.ToCharArray)
-        WriteLine(4, c_5.ToCharArray)
+        fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateNumbers_request_tmp.xml"
+        fileOXML = gblSetPathTmp & "\" & indiceXML & "_CreateNumbers_response_tmp.xml"
+        FileOpen(numFile, fileIXML, OpenMode.Output)
+        WriteLine(numFile, c_1.ToCharArray)
+        WriteLine(numFile, c_2.ToCharArray)
+        WriteLine(numFile, c_3.ToCharArray)
+        WriteLine(numFile, c_4.ToCharArray)
+        WriteLine(numFile, c_5.ToCharArray)
         For j = 0 To DataGridView1.Rows.Count - 2
             phoneNumber = DataGridView1.Rows(j).Cells(1).Value
             c_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
-            WriteLine(4, c_6.ToCharArray)
+            WriteLine(numFile, c_6.ToCharArray)
         Next
-        WriteLine(4, c_7.ToCharArray)
-        WriteLine(4, lineaFinal.ToCharArray)
-        FileClose(4)
+        WriteLine(numFile, c_7.ToCharArray)
+        WriteLine(numFile, lineaFinal.ToCharArray)
+        FileClose(numFile)
         lineConfigFile = fileIXML & ";" & fileOXML
         WriteLine(1, lineConfigFile.ToCharArray)
 
         'XML PARA CREAR PERFIL DE GRUPO-------------------------------------------------------------------------
+        numFile += 1
         indiceXML += 1
-        fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-        fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
-        FileOpen(5, fileIXML, OpenMode.Output)
-        WriteLine(5, d_1.ToCharArray)
-        WriteLine(5, d_2.ToCharArray)
-        WriteLine(5, d_3.ToCharArray)
-        WriteLine(5, d_4.ToCharArray)
-        WriteLine(5, d_5.ToCharArray)
+        fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateProfileGroup_request_tmp.xml"
+        fileOXML = gblSetPathTmp & "\" & indiceXML & "_CreateProfileGroup_response_tmp.xml"
+        FileOpen(numFile, fileIXML, OpenMode.Output)
+        WriteLine(numFile, d_1.ToCharArray)
+        WriteLine(numFile, d_2.ToCharArray)
+        WriteLine(numFile, d_3.ToCharArray)
+        WriteLine(numFile, d_4.ToCharArray)
+        WriteLine(numFile, d_5.ToCharArray)
         group_id = DataGridView1.Rows(0).Cells(2).Value
         d_6 = "<groupId>" & group_id & "</groupId>"
-        WriteLine(5, d_6.ToCharArray)
+        WriteLine(numFile, d_6.ToCharArray)
         d_7 = "<defaultDomain>" & domain & "</defaultDomain>"
-        WriteLine(5, d_7.ToCharArray)
-        WriteLine(5, d_8.ToCharArray)
+        WriteLine(numFile, d_7.ToCharArray)
+        WriteLine(numFile, d_8.ToCharArray)
         group_name = DataGridView1.Rows(0).Cells(3).Value
         d_9 = "<groupName>" & group_name & "</groupName>"
-        WriteLine(5, d_9.ToCharArray)
+        WriteLine(numFile, d_9.ToCharArray)
         d_10 = "<callingLineIdName>" & group_name & "</callingLineIdName>"
-        WriteLine(5, d_10.ToCharArray)
-        'WriteLine(5, d_11.ToCharArray)
-        WriteLine(5, d_12.ToCharArray)
+        WriteLine(numFile, d_10.ToCharArray)
+        'WriteLine(numFile, d_11.ToCharArray)
+        WriteLine(numFile, d_12.ToCharArray)
         contact_name = DataGridView1.Rows(0).Cells(4).Value
         d_13 = "<contactName>" & contact_name & "</contactName>"
-        WriteLine(5, d_13.ToCharArray)
+        WriteLine(numFile, d_13.ToCharArray)
         contact_number = DataGridView1.Rows(0).Cells(5).Value
         d_14 = "<contactNumber>" & contact_number & "</contactNumber>"
-        WriteLine(5, d_14.ToCharArray)
-        WriteLine(5, d_15.ToCharArray)
-        WriteLine(5, d_16.ToCharArray)
+        WriteLine(numFile, d_14.ToCharArray)
+        WriteLine(numFile, d_15.ToCharArray)
+        WriteLine(numFile, d_16.ToCharArray)
         address = DataGridView1.Rows(0).Cells(6).Value
         d_17 = "<addressLine1>" & address & "</addressLine1>"
-        WriteLine(5, d_17.ToCharArray)
+        WriteLine(numFile, d_17.ToCharArray)
         city = DataGridView1.Rows(0).Cells(7).Value
         d_18 = "<city>" & city & "</city>"
-        WriteLine(5, d_18.ToCharArray)
-        WriteLine(5, d_19.ToCharArray)
-        WriteLine(5, d_20.ToCharArray)
-        WriteLine(5, lineaFinal.ToCharArray)
-        FileClose(5)
+        WriteLine(numFile, d_18.ToCharArray)
+        WriteLine(numFile, d_19.ToCharArray)
+        WriteLine(numFile, d_20.ToCharArray)
+        WriteLine(numFile, lineaFinal.ToCharArray)
+        FileClose(numFile)
         lineConfigFile = fileIXML & ";" & fileOXML
         'My.Application.DoEvents()
         WriteLine(1, lineConfigFile.ToCharArray)
 
         'XML PARA SELECCIONAR SERVICIOS DE GRUPO (ARCHIVO EXTERNO)--------------------------------------------------------------
+        numFile += 1
         indiceXML += 1
-        fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-        fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+        fileIXML = gblSetPathTmp & "\" & indiceXML & "_SelectServices_request_tmp.xml"
+        fileOXML = gblSetPathTmp & "\" & indiceXML & "_SelectServices_response_tmp.xml"
         lineConfigFile = fileIXML & ";" & fileOXML
         'My.Application.DoEvents()
         WriteLine(1, lineConfigFile.ToCharArray)
         Try
-            Dim Lines_Array() As String = IO.File.ReadAllLines(gblSetPathTmp & "\CMM_request_tmp_5.xml")
+            Dim Lines_Array() As String = IO.File.ReadAllLines(gblSetPathTmp & "\5_SelectServices_request_tmp.xml")
             Lines_Array(5) = " <groupId>" & group_id & "</groupId>"
             'MsgBox(Lines_Array(5).ToString())
-            IO.File.WriteAllLines(gblSetPathTmp & "\CMM_request_tmp_5.xml", Lines_Array)
+            IO.File.WriteAllLines(gblSetPathTmp & "\5_SelectServices_request_tmp.xml", Lines_Array)
             'MsgBox("se reescribió correctamente el archivo de servicios de grupo")
         Catch ex As Exception
             MsgBox("error al modificar el archivo de servicios de grupo " & ex.ToString)
@@ -1116,76 +1064,78 @@ Public Class Frm_Principal
 
 
         'XML PARA ASIGNAR LOS SERVICIOS---------------------------------------------------------------------------------
+        numFile += 1
         indiceXML += 1
-        fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-        fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
-        FileOpen(7, fileIXML, OpenMode.Output)
-        WriteLine(7, e_1.ToCharArray)
-        WriteLine(7, e_2.ToCharArray)
-        WriteLine(7, e_3.ToCharArray)
-        WriteLine(7, e_4.ToCharArray)
-        WriteLine(7, e_5.ToCharArray)
+        fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignServices_request_tmp.xml"
+        fileOXML = gblSetPathTmp & "\" & indiceXML & "_AssignServices_response_tmp.xml"
+        FileOpen(numFile, fileIXML, OpenMode.Output)
+        WriteLine(numFile, e_1.ToCharArray)
+        WriteLine(numFile, e_2.ToCharArray)
+        WriteLine(numFile, e_3.ToCharArray)
+        WriteLine(numFile, e_4.ToCharArray)
+        WriteLine(numFile, e_5.ToCharArray)
         e_6 = "<groupId>" & group_id & "</groupId>"
-        WriteLine(7, e_6.ToCharArray)
-        WriteLine(7, e_7.ToCharArray)
-        WriteLine(7, e_8.ToCharArray)
-        WriteLine(7, e_9.ToCharArray)
-        WriteLine(7, e_10.ToCharArray)
-        WriteLine(7, e_11.ToCharArray)
-        WriteLine(7, e_12.ToCharArray)
-        WriteLine(7, e_13.ToCharArray)
-        WriteLine(7, e_14.ToCharArray)
-        WriteLine(7, e_15.ToCharArray)
-        WriteLine(7, e_16.ToCharArray)
-        WriteLine(7, e_17.ToCharArray)
-        WriteLine(7, e_18.ToCharArray)
-        WriteLine(7, e_19.ToCharArray)
-        WriteLine(7, e_20.ToCharArray)
-        WriteLine(7, e_21.ToCharArray)
-        WriteLine(7, e_22.ToCharArray)
-        WriteLine(7, e_23.ToCharArray)
-        WriteLine(7, e_24.ToCharArray)
-        WriteLine(7, e_25.ToCharArray)
-        WriteLine(7, e_26.ToCharArray)
-        WriteLine(7, e_27.ToCharArray)
-        WriteLine(7, e_28.ToCharArray)
-        WriteLine(7, e_29.ToCharArray)
-        WriteLine(7, lineaFinal.ToCharArray)
-        FileClose(7)
+        WriteLine(numFile, e_6.ToCharArray)
+        WriteLine(numFile, e_7.ToCharArray)
+        WriteLine(numFile, e_8.ToCharArray)
+        WriteLine(numFile, e_9.ToCharArray)
+        WriteLine(numFile, e_10.ToCharArray)
+        WriteLine(numFile, e_11.ToCharArray)
+        WriteLine(numFile, e_12.ToCharArray)
+        WriteLine(numFile, e_13.ToCharArray)
+        WriteLine(numFile, e_14.ToCharArray)
+        WriteLine(numFile, e_15.ToCharArray)
+        WriteLine(numFile, e_16.ToCharArray)
+        WriteLine(numFile, e_17.ToCharArray)
+        WriteLine(numFile, e_18.ToCharArray)
+        WriteLine(numFile, e_19.ToCharArray)
+        WriteLine(numFile, e_20.ToCharArray)
+        WriteLine(numFile, e_21.ToCharArray)
+        WriteLine(numFile, e_22.ToCharArray)
+        WriteLine(numFile, e_23.ToCharArray)
+        WriteLine(numFile, e_24.ToCharArray)
+        WriteLine(numFile, e_25.ToCharArray)
+        WriteLine(numFile, e_26.ToCharArray)
+        WriteLine(numFile, e_27.ToCharArray)
+        WriteLine(numFile, e_28.ToCharArray)
+        WriteLine(numFile, e_29.ToCharArray)
+        WriteLine(numFile, lineaFinal.ToCharArray)
+        FileClose(numFile)
         lineConfigFile = fileIXML & ";" & fileOXML
         WriteLine(1, lineConfigFile.ToCharArray)
 
         'XML PARA ASIGNAR LA NUMERACIÓN---------------------------------------------------------------------------------
+        numFile += 1
         indiceXML += 1
-        fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-        fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
-        FileOpen(8, fileIXML, OpenMode.Output)
-        WriteLine(8, f_1.ToCharArray)
-        WriteLine(8, f_2.ToCharArray)
-        WriteLine(8, f_3.ToCharArray)
-        WriteLine(8, f_4.ToCharArray)
-        WriteLine(8, f_5.ToCharArray)
+        fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignNumber_request_tmp.xml"
+        fileOXML = gblSetPathTmp & "\" & indiceXML & "_AssignNumber_response_tmp.xml"
+        FileOpen(numFile, fileIXML, OpenMode.Output)
+        WriteLine(numFile, f_1.ToCharArray)
+        WriteLine(numFile, f_2.ToCharArray)
+        WriteLine(numFile, f_3.ToCharArray)
+        WriteLine(numFile, f_4.ToCharArray)
+        WriteLine(numFile, f_5.ToCharArray)
         f_6 = "<groupId>" & group_id & "</groupId>"
-        WriteLine(8, f_6.ToCharArray)
+        WriteLine(numFile, f_6.ToCharArray)
         For j = 0 To DataGridView1.Rows.Count - 2
             phoneNumber = DataGridView1.Rows(j).Cells(1).Value
             f_7 = "<phoneNumber>+56-" & phoneNumber & "</phoneNumber>"
-            WriteLine(8, f_7.ToCharArray)
+            WriteLine(numFile, f_7.ToCharArray)
         Next
-        WriteLine(8, f_8.ToCharArray)
-        WriteLine(8, lineaFinal.ToCharArray)
-        FileClose(8)
+        WriteLine(numFile, f_8.ToCharArray)
+        WriteLine(numFile, lineaFinal.ToCharArray)
+        FileClose(numFile)
         lineConfigFile = fileIXML & ";" & fileOXML
         'My.Application.DoEvents()
         WriteLine(1, lineConfigFile.ToCharArray)
 
         'XML PARA CREAR LOS DISPOSITIVOS---------------------------------------------------------------------------------
-        Dim numFile As Integer = 8
+
         For j = 0 To DataGridView1.Rows.Count - 2
             numFile += 1
             indiceXML += 1
-            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateDevice_request_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_CreateDevice_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, g_1.ToCharArray)
             WriteLine(numFile, g_2.ToCharArray)
@@ -1260,8 +1210,8 @@ Public Class Frm_Principal
         For j = 0 To arregloDeptos.Length - 1
             numFile += 1
             indiceXML += 1
-            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateDepartment_request_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_CreateDepartment_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, h_1.ToCharArray)
             WriteLine(numFile, h_2.ToCharArray)
@@ -1285,8 +1235,8 @@ Public Class Frm_Principal
         For j = 0 To DataGridView1.RowCount - 2
             numFile += 1
             indiceXML += 1
-            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateUser_request_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_CreateUser_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, i_1.ToCharArray)
             WriteLine(numFile, i_2.ToCharArray)
@@ -1347,8 +1297,8 @@ Public Class Frm_Principal
         For j = 0 To DataGridView1.RowCount - 2
             numFile += 1
             indiceXML += 1
-            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateProxy_request_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_CreateProxy_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, j_1.ToCharArray)
             WriteLine(numFile, j_2.ToCharArray)
@@ -1376,8 +1326,8 @@ Public Class Frm_Principal
         For j = 0 To DataGridView1.RowCount - 2
             numFile += 1
             indiceXML += 1
-            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignUser_request_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_AssignUser_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, k_1.ToCharArray)
             WriteLine(numFile, k_2.ToCharArray)
@@ -1417,8 +1367,8 @@ Public Class Frm_Principal
         For j = 0 To DataGridView1.RowCount - 2
             numFile += 1
             indiceXML += 1
-            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignServices_request_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_AssignServices_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, l_1.ToCharArray)
             WriteLine(numFile, l_2.ToCharArray)
@@ -1453,8 +1403,8 @@ Public Class Frm_Principal
         For j = 0 To DataGridView1.RowCount - 2
             numFile += 1
             indiceXML += 1
-            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            fileIXML = gblSetPathTmp & "\" & indiceXML & "_OCP_request_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_OCP_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, m_1.ToCharArray)
             WriteLine(numFile, m_2.ToCharArray)
@@ -1529,8 +1479,8 @@ Public Class Frm_Principal
         For j = 0 To DataGridView1.RowCount - 2
             numFile += 1
             indiceXML += 1
-            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignPasswordSIP_request_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_AssignPasswordSIP_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, n_1.ToCharArray)
             WriteLine(numFile, n_2.ToCharArray)
@@ -1557,8 +1507,8 @@ Public Class Frm_Principal
         For j = 0 To DataGridView1.RowCount - 2
             numFile += 1
             indiceXML += 1
-            fileIXML = gblSetPathTmp & "\" & "CMM_request_tmp_" & indiceXML & ".xml"
-            fileOXML = gblSetPathTmp & "\" & "CMM_response_tmp_" & indiceXML & ".xml"
+            fileIXML = gblSetPathTmp & "\" & indiceXML & "_ActivateNumber_request_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_ActivateNumber_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, o_1.ToCharArray)
             WriteLine(numFile, o_2.ToCharArray)

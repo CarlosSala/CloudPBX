@@ -1,5 +1,8 @@
 ﻿Imports System.Xml
 Imports System.Data.OleDb
+Imports System
+Imports System.IO
+Imports System.Collections
 
 Public Class Frm_Principal
 
@@ -36,8 +39,8 @@ Public Class Frm_Principal
         'My.Application.DoEvents()
         fileConfig = gblSetPathTmp & "\ociclient.config"
         FileOpen(1, fileConfig, OpenMode.Output, OpenAccess.Write)
-        linregConfig = "userId = " & My.Settings.SetUser
 
+        linregConfig = "userId = " & My.Settings.SetUser
         WriteLine(1, linregConfig.ToCharArray)
 
         linregConfig = "password = " & My.Settings.SetPassword
@@ -108,6 +111,73 @@ Public Class Frm_Principal
 
 
     Sub parseXML_update_CMM(ByRef codError As Integer, ByRef msgError As String)
+
+
+
+        '        Controls>
+        '<formulario name="form" width="794" height="605"/>
+        '<fuente name = "Courier New" size="8" />
+        '<control name = "chkNomCliente" X="110" Y="223" value="True" />
+        '<control name = "chkDireccion" X="107" Y="254" value="True" />
+        '<control name = "chkTotal" X="702" Y="565" value="True" />
+        '</Controls>
+
+
+        'Dim xmlDoc As XmlDocument
+        'Dim xmlNode As XmlNodeList
+        'Dim xmlSingleNode As XmlNode
+
+        'Try
+        '    xmlDoc = New XmlDocument()
+        '    xmlDoc.Load(gblSetPathTmp & "\1_CreateDomain_response_tmp.xml")
+
+        '    ' PARA LEER UN SOLO NODO, LEERLO DE MANERA DIRECTA
+        '    xmlSingleNode = xmlDoc.SelectSingleNode("/BroadsoftDocument/command")
+        '    With xmlSingleNode.Attributes
+        '        Me.Width = .GetNamedItem("summary").Value
+        '        Me.Height = .GetNamedItem("summaryEnglish").Value
+        '    End With
+
+        '    ' PARA LEER UN CONJUNTO DE NODOS, FORMA RECURSIVA
+        '    xmlNode = xmlDoc.SelectNodes("/BroadsoftDocument/command")
+        '    For Each oNode As XmlNode In xmlNode
+        '        For Each oControl As Control In Me.Controls
+        '            If Not TypeOf oControl Is Button Then
+        '                With oNode.Attributes
+        '                    If oControl.Name = .GetNamedItem("summary").Value Then
+        '                        oControl.Left = .GetNamedItem("summaryEnglish").Value
+        '                        'oControl.Top = .GetNamedItem("Y").Value
+        '                        oControl.Font = New Font(strNameFont, intSize)
+        '                    End If
+        '                End With
+        '            End If
+        '        Next
+        '    Next
+        'Catch ex As Exception
+        '    MessageBox.Show("Se produjo un error: " & vbCrLf & ex.Message, "leerXML", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        'Finally
+        '    xmlDoc = Nothing
+        'End Try
+
+
+
+        'Dim objReader As New StreamReader(gblSetPathTmp & "\1_CreateDomain_response_tmp.xml")
+        'Dim sLine As String = ""
+        'Dim arrText As New ArrayList()
+
+        'Do
+        '    sLine = objReader.ReadLine()
+        '    If Not sLine Is Nothing Then
+        '        arrText.Add(sLine)
+        '    End If
+        'Loop Until sLine Is Nothing
+        'objReader.Close()
+
+        'For Each sLine In arrText
+        '    MsgBox(sLine.ToString)
+        'Next
+
+
 
         'Dim Xml As XmlDocument
         'Dim NodeList As XmlNodeList
@@ -222,83 +292,82 @@ Public Class Frm_Principal
         'End While
 
 
-        'Dim reader As XmlTextReader
-        'Dim swCol As Boolean = False
-        'Dim exito As Boolean = False
-        'Dim parseXMl As String
-        'Dim i As Integer = 0
-        'Dim iSql As String = ""
-        'Dim iXml As Integer = 0
-        'Dim topeXml As Integer = 0
-        'topeXml = gblUpdTotaliXML
-        'Conexion.Open()
-        'Dim dcUser = New OleDb.OleDbCommand()
-        'dcUser.Connection = Conexion
-        'Dim fileNameTmp As String = ""
+        '        <?xml version="1.0" encoding="ISO-8859-1"?> -----------------------------------------------------nodo tipo declaracion
+        '<BroadsoftDocument protocol = "OCI" xmlns="C" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" >--nodo tipo element
+        '<sessionId xmlns="">10.184.67.132,312714112,1561598861624</sessionId>
+        '<command type = "Error" echo="" xsi:type = "c:ErrorResponse" xmlns:c = "C" xmlns="">
+        '<summary>[Error 4267] Error assigning domain since the domain Is already assigned: felipe.cl</summary>
+        '<summaryEnglish>[Error 4267] Error assigning domain since the domain Is already assigned: felipe.cl</summaryEnglish>
+        '</command>
+        '</BroadsoftDocument>
+
+
+        '        <?xml version="1.0" encoding="ISO-8859-1"?>
+        '<BroadsoftDocument protocol = "OCI" xmlns="C" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" >
+        '<sessionId xmlns="">10.184.67.129,312714112,1561578139714</sessionId>
+        '<command echo = "" xsi:Type = "c:SuccessResponse" xmlns:c = "C" xmlns=""/>
+        '</BroadsoftDocument>
+
+
+
+        Dim reader As XmlTextReader
+        Dim swCol As Boolean = False
+        Dim exito As Boolean = False
+        Dim parseXMl As String
+        Dim i As Integer = 0
+        Dim iSql As String = ""
+        Dim iXml As Integer = 1
+        Dim topeXml As Integer = 0
+        topeXml = gblUpdTotaliXML
+        'MyConn.Open()
+        'dcUser = New OleDb.OleDbCommand()
+        'dcUser.Connection = MyConn
+        Dim fileNameTmp As String = ""
         'For iXml = 1 To topeXml
-        '    exito = False
-        '    Try
-        '        parseXMl = gblSetPathTmp & "\CMM_response_tmp_" & iXml & ".xml"
-        '        reader = New XmlTextReader(parseXMl)
-        '        Do While (reader.Read())
-        '            Select Case reader.NodeType
-        '                Case XmlNodeType.Element 'Display beginning of element.
-        '                    '                    Console.Write("<" + reader.Name)
-        '                    If reader.Name = "command" Then
-        '                        i += 1
-        '                        If reader.HasAttributes Then 'If attributes exist
-        '                            While reader.MoveToNextAttribute()
-        '                                'Display attribute name and value.
-        '                                Console.Write(" {0}='{1}'", reader.Name, reader.Value)
-        '                                If reader.Name = "xsi:type" Then
-        '                                    If reader.Value = "c:SuccessResponse" Then
-        '                                        'Try
-        '                                        '    iSql = "UPDATE brs_user set brs_user_number_activation = '" & Trim(dataNAGrdUpdate.Rows(i - 1).Cells(3).Value) & "' WHERE brs_user_userId = '" & dataNAGrdUpdate.Rows(i - 1).Cells(4).Value & "';"
-        '                                        '    dcUser.CommandText = iSql
-        '                                        '    dcUser.ExecuteNonQuery()
-        '                                        Try
-        '                                            iSql = "delete from brs_update_tmp where brs_udet_userId = '" & DataGridView1.Rows(i - 1).Cells(4).Value & "';"
-        '                                            dcUser.CommandText = iSql
-        '                                            'dc = New OleDb.OleDbCommand(iSql, MyConn)
-        '                                            dcUser.ExecuteNonQuery()
-        '                                            'MessageBox.Show("Access created Succesfully for brs_user " + fila)
-        '                                        Catch ex As Exception
-        '                                            'MessageBox.Show(ex.Message)
-        '                                            'codError = 2
-        '                                            'msgError = "No actualizado en BD"
-        '                                        End Try
-        '                                        'Catch ex As Exception
-        '                                        '    'MessageBox.Show(ex.Message)
-        '                                        '    'codError = 2
-        '                                        '    'msgError = "No actualizado en BD"
-        '                                        'End Try
-        '                                    Else
-        '                                        'dataGrdUpdate.Rows(i - 1).Cells("Column2").Value = imgListUpdate.Images(2)
-        '                                    End If
-        '                                End If
-        '                            End While
-        '                        End If
-        '                    End If
-        '                    'Case XmlNodeType.Text 'Display the text in each element.
-        '                    '    'Console.WriteLine(reader.Value)
-        '                    'Case XmlNodeType.EndElement 'Display end of element.
-        '                    '    If reader.Name = "command" Then
-        '                    '        swCol = False
-        '                    '    End If
-        '            End Select
-        '        Loop
-        '        reader.Close()
-        '    Catch ex As Exception
-        '        'MsgBox("Archivo de Respuesta no ha sido encontrado!", vbExclamation, "Error")
-        '        grabaLog(1, 2, "Error al leer archivo XML>" & gblSetPathTmp & "\CMM_response_tmp_" & iXml & ".xml")
-        '        codError = 1
-        '        msgError = "Respuesta No Generada"
-        '    End Try
+        exito = False
+            Try
+            parseXMl = gblSetPathTmp & "\" & iXml & "_CreateDomain_response_tmp.xml"
+            reader = New XmlTextReader(parseXMl)
+            Do While (reader.Read())
+
+                Select Case reader.NodeType
+
+                    Case XmlNodeType.Element
+                        If reader.Name = "command" Then
+                            i += 1
+                            If reader.HasAttributes Then 'If attributes exist
+                                While reader.MoveToNextAttribute()
+                                    'Display attribute name and value.
+                                    'MsgBox(reader.Name.ToString & reader.Value.ToString)
+                                    If reader.Name = "xsi:type" Then
+                                        If reader.Value = "c:SuccessResponse" Then
+                                            'MsgBox("comando exitoso")
+                                        ElseIf reader.Value = "c:ErrorResponse" Then
+
+                                            'MsgBox("Error en el comando")
+                                        End If
+                                    End If
+                                End While
+                            End If
+                        End If
+                        If reader.Name = "summary" Then
+                            MsgBox(reader.ReadString.ToString)
+                        End If
+                        'Case XmlNodeType.XmlDeclaration
+                End Select
+            Loop
+            reader.Close()
+            Catch ex As Exception
+                'MsgBox("Archivo de Respuesta no ha sido encontrado!", vbExclamation, "Error")
+                grabaLog(1, 2, "Error al leer archivo XML>" & gblSetPathTmp & "\CMM_response_tmp_" & iXml & ".xml")
+                codError = 1
+                msgError = "Respuesta No Generada"
+            End Try
         'Next
-        'LblEstado.Text = ""
-        'Conexion.Close()
-        ''actualizaCMMGrillaUpdate(0)
-        'My.Application.DoEvents()
+        LblEstado.Text = ""
+        'MyConn.Close()
+        'actualizaCMMGrillaUpdate(0)
+        My.Application.DoEvents()
 
     End Sub
 
@@ -1537,7 +1606,7 @@ Public Class Frm_Principal
 
         'MsgBox(My.Settings.gblCMMIdCluster.ToString())
 
-        'parseXML_update_CMM(codError, msgError)
+        parseXML_update_CMM(codError, msgError)
 
         executeShellBulk(multipleInputFile, My.Settings.gblCMMIdCluster, codError, msgError)
         If codError = 0 Then

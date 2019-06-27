@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<BroadsoftDocument protocol="OCI" xmlns="C">
+<sessionId xmlns="">%%%OSS_USER%%%</sessionId>
+<command xsi:type="UserAddRequest17sp4" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<serviceProviderId>CloudPBX_SMB</serviceProviderId>
+<groupId>ENVASES_cloudpbx</groupId>
+<userId>232781820@envases.cl</userId>
+<lastName>Contabilidad</lastName>
+<firstName>Contabilidad</firstName>
+<callingLineIdLastName>Contabilidad</callingLineIdLastName>
+<callingLineIdFirstName>Contabilidad</callingLineIdFirstName>
+<password>a1234567</password>
+<language>Spanish</language>
+<timeZone>Chile/Continental</timeZone>
+<address>
+<addressLine1>CERRO EL ROBLE 9640 A, QUILICURA, SANTIAGO</addressLine1>
+<city>santiago</city>
+</address>
+</command>
+</BroadsoftDocument>

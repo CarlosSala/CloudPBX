@@ -1,0 +1,14 @@
+C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Release\ProyectoEmpresa.exe.config
+C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Release\ProyectoEmpresa.exe
+C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Release\ProyectoEmpresa.pdb
+C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Release\ProyectoEmpresa.xml
+C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Release\ProyectoEmpresa.vbprojAssemblyReference.cache
+C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Release\ProyectoEmpresa.vbproj.ResolveComReference.cache
+C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Release\ProyectoEmpresa.Frm_Login.resources
+C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Release\ProyectoEmpresa.Frm_Principal.resources
+C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Release\ProyectoEmpresa.Resources.resources
+C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Release\ProyectoEmpresa.vbproj.GenerateResource.cache
+C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Release\ProyectoEmpresa.vbproj.CoreCompileInputs.cache
+C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Release\ProyectoEmpresa.exe
+C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Release\ProyectoEmpresa.xml
+C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Release\ProyectoEmpresa.pdb

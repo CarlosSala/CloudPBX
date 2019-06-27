@@ -95,7 +95,7 @@ Partial Class Frm_Login
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(304, 264)
+        Me.ClientSize = New System.Drawing.Size(304, 261)
         Me.Controls.Add(Me.lab_connectionState)
         Me.Controls.Add(Me.Btn_canceled)
         Me.Controls.Add(Me.Btn_login)
@@ -104,6 +104,9 @@ Partial Class Frm_Login
         Me.Controls.Add(Me.Lab_password)
         Me.Controls.Add(Me.Lab_user)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MaximizeBox = False
+        Me.MaximumSize = New System.Drawing.Size(320, 300)
+        Me.MinimumSize = New System.Drawing.Size(320, 300)
         Me.Name = "Frm_Login"
         Me.Text = "Login"
         Me.ResumeLayout(False)

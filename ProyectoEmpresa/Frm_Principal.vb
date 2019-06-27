@@ -12,7 +12,7 @@ Public Class Frm_Principal
     Dim gblSession As String = ""
     Dim gblUpdTotalReg As Integer = 0
     Dim gblUpdTotaliXML As Integer = 0
-
+    Dim indiceXML As Integer = 0
     Dim gblSetPathTmp As String
     Dim gblSetPathAppl As String
     Dim gblSetPathLog As String
@@ -112,186 +112,6 @@ Public Class Frm_Principal
 
     Sub parseXML_update_CMM(ByRef codError As Integer, ByRef msgError As String)
 
-
-
-        '        Controls>
-        '<formulario name="form" width="794" height="605"/>
-        '<fuente name = "Courier New" size="8" />
-        '<control name = "chkNomCliente" X="110" Y="223" value="True" />
-        '<control name = "chkDireccion" X="107" Y="254" value="True" />
-        '<control name = "chkTotal" X="702" Y="565" value="True" />
-        '</Controls>
-
-
-        'Dim xmlDoc As XmlDocument
-        'Dim xmlNode As XmlNodeList
-        'Dim xmlSingleNode As XmlNode
-
-        'Try
-        '    xmlDoc = New XmlDocument()
-        '    xmlDoc.Load(gblSetPathTmp & "\1_CreateDomain_response_tmp.xml")
-
-        '    ' PARA LEER UN SOLO NODO, LEERLO DE MANERA DIRECTA
-        '    xmlSingleNode = xmlDoc.SelectSingleNode("/BroadsoftDocument/command")
-        '    With xmlSingleNode.Attributes
-        '        Me.Width = .GetNamedItem("summary").Value
-        '        Me.Height = .GetNamedItem("summaryEnglish").Value
-        '    End With
-
-        '    ' PARA LEER UN CONJUNTO DE NODOS, FORMA RECURSIVA
-        '    xmlNode = xmlDoc.SelectNodes("/BroadsoftDocument/command")
-        '    For Each oNode As XmlNode In xmlNode
-        '        For Each oControl As Control In Me.Controls
-        '            If Not TypeOf oControl Is Button Then
-        '                With oNode.Attributes
-        '                    If oControl.Name = .GetNamedItem("summary").Value Then
-        '                        oControl.Left = .GetNamedItem("summaryEnglish").Value
-        '                        'oControl.Top = .GetNamedItem("Y").Value
-        '                        oControl.Font = New Font(strNameFont, intSize)
-        '                    End If
-        '                End With
-        '            End If
-        '        Next
-        '    Next
-        'Catch ex As Exception
-        '    MessageBox.Show("Se produjo un error: " & vbCrLf & ex.Message, "leerXML", MessageBoxButtons.OK, MessageBoxIcon.Information)
-        'Finally
-        '    xmlDoc = Nothing
-        'End Try
-
-
-
-        'Dim objReader As New StreamReader(gblSetPathTmp & "\1_CreateDomain_response_tmp.xml")
-        'Dim sLine As String = ""
-        'Dim arrText As New ArrayList()
-
-        'Do
-        '    sLine = objReader.ReadLine()
-        '    If Not sLine Is Nothing Then
-        '        arrText.Add(sLine)
-        '    End If
-        'Loop Until sLine Is Nothing
-        'objReader.Close()
-
-        'For Each sLine In arrText
-        '    MsgBox(sLine.ToString)
-        'Next
-
-
-
-        'Dim Xml As XmlDocument
-        'Dim NodeList As XmlNodeList
-        'Dim Node As XmlNode
-        'Try
-        '    Xml = New XmlDocument()
-        '    Xml.Load(gblSetPathTmp & "\CMM_response_tmp_1.xml")
-        '    NodeList = doc.GetElementsByTagName("FileContent")
-        '    'NodeList = Xml.SelectNodes("/BroadsoftDocument/sessionId/command/summary")
-        '    'NodeList = Xml.SelectNodes("/songs/song")
-
-        '    MsgBox("Nodos por Leer:  " & NodeList.Count & vbNewLine)
-
-        '    'MsgBox(NodeList.GetNamedItem("id").Value)
-
-        '    'For Each Node In NodeList
-        '    '    With Node.Attributes
-        '    '        Console.WriteLine("ID: " & .GetNamedItem("id").Value)
-        '    '        Console.WriteLine("Artist: " & .GetNamedItem("artist").Value)
-        '    '        Console.WriteLine("Title: " & .GetNamedItem("title").Value)
-        '    '        Console.Write(vbNewLine)
-        '    '    End With
-        '    'Next
-
-        'Catch ex As Exception
-        '    MsgBox(ex.GetType.ToString & vbNewLine & ex.Message.ToString)
-        'Finally
-        '    'Console.Read()
-        'End Try
-
-        'Dim Xml As XmlDocument
-        'Dim NodeList As XmlNodeList
-        'Dim Node As XmlNode
-
-        'Try
-        '    Xml = New XmlDocument()
-        '    Xml.Load(gblSetPathTmp & "\CMM_response_tmp_1.xml")
-        '    NodeList = Xml.SelectNodes("/BroadsoftDocument/command/summary")
-
-        '    MsgBox(NodeList.Count)
-        '    'Console.WriteLine("Nodos por Leer: " & NodeList.Count & vbNewLine)
-
-        '    For Each Node In NodeList
-        '        With Node.Attributes
-
-        '            'Console.Write("ID: " & .GetNamedItem("id").Value)
-        '            'Console.WriteLine("Artist: " & .GetNamedItem("artist").Value)
-        '            'Console.WriteLine("Title: " & .GetNamedItem("title").Value)
-        '            'Console.Write(vbNewLine)
-        '            'Console.ReadLine()
-        '        End With
-        '    Next
-
-        'Catch ex As Exception
-        '    'Console.WriteLine(ex.GetType.ToString & vbNewLine & ex.Message.ToString)
-        'Finally
-        '    'Console.Read()
-        'End Try
-
-
-        'Try
-
-        '    Dim documentoXML As XmlDocument
-        '    Dim nodelist As XmlNodeList
-        '    Dim nodo As XmlNode
-        '    documentoXML = New XmlDocument
-        '    documentoXML.Load(gblSetPathTmp & "\CMM_response_tmp_1.xml")
-        '    nodelist = documentoXML.SelectNodes("/BroadsoftDocument/command/summary")
-
-        '    For Each nodo In nodelist
-        '        MsgBox(nodelist.ToString)
-        '        Dim minodo = nodo.ChildNodes(0).InnerText
-        '        MsgBox(minodo)
-        '    Next
-
-        'Catch ex As Exception
-        '    MsgBox(ex.ToString)
-        'End Try
-
-
-
-        ''MsgBox("dentro del parse")
-        'Dim reader As XmlTextReader
-        'reader = New XmlTextReader(gblSetPathTmp & "\CMM_response_tmp_1.xml")
-        'Dim SultimaEtiqueta As String = ""
-
-        'While (reader.Read())
-
-        '    If (reader.NodeType = XmlNodeType.Element) Then
-
-        '        If reader.Name = "command" Then
-        '            'i += 1
-        '            If reader.HasAttributes Then 'If attributes exist
-        '                While reader.MoveToNextAttribute()
-        '                    'Display attribute name and value.
-        '                    Console.Write(" {0}='{1}'", reader.Name, reader.Value)
-        '                    If reader.Name = "xsi:type" Then
-        '                    End If
-        '                    If reader.Value = "c:SuccessResponse" Then
-        '                        MsgBox("exito")
-        '                    ElseIf reader.Value = "c:ErrorResponse" Then
-        '                        MsgBox("error")
-        '                    End If
-        '                End While
-        '            End If
-        '        End If
-        '    ElseIf reader.NodeType = XmlNodeType.Text Then
-        '        MsgBox(reader.Name.ToString)
-        '    Else
-        '        MsgBox(reader.Name)
-        '    End If
-        'End While
-
-
         '        <?xml version="1.0" encoding="ISO-8859-1"?> -----------------------------------------------------nodo tipo declaracion
         '<BroadsoftDocument protocol = "OCI" xmlns="C" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" >--nodo tipo element
         '<sessionId xmlns="">10.184.67.132,312714112,1561598861624</sessionId>
@@ -309,7 +129,6 @@ Public Class Frm_Principal
         '</BroadsoftDocument>
 
 
-
         Dim reader As XmlTextReader
         Dim swCol As Boolean = False
         Dim exito As Boolean = False
@@ -318,55 +137,92 @@ Public Class Frm_Principal
         Dim iSql As String = ""
         Dim iXml As Integer = 1
         Dim topeXml As Integer = 0
+        Dim response As String = ""
         topeXml = gblUpdTotaliXML
+
+        Dim comando1 As New OleDbCommand()
+        comando1.Connection = Conexion
+        Dim Sql As String = "DELETE * FROM broadsoft_response_error"
+        comando1.CommandText = Sql
+
+        Try
+            Conexion.Open()
+            comando1.ExecuteNonQuery()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+        Conexion.Close()
+
         'MyConn.Open()
         'dcUser = New OleDb.OleDbCommand()
         'dcUser.Connection = MyConn
         Dim fileNameTmp As String = ""
-        'For iXml = 1 To topeXml
-        exito = False
+        For num = 1 To indiceXML
+
+            exito = False
             Try
-            parseXMl = gblSetPathTmp & "\" & iXml & "_CreateDomain_response_tmp.xml"
-            reader = New XmlTextReader(parseXMl)
-            Do While (reader.Read())
+                parseXMl = gblSetPathTmp & "\" & num & "_Broadsoft_response_tmp.xml"
+                reader = New XmlTextReader(parseXMl)
+                Do While (reader.Read())
 
-                Select Case reader.NodeType
+                    Select Case reader.NodeType
 
-                    Case XmlNodeType.Element
-                        If reader.Name = "command" Then
-                            i += 1
-                            If reader.HasAttributes Then 'If attributes exist
-                                While reader.MoveToNextAttribute()
-                                    'Display attribute name and value.
-                                    'MsgBox(reader.Name.ToString & reader.Value.ToString)
-                                    If reader.Name = "xsi:type" Then
-                                        If reader.Value = "c:SuccessResponse" Then
-                                            'MsgBox("comando exitoso")
-                                        ElseIf reader.Value = "c:ErrorResponse" Then
+                        Case XmlNodeType.Element
+                            If reader.Name = "command" Then
 
-                                            'MsgBox("Error en el comando")
+                                i += 1
+                                If reader.HasAttributes Then 'If attributes exist
+                                    While reader.MoveToNextAttribute()
+                                        'Display attribute name and value.
+                                        'MsgBox(reader.Name.ToString & reader.Value.ToString)
+                                        If reader.Name = "xsi:type" Then
+                                            If reader.Value = "c:SuccessResponse" Then
+                                                'MsgBox("comando exitoso")
+                                            ElseIf reader.Value = "c:ErrorResponse" Then
+
+                                                'MsgBox("Error en el comando")
+                                            End If
                                         End If
-                                    End If
-                                End While
+                                    End While
+                                End If
                             End If
-                        End If
-                        If reader.Name = "summary" Then
-                            MsgBox(reader.ReadString.ToString)
-                        End If
-                        'Case XmlNodeType.XmlDeclaration
-                End Select
-            Loop
-            reader.Close()
+                            If reader.Name = "summary" Then
+
+                                'MsgBox(reader.ReadString.ToString)
+                                response = reader.ReadString
+
+                                Dim cadenaSql As String = "INSERT INTO broadsoft_response_error ([error]) VALUES ( '" & response & "')"
+
+                                'Crear un comando
+                                Dim Comando As OleDbCommand = Conexion.CreateCommand()
+                                Comando.CommandText = cadenaSql
+
+                                'Ejecutar la consulta de accion (agregan registros)
+                                Try
+                                    Conexion.Open()
+                                    Comando.ExecuteNonQuery()
+                                    'MsgBox("Se agregó correctamente el registro")
+                                Catch ex As Exception
+                                    MsgBox(" errorcito " & ex.ToString())
+                                End Try
+                                Conexion.Close()
+                            End If
+                            'Case XmlNodeType.XmlDeclaration
+                    End Select
+                Loop
+                reader.Close()
             Catch ex As Exception
                 'MsgBox("Archivo de Respuesta no ha sido encontrado!", vbExclamation, "Error")
                 grabaLog(1, 2, "Error al leer archivo XML>" & gblSetPathTmp & "\CMM_response_tmp_" & iXml & ".xml")
                 codError = 1
                 msgError = "Respuesta No Generada"
             End Try
-        'Next
+        Next
         LblEstado.Text = ""
         'MyConn.Close()
-        'actualizaCMMGrillaUpdate(0)
+        Dim FMP As New Frm_Report
+        FMP.ShowDialog()
+        FMP.BringToFront()
         My.Application.DoEvents()
 
     End Sub
@@ -642,6 +498,38 @@ Public Class Frm_Principal
         Interface_Salida()
     End Sub
 
+
+    'Public Sub actualizarGrillaReporte()
+
+    '    Dim iSql As String = "select * from broadsoft_response_error"
+    '    Dim cmd As New OleDbCommand
+    '    Dim dt As New DataTable
+    '    Dim da As New OleDbDataAdapter
+
+    '    Try
+    '        Conexion.Open()
+    '        cmd.Connection = Conexion
+    '        cmd.CommandText = iSql
+    '        cmd.CommandType = CommandType.TableDirect
+    '        da.SelectCommand = cmd
+    '        da.Fill(dt)
+    '        'Se muestran los datos en el datagridview 
+    '        DataGridView2.DataSource = dt
+    '        DataGridView2.Refresh()
+    '    Catch ex As Exception
+    '        MsgBox("Can not open connection ! , " & ex.Message)
+    '    End Try
+    '    Conexion.Close()
+
+    '    DataGridView1.CurrentCell = DataGridView2.Rows(0).Cells(0)
+    '    lblCMMUpdCurrentRow.Text = DataGridView2.CurrentCell.RowIndex + 1
+    '    lblCMMUpdTotalRows.Text = DataGridView2.RowCount
+
+    '    Lab_wait.Visible = False
+    '    Me.Cursor = Cursors.Default
+    '    Interface_Salida()
+    'End Sub
+
     Private Sub BtnCMMOpenFile_Click(sender As Object, e As EventArgs)
 
     End Sub
@@ -665,7 +553,7 @@ Public Class Frm_Principal
         Dim j As Integer = 0
 
         If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
-            MsgBox("Server pinged successfully.")
+            'MsgBox("Server pinged successfully.")
         Else
             MsgBox("Servidor fuera de Linea, favor verifique conexion!!!", vbOKOnly, "Error de Comunicación")
             Exit Sub
@@ -959,14 +847,14 @@ Public Class Frm_Principal
         ProgressBar1.Value = 0
         ProgressBar1.Maximum = 100
         'ProgressBar1.Maximum = Val(lblCMMUpdTotalRows.Text)
-
+        'SearchAllSubDirectories
         For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblSetPathTmp, FileIO.SearchOption.SearchAllSubDirectories, "*.*")
-            'My.Computer.FileSystem.DeleteFile(foundFile)
+            My.Computer.FileSystem.DeleteFile(foundFile)
         Next
 
         Dim fileIXML As String = ""
         Dim fileOXML As String = ""
-        Dim indiceXML As Integer = 0
+
         Dim codError As Integer
         Dim msgError As String = ""
         Dim domain As String = ""
@@ -1009,7 +897,7 @@ Public Class Frm_Principal
         numFile += 1
         indiceXML += 1
         fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateDomain_request_tmp.xml"
-        fileOXML = gblSetPathTmp & "\" & indiceXML & "_CreateDomain_response_tmp.xml"
+        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
         FileOpen(numFile, fileIXML, OpenMode.Output)
         WriteLine(numFile, a_1.ToCharArray)
         WriteLine(numFile, a_2.ToCharArray)
@@ -1029,7 +917,7 @@ Public Class Frm_Principal
         numFile += 1
         indiceXML += 1
         fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignDomain_request_tmp.xml"
-        fileOXML = gblSetPathTmp & "\" & indiceXML & "_AssignDomain_response_tmp.xml"
+        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
         FileOpen(numFile, fileIXML, OpenMode.Output)
         WriteLine(numFile, b_1.ToCharArray)
         WriteLine(numFile, b_2.ToCharArray)
@@ -1049,7 +937,7 @@ Public Class Frm_Principal
         numFile += 1
         indiceXML += 1
         fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateNumbers_request_tmp.xml"
-        fileOXML = gblSetPathTmp & "\" & indiceXML & "_CreateNumbers_response_tmp.xml"
+        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
         FileOpen(numFile, fileIXML, OpenMode.Output)
         WriteLine(numFile, c_1.ToCharArray)
         WriteLine(numFile, c_2.ToCharArray)
@@ -1071,7 +959,7 @@ Public Class Frm_Principal
         numFile += 1
         indiceXML += 1
         fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateProfileGroup_request_tmp.xml"
-        fileOXML = gblSetPathTmp & "\" & indiceXML & "_CreateProfileGroup_response_tmp.xml"
+        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
         FileOpen(numFile, fileIXML, OpenMode.Output)
         WriteLine(numFile, d_1.ToCharArray)
         WriteLine(numFile, d_2.ToCharArray)
@@ -1116,16 +1004,16 @@ Public Class Frm_Principal
         'XML PARA SELECCIONAR SERVICIOS DE GRUPO (ARCHIVO EXTERNO)--------------------------------------------------------------
         numFile += 1
         indiceXML += 1
-        fileIXML = gblSetPathTmp & "\" & indiceXML & "_SelectServices_request_tmp.xml"
-        fileOXML = gblSetPathTmp & "\" & indiceXML & "_SelectServices_response_tmp.xml"
+        fileIXML = gblSetPathAppl & "\arch_permanent\" & indiceXML & "_SelectServices_request_tmp.xml"
+        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
         lineConfigFile = fileIXML & ";" & fileOXML
         'My.Application.DoEvents()
         WriteLine(1, lineConfigFile.ToCharArray)
         Try
-            Dim Lines_Array() As String = IO.File.ReadAllLines(gblSetPathTmp & "\5_SelectServices_request_tmp.xml")
+            Dim Lines_Array() As String = IO.File.ReadAllLines(gblSetPathAppl & "\arch_permanent\" & "5_SelectServices_request_tmp.xml")
             Lines_Array(5) = " <groupId>" & group_id & "</groupId>"
             'MsgBox(Lines_Array(5).ToString())
-            IO.File.WriteAllLines(gblSetPathTmp & "\5_SelectServices_request_tmp.xml", Lines_Array)
+            IO.File.WriteAllLines(gblSetPathAppl & "\arch_permanent\" & indiceXML & "_SelectServices_request_tmp.xml", Lines_Array)
             'MsgBox("se reescribió correctamente el archivo de servicios de grupo")
         Catch ex As Exception
             MsgBox("error al modificar el archivo de servicios de grupo " & ex.ToString)
@@ -1136,7 +1024,7 @@ Public Class Frm_Principal
         numFile += 1
         indiceXML += 1
         fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignServices_request_tmp.xml"
-        fileOXML = gblSetPathTmp & "\" & indiceXML & "_AssignServices_response_tmp.xml"
+        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
         FileOpen(numFile, fileIXML, OpenMode.Output)
         WriteLine(numFile, e_1.ToCharArray)
         WriteLine(numFile, e_2.ToCharArray)
@@ -1177,7 +1065,7 @@ Public Class Frm_Principal
         numFile += 1
         indiceXML += 1
         fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignNumber_request_tmp.xml"
-        fileOXML = gblSetPathTmp & "\" & indiceXML & "_AssignNumber_response_tmp.xml"
+        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
         FileOpen(numFile, fileIXML, OpenMode.Output)
         WriteLine(numFile, f_1.ToCharArray)
         WriteLine(numFile, f_2.ToCharArray)
@@ -1204,7 +1092,7 @@ Public Class Frm_Principal
             numFile += 1
             indiceXML += 1
             fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateDevice_request_tmp.xml"
-            fileOXML = gblSetPathTmp & "\" & indiceXML & "_CreateDevice_response_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, g_1.ToCharArray)
             WriteLine(numFile, g_2.ToCharArray)
@@ -1280,7 +1168,7 @@ Public Class Frm_Principal
             numFile += 1
             indiceXML += 1
             fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateDepartment_request_tmp.xml"
-            fileOXML = gblSetPathTmp & "\" & indiceXML & "_CreateDepartment_response_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, h_1.ToCharArray)
             WriteLine(numFile, h_2.ToCharArray)
@@ -1305,7 +1193,7 @@ Public Class Frm_Principal
             numFile += 1
             indiceXML += 1
             fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateUser_request_tmp.xml"
-            fileOXML = gblSetPathTmp & "\" & indiceXML & "_CreateUser_response_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, i_1.ToCharArray)
             WriteLine(numFile, i_2.ToCharArray)
@@ -1367,7 +1255,7 @@ Public Class Frm_Principal
             numFile += 1
             indiceXML += 1
             fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateProxy_request_tmp.xml"
-            fileOXML = gblSetPathTmp & "\" & indiceXML & "_CreateProxy_response_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, j_1.ToCharArray)
             WriteLine(numFile, j_2.ToCharArray)
@@ -1396,7 +1284,7 @@ Public Class Frm_Principal
             numFile += 1
             indiceXML += 1
             fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignUser_request_tmp.xml"
-            fileOXML = gblSetPathTmp & "\" & indiceXML & "_AssignUser_response_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, k_1.ToCharArray)
             WriteLine(numFile, k_2.ToCharArray)
@@ -1437,7 +1325,7 @@ Public Class Frm_Principal
             numFile += 1
             indiceXML += 1
             fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignServices_request_tmp.xml"
-            fileOXML = gblSetPathTmp & "\" & indiceXML & "_AssignServices_response_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, l_1.ToCharArray)
             WriteLine(numFile, l_2.ToCharArray)
@@ -1473,7 +1361,7 @@ Public Class Frm_Principal
             numFile += 1
             indiceXML += 1
             fileIXML = gblSetPathTmp & "\" & indiceXML & "_OCP_request_tmp.xml"
-            fileOXML = gblSetPathTmp & "\" & indiceXML & "_OCP_response_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, m_1.ToCharArray)
             WriteLine(numFile, m_2.ToCharArray)
@@ -1549,7 +1437,7 @@ Public Class Frm_Principal
             numFile += 1
             indiceXML += 1
             fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignPasswordSIP_request_tmp.xml"
-            fileOXML = gblSetPathTmp & "\" & indiceXML & "_AssignPasswordSIP_response_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, n_1.ToCharArray)
             WriteLine(numFile, n_2.ToCharArray)
@@ -1577,7 +1465,7 @@ Public Class Frm_Principal
             numFile += 1
             indiceXML += 1
             fileIXML = gblSetPathTmp & "\" & indiceXML & "_ActivateNumber_request_tmp.xml"
-            fileOXML = gblSetPathTmp & "\" & indiceXML & "_ActivateNumber_response_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, o_1.ToCharArray)
             WriteLine(numFile, o_2.ToCharArray)
@@ -1606,7 +1494,7 @@ Public Class Frm_Principal
 
         'MsgBox(My.Settings.gblCMMIdCluster.ToString())
 
-        parseXML_update_CMM(codError, msgError)
+        'parseXML_update_CMM(codError, msgError)
 
         executeShellBulk(multipleInputFile, My.Settings.gblCMMIdCluster, codError, msgError)
         If codError = 0 Then

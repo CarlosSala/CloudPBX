@@ -588,7 +588,9 @@ Public Class Frm_Principal
 
         'FASE 2
 
-
+        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        '| XML para "GroupExtensionLengthModifyRequest17"   |
+        '\\\\\\\\\\\\\\\\\\\\///////////////////////////////
         Dim p_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim p_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim p_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -622,7 +624,6 @@ Public Class Frm_Principal
 
         Dim fileIXML As String = ""
         Dim fileOXML As String = ""
-
         Dim codError As Integer
         Dim msgError As String = ""
         Dim domain As String = ""
@@ -651,10 +652,10 @@ Public Class Frm_Principal
         Dim ocp_special1 As String = ""
         Dim ocp_special2 As String = ""
         Dim ocp_premium1 As String = ""
-        LblEstado.Text = "Generando XML..."
+        LblEstado.Text = "Generando archivos XML..."
         ProgressBar1.Value = ProgressBar1.Value + 10
+        My.Application.DoEvents()
 
-        'My.Application.DoEvents()
         Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile.txt"
         Dim lineConfigFile As String = ""
         Dim numFile As Integer = 1
@@ -1285,7 +1286,9 @@ Public Class Frm_Principal
         FileClose(1)
 
         LblEstado.Text = "Creación de archivos finalizada"
-        ProgressBar1.Value = ProgressBar1.Value + 30
+        ProgressBar1.Value = ProgressBar1.Value + 40
+        My.Application.DoEvents()
+
         'Exit Sub
 
         'MsgBox(My.Settings.gblCMMIdCluster.ToString())
@@ -1303,9 +1306,6 @@ Public Class Frm_Principal
         Dim fileConfig As String = ""
         Dim linregConfig As String = ""
         Dim strArguments As String = ""
-
-        LblEstado.Text = "Creando archivo de configuración..."
-        ProgressBar1.Value = ProgressBar1.Value + 30
 
         'My.Application.DoEvents()
         fileConfig = gblSetPathTmp & "\ociclient.config"
@@ -1352,8 +1352,11 @@ Public Class Frm_Principal
         strArguments &= fileConfig
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\ociclient.config
 
+        btn_procesar.Enabled = False
+        btn_BrowseCSV.Enabled = False
         LblEstado.Text = "Ejecutando aplicación Voxcom..."
-        'My.Application.DoEvents()
+        ProgressBar1.Value = ProgressBar1.Value + 15
+        My.Application.DoEvents()
         Try
             Dim proceso As New Process()
             'StartInfo obtiene propiedades que luego se pasan al metodo Proceso.Start()
@@ -1374,16 +1377,17 @@ Public Class Frm_Principal
             LblEstado.Text = "Error"
             Exit Sub
         End Try
+
         LblEstado.Text = "Esperando reporte"
-        ProgressBar1.Value = ProgressBar1.Value + 10
-        btn_procesar.Enabled = False
-        'My.Application.DoEvents()
+        ProgressBar1.Value = ProgressBar1.Value + 20
+        My.Application.DoEvents()
+
     End Sub
 
     Sub parseXML_update_CMM(ByRef codError As Integer, ByRef msgError As String)
 
 
-        LblEstado.Text = "Generando Reporte"
+
         '        <?xml version="1.0" encoding="ISO-8859-1"?> -----------------------------------------------------nodo tipo declaracion
         '<BroadsoftDocument protocol = "OCI" xmlns="C" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" >--nodo tipo element
         '<sessionId xmlns="">10.184.67.132,312714112,1561598861624</sessionId>
@@ -1489,8 +1493,9 @@ Public Class Frm_Principal
                 msgError = "Respuesta No Generada"
             End Try
         Next
-        LblEstado.Text = ""
-
+        indiceXML = 0
+        btn_procesar.Enabled = False
+        btn_BrowseCSV.Enabled = Enabled
         ProgressBar1.Value = ProgressBar1.Maximum
         LblEstado.Text = "Finalizado"
         Dim FMP As New Frm_Report

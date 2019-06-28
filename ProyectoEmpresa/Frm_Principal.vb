@@ -293,12 +293,12 @@ Public Class Frm_Principal
         Dim mensaje As String = ""
         Dim j As Integer = 0
 
-        If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
-            'MsgBox("Server pinged successfully.")
-        Else
-            MsgBox("Servidor fuera de Linea, favor verifique conexion!!!", vbOKOnly, "Error de Comunicación")
-            Exit Sub
-        End If
+        'If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
+        '    'MsgBox("Server pinged successfully.")
+        'Else
+        '    MsgBox("Servidor fuera de Linea, favor verifique conexion!!!", vbOKOnly, "Error de Comunicación")
+        '    Exit Sub
+        'End If
 
         'Val("    38205 (Distrito Norte)")devuelve 38205 como valor numérico. Los espacios y el resto de cadena
         'a partir de donde no se puede reconocer un valor numérico se ignora, Si la cadena empieza con contenido no numérico Val devuelve cero.
@@ -1045,33 +1045,36 @@ Public Class Frm_Principal
 
 
         'XML PARA EL PROXY---------------------------------------------------------------------------------
-        For j = 0 To DataGridView1.RowCount - 2
-            numFile += 1
-            indiceXML += 1
-            fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateProxy_request_tmp.xml"
-            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-            FileOpen(numFile, fileIXML, OpenMode.Output)
-            WriteLine(numFile, j_1.ToCharArray)
-            WriteLine(numFile, j_2.ToCharArray)
-            WriteLine(numFile, j_3.ToCharArray)
-            WriteLine(numFile, j_4.ToCharArray)
-            WriteLine(numFile, j_5.ToCharArray)
-            j_6 = "<groupId>" & group_id & "</groupId>"
-            WriteLine(numFile, j_6.ToCharArray)
-            mac = DataGridView1.Rows(j).Cells(9).Value
-            j_7 = "<deviceName>DV_" & mac & "</deviceName>"
-            WriteLine(numFile, j_7.ToCharArray)
-            WriteLine(numFile, j_8.ToCharArray)
-            proxy = DataGridView1.Rows(0).Cells(18).Value
-            j_9 = "<tagValue>" & proxy & "</tagValue>"
-            WriteLine(numFile, j_9.ToCharArray)
-            WriteLine(numFile, j_10.ToCharArray)
-            WriteLine(numFile, lineaFinal.ToCharArray)
-            FileClose(numFile)
-            lineConfigFile = fileIXML & ";" & fileOXML
-            'My.Application.DoEvents()
-            WriteLine(1, lineConfigFile.ToCharArray)
-        Next
+        proxy = DataGridView1.Rows(0).Cells(18).Value
+        If proxy <> "" And proxy.Length >= 8 Then
+            For j = 0 To DataGridView1.RowCount - 2
+                numFile += 1
+                indiceXML += 1
+                fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateProxy_request_tmp.xml"
+                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, j_1.ToCharArray)
+                WriteLine(numFile, j_2.ToCharArray)
+                WriteLine(numFile, j_3.ToCharArray)
+                WriteLine(numFile, j_4.ToCharArray)
+                WriteLine(numFile, j_5.ToCharArray)
+                j_6 = "<groupId>" & group_id & "</groupId>"
+                WriteLine(numFile, j_6.ToCharArray)
+                mac = DataGridView1.Rows(j).Cells(9).Value
+                j_7 = "<deviceName>DV_" & mac & "</deviceName>"
+                WriteLine(numFile, j_7.ToCharArray)
+                WriteLine(numFile, j_8.ToCharArray)
+                proxy = DataGridView1.Rows(0).Cells(18).Value
+                j_9 = "<tagValue>" & proxy & "</tagValue>"
+                WriteLine(numFile, j_9.ToCharArray)
+                WriteLine(numFile, j_10.ToCharArray)
+                WriteLine(numFile, lineaFinal.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                'My.Application.DoEvents()
+                WriteLine(1, lineConfigFile.ToCharArray)
+            Next
+        End If
 
         'XML PARA ASIGNAR DISPOSITIVOS A USUARIOS---------------------------------------------------------------------
         For j = 0 To DataGridView1.RowCount - 2
@@ -1243,7 +1246,7 @@ Public Class Frm_Principal
             n_6 = "<userName>" & phoneNumber & "</userName>"
             WriteLine(numFile, n_6.ToCharArray)
             'Dim domi As String = Mid(domain.ToString, 0, 4)
-            Dim letras As String = domain.Substring(0, 4)
+            Dim letras As String = group_id.Substring(0, 4)
             n_7 = "<newPassword>" & letras & phoneNumber & "</newPassword>"
             WriteLine(numFile, n_7.ToCharArray)
             WriteLine(numFile, n_8.ToCharArray)

@@ -56,7 +56,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("..\..\..\Proyecto_Empresa_BBDD\Database1.accdb")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\dat\Database1.accdb")>  _
         Public Property SetDatabase() As String
             Get
                 Return CType(Me("SetDatabase"),String)

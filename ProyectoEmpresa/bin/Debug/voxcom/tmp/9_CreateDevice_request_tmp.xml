@@ -4,10 +4,10 @@
 <command xsi:type="GroupAccessDeviceAddRequest14" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
 <groupId>miguel_grupo</groupId>
-<deviceName>DV_805EC0568FEC</deviceName>
-<deviceType>Yealink-T21xE2</deviceType>
+<deviceName>DV_805EC0568966</deviceName>
+<deviceType>Yealink-T19xE2</deviceType>
 <protocol>SIP 2.0</protocol>
-<macAddress>805EC0568FEC</macAddress>
+<macAddress>805EC0568966</macAddress>
 <serialNumber>3127320000000000</serialNumber>
 <physicalLocation>ZONA_2_28</physicalLocation>
 <transportProtocol>Unspecified</transportProtocol>

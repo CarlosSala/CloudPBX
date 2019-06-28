@@ -4,7 +4,7 @@
 <command xsi:type="GroupAccessDeviceCustomTagAddRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
 <groupId>miguel_grupo</groupId>
-<deviceName>DV_805EC0568965</deviceName>
+<deviceName>DV_805EC0568BB8</deviceName>
 <tagName>%SBC_ADDRESS%</tagName>
 <tagValue>172.122.112.22</tagValue>
 </command>

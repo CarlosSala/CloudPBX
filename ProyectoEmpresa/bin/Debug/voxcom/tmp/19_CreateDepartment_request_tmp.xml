@@ -4,6 +4,6 @@
 <command xsi:type="GroupDepartmentAddRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
 <groupId>miguel_grupo</groupId>
-<departmentName>Finanzas</departmentName>
+<departmentName>Logistica</departmentName>
 </command>
 </BroadsoftDocument>

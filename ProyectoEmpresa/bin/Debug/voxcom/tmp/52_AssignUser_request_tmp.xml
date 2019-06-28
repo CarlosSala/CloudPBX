@@ -2,17 +2,17 @@
 <BroadsoftDocument protocol="OCI" xmlns="C">
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
 <command xsi:type="UserModifyRequest17sp4" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-<userId>222360347@felipe.cl</userId>
-<phoneNumber>222360347</phoneNumber>
-<extension>1881</extension>
+<userId>232781890@felipe.cl</userId>
+<phoneNumber>232781890</phoneNumber>
+<extension>1890</extension>
 <sipAliasList xsi:nil="true"/>
 <endpoint>
 <accessDeviceEndpoint>
 <accessDevice>
 <deviceLevel>Group</deviceLevel>
-<deviceName>DV_805EC0568966</deviceName>
+<deviceName>DV_805EC0568BCA</deviceName>
 </accessDevice>
-<linePort>222360347@felipe.cl</linePort>
+<linePort>232781890@felipe.cl</linePort>
 <contactList xsi:nil="true"/>
 </accessDeviceEndpoint>
 </endpoint>

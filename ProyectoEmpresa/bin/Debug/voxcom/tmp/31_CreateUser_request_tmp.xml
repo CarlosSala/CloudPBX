@@ -4,22 +4,22 @@
 <command xsi:type="UserAddRequest17sp4" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
 <groupId>miguel_grupo</groupId>
-<userId>232781890@felipe.cl</userId>
-<lastName>moyano</lastName>
-<firstName>perez</firstName>
-<callingLineIdLastName>moyano</callingLineIdLastName>
-<callingLineIdFirstName>perez</callingLineIdFirstName>
+<userId>232781889@felipe.cl</userId>
+<lastName>luigi</lastName>
+<firstName>manzanero</firstName>
+<callingLineIdLastName>luigi</callingLineIdLastName>
+<callingLineIdFirstName>manzanero</callingLineIdFirstName>
 <password>a1234567</password>
 <department xsi:type="GroupDepartmentKey">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
 <groupId>miguel_grupo</groupId>
-<name>RRHH</name>
+<name>Logistica</name>
 </department>
 <language>Spanish</language>
 <timeZone>Chile/Continental</timeZone>
-<emailAddress>moyano@ti.cl</emailAddress>
+<emailAddress>luigi@ti.cl</emailAddress>
 <address>
-<addressLine1>San juan, 20</addressLine1>
+<addressLine1>San juan, 19</addressLine1>
 <city>Santiago</city>
 </address>
 </command>

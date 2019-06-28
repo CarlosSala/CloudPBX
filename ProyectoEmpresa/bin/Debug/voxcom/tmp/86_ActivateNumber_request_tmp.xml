@@ -4,6 +4,6 @@
 <command xsi:type="GroupDnActivateListRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
 <groupId>miguel_grupo</groupId>
-<phoneNumber>+56-232781885</phoneNumber>
+<phoneNumber>+56-232781884</phoneNumber>
 </command>
 </BroadsoftDocument>

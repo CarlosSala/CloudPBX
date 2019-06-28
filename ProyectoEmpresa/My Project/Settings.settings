@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="SetDatabase" Type="System.String" Scope="User">
-      <Value Profile="(Default)">..\..\..\Proyecto_Empresa_BBDD\Database1.accdb</Value>
+      <Value Profile="(Default)">\voxcom\dat\Database1.accdb</Value>
     </Setting>
     <Setting Name="SetHost" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.25.210.32</Value>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<BroadsoftDocument protocol="OCI" xmlns="C">
+<sessionId xmlns="">%%%OSS_USER%%%</sessionId>
+<command xsi:type="GroupMusicOnHoldModifyInstanceRequest20" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <serviceProviderId>CloudPBX_SMB</serviceProviderId>
+<groupId>miguel_grupo</groupId>
+<isActiveDuringCallHold>true</isActiveDuringCallHold>
+<isActiveDuringCallPark>true</isActiveDuringCallPark>
+<isActiveDuringBusyCampOn>true</isActiveDuringBusyCampOn>
+<source>
+<audioFilePreferredCodec>None</audioFilePreferredCodec>
+<messageSourceSelection>System</messageSourceSelection>
+<customSource>
+<audioFile xsi:nil="true"/>
+<videoFile xsi:nil="true"/>
+</customSource>
+<externalSource>
+<accessDeviceEndpoint xsi:nil="true"/>
+</externalSource>
+</source>
+</command>
+</BroadsoftDocument>

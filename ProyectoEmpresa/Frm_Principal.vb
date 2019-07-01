@@ -111,9 +111,8 @@ Public Class Frm_Principal
         Dim OCP_especial1 As String = ""
         Dim OCP_especial2 As String = ""
         Dim OCP_premium1 As String = ""
-        'Dim Numeros As Long
-        'Dim ierr = 0
 
+        'Se eliminan los datos antiguos de la tabla broadsoft_cloudPBX
         Dim cmd As New OleDbCommand()
         cmd.Connection = Conexion
         Dim instruccionSql As String = "DELETE * FROM broadsoft_cloudPBX"
@@ -150,6 +149,7 @@ Public Class Frm_Principal
             'que ingreso al while donde se lee el archivo y por ende este no esta vacio
             controlArchivoVacio = 1
 
+            'La matriz debe ser cudrada
             Dominio = arrayLine(0).ToString()
             Numeros = arrayLine(1).ToString()
             Nombre_grupo = arrayLine(2).ToString()
@@ -234,6 +234,7 @@ Public Class Frm_Principal
             End Try
             Conexion.Close()
         End While
+
         'Si el valor de controlArchivoVacio no cambio a 1, quiere decir que se salto el bucle While
         'debido a que el archivo estaba vacio
         If controlArchivoVacio = 0 Then
@@ -242,26 +243,29 @@ Public Class Frm_Principal
             Me.Cursor = Cursors.Default
             Exit Sub
         End If
+
         FileClose(1)
         LblEstado.Text = ""
         ProgressBar1.Value = 0
         actualizarGrilla()
     End Sub
 
+
+    'Se utilizan como variables globales para trabajar con access
+    Dim da As New OleDbDataAdapter
+    Dim cmd As New OleDbCommand
+    Dim dt As New DataTable 'para trabajar con una tabla DataTAble y para trabajar con un conjunto de tablas DataSet
+
     Public Sub actualizarGrilla()
 
         Dim iSql As String = "select * from broadsoft_cloudPBX"
-        Dim cmd As New OleDbCommand
-        Dim dt As New DataTable
-        Dim da As New OleDbDataAdapter
-
         Try
             Conexion.Open()
             cmd.Connection = Conexion
             cmd.CommandText = iSql
-            cmd.CommandType = CommandType.TableDirect
             da.SelectCommand = cmd
             da.Fill(dt)
+
             'Se muestran los datos en el datagridview 
             DataGridView1.DataSource = dt
             DataGridView1.Refresh()
@@ -270,9 +274,9 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
-        DataGridView1.CurrentCell = DataGridView1.Rows(0).Cells(0)
-        lblCMMUpdCurrentRow.Text = DataGridView1.CurrentCell.RowIndex + 1
-        lblCMMUpdTotalRows.Text = DataGridView1.RowCount
+        'DataGridView1.CurrentCell = DataGridView1.Rows(0).Cells(0)
+        'lblCMMUpdCurrentRow.Text = DataGridView1.CurrentCell.RowIndex + 1
+        'lblCMMUpdTotalRows.Text = DataGridView1.RowCount
 
         Lab_wait.Visible = False
         Me.Cursor = Cursors.Default
@@ -313,9 +317,6 @@ Public Class Frm_Principal
         'If MsgBox(mensaje, MsgBoxStyle.OkCancel + MsgBoxStyle.DefaultButton2, "Confirmación") = MsgBoxResult.Cancel Then
         '    Exit Sub
         'End If
-
-
-
 
 
         'FASE 1
@@ -362,7 +363,7 @@ Public Class Frm_Principal
         Dim d_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
         Dim d_6 As String = "<groupId>PRUEBACARLOS_cloudpbx</groupId>"
         Dim d_7 As String = "<defaultDomain>pruebacarlos.cl</defaultDomain>"
-        Dim d_8 As String = "<userLimit>25</userLimit>"
+        Dim d_8 As String = "<userLimit>100</userLimit>"
         Dim d_9 As String = "<groupName>Prueba Carlos cloud</groupName>"
         Dim d_10 As String = "<callingLineIdName>Prueba Carlos cloud</callingLineIdName>"
         Dim d_11 As String = "<timeZone>America/Santiago</timeZone>"
@@ -602,6 +603,30 @@ Public Class Frm_Principal
         Dim p_9 As String = "<defaultExtensionLength>4</defaultExtensionLength>"
         Dim p_10 As String = "</command>"
 
+        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        '| XML para "GroupMusicOnHoldModifyInstanceRequest20"   |
+        '\\\\\\\\\\\\\\\\\\\\///////////////////////////////////
+        Dim q_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim q_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim q_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim q_4 As String = "<command xsi:type=" & Chr(34) & "GroupMusicOnHoldModifyInstanceRequest20" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim q_5 As String = " <serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim q_6 As String = "<groupId>PRUEBACARLOS_cloudpbx</groupId>"
+        Dim q_7 As String = "<isActiveDuringCallHold>true</isActiveDuringCallHold>"
+        Dim q_8 As String = "<isActiveDuringCallPark>true</isActiveDuringCallPark>"
+        Dim q_9 As String = "<isActiveDuringBusyCampOn>true</isActiveDuringBusyCampOn>"
+        Dim q_10 As String = "<source>"
+        Dim q_11 As String = "<audioFilePreferredCodec>None</audioFilePreferredCodec>"
+        Dim q_12 As String = "<messageSourceSelection>System</messageSourceSelection>"
+        Dim q_13 As String = "<customSource>"
+        Dim q_14 As String = "<audioFile xsi:nil=" & Chr(34) & "true" & Chr(34) & "/>"
+        Dim q_15 As String = "<videoFile xsi:nil=" & Chr(34) & "true" & Chr(34) & "/>"
+        Dim q_16 As String = "</customSource>"
+        Dim q_17 As String = "<externalSource>"
+        Dim q_18 As String = "<accessDeviceEndpoint xsi:nil=" & Chr(34) & "true" & Chr(34) & "/>"
+        Dim q_19 As String = "</externalSource>"
+        Dim q_20 As String = "</source>"
+        Dim q_21 As String = "</command>"
 
 
         'Ultima linea de todos los XML
@@ -624,6 +649,7 @@ Public Class Frm_Principal
 
         Dim fileIXML As String = ""
         Dim fileOXML As String = ""
+        Dim estadoArchivo As Integer = 0
         Dim codError As Integer
         Dim msgError As String = ""
         Dim domain As String = ""
@@ -660,423 +686,597 @@ Public Class Frm_Principal
         Dim lineConfigFile As String = ""
         Dim numFile As Integer = 1
 
+
         FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
 
-        'XML PARA CREAR UN DOMINIO-----------------------------------------------------------------------------
-        numFile += 1
-        indiceXML += 1
-        fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateDomain_request_tmp.xml"
-        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-        FileOpen(numFile, fileIXML, OpenMode.Output)
-        WriteLine(numFile, a_1.ToCharArray)
-        WriteLine(numFile, a_2.ToCharArray)
-        WriteLine(numFile, a_3.ToCharArray)
-        WriteLine(numFile, a_4.ToCharArray)
-        domain = DataGridView1.Rows(j).Cells(0).Value
-        a_5 = "<domain>" & domain & "</domain>"
-        WriteLine(numFile, a_5.ToCharArray)
-        WriteLine(numFile, a_6.ToCharArray)
-        WriteLine(numFile, lineaFinal.ToCharArray)
-        FileClose(numFile)
-        lineConfigFile = fileIXML & ";" & fileOXML
-        'My.Application.DoEvents()
-        WriteLine(1, lineConfigFile.ToCharArray)
+
+        'XML PARA CREAR UN DOMINIO-----------------------------------------------------------------------------------------------------------
+        domain = dt.Rows(0)(0).ToString
+        If domain <> "" And domain.Length > 0 Then
+            Try
+                numFile += 1
+                indiceXML += 1
+                fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateDomain_request_tmp.xml"
+                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, a_1.ToCharArray)
+                WriteLine(numFile, a_2.ToCharArray)
+                WriteLine(numFile, a_3.ToCharArray)
+                WriteLine(numFile, a_4.ToCharArray)
+                a_5 = "<domain>" & domain & "</domain>"
+                WriteLine(numFile, a_5.ToCharArray)
+                WriteLine(numFile, a_6.ToCharArray)
+                WriteLine(numFile, lineaFinal.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(1, lineConfigFile.ToCharArray)
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+                MsgBox("Error al crear el archivo " & indiceXML & "_CreateDomain_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(1)
+                Exit Sub
+            End Try
+            estadoArchivo = 1
+        Else
+            MsgBox("El campo del dominio no debe estar vacio", MsgBoxStyle.Exclamation)
+            FileClose(1)
+            Exit Sub
+        End If
+
 
         'XML PARA ASIGNAR EL DOMINIO CREADO----------------------------------------------------------------------
-        numFile += 1
-        indiceXML += 1
-        fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignDomain_request_tmp.xml"
-        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-        FileOpen(numFile, fileIXML, OpenMode.Output)
-        WriteLine(numFile, b_1.ToCharArray)
-        WriteLine(numFile, b_2.ToCharArray)
-        WriteLine(numFile, b_3.ToCharArray)
-        WriteLine(numFile, b_4.ToCharArray)
-        WriteLine(numFile, b_5.ToCharArray)
-        b_6 = "<domain>" & domain & "</domain>"
-        WriteLine(numFile, b_6.ToCharArray)
-        WriteLine(numFile, b_7.ToCharArray)
-        WriteLine(numFile, lineaFinal.ToCharArray)
-        FileClose(numFile)
-        lineConfigFile = fileIXML & ";" & fileOXML
-        'My.Application.DoEvents()
-        WriteLine(1, lineConfigFile.ToCharArray)
+        If estadoArchivo = 1 Then
+            Try
+                numFile += 1
+                indiceXML += 1
+                fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignDomain_request_tmp.xml"
+                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, b_1.ToCharArray)
+                WriteLine(numFile, b_2.ToCharArray)
+                WriteLine(numFile, b_3.ToCharArray)
+                WriteLine(numFile, b_4.ToCharArray)
+                WriteLine(numFile, b_5.ToCharArray)
+                b_6 = "<domain>" & domain & "</domain>"
+                WriteLine(numFile, b_6.ToCharArray)
+                WriteLine(numFile, b_7.ToCharArray)
+                WriteLine(numFile, lineaFinal.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(1, lineConfigFile.ToCharArray)
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+                MsgBox("Error al crear el archivo " & indiceXML & "_AssignDomain_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(1)
+                Exit Sub
+            End Try
+            estadoArchivo = 2
+        Else
+            Exit Sub
+        End If
+
 
         'XML PARA CREAR NUMERACIÓN------------------------------------------------------------------------------
-        numFile += 1
-        indiceXML += 1
-        fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateNumbers_request_tmp.xml"
-        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-        FileOpen(numFile, fileIXML, OpenMode.Output)
-        WriteLine(numFile, c_1.ToCharArray)
-        WriteLine(numFile, c_2.ToCharArray)
-        WriteLine(numFile, c_3.ToCharArray)
-        WriteLine(numFile, c_4.ToCharArray)
-        WriteLine(numFile, c_5.ToCharArray)
-        For j = 0 To DataGridView1.Rows.Count - 2
-            phoneNumber = DataGridView1.Rows(j).Cells(1).Value
-            c_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
-            WriteLine(numFile, c_6.ToCharArray)
-        Next
-        WriteLine(numFile, c_7.ToCharArray)
-        WriteLine(numFile, lineaFinal.ToCharArray)
-        FileClose(numFile)
-        lineConfigFile = fileIXML & ";" & fileOXML
-        WriteLine(1, lineConfigFile.ToCharArray)
+        If estadoArchivo = 2 Then
+            For j = 0 To dt.Rows.Count - 1
+                phoneNumber = dt.Rows(j)(1).ToString
+                If phoneNumber = "" Or phoneNumber.Length <= 8 Then
+                    MsgBox("Los numeros no cumplen con el largo requerido o hay celdas vacias", MsgBoxStyle.Exclamation)
+                    FileClose(1)
+                    Exit Sub
+                End If
+            Next
+            Try
+                numFile += 1
+                indiceXML += 1
+                fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateNumbers_request_tmp.xml"
+                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, c_1.ToCharArray)
+                WriteLine(numFile, c_2.ToCharArray)
+                WriteLine(numFile, c_3.ToCharArray)
+                WriteLine(numFile, c_4.ToCharArray)
+                WriteLine(numFile, c_5.ToCharArray)
+                For j = 0 To dt.Rows.Count - 1
+                    phoneNumber = dt.Rows(j)(1).ToString 'fila - columna
+                    c_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
+                    WriteLine(numFile, c_6.ToCharArray)
+                Next
+                WriteLine(numFile, c_7.ToCharArray)
+                WriteLine(numFile, lineaFinal.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(1, lineConfigFile.ToCharArray)
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+                MsgBox("Error al crear el archivo " & indiceXML & "_CreateNumbers_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(1)
+                Exit Sub
+            End Try
+            estadoArchivo = 3
+        Else
+            Exit Sub
+        End If
+
 
         'XML PARA CREAR PERFIL DE GRUPO-------------------------------------------------------------------------
-        numFile += 1
-        indiceXML += 1
-        fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateProfileGroup_request_tmp.xml"
-        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-        FileOpen(numFile, fileIXML, OpenMode.Output)
-        WriteLine(numFile, d_1.ToCharArray)
-        WriteLine(numFile, d_2.ToCharArray)
-        WriteLine(numFile, d_3.ToCharArray)
-        WriteLine(numFile, d_4.ToCharArray)
-        WriteLine(numFile, d_5.ToCharArray)
-        group_id = DataGridView1.Rows(0).Cells(2).Value
-        d_6 = "<groupId>" & group_id & "</groupId>"
-        WriteLine(numFile, d_6.ToCharArray)
-        d_7 = "<defaultDomain>" & domain & "</defaultDomain>"
-        WriteLine(numFile, d_7.ToCharArray)
-        WriteLine(numFile, d_8.ToCharArray)
-        group_name = DataGridView1.Rows(0).Cells(3).Value
-        d_9 = "<groupName>" & group_name & "</groupName>"
-        WriteLine(numFile, d_9.ToCharArray)
-        d_10 = "<callingLineIdName>" & group_name & "</callingLineIdName>"
-        WriteLine(numFile, d_10.ToCharArray)
-        'WriteLine(numFile, d_11.ToCharArray)
-        WriteLine(numFile, d_12.ToCharArray)
-        contact_name = DataGridView1.Rows(0).Cells(4).Value
-        d_13 = "<contactName>" & contact_name & "</contactName>"
-        WriteLine(numFile, d_13.ToCharArray)
-        contact_number = DataGridView1.Rows(0).Cells(5).Value
-        d_14 = "<contactNumber>" & contact_number & "</contactNumber>"
-        WriteLine(numFile, d_14.ToCharArray)
-        WriteLine(numFile, d_15.ToCharArray)
-        WriteLine(numFile, d_16.ToCharArray)
-        address = DataGridView1.Rows(0).Cells(6).Value
-        d_17 = "<addressLine1>" & address & "</addressLine1>"
-        WriteLine(numFile, d_17.ToCharArray)
-        city = DataGridView1.Rows(0).Cells(7).Value
-        d_18 = "<city>" & city & "</city>"
-        WriteLine(numFile, d_18.ToCharArray)
-        WriteLine(numFile, d_19.ToCharArray)
-        WriteLine(numFile, d_20.ToCharArray)
-        WriteLine(numFile, lineaFinal.ToCharArray)
-        FileClose(numFile)
-        lineConfigFile = fileIXML & ";" & fileOXML
-        'My.Application.DoEvents()
-        WriteLine(1, lineConfigFile.ToCharArray)
+
+        group_id = dt.Rows(0)(2).ToString
+        group_name = dt.Rows(0)(3).ToString
+        contact_name = dt.Rows(0)(4).ToString
+        contact_number = dt.Rows(0)(5).ToString
+        address = dt.Rows(0)(6).ToString
+        city = dt.Rows(0)(7).ToString
+
+        If estadoArchivo = 3 And domain <> "" And group_id <> "" And group_name <> "" And address <> "" And city <> "" Then
+            Try
+                numFile += 1
+                indiceXML += 1
+                fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateProfileGroup_request_tmp.xml"
+                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, d_1.ToCharArray)
+                WriteLine(numFile, d_2.ToCharArray)
+                WriteLine(numFile, d_3.ToCharArray)
+                WriteLine(numFile, d_4.ToCharArray)
+                WriteLine(numFile, d_5.ToCharArray)
+                d_6 = "<groupId>" & group_id & "</groupId>"
+                WriteLine(numFile, d_6.ToCharArray)
+                d_7 = "<defaultDomain>" & domain & "</defaultDomain>"
+                WriteLine(numFile, d_7.ToCharArray)
+                WriteLine(numFile, d_8.ToCharArray)
+                d_9 = "<groupName>" & group_name & "</groupName>"
+                WriteLine(numFile, d_9.ToCharArray)
+                d_10 = "<callingLineIdName>" & group_name & "</callingLineIdName>"
+                WriteLine(numFile, d_10.ToCharArray)
+                'WriteLine(numFile, d_11.ToCharArray)
+                If contact_name <> "" And contact_number <> "" Then
+                    WriteLine(numFile, d_12.ToCharArray)
+                    d_13 = "<contactName>" & contact_name & "</contactName>"
+                    WriteLine(numFile, d_13.ToCharArray)
+                    d_14 = "<contactNumber>" & contact_number & "</contactNumber>"
+                    WriteLine(numFile, d_14.ToCharArray)
+                    WriteLine(numFile, d_15.ToCharArray)
+                End If
+                WriteLine(numFile, d_16.ToCharArray)
+                d_17 = "<addressLine1>" & address & "</addressLine1>"
+                WriteLine(numFile, d_17.ToCharArray)
+                d_18 = "<city>" & city & "</city>"
+                WriteLine(numFile, d_18.ToCharArray)
+                WriteLine(numFile, d_19.ToCharArray)
+                WriteLine(numFile, d_20.ToCharArray)
+                WriteLine(numFile, lineaFinal.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(1, lineConfigFile.ToCharArray)
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+                MsgBox("Error al crear el archivo " & indiceXML & "_CreateProfileGroup_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(1)
+                Exit Sub
+            End Try
+            estadoArchivo = 4
+        Else
+            MsgBox("Verifique que existen los campos: domain, group_id, group_name, address_enterprise y city", MsgBoxStyle.Exclamation)
+        End If
 
 
         'XML PARA MODIFICAR EL LARGO DE LAS EXTENSIONES DE GRUPO--------------------------------------------------------------
-        numFile += 1
-        indiceXML += 1
-        fileIXML = gblSetPathTmp & "\" & indiceXML & "_ExtensionsLength_request_tmp.xml"
-        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-        FileOpen(numFile, fileIXML, OpenMode.Output)
-        WriteLine(numFile, p_1.ToCharArray)
-        WriteLine(numFile, p_2.ToCharArray)
-        WriteLine(numFile, p_3.ToCharArray)
-        WriteLine(numFile, p_4.ToCharArray)
-        WriteLine(numFile, p_5.ToCharArray)
-        p_6 = "<groupId>" & group_id & "</groupId>"
-        WriteLine(numFile, p_6.ToCharArray)
-        WriteLine(numFile, p_7.ToCharArray)
-        WriteLine(numFile, p_8.ToCharArray)
-        WriteLine(numFile, p_9.ToCharArray)
-        WriteLine(numFile, p_10.ToCharArray)
-        WriteLine(numFile, lineaFinal.ToCharArray)
-        FileClose(numFile)
-        lineConfigFile = fileIXML & ";" & fileOXML
-        'My.Application.DoEvents()
-        WriteLine(1, lineConfigFile.ToCharArray)
+        If estadoArchivo = 4 Then
+            Try
+                numFile += 1
+                indiceXML += 1
+                fileIXML = gblSetPathTmp & "\" & indiceXML & "_ExtensionsLength_request_tmp.xml"
+                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, p_1.ToCharArray)
+                WriteLine(numFile, p_2.ToCharArray)
+                WriteLine(numFile, p_3.ToCharArray)
+                WriteLine(numFile, p_4.ToCharArray)
+                WriteLine(numFile, p_5.ToCharArray)
+                p_6 = "<groupId>" & group_id & "</groupId>"
+                WriteLine(numFile, p_6.ToCharArray)
+                WriteLine(numFile, p_7.ToCharArray)
+                WriteLine(numFile, p_8.ToCharArray)
+                WriteLine(numFile, p_9.ToCharArray)
+                WriteLine(numFile, p_10.ToCharArray)
+                WriteLine(numFile, lineaFinal.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(1, lineConfigFile.ToCharArray)
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+                MsgBox("Error al crear el archivo " & indiceXML & "_ExtensionsLength_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(1)
+                Exit Sub
+            End Try
+            estadoArchivo = 5
+        Else
+            Exit Sub
+        End If
 
 
         'XML PARA SELECCIONAR SERVICIOS DE GRUPO (ARCHIVO EXTERNO)--------------------------------------------------------------
         numFile += 1
         indiceXML += 1
-        Try
-            'Lee un archivo, modifica la linea 6 y lo reescribe con el indiceXML correspondiente
-            Dim Lines_Array() As String = IO.File.ReadAllLines(gblSetPathAppl & "\arch_permanent\" & "5_SelectServices_request_tmp.xml")
-            Lines_Array(5) = " <groupId>" & group_id & "</groupId>"
-            'MsgBox(Lines_Array(5).ToString())
-            IO.File.WriteAllLines(gblSetPathAppl & "\arch_permanent\" & indiceXML & "_SelectServices_request_tmp.xml", Lines_Array)
-            'MsgBox("se reescribió correctamente el archivo de servicios de grupo")
-        Catch ex As Exception
-            MsgBox("error al modificar el archivo de servicios de grupo " & ex.ToString)
-        End Try
-        fileIXML = gblSetPathAppl & "\arch_permanent\" & indiceXML & "_SelectServices_request_tmp.xml"
-        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-        lineConfigFile = fileIXML & ";" & fileOXML
-        'My.Application.DoEvents()
-        WriteLine(1, lineConfigFile.ToCharArray)
+        If estadoArchivo = 5 Then
+            Try
+                'Lee un archivo, modifica la linea 6
+                Dim Lines_Array() As String = IO.File.ReadAllLines(gblSetPathAppl & "\arch_permanent\" & "5_SelectServices_request_tmp.xml")
+                Lines_Array(5) = " <groupId>" & group_id & "</groupId>"
+
+                'Se reescribe el archivo con la linea 6 ya editada
+                IO.File.WriteAllLines(gblSetPathAppl & "\arch_permanent\" & indiceXML & "_SelectServices_request_tmp.xml", Lines_Array)
+
+                fileIXML = gblSetPathAppl & "\arch_permanent\" & indiceXML & "_SelectServices_request_tmp.xml"
+                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(1, lineConfigFile.ToCharArray)
+
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+                MsgBox("Error al modificar el archivo " & indiceXML & "_SelectServices_request_tmp.xml", MsgBoxStyle.Exclamation)
+                Exit Sub
+            End Try
+            estadoArchivo = 6
+        Else
+            Exit Sub
+        End If
 
 
         'XML PARA ASIGNAR LOS SERVICIOS---------------------------------------------------------------------------------
-        numFile += 1
-        indiceXML += 1
-        fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignServices_request_tmp.xml"
-        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-        FileOpen(numFile, fileIXML, OpenMode.Output)
-        WriteLine(numFile, e_1.ToCharArray)
-        WriteLine(numFile, e_2.ToCharArray)
-        WriteLine(numFile, e_3.ToCharArray)
-        WriteLine(numFile, e_4.ToCharArray)
-        WriteLine(numFile, e_5.ToCharArray)
-        e_6 = "<groupId>" & group_id & "</groupId>"
-        WriteLine(numFile, e_6.ToCharArray)
-        WriteLine(numFile, e_7.ToCharArray)
-        WriteLine(numFile, e_8.ToCharArray)
-        WriteLine(numFile, e_9.ToCharArray)
-        WriteLine(numFile, e_10.ToCharArray)
-        WriteLine(numFile, e_11.ToCharArray)
-        WriteLine(numFile, e_12.ToCharArray)
-        WriteLine(numFile, e_13.ToCharArray)
-        WriteLine(numFile, e_14.ToCharArray)
-        WriteLine(numFile, e_15.ToCharArray)
-        WriteLine(numFile, e_16.ToCharArray)
-        WriteLine(numFile, e_17.ToCharArray)
-        WriteLine(numFile, e_18.ToCharArray)
-        WriteLine(numFile, e_19.ToCharArray)
-        WriteLine(numFile, e_20.ToCharArray)
-        WriteLine(numFile, e_21.ToCharArray)
-        WriteLine(numFile, e_22.ToCharArray)
-        WriteLine(numFile, e_23.ToCharArray)
-        WriteLine(numFile, e_24.ToCharArray)
-        WriteLine(numFile, e_25.ToCharArray)
-        WriteLine(numFile, e_26.ToCharArray)
-        WriteLine(numFile, e_27.ToCharArray)
-        WriteLine(numFile, e_28.ToCharArray)
-        WriteLine(numFile, e_29.ToCharArray)
-        WriteLine(numFile, lineaFinal.ToCharArray)
-        FileClose(numFile)
-        lineConfigFile = fileIXML & ";" & fileOXML
-        WriteLine(1, lineConfigFile.ToCharArray)
+        If estadoArchivo = 6 Then
+            Try
+                numFile += 1
+                indiceXML += 1
+                fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignServices_request_tmp.xml"
+                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, e_1.ToCharArray)
+                WriteLine(numFile, e_2.ToCharArray)
+                WriteLine(numFile, e_3.ToCharArray)
+                WriteLine(numFile, e_4.ToCharArray)
+                WriteLine(numFile, e_5.ToCharArray)
+                e_6 = "<groupId>" & group_id & "</groupId>"
+                WriteLine(numFile, e_6.ToCharArray)
+                WriteLine(numFile, e_7.ToCharArray)
+                WriteLine(numFile, e_8.ToCharArray)
+                WriteLine(numFile, e_9.ToCharArray)
+                WriteLine(numFile, e_10.ToCharArray)
+                WriteLine(numFile, e_11.ToCharArray)
+                WriteLine(numFile, e_12.ToCharArray)
+                WriteLine(numFile, e_13.ToCharArray)
+                WriteLine(numFile, e_14.ToCharArray)
+                WriteLine(numFile, e_15.ToCharArray)
+                WriteLine(numFile, e_16.ToCharArray)
+                WriteLine(numFile, e_17.ToCharArray)
+                WriteLine(numFile, e_18.ToCharArray)
+                WriteLine(numFile, e_19.ToCharArray)
+                WriteLine(numFile, e_20.ToCharArray)
+                WriteLine(numFile, e_21.ToCharArray)
+                WriteLine(numFile, e_22.ToCharArray)
+                WriteLine(numFile, e_23.ToCharArray)
+                WriteLine(numFile, e_24.ToCharArray)
+                WriteLine(numFile, e_25.ToCharArray)
+                WriteLine(numFile, e_26.ToCharArray)
+                WriteLine(numFile, e_27.ToCharArray)
+                WriteLine(numFile, e_28.ToCharArray)
+                WriteLine(numFile, e_29.ToCharArray)
+                WriteLine(numFile, lineaFinal.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(1, lineConfigFile.ToCharArray)
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+                MsgBox("Error al crear el archivo " & indiceXML & "_AssignServices_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(1)
+                Exit Sub
+            End Try
+            estadoArchivo = 7
+        Else
+            Exit Sub
+        End If
 
-        'XML PARA ASIGNAR LA NUMERACIÓN---------------------------------------------------------------------------------
-        numFile += 1
-        indiceXML += 1
-        fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignNumber_request_tmp.xml"
-        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-        FileOpen(numFile, fileIXML, OpenMode.Output)
-        WriteLine(numFile, f_1.ToCharArray)
-        WriteLine(numFile, f_2.ToCharArray)
-        WriteLine(numFile, f_3.ToCharArray)
-        WriteLine(numFile, f_4.ToCharArray)
-        WriteLine(numFile, f_5.ToCharArray)
-        f_6 = "<groupId>" & group_id & "</groupId>"
-        WriteLine(numFile, f_6.ToCharArray)
-        For j = 0 To DataGridView1.Rows.Count - 2
-            phoneNumber = DataGridView1.Rows(j).Cells(1).Value
-            f_7 = "<phoneNumber>+56-" & phoneNumber & "</phoneNumber>"
-            WriteLine(numFile, f_7.ToCharArray)
-        Next
-        WriteLine(numFile, f_8.ToCharArray)
-        WriteLine(numFile, lineaFinal.ToCharArray)
-        FileClose(numFile)
-        lineConfigFile = fileIXML & ";" & fileOXML
-        'My.Application.DoEvents()
-        WriteLine(1, lineConfigFile.ToCharArray)
+        'XML PARA ASIGNAR LA NUMERACIÓN----------------------------------------------------------------------------------------
+        If estadoArchivo = 7 Then
+            Try
+                numFile += 1
+                indiceXML += 1
+                fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignNumber_request_tmp.xml"
+                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, f_1.ToCharArray)
+                WriteLine(numFile, f_2.ToCharArray)
+                WriteLine(numFile, f_3.ToCharArray)
+                WriteLine(numFile, f_4.ToCharArray)
+                WriteLine(numFile, f_5.ToCharArray)
+                f_6 = "<groupId>" & group_id & "</groupId>"
+                WriteLine(numFile, f_6.ToCharArray)
+                For j = 0 To dt.Rows.Count - 1
+                    phoneNumber = dt.Rows(j)(1)
+                    f_7 = "<phoneNumber>+56-" & phoneNumber & "</phoneNumber>"
+                    WriteLine(numFile, f_7.ToCharArray)
+                Next
+                WriteLine(numFile, f_8.ToCharArray)
+                WriteLine(numFile, lineaFinal.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(1, lineConfigFile.ToCharArray)
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+                MsgBox("Error al crear el archivo " & indiceXML & "_AssignNumber_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(1)
+                Exit Sub
+            End Try
+            estadoArchivo = 8
+        Else
+            Exit Sub
+        End If
+
 
         'XML PARA CREAR LOS DISPOSITIVOS---------------------------------------------------------------------------------
-
-        For j = 0 To DataGridView1.Rows.Count - 2
-            numFile += 1
-            indiceXML += 1
-            fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateDevice_request_tmp.xml"
-            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-            FileOpen(numFile, fileIXML, OpenMode.Output)
-            WriteLine(numFile, g_1.ToCharArray)
-            WriteLine(numFile, g_2.ToCharArray)
-            WriteLine(numFile, g_3.ToCharArray)
-            WriteLine(numFile, g_4.ToCharArray)
-            WriteLine(numFile, g_5.ToCharArray)
-            group_id = DataGridView1.Rows(0).Cells(2).Value
-            g_6 = "<groupId>" & group_id & "</groupId>"
-            WriteLine(numFile, g_6.ToCharArray)
-            mac = DataGridView1.Rows(j).Cells(9).Value
-            g_7 = "<deviceName>DV_" & mac & "</deviceName>"
-            WriteLine(numFile, g_7.ToCharArray)
-            device_type = DataGridView1.Rows(j).Cells(8).Value
-            g_8 = "<deviceType>" & device_type & "</deviceType>"
-            WriteLine(numFile, g_8.ToCharArray)
-            WriteLine(numFile, g_9.ToCharArray)
-            g_10 = "<macAddress>" & mac & "</macAddress>"
-            WriteLine(numFile, g_10.ToCharArray)
-            serial_number = DataGridView1.Rows(j).Cells(10).Value
-            g_11 = "<serialNumber>" & serial_number & "</serialNumber>"
-            WriteLine(numFile, g_11.ToCharArray)
-            physical_location = DataGridView1.Rows(j).Cells(11).Value
-            g_12 = "<physicalLocation>" & physical_location & "</physicalLocation>"
-            WriteLine(numFile, g_12.ToCharArray)
-            WriteLine(numFile, g_13.ToCharArray)
-            WriteLine(numFile, g_14.ToCharArray)
-            WriteLine(numFile, lineaFinal.ToCharArray)
-            FileClose(numFile)
-            lineConfigFile = fileIXML & ";" & fileOXML
-            'My.Application.DoEvents()
-            WriteLine(1, lineConfigFile.ToCharArray)
+        Dim contadorFilas As Integer = 0
+        'For para saber cantidad de filas desde device_type hacia adelante
+        For j = 0 To dt.Rows.Count - 1
+            If dt.Rows(j)(8).Length > 1 Then
+                contadorFilas += 1
+            Else
+                Exit For
+            End If
         Next
+
+        For j = 0 To contadorFilas - 1
+            mac = dt.Rows(j)(9).ToString
+            device_type = dt.Rows(j)(8).ToString
+            serial_number = dt.Rows(j)(10).ToString
+            physical_location = dt.Rows(j)(11).ToString
+
+            If mac = "" Or device_type = "" Or serial_number = "" Or physical_location = "" Then
+                MsgBox("Verifique que existen los campos: device_type, mac, serial_number y physical_location", MsgBoxStyle.Exclamation)
+                FileClose(1)
+                Exit Sub
+            End If
+        Next
+
+        If estadoArchivo = 8 Then
+            Try
+                For j = 0 To contadorFilas - 1
+                    numFile += 1
+                    indiceXML += 1
+                    fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateDevice_request_tmp.xml"
+                    fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    FileOpen(numFile, fileIXML, OpenMode.Output)
+                    WriteLine(numFile, g_1.ToCharArray)
+                    WriteLine(numFile, g_2.ToCharArray)
+                    WriteLine(numFile, g_3.ToCharArray)
+                    WriteLine(numFile, g_4.ToCharArray)
+                    WriteLine(numFile, g_5.ToCharArray)
+                    g_6 = "<groupId>" & group_id & "</groupId>"
+                    WriteLine(numFile, g_6.ToCharArray)
+                    mac = dt.Rows(j)(9).ToString
+                    g_7 = "<deviceName>DV_" & mac & "</deviceName>"
+                    WriteLine(numFile, g_7.ToCharArray)
+                    device_type = dt.Rows(j)(8).ToString
+                    g_8 = "<deviceType>" & device_type & "</deviceType>"
+                    WriteLine(numFile, g_8.ToCharArray)
+                    WriteLine(numFile, g_9.ToCharArray)
+                    g_10 = "<macAddress>" & mac & "</macAddress>"
+                    WriteLine(numFile, g_10.ToCharArray)
+                    serial_number = dt.Rows(j)(10).ToString
+                    g_11 = "<serialNumber>" & serial_number & "</serialNumber>"
+                    WriteLine(numFile, g_11.ToCharArray)
+                    physical_location = dt.Rows(j)(11).ToString
+                    g_12 = "<physicalLocation>" & physical_location & "</physicalLocation>"
+                    WriteLine(numFile, g_12.ToCharArray)
+                    WriteLine(numFile, g_13.ToCharArray)
+                    WriteLine(numFile, g_14.ToCharArray)
+                    WriteLine(numFile, lineaFinal.ToCharArray)
+                    FileClose(numFile)
+                    lineConfigFile = fileIXML & ";" & fileOXML
+                    WriteLine(1, lineConfigFile.ToCharArray)
+                Next
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+                MsgBox("Error al crear el archivo " & indiceXML & "_CreateDevice_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(1)
+                Exit Sub
+            End Try
+            estadoArchivo = 9
+        Else
+            Exit Sub
+        End If
+
 
         'XML PARA CREAR LOS DEPARTAMENTOS---------------------------------------------------------------------------------
         Dim varAcumulaDepto As String = ""
         Dim arreglo() As String
-        Dim arregloDeptos(DataGridView1.Rows.Count - 2) As String
+        Dim arregloDeptos(dt.Rows.Count - 1) As String
         Dim indice As Integer
         Dim numElementos As Integer = 0
+        Try
+            For i = 0 To dt.Rows.Count - 1
+                varAcumulaDepto += dt.Rows(i)(12).ToString & ";"
+                'MsgBox(Depto.ToString)
+            Next
 
-        For i = 0 To DataGridView1.Rows.Count - 2
-            varAcumulaDepto += DataGridView1.Rows(i).Cells(12).Value & ";"
-            'MsgBox(Depto.ToString)
-        Next
+            arreglo = Split(varAcumulaDepto, ";")
+            'MsgBox("Elementos en el arreglo: " & arreglo.Length)
 
-        arreglo = Split(varAcumulaDepto, ";")
-        'MsgBox("Elementos en el arreglo: " & arreglo.Length)
-
-        For k = 0 To arreglo.Length - 1
-            Try
+            For k = 0 To arreglo.Length - 1
                 indice = Array.IndexOf(arregloDeptos, arreglo(k))
                 'MsgBox("El elemento " & arreglo(k) & " arroja: " & indice)
+                If indice = -1 And arreglo(k) <> "" And arreglo(k).Length > 0 Then
+                    arregloDeptos(numElementos) = arreglo(k)
+                    'MsgBox("Se guardó el elemento: " & arregloDeptos(numElementos) & " en arregloDeptos")
+                    numElementos += 1
+                Else
+                    'MsgBox("Elemento repetido no se guardó")
+                End If
+            Next
+
+            ReDim Preserve arregloDeptos(numElementos - 1)
+            'MsgBox("cantidad de departamentos a crear " & arregloDeptos.Length)
+            'For Each elemento As String In arregloDeptos
+            '    MsgBox(" arreglo final con los deptos " & vbCrLf & elemento)
+            'Next
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
+
+        If estadoArchivo = 9 Then
+            Try
+                For j = 0 To arregloDeptos.Length - 1
+                    numFile += 1
+                    indiceXML += 1
+                    fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateDepartment_request_tmp.xml"
+                    fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    FileOpen(numFile, fileIXML, OpenMode.Output)
+                    WriteLine(numFile, h_1.ToCharArray)
+                    WriteLine(numFile, h_2.ToCharArray)
+                    WriteLine(numFile, h_3.ToCharArray)
+                    WriteLine(numFile, h_4.ToCharArray)
+                    WriteLine(numFile, h_5.ToCharArray)
+                    h_6 = "<groupId>" & group_id & "</groupId>"
+                    WriteLine(numFile, h_6.ToCharArray)
+                    department = arregloDeptos(j).ToString
+                    h_7 = "<departmentName>" & department & "</departmentName>"
+                    WriteLine(numFile, h_7.ToCharArray)
+                    WriteLine(numFile, h_8.ToCharArray)
+                    WriteLine(numFile, lineaFinal.ToCharArray)
+                    FileClose(numFile)
+                    lineConfigFile = fileIXML & ";" & fileOXML
+                    WriteLine(1, lineConfigFile.ToCharArray)
+                Next
             Catch ex As Exception
                 MsgBox(ex.ToString)
+                MsgBox("Error al crear el archivo " & indiceXML & "_CreateDepartment_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(1)
+                Exit Sub
             End Try
-
-            If indice = -1 And arreglo(k) <> "" And arreglo(k).Length <> 0 Then
-                arregloDeptos(numElementos) = arreglo(k)
-                'MsgBox("Se guardó el elemento: " & arregloDeptos(numElementos) & " en arregloDeptos")
-                numElementos += 1
-            Else
-                'MsgBox("Elemento repetido no se guardó")
-            End If
-        Next
-
-        ReDim Preserve arregloDeptos(numElementos - 1)
-        'MsgBox("cantidad de departamentos a crear " & arregloDeptos.Length)
-        'For Each elemento As String In arregloDeptos
-        '    MsgBox(" arreglo final con los deptos " & vbCrLf & elemento)
-        'Next
-
-        For j = 0 To arregloDeptos.Length - 1
-            numFile += 1
-            indiceXML += 1
-            fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateDepartment_request_tmp.xml"
-            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-            FileOpen(numFile, fileIXML, OpenMode.Output)
-            WriteLine(numFile, h_1.ToCharArray)
-            WriteLine(numFile, h_2.ToCharArray)
-            WriteLine(numFile, h_3.ToCharArray)
-            WriteLine(numFile, h_4.ToCharArray)
-            WriteLine(numFile, h_5.ToCharArray)
-            h_6 = "<groupId>" & group_id & "</groupId>"
-            WriteLine(numFile, h_6.ToCharArray)
-            department = arregloDeptos(j).ToString
-            h_7 = "<departmentName>" & department & "</departmentName>"
-            WriteLine(numFile, h_7.ToCharArray)
-            WriteLine(numFile, h_8.ToCharArray)
-            WriteLine(numFile, lineaFinal.ToCharArray)
-            FileClose(numFile)
-            lineConfigFile = fileIXML & ";" & fileOXML
-            'My.Application.DoEvents()
-            WriteLine(1, lineConfigFile.ToCharArray)
-        Next
-
-        'XML PARA CREAR LOS USUARIOS---------------------------------------------------------------------------------
-        For j = 0 To DataGridView1.RowCount - 2
-            numFile += 1
-            indiceXML += 1
-            fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateUser_request_tmp.xml"
-            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-            FileOpen(numFile, fileIXML, OpenMode.Output)
-            WriteLine(numFile, i_1.ToCharArray)
-            WriteLine(numFile, i_2.ToCharArray)
-            WriteLine(numFile, i_3.ToCharArray)
-            WriteLine(numFile, i_4.ToCharArray)
-            WriteLine(numFile, i_5.ToCharArray)
-            i_6 = "<groupId>" & group_id & "</groupId>"
-            WriteLine(numFile, i_6.ToCharArray)
-            phoneNumber = DataGridView1.Rows(j).Cells(1).Value
-            i_7 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
-            WriteLine(numFile, i_7.ToCharArray)
-            last_name = DataGridView1.Rows(j).Cells(13).Value
-            i_8 = "<lastName>" & last_name & "</lastName>"
-            WriteLine(numFile, i_8.ToCharArray)
-            first_name = DataGridView1.Rows(j).Cells(14).Value
-            i_9 = "<firstName>" & first_name & "</firstName>"
-            WriteLine(numFile, i_9.ToCharArray)
-            i_10 = "<callingLineIdLastName>" & last_name & "</callingLineIdLastName>"
-            WriteLine(numFile, i_10.ToCharArray)
-            i_11 = "<callingLineIdFirstName>" & first_name & "</callingLineIdFirstName>"
-            WriteLine(numFile, i_11.ToCharArray)
-            WriteLine(numFile, i_12.ToCharArray)
-            department = DataGridView1.Rows(j).Cells(12).Value
-            If department <> "" And department.Length <> 0 And department <> Nothing Then
-                WriteLine(numFile, i_13.ToCharArray)
-                WriteLine(numFile, i_14.ToCharArray)
-                i_15 = "<groupId>" & group_id & "</groupId>"
-                WriteLine(numFile, i_15.ToCharArray)
-                i_16 = "<name>" & department & "</name>"
-                WriteLine(numFile, i_16.ToCharArray)
-                WriteLine(numFile, i_17.ToCharArray)
-            End If
-            WriteLine(numFile, i_18.ToCharArray)
-            WriteLine(numFile, i_19.ToCharArray)
-            user_email = DataGridView1.Rows(j).Cells(15).Value
-            If user_email <> "" And user_email.Length <> 0 And user_email <> Nothing Then
-                i_20 = "<emailAddress>" & user_email & "</emailAddress>"
-                WriteLine(numFile, i_20.ToCharArray)
-            End If
-            WriteLine(numFile, i_21.ToCharArray)
-            user_address = DataGridView1.Rows(j).Cells(16).Value
-            i_22 = "<addressLine1>" & user_address & "</addressLine1>"
-            WriteLine(numFile, i_22.ToCharArray)
-            user_city = DataGridView1.Rows(j).Cells(17).Value
-            i_23 = "<city>" & user_city & "</city>"
-            WriteLine(numFile, i_23.ToCharArray)
-            WriteLine(numFile, i_24.ToCharArray)
-            WriteLine(numFile, i_25.ToCharArray)
-            WriteLine(numFile, lineaFinal.ToCharArray)
-            FileClose(numFile)
-            lineConfigFile = fileIXML & ";" & fileOXML
-            'My.Application.DoEvents()
-            WriteLine(1, lineConfigFile.ToCharArray)
-        Next
-
-
-        'XML PARA EL PROXY---------------------------------------------------------------------------------
-        proxy = DataGridView1.Rows(0).Cells(18).Value
-        If proxy <> "" And proxy.Length >= 8 Then
-            For j = 0 To DataGridView1.RowCount - 2
-                numFile += 1
-                indiceXML += 1
-                fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateProxy_request_tmp.xml"
-                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-                FileOpen(numFile, fileIXML, OpenMode.Output)
-                WriteLine(numFile, j_1.ToCharArray)
-                WriteLine(numFile, j_2.ToCharArray)
-                WriteLine(numFile, j_3.ToCharArray)
-                WriteLine(numFile, j_4.ToCharArray)
-                WriteLine(numFile, j_5.ToCharArray)
-                j_6 = "<groupId>" & group_id & "</groupId>"
-                WriteLine(numFile, j_6.ToCharArray)
-                mac = DataGridView1.Rows(j).Cells(9).Value
-                j_7 = "<deviceName>DV_" & mac & "</deviceName>"
-                WriteLine(numFile, j_7.ToCharArray)
-                WriteLine(numFile, j_8.ToCharArray)
-                proxy = DataGridView1.Rows(0).Cells(18).Value
-                j_9 = "<tagValue>" & proxy & "</tagValue>"
-                WriteLine(numFile, j_9.ToCharArray)
-                WriteLine(numFile, j_10.ToCharArray)
-                WriteLine(numFile, lineaFinal.ToCharArray)
-                FileClose(numFile)
-                lineConfigFile = fileIXML & ";" & fileOXML
-                'My.Application.DoEvents()
-                WriteLine(1, lineConfigFile.ToCharArray)
-            Next
+            estadoArchivo = 10
+        Else
+            Exit Sub
         End If
 
+
+        'XML PARA CREAR LOS USUARIOS---------------------------------------------------------------------------------
+        If estadoArchivo = 10 Then
+            Try
+                For j = 0 To contadorFilas - 1
+                    numFile += 1
+                    indiceXML += 1
+                    fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateUser_request_tmp.xml"
+                    fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    FileOpen(numFile, fileIXML, OpenMode.Output)
+                    WriteLine(numFile, i_1.ToCharArray)
+                    WriteLine(numFile, i_2.ToCharArray)
+                    WriteLine(numFile, i_3.ToCharArray)
+                    WriteLine(numFile, i_4.ToCharArray)
+                    WriteLine(numFile, i_5.ToCharArray)
+                    i_6 = "<groupId>" & group_id & "</groupId>"
+                    WriteLine(numFile, i_6.ToCharArray)
+                    phoneNumber = dt.Rows(j)(1)
+                    i_7 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
+                    WriteLine(numFile, i_7.ToCharArray)
+                    last_name = dt.Rows(j)(13)
+                    i_8 = "<lastName>" & last_name & "</lastName>"
+                    WriteLine(numFile, i_8.ToCharArray)
+                    first_name = dt.Rows(j)(14)
+                    i_9 = "<firstName>" & first_name & "</firstName>"
+                    WriteLine(numFile, i_9.ToCharArray)
+                    i_10 = "<callingLineIdLastName>" & last_name & "</callingLineIdLastName>"
+                    WriteLine(numFile, i_10.ToCharArray)
+                    i_11 = "<callingLineIdFirstName>" & first_name & "</callingLineIdFirstName>"
+                    WriteLine(numFile, i_11.ToCharArray)
+                    WriteLine(numFile, i_12.ToCharArray)
+                    department = dt.Rows(j)(12)
+                    If department <> "" And department.Length <> 0 And department <> Nothing Then
+                        WriteLine(numFile, i_13.ToCharArray)
+                        WriteLine(numFile, i_14.ToCharArray)
+                        i_15 = "<groupId>" & group_id & "</groupId>"
+                        WriteLine(numFile, i_15.ToCharArray)
+                        i_16 = "<name>" & department & "</name>"
+                        WriteLine(numFile, i_16.ToCharArray)
+                        WriteLine(numFile, i_17.ToCharArray)
+                    End If
+                    WriteLine(numFile, i_18.ToCharArray)
+                    WriteLine(numFile, i_19.ToCharArray)
+                    user_email = dt.Rows(j)(15)
+                    If user_email <> "" And user_email.Length <> 0 And user_email <> Nothing Then
+                        i_20 = "<emailAddress>" & user_email & "</emailAddress>"
+                        WriteLine(numFile, i_20.ToCharArray)
+                    End If
+                    WriteLine(numFile, i_21.ToCharArray)
+                    user_address = dt.Rows(j)(16)
+                    i_22 = "<addressLine1>" & user_address & "</addressLine1>"
+                    WriteLine(numFile, i_22.ToCharArray)
+                    user_city = dt.Rows(j)(17)
+                    i_23 = "<city>" & user_city & "</city>"
+                    WriteLine(numFile, i_23.ToCharArray)
+                    WriteLine(numFile, i_24.ToCharArray)
+                    WriteLine(numFile, i_25.ToCharArray)
+                    WriteLine(numFile, lineaFinal.ToCharArray)
+                    FileClose(numFile)
+                    lineConfigFile = fileIXML & ";" & fileOXML
+                    WriteLine(1, lineConfigFile.ToCharArray)
+                Next
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+                MsgBox("Error al crear el archivo " & indiceXML & "_CreateUser_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(1)
+                Exit Sub
+            End Try
+            estadoArchivo = 11
+        Else
+            Exit Sub
+        End If
+
+        'XML PARA EL PROXY-----------------------------------------------------------------------------------------------
+        If estadoArchivo = 11 Then
+            Try
+                proxy = dt.Rows(0)(18).ToString
+                If proxy <> "" And proxy.Length >= 8 Then
+                    For j = 0 To contadorFilas - 1
+                        numFile += 1
+                        indiceXML += 1
+                        fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateProxy_request_tmp.xml"
+                        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                        FileOpen(numFile, fileIXML, OpenMode.Output)
+                        WriteLine(numFile, j_1.ToCharArray)
+                        WriteLine(numFile, j_2.ToCharArray)
+                        WriteLine(numFile, j_3.ToCharArray)
+                        WriteLine(numFile, j_4.ToCharArray)
+                        WriteLine(numFile, j_5.ToCharArray)
+                        j_6 = "<groupId>" & group_id & "</groupId>"
+                        WriteLine(numFile, j_6.ToCharArray)
+                        mac = dt.Rows(j)(9)
+                        j_7 = "<deviceName>DV_" & mac & "</deviceName>"
+                        WriteLine(numFile, j_7.ToCharArray)
+                        WriteLine(numFile, j_8.ToCharArray)
+                        proxy = dt.Rows(0)(18)
+                        j_9 = "<tagValue>" & proxy & "</tagValue>"
+                        WriteLine(numFile, j_9.ToCharArray)
+                        WriteLine(numFile, j_10.ToCharArray)
+                        WriteLine(numFile, lineaFinal.ToCharArray)
+                        FileClose(numFile)
+                        lineConfigFile = fileIXML & ";" & fileOXML
+                        WriteLine(1, lineConfigFile.ToCharArray)
+                    Next
+                End If
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+                MsgBox("Error al crear el archivo " & indiceXML & "_CreateProxy_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(1)
+                Exit Sub
+            End Try
+            estadoArchivo = 12
+        Else
+            Exit Sub
+        End If
+
+        Exit Sub
+
+        'POR VALIDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRRRRRRRRRRRRRRRRRRRRRR
         'XML PARA ASIGNAR DISPOSITIVOS A USUARIOS---------------------------------------------------------------------
         For j = 0 To DataGridView1.RowCount - 2
             numFile += 1
@@ -1283,13 +1483,48 @@ Public Class Frm_Principal
             WriteLine(1, lineConfigFile.ToCharArray)
         Next
 
+
+        'XML PARA ACTIVAR LA MUSICA EN ESPERA DEL GRUPO--------------------------------------------------------------
+        numFile += 1
+        indiceXML += 1
+        fileIXML = gblSetPathTmp & "\" & indiceXML & "_GroupMusicOnHold_request_tmp.xml"
+        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+        FileOpen(numFile, fileIXML, OpenMode.Output)
+        WriteLine(numFile, q_1.ToCharArray)
+        WriteLine(numFile, q_2.ToCharArray)
+        WriteLine(numFile, q_3.ToCharArray)
+        WriteLine(numFile, q_4.ToCharArray)
+        WriteLine(numFile, q_5.ToCharArray)
+        q_6 = "<groupId>" & group_id & "</groupId>"
+        WriteLine(numFile, q_6.ToCharArray)
+        WriteLine(numFile, q_7.ToCharArray)
+        WriteLine(numFile, q_8.ToCharArray)
+        WriteLine(numFile, q_9.ToCharArray)
+        WriteLine(numFile, q_10.ToCharArray)
+        WriteLine(numFile, q_11.ToCharArray)
+        WriteLine(numFile, q_12.ToCharArray)
+        WriteLine(numFile, q_13.ToCharArray)
+        WriteLine(numFile, q_14.ToCharArray)
+        WriteLine(numFile, q_15.ToCharArray)
+        WriteLine(numFile, q_16.ToCharArray)
+        WriteLine(numFile, q_17.ToCharArray)
+        WriteLine(numFile, q_18.ToCharArray)
+        WriteLine(numFile, q_19.ToCharArray)
+        WriteLine(numFile, q_20.ToCharArray)
+        WriteLine(numFile, q_21.ToCharArray)
+        WriteLine(numFile, lineaFinal.ToCharArray)
+        FileClose(numFile)
+        lineConfigFile = fileIXML & ";" & fileOXML
+        'My.Application.DoEvents()
+        WriteLine(1, lineConfigFile.ToCharArray)
+
         FileClose(1)
 
         LblEstado.Text = "Creación de archivos finalizada"
         ProgressBar1.Value = ProgressBar1.Value + 40
         My.Application.DoEvents()
 
-        'Exit Sub
+        Exit Sub
 
         'MsgBox(My.Settings.gblCMMIdCluster.ToString())
 

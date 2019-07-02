@@ -294,27 +294,10 @@ Public Class Frm_Principal
 
     Private Sub btn_procesar_Click(sender As Object, e As EventArgs) Handles btn_procesar.Click
 
-        Dim mensaje As String = ""
-        Dim j As Integer = 0
-
         'If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
         '    'MsgBox("Server pinged successfully.")
         'Else
-        '    MsgBox("Servidor fuera de Linea, favor verifique conexion!!!", vbOKOnly, "Error de Comunicación")
-        '    Exit Sub
-        'End If
-
-        'Val("    38205 (Distrito Norte)")devuelve 38205 como valor numérico. Los espacios y el resto de cadena
-        'a partir de donde no se puede reconocer un valor numérico se ignora, Si la cadena empieza con contenido no numérico Val devuelve cero.
-        'If Val(lblCMMUpdTotalRows.Text) = 0 Then
-        '    mensaje = "No existen datos en el archivo ..."
-        '    Exit Sub
-        'Else
-        '    mensaje = lblCMMUpdTotalRows.Text & " registros a actualizar ..."
-        'End If
-        ''vbCrLf para un salto de linea
-        'mensaje &= vbCrLf & vbCrLf & "Presione Aceptar para confirmar actualización..."
-        'If MsgBox(mensaje, MsgBoxStyle.OkCancel + MsgBoxStyle.DefaultButton2, "Confirmación") = MsgBoxResult.Cancel Then
+        '    MsgBox("Servidor fuera de Linea, favor verifique la conexion", MsgBoxStyle.Exclamation, "Error de Comunicación")
         '    Exit Sub
         'End If
 
@@ -629,14 +612,12 @@ Public Class Frm_Principal
         Dim q_21 As String = "</command>"
 
 
-
         'Ultima linea de todos los XML
         Dim lineaFinal As String = "</BroadsoftDocument>"
 
         ProgressBar1.Minimum = 0
         ProgressBar1.Value = 0
         ProgressBar1.Maximum = 100
-        'ProgressBar1.Maximum = Val(lblCMMUpdTotalRows.Text)
 
         'SearchAllSubDirectories
         Try
@@ -645,6 +626,7 @@ Public Class Frm_Principal
             Next
         Catch ex As Exception
             MsgBox(ex.ToString)
+            Exit Sub
         End Try
 
 
@@ -675,9 +657,7 @@ Public Class Frm_Principal
         Dim ocp_special2 As String = ""
         Dim ocp_premium1 As String = ""
 
-        LblEstado.Text = "Generando archivos XML..."
-        ProgressBar1.Value = ProgressBar1.Value + 10
-        My.Application.DoEvents()
+
 
         Dim fileIXML As String = ""
         Dim fileOXML As String = ""
@@ -689,18 +669,16 @@ Public Class Frm_Principal
         Dim numFile As Integer = 1
 
 
-        FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
 
-        'validar la informacion obligatoria
+        'validar la informacion obligatoria-----------------------------------------------------------------------------------
 
-        'validar dominio---------------------------------------------------------------------------------------------------
+        'validar dominio-----------------------------------------------------------------------------------------------------
         domain = dt.Rows(0)(0).ToString
         If domain = "" Or domain.Length = 0 Then
             MsgBox("Revise el campo 'domain'", MsgBoxStyle.Exclamation)
         End If
 
         'validar numeración-------------------------------------------------------------------------------------------------
-        phoneNumber = dt.Rows(j)(1).ToString
         For j = 0 To dt.Rows.Count - 1
             phoneNumber = dt.Rows(j)(1).ToString
             If phoneNumber = "" Or phoneNumber.Length <= 8 Then
@@ -708,7 +686,7 @@ Public Class Frm_Principal
             End If
         Next
 
-        'validar información del grupo------------------------------------------------------------------------------------------
+        'validar información del grupo---------------------------------------------------------------------------------------
         group_id = dt.Rows(0)(2).ToString
         group_name = dt.Rows(0)(3).ToString
         address = dt.Rows(0)(6).ToString
@@ -731,7 +709,7 @@ Public Class Frm_Principal
         End If
 
 
-        'validar información de los dispositivos------------------------------------------------------------------------------------------
+        'validar información de los dispositivos-----------------------------------------------------------------------------------
         Dim contadorFilas As Integer = 0
         'For para saber cantidad de filas desde device_type hacia adelante
         For j = 0 To dt.Rows.Count - 1
@@ -845,6 +823,12 @@ Public Class Frm_Principal
         Next
 
 
+        LblEstado.Text = "Generando archivos XML..."
+        ProgressBar1.Value += 10
+        My.Application.DoEvents()
+
+        FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
+
         'XML PARA CREAR UN DOMINIO-----------------------------------------------------------------------------------------------------------
         Try
             numFile += 1
@@ -866,10 +850,11 @@ Public Class Frm_Principal
         Catch ex As Exception
             MsgBox(ex.ToString)
             MsgBox("Error al crear el archivo " & indiceXML & "_CreateDomain_request_tmp.xml", MsgBoxStyle.Exclamation)
+            FileClose(numFile)
             FileClose(1)
             Exit Sub
         End Try
-            estadoArchivo = 1
+        estadoArchivo = 1
 
 
         'XML PARA ASIGNAR EL DOMINIO CREADO----------------------------------------------------------------------
@@ -895,6 +880,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignDomain_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(numFile)
                 FileClose(1)
                 Exit Sub
             End Try
@@ -928,6 +914,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateNumbers_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(numFile)
                 FileClose(1)
                 Exit Sub
             End Try
@@ -982,6 +969,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateProfileGroup_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(numFile)
                 FileClose(1)
                 Exit Sub
             End Try
@@ -1015,6 +1003,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_ExtensionsLength_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(numFile)
                 FileClose(1)
                 Exit Sub
             End Try
@@ -1023,7 +1012,6 @@ Public Class Frm_Principal
 
 
         'XML PARA SELECCIONAR SERVICIOS DE GRUPO (ARCHIVO EXTERNO)--------------------------------------------------------------
-        numFile += 1
         indiceXML += 1
         If estadoArchivo = 5 Then
             Try
@@ -1042,8 +1030,10 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al modificar el archivo " & indiceXML & "_SelectServices_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(1)
                 Exit Sub
             End Try
+
             estadoArchivo = 6
         End If
 
@@ -1093,6 +1083,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignServices_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(numFile)
                 FileClose(1)
                 Exit Sub
             End Try
@@ -1127,6 +1118,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignNumber_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(numFile)
                 FileClose(1)
                 Exit Sub
             End Try
@@ -1175,6 +1167,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateDevice_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(numFile)
                 FileClose(1)
                 Exit Sub
             End Try
@@ -1210,6 +1203,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateDepartment_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(numFile)
                 FileClose(1)
                 Exit Sub
             End Try
@@ -1281,6 +1275,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateUser_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(numFile)
                 FileClose(1)
                 Exit Sub
             End Try
@@ -1323,6 +1318,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateProxy_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(numFile)
                 FileClose(1)
                 Exit Sub
             End Try
@@ -1374,6 +1370,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateProxy_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(numFile)
                 FileClose(1)
                 Exit Sub
             End Try
@@ -1416,6 +1413,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignServices_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(numFile)
                 FileClose(1)
                 Exit Sub
             End Try
@@ -1501,6 +1499,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_OCP_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(numFile)
                 FileClose(1)
                 Exit Sub
             End Try
@@ -1539,6 +1538,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignPasswordSIP_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(numFile)
                 FileClose(1)
                 Exit Sub
             End Try
@@ -1574,6 +1574,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_ActivateNumber_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(numFile)
                 FileClose(1)
                 Exit Sub
             End Try
@@ -1618,15 +1619,21 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_GroupMusicOnHold_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(numFile)
                 FileClose(1)
+                Exit Sub
             End Try
         End If
 
         FileClose(1)
 
-        'Exit Sub
+        LblEstado.Text = "Procesando el envío de los archivos XML"
+        ProgressBar1.Value = ProgressBar1.Value + 30
+        My.Application.DoEvents()
 
-        'MsgBox(My.Settings.gblCMMIdCluster.ToString())
+
+
+        'Exit Sub
 
         'parseXML_update_CMM(codError, msgError)
 
@@ -1635,6 +1642,7 @@ Public Class Frm_Principal
             parseXML_update_CMM(codError, msgError)
             'My.Application.DoEvents()
         End If
+
     End Sub
 
 
@@ -1698,9 +1706,7 @@ Public Class Frm_Principal
             'My.Application.DoEvents()
         End If
 
-        'LblEstado.Text = "Creación de archivos finalizada"
-        'ProgressBar1.Value = ProgressBar1.Value + 40
-        'My.Application.DoEvents()
+
     End Sub
 
 
@@ -1710,7 +1716,7 @@ Public Class Frm_Principal
         Dim linregConfig As String = ""
         Dim strArguments As String = ""
 
-        'My.Application.DoEvents()
+
         fileConfig = gblSetPathTmp & "\ociclient.config"
         FileOpen(1, fileConfig, OpenMode.Output, OpenAccess.Write)
 
@@ -1758,7 +1764,7 @@ Public Class Frm_Principal
         btn_procesar.Enabled = False
         btn_BrowseCSV.Enabled = False
         LblEstado.Text = "Ejecutando aplicación Voxcom..."
-        ProgressBar1.Value = ProgressBar1.Value + 15
+        ProgressBar1.Value += 10
         My.Application.DoEvents()
         Try
             Dim proceso As New Process()
@@ -1781,8 +1787,8 @@ Public Class Frm_Principal
             Exit Sub
         End Try
 
-        LblEstado.Text = "Esperando reporte"
-        ProgressBar1.Value = ProgressBar1.Value + 20
+        LblEstado.Text = "Generando reporte"
+        ProgressBar1.Value += 25
         My.Application.DoEvents()
 
     End Sub
@@ -1899,13 +1905,14 @@ Public Class Frm_Principal
         indiceXML = 0
         btn_procesar.Enabled = False
         btn_BrowseCSV.Enabled = Enabled
-        ProgressBar1.Value = ProgressBar1.Maximum
-        LblEstado.Text = "Finalizado"
+
         Dim FMP As New Frm_Report
         FMP.Show()
         FMP.BringToFront()
         My.Application.DoEvents()
-
+        LblEstado.Text = "Finalizado"
+        ProgressBar1.Value = ProgressBar1.Maximum
+        My.Application.DoEvents()
     End Sub
 
     Public Sub grabaLog(ByVal tipo As Integer, ByVal subtipo As Integer, ByVal mensaje As String)
@@ -1939,7 +1946,8 @@ Public Class Frm_Principal
 
         'MsgBox(fileLog.ToString)
         LblEstado.Text = "Guardando log"
-        ProgressBar1.Value = ProgressBar1.Maximum
+        My.Application.DoEvents()
+
         FileOpen(2, fileLog, OpenMode.Append, OpenAccess.Write)
         WriteLine(2, linerr.ToCharArray)
         FileClose(2)

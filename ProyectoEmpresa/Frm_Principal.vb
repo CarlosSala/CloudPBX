@@ -629,6 +629,7 @@ Public Class Frm_Principal
         Dim q_21 As String = "</command>"
 
 
+
         'Ultima linea de todos los XML
         Dim lineaFinal As String = "</BroadsoftDocument>"
 
@@ -647,11 +648,6 @@ Public Class Frm_Principal
         End Try
 
 
-        Dim fileIXML As String = ""
-        Dim fileOXML As String = ""
-        Dim estadoArchivo As Integer = 0
-        Dim codError As Integer
-        Dim msgError As String = ""
         Dim domain As String = ""
         Dim phoneNumber As String = ""
         Dim group_id As String = ""
@@ -678,10 +674,16 @@ Public Class Frm_Principal
         Dim ocp_special1 As String = ""
         Dim ocp_special2 As String = ""
         Dim ocp_premium1 As String = ""
+
         LblEstado.Text = "Generando archivos XML..."
         ProgressBar1.Value = ProgressBar1.Value + 10
         My.Application.DoEvents()
 
+        Dim fileIXML As String = ""
+        Dim fileOXML As String = ""
+        Dim estadoArchivo As Integer = 0
+        Dim codError As Integer
+        Dim msgError As String = ""
         Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile.txt"
         Dim lineConfigFile As String = ""
         Dim numFile As Integer = 1
@@ -689,39 +691,185 @@ Public Class Frm_Principal
 
         FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
 
+        'validar la informacion obligatoria
+
+        'validar dominio---------------------------------------------------------------------------------------------------
+        domain = dt.Rows(0)(0).ToString
+        If domain = "" Or domain.Length = 0 Then
+            MsgBox("Revise el campo 'domain'", MsgBoxStyle.Exclamation)
+        End If
+
+        'validar numeración-------------------------------------------------------------------------------------------------
+        phoneNumber = dt.Rows(j)(1).ToString
+        For j = 0 To dt.Rows.Count - 1
+            phoneNumber = dt.Rows(j)(1).ToString
+            If phoneNumber = "" Or phoneNumber.Length <= 8 Then
+                MsgBox("Revise el campo 'numbers'", MsgBoxStyle.Exclamation)
+            End If
+        Next
+
+        'validar información del grupo------------------------------------------------------------------------------------------
+        group_id = dt.Rows(0)(2).ToString
+        group_name = dt.Rows(0)(3).ToString
+        address = dt.Rows(0)(6).ToString
+        city = dt.Rows(0)(7).ToString
+
+        If group_id = "" Or group_id.Length = 0 Then
+            MsgBox("Revise el campo 'group_id'", MsgBoxStyle.Exclamation)
+        End If
+
+        If group_name = "" Or group_name.Length = 0 Then
+            MsgBox("Revise el campo 'group_name", MsgBoxStyle.Exclamation)
+        End If
+
+        If address = "" Or address.Length = 0 Then
+            MsgBox("Revise el campo 'enterprise_adress'", MsgBoxStyle.Exclamation)
+        End If
+
+        If city = "" Or city.Length = 0 Then
+            MsgBox("Revise el campo 'city'", MsgBoxStyle.Exclamation)
+        End If
+
+
+        'validar información de los dispositivos------------------------------------------------------------------------------------------
+        Dim contadorFilas As Integer = 0
+        'For para saber cantidad de filas desde device_type hacia adelante
+        For j = 0 To dt.Rows.Count - 1
+            If dt.Rows(j)(8).ToString.Length > 0 Then
+                contadorFilas += 1
+            Else
+                Exit For
+            End If
+        Next
+
+        For j = 0 To contadorFilas - 1
+            mac = dt.Rows(j)(9).ToString
+            device_type = dt.Rows(j)(8).ToString
+            serial_number = dt.Rows(j)(10).ToString
+            physical_location = dt.Rows(j)(11).ToString
+
+            If mac = "" Or mac.Length = 0 Then
+                MsgBox("Revise el campo 'mac'", MsgBoxStyle.Exclamation)
+            End If
+            If device_type = "" Or device_type.Length = 0 Then
+                MsgBox("Revise el campo 'device_type'", MsgBoxStyle.Exclamation)
+            End If
+            If serial_number = "" Or serial_number.Length = 0 Then
+                MsgBox("Revise el campo 'serial_number'", MsgBoxStyle.Exclamation)
+            End If
+            If physical_location = "" Or physical_location.Length = 0 Then
+                MsgBox("Revise el campo 'physical_location'", MsgBoxStyle.Exclamation)
+            End If
+        Next
+
+        'validar información de los usuarios------------------------------------------------------------------------------------------
+        Dim varAcumulaDepto As String = ""
+        Dim arreglo() As String
+        Dim arregloDeptos(dt.Rows.Count - 1) As String
+        Dim indice As Integer
+        Dim numElementos As Integer = 0
+        Try
+            For i = 0 To dt.Rows.Count - 1
+                varAcumulaDepto += dt.Rows(i)(12).ToString & ";"
+                'MsgBox(Depto.ToString)
+            Next
+            arreglo = Split(varAcumulaDepto, ";")
+            'MsgBox("Elementos en el arreglo: " & arreglo.Length)
+            For k = 0 To arreglo.Length - 1
+                indice = Array.IndexOf(arregloDeptos, arreglo(k))
+                'MsgBox("El elemento " & arreglo(k) & " arroja: " & indice)
+                If indice = -1 And arreglo(k) <> "" And arreglo(k).Length > 0 Then
+                    arregloDeptos(numElementos) = arreglo(k)
+                    'MsgBox("Se guardó el elemento: " & arregloDeptos(numElementos) & " en arregloDeptos")
+                    numElementos += 1
+                Else
+                    'MsgBox("Elemento repetido no se guardó")
+                End If
+            Next
+            ReDim Preserve arregloDeptos(numElementos - 1)
+            'MsgBox("cantidad de departamentos a crear " & arregloDeptos.Length)
+            'For Each elemento As String In arregloDeptos
+            '    MsgBox(" arreglo final con los deptos " & vbCrLf & elemento)
+            'Next
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
+
+
+        For j = 0 To contadorFilas - 1
+            first_name = dt.Rows(j)(13).ToString
+            last_name = dt.Rows(j)(14).ToString
+            user_address = dt.Rows(j)(16).ToString
+            user_city = dt.Rows(j)(17).ToString
+            extensions = dt.Rows(j)(19).ToString
+            ocp_local = dt.Rows(j)(20).ToString
+            ocp_tollFree = dt.Rows(j)(21).ToString
+            ocp_internacional = dt.Rows(j)(22).ToString
+            ocp_special1 = dt.Rows(j)(23).ToString
+            ocp_special2 = dt.Rows(j)(24).ToString
+            ocp_premium1 = dt.Rows(j)(25).ToString
+
+            If first_name = "" Or first_name.Length = 0 Then
+                MsgBox("Revise el campo 'first_name'", MsgBoxStyle.Exclamation)
+            End If
+            If last_name = "" Or last_name.Length = 0 Then
+                MsgBox("Revise el campo 'last_name'", MsgBoxStyle.Exclamation)
+            End If
+            If user_address = "" Or user_address.Length = 0 Then
+                MsgBox("Revise el campo 'user_address'", MsgBoxStyle.Exclamation)
+            End If
+            If user_city = "" Or user_city.Length = 0 Then
+                MsgBox("Revise el campo 'user_city'", MsgBoxStyle.Exclamation)
+            End If
+            If extensions = "" Or extensions.Length = 0 Then
+                MsgBox("Revise el campo 'extensions'", MsgBoxStyle.Exclamation)
+            End If
+            If ocp_local = "" Or ocp_local.Length = 0 Then
+                MsgBox("Revise el campo 'ocp_local'", MsgBoxStyle.Exclamation)
+            End If
+            If ocp_tollFree = "" Or ocp_tollFree.Length = 0 Then
+                MsgBox("Revise el campo 'ocp_tollFree'", MsgBoxStyle.Exclamation)
+            End If
+            If ocp_internacional = "" Or ocp_internacional.Length = 0 Then
+                MsgBox("Revise el campo 'ocp_internacional'", MsgBoxStyle.Exclamation)
+            End If
+            If ocp_special1 = "" Or ocp_special1.Length = 0 Then
+                MsgBox("Revise el campo 'ocp_special1'", MsgBoxStyle.Exclamation)
+            End If
+            If ocp_special2 = "" Or ocp_special2.Length = 0 Then
+                MsgBox("Revise el campo 'ocp_special2'", MsgBoxStyle.Exclamation)
+            End If
+            If ocp_premium1 = "" Or ocp_premium1.Length = 0 Then
+                MsgBox("Revise el campo 'ocp_premium1'", MsgBoxStyle.Exclamation)
+            End If
+        Next
+
 
         'XML PARA CREAR UN DOMINIO-----------------------------------------------------------------------------------------------------------
-        domain = dt.Rows(0)(0).ToString
-        If domain <> "" And domain.Length > 0 Then
-            Try
-                numFile += 1
-                indiceXML += 1
-                fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateDomain_request_tmp.xml"
-                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-                FileOpen(numFile, fileIXML, OpenMode.Output)
-                WriteLine(numFile, a_1.ToCharArray)
-                WriteLine(numFile, a_2.ToCharArray)
-                WriteLine(numFile, a_3.ToCharArray)
-                WriteLine(numFile, a_4.ToCharArray)
-                a_5 = "<domain>" & domain & "</domain>"
-                WriteLine(numFile, a_5.ToCharArray)
-                WriteLine(numFile, a_6.ToCharArray)
-                WriteLine(numFile, lineaFinal.ToCharArray)
-                FileClose(numFile)
-                lineConfigFile = fileIXML & ";" & fileOXML
-                WriteLine(1, lineConfigFile.ToCharArray)
-            Catch ex As Exception
-                MsgBox(ex.ToString)
-                MsgBox("Error al crear el archivo " & indiceXML & "_CreateDomain_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(1)
-                Exit Sub
-            End Try
-            estadoArchivo = 1
-        Else
-            MsgBox("El campo del dominio no debe estar vacio", MsgBoxStyle.Exclamation)
+        Try
+            numFile += 1
+            indiceXML += 1
+            fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateDomain_request_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, a_1.ToCharArray)
+            WriteLine(numFile, a_2.ToCharArray)
+            WriteLine(numFile, a_3.ToCharArray)
+            WriteLine(numFile, a_4.ToCharArray)
+            a_5 = "<domain>" & domain & "</domain>"
+            WriteLine(numFile, a_5.ToCharArray)
+            WriteLine(numFile, a_6.ToCharArray)
+            WriteLine(numFile, lineaFinal.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            WriteLine(1, lineConfigFile.ToCharArray)
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("Error al crear el archivo " & indiceXML & "_CreateDomain_request_tmp.xml", MsgBoxStyle.Exclamation)
             FileClose(1)
             Exit Sub
-        End If
+        End Try
+            estadoArchivo = 1
 
 
         'XML PARA ASIGNAR EL DOMINIO CREADO----------------------------------------------------------------------
@@ -751,21 +899,11 @@ Public Class Frm_Principal
                 Exit Sub
             End Try
             estadoArchivo = 2
-        Else
-            Exit Sub
         End If
 
 
         'XML PARA CREAR NUMERACIÓN------------------------------------------------------------------------------
         If estadoArchivo = 2 Then
-            For j = 0 To dt.Rows.Count - 1
-                phoneNumber = dt.Rows(j)(1).ToString
-                If phoneNumber = "" Or phoneNumber.Length <= 8 Then
-                    MsgBox("Los numeros no cumplen con el largo requerido o hay celdas vacias", MsgBoxStyle.Exclamation)
-                    FileClose(1)
-                    Exit Sub
-                End If
-            Next
             Try
                 numFile += 1
                 indiceXML += 1
@@ -778,7 +916,7 @@ Public Class Frm_Principal
                 WriteLine(numFile, c_4.ToCharArray)
                 WriteLine(numFile, c_5.ToCharArray)
                 For j = 0 To dt.Rows.Count - 1
-                    phoneNumber = dt.Rows(j)(1).ToString 'fila - columna
+                    phoneNumber = dt.Rows(j)(1)
                     c_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
                     WriteLine(numFile, c_6.ToCharArray)
                 Next
@@ -794,21 +932,11 @@ Public Class Frm_Principal
                 Exit Sub
             End Try
             estadoArchivo = 3
-        Else
-            Exit Sub
         End If
 
 
         'XML PARA CREAR PERFIL DE GRUPO-------------------------------------------------------------------------
-
-        group_id = dt.Rows(0)(2).ToString
-        group_name = dt.Rows(0)(3).ToString
-        contact_name = dt.Rows(0)(4).ToString
-        contact_number = dt.Rows(0)(5).ToString
-        address = dt.Rows(0)(6).ToString
-        city = dt.Rows(0)(7).ToString
-
-        If estadoArchivo = 3 And domain <> "" And group_id <> "" And group_name <> "" And address <> "" And city <> "" Then
+        If estadoArchivo = 3 Then
             Try
                 numFile += 1
                 indiceXML += 1
@@ -830,7 +958,9 @@ Public Class Frm_Principal
                 d_10 = "<callingLineIdName>" & group_name & "</callingLineIdName>"
                 WriteLine(numFile, d_10.ToCharArray)
                 'WriteLine(numFile, d_11.ToCharArray)
-                If contact_name <> "" And contact_number <> "" Then
+                contact_name = dt.Rows(0)(4).ToString
+                contact_number = dt.Rows(0)(5).ToString
+                If contact_name <> "" And contact_name.Length > 0 And contact_number <> "" And contact_number.Length > 0 Then
                     WriteLine(numFile, d_12.ToCharArray)
                     d_13 = "<contactName>" & contact_name & "</contactName>"
                     WriteLine(numFile, d_13.ToCharArray)
@@ -856,8 +986,6 @@ Public Class Frm_Principal
                 Exit Sub
             End Try
             estadoArchivo = 4
-        Else
-            MsgBox("Verifique que existen los campos: domain, group_id, group_name, address_enterprise y city", MsgBoxStyle.Exclamation)
         End If
 
 
@@ -891,8 +1019,6 @@ Public Class Frm_Principal
                 Exit Sub
             End Try
             estadoArchivo = 5
-        Else
-            Exit Sub
         End If
 
 
@@ -919,8 +1045,6 @@ Public Class Frm_Principal
                 Exit Sub
             End Try
             estadoArchivo = 6
-        Else
-            Exit Sub
         End If
 
 
@@ -973,8 +1097,6 @@ Public Class Frm_Principal
                 Exit Sub
             End Try
             estadoArchivo = 7
-        Else
-            Exit Sub
         End If
 
         'XML PARA ASIGNAR LA NUMERACIÓN----------------------------------------------------------------------------------------
@@ -1009,35 +1131,10 @@ Public Class Frm_Principal
                 Exit Sub
             End Try
             estadoArchivo = 8
-        Else
-            Exit Sub
         End If
 
 
         'XML PARA CREAR LOS DISPOSITIVOS---------------------------------------------------------------------------------
-        Dim contadorFilas As Integer = 0
-        'For para saber cantidad de filas desde device_type hacia adelante
-        For j = 0 To dt.Rows.Count - 1
-            If dt.Rows(j)(8).Length > 1 Then
-                contadorFilas += 1
-            Else
-                Exit For
-            End If
-        Next
-
-        For j = 0 To contadorFilas - 1
-            mac = dt.Rows(j)(9).ToString
-            device_type = dt.Rows(j)(8).ToString
-            serial_number = dt.Rows(j)(10).ToString
-            physical_location = dt.Rows(j)(11).ToString
-
-            If mac = "" Or device_type = "" Or serial_number = "" Or physical_location = "" Then
-                MsgBox("Verifique que existen los campos: device_type, mac, serial_number y physical_location", MsgBoxStyle.Exclamation)
-                FileClose(1)
-                Exit Sub
-            End If
-        Next
-
         If estadoArchivo = 8 Then
             Try
                 For j = 0 To contadorFilas - 1
@@ -1082,47 +1179,10 @@ Public Class Frm_Principal
                 Exit Sub
             End Try
             estadoArchivo = 9
-        Else
-            Exit Sub
         End If
 
 
         'XML PARA CREAR LOS DEPARTAMENTOS---------------------------------------------------------------------------------
-        Dim varAcumulaDepto As String = ""
-        Dim arreglo() As String
-        Dim arregloDeptos(dt.Rows.Count - 1) As String
-        Dim indice As Integer
-        Dim numElementos As Integer = 0
-        Try
-            For i = 0 To dt.Rows.Count - 1
-                varAcumulaDepto += dt.Rows(i)(12).ToString & ";"
-                'MsgBox(Depto.ToString)
-            Next
-
-            arreglo = Split(varAcumulaDepto, ";")
-            'MsgBox("Elementos en el arreglo: " & arreglo.Length)
-
-            For k = 0 To arreglo.Length - 1
-                indice = Array.IndexOf(arregloDeptos, arreglo(k))
-                'MsgBox("El elemento " & arreglo(k) & " arroja: " & indice)
-                If indice = -1 And arreglo(k) <> "" And arreglo(k).Length > 0 Then
-                    arregloDeptos(numElementos) = arreglo(k)
-                    'MsgBox("Se guardó el elemento: " & arregloDeptos(numElementos) & " en arregloDeptos")
-                    numElementos += 1
-                Else
-                    'MsgBox("Elemento repetido no se guardó")
-                End If
-            Next
-
-            ReDim Preserve arregloDeptos(numElementos - 1)
-            'MsgBox("cantidad de departamentos a crear " & arregloDeptos.Length)
-            'For Each elemento As String In arregloDeptos
-            '    MsgBox(" arreglo final con los deptos " & vbCrLf & elemento)
-            'Next
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-        End Try
-
         If estadoArchivo = 9 Then
             Try
                 For j = 0 To arregloDeptos.Length - 1
@@ -1154,8 +1214,6 @@ Public Class Frm_Principal
                 Exit Sub
             End Try
             estadoArchivo = 10
-        Else
-            Exit Sub
         End If
 
 
@@ -1227,9 +1285,8 @@ Public Class Frm_Principal
                 Exit Sub
             End Try
             estadoArchivo = 11
-        Else
-            Exit Sub
         End If
+
 
         'XML PARA EL PROXY-----------------------------------------------------------------------------------------------
         If estadoArchivo = 11 Then
@@ -1270,8 +1327,6 @@ Public Class Frm_Principal
                 Exit Sub
             End Try
             estadoArchivo = 12
-        Else
-            Exit Sub
         End If
 
 
@@ -1323,10 +1378,7 @@ Public Class Frm_Principal
                 Exit Sub
             End Try
             estadoArchivo = 13
-        Else
-            Exit Sub
         End If
-
 
 
         'XML PARA ASIGNAR PACK DE SERVICIOS---------------------------------------------------------------------
@@ -1368,8 +1420,6 @@ Public Class Frm_Principal
                 Exit Sub
             End Try
             estadoArchivo = 14
-        Else
-            Exit Sub
         End If
 
 
@@ -1455,10 +1505,7 @@ Public Class Frm_Principal
                 Exit Sub
             End Try
             estadoArchivo = 15
-        Else
-            Exit Sub
         End If
-
 
 
         'XML PARA ASIGNAR CONTRASEÑA SIP------------------------------------------------------------------------
@@ -1496,10 +1543,7 @@ Public Class Frm_Principal
                 Exit Sub
             End Try
             estadoArchivo = 16
-        Else
-            Exit Sub
         End If
-
 
 
         'XML PARA ACTIVAR LOS NUMEROS------------------------------------------------------------------------
@@ -1534,8 +1578,6 @@ Public Class Frm_Principal
                 Exit Sub
             End Try
             estadoArchivo = 17
-        Else
-            Exit Sub
         End If
 
 
@@ -1578,15 +1620,9 @@ Public Class Frm_Principal
                 MsgBox("Error al crear el archivo " & indiceXML & "_GroupMusicOnHold_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(1)
             End Try
-        Else
-            Exit Sub
         End If
 
         FileClose(1)
-
-        LblEstado.Text = "Creación de archivos finalizada"
-        ProgressBar1.Value = ProgressBar1.Value + 40
-        My.Application.DoEvents()
 
         'Exit Sub
 
@@ -1600,6 +1636,74 @@ Public Class Frm_Principal
             'My.Application.DoEvents()
         End If
     End Sub
+
+
+    Public Sub ModifyProxy()
+
+        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\
+        '| XML para "GroupAccessDeviceGetListRequest"   |
+        '\\\\\\\\\\\\\\\\\\\\///////////////////////////
+        Dim r_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim r_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim r_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim r_4 As String = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceGetListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim r_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim r_6 As String = "<groupId>AGPRO_cloudpbx</groupId>"
+        Dim r_7 As String = "<responseSizeLimit>1000</responseSizeLimit>"
+        Dim r_8 As String = "</command>"
+        Dim lineaFinal As String = "</BroadsoftDocument>"
+
+        Dim fileIXML As String = ""
+        Dim fileOXML As String = ""
+        Dim estadoArchivo As Integer = 0
+        Dim codError As Integer
+        Dim msgError As String = ""
+        Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile1.txt"
+        Dim lineConfigFile As String = ""
+        Dim numFile As Integer = 1
+
+        FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
+
+        'XML PARA ACTIVAR LA MUSICA EN ESPERA DEL GRUPO--------------------------------------------------------------
+        If TextBox1.Text <> "" Then
+            numFile += 1
+            indiceXML += 1
+            fileIXML = gblSetPathTmp & "\" & indiceXML & "_DeviceGetList_request_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, r_1.ToCharArray)
+            WriteLine(numFile, r_2.ToCharArray)
+            WriteLine(numFile, r_3.ToCharArray)
+            WriteLine(numFile, r_4.ToCharArray)
+            WriteLine(numFile, r_5.ToCharArray)
+            r_6 = "<groupId>" & TextBox1.Text.ToString & "_cloudpbx" & "</groupId>"
+            WriteLine(numFile, r_6.ToCharArray)
+            WriteLine(numFile, r_7.ToCharArray)
+            WriteLine(numFile, r_8.ToCharArray)
+            WriteLine(numFile, lineaFinal.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            WriteLine(1, lineConfigFile.ToCharArray)
+
+            FileClose(1)
+        Else
+            MsgBox("Campo de groupId inválido", MsgBoxStyle.Exclamation)
+            Exit Sub
+        End If
+
+
+        executeShellBulk(multipleInputFile, My.Settings.gblCMMIdCluster, codError, msgError)
+        If codError = 0 Then
+            parseXML_update_CMM(codError, msgError)
+            'My.Application.DoEvents()
+        End If
+
+        'LblEstado.Text = "Creación de archivos finalizada"
+        'ProgressBar1.Value = ProgressBar1.Value + 40
+        'My.Application.DoEvents()
+    End Sub
+
+
 
     Public Sub executeShellBulk(ByVal fileMIF As String, ByVal cluster As Integer, ByVal codError As Integer, ByVal msgError As String)
         Dim fileConfig As String = ""
@@ -1858,4 +1962,19 @@ Public Class Frm_Principal
 
     End Sub
 
+    Private Sub TabPage2_Click(sender As Object, e As EventArgs) Handles TabPage2.Click
+
+    End Sub
+
+    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
+
+    End Sub
+
+    Private Sub Label3_Click(sender As Object, e As EventArgs) Handles Label3.Click
+
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        ModifyProxy()
+    End Sub
 End Class

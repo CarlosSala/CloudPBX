@@ -1,0 +1,39 @@
+**** Version Voxcom --> 2019.07.01 15:46:42:936 CLT
+**** Start OCIClient initialization --> 2019.07.01 15:46:42:947 CLT
+**** Sending request at: 2019.07.01 15:46:43:100 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 295 ms)
+AuthenticationRequest command successful
+
+**** Sending request at: 2019.07.01 15:46:43:404 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 12 ms)
+LoginRequest command successful
+
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\1_DeviceGetList_request_tmp.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\1_Broadsoft_response_tmp.xml
+********* Starting Run #: 1 in: 3 ms *********
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\1_DeviceGetList_request_tmp.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\1_Broadsoft_response_tmp.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\1_DeviceGetList_request_tmp.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\1_Broadsoft_response_tmp.xml
+**** Sending request #: 1 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\1_DeviceGetList_request_tmp.xml at: 2019.07.01 15:46:43:428 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 236 ms)
+
+Run #: 1 -- Statistics ========================>
+Total Requests: 1
+Total Time for all requests: 236 ms
+Average Time per request: 236 ms
+Smallest request time: 236 ms
+Longest request time: 236 ms, FileName: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\1_DeviceGetList_request_tmp.xml, Time: 2019.07.01 15:46:43:667 CLT
+<========================
+
+**** Sending request at: 2019.07.01 15:46:43:747 CLT
+**** Time Out:1
+
+**** Received response (Request process time: 1000 ms)
+LogoutRequest command successful (no response when OCS)
+

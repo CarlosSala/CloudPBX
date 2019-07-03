@@ -249,23 +249,26 @@ Public Class Frm_Principal
     End Sub
 
 
-    'Se utilizan como variables globales para trabajar con access
-    Dim da As New OleDbDataAdapter
-    Dim cmd As New OleDbCommand
-    Dim dt As New DataTable 'para trabajar con una tabla DataTAble y para trabajar con un conjunto de tablas DataSet
-
+    'dt de dataTable se utiliza como variable global para trabajar con access
+    Dim dt As New DataTable
     Public Sub actualizarGrilla()
 
         Dim iSql As String = "select * from broadsoft_cloudPBX"
+        Dim cmd As New OleDbCommand
+        Dim dt1 As New DataTable
+        Dim da As New OleDbDataAdapter
+
+        dt = dt1
+
         Try
             Conexion.Open()
             cmd.Connection = Conexion
             cmd.CommandText = iSql
+            'cmd.CommandType = CommandType.TableDirect
             da.SelectCommand = cmd
-            da.Fill(dt)
-
+            da.Fill(dt1)
             'Se muestran los datos en el datagridview 
-            DataGridView1.DataSource = dt
+            DataGridView1.DataSource = dt1
             DataGridView1.Refresh()
         Catch ex As Exception
             MsgBox("Can not open connection ! , " & ex.Message)
@@ -273,8 +276,8 @@ Public Class Frm_Principal
         Conexion.Close()
 
         'DataGridView1.CurrentCell = DataGridView1.Rows(0).Cells(0)
-        'lblCMMUpdCurrentRow.Text = DataGridView1.CurrentCell.RowIndex + 1
-        'lblCMMUpdTotalRows.Text = DataGridView1.RowCount
+        ''lblCMMUpdCurrentRow.Text = DataGridView1.CurrentCell.RowIndex + 1
+        ''lblCMMUpdTotalRows.Text = DataGridView1.RowCount
 
         Lab_wait.Visible = False
         Me.Cursor = Cursors.Default

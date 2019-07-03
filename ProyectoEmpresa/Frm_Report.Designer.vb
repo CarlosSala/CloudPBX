@@ -29,7 +29,9 @@ Partial Class Frm_Report
         '
         'DataGridView2
         '
-        Me.DataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
+        Me.DataGridView2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.DataGridView2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView2.Location = New System.Drawing.Point(12, 12)
@@ -44,13 +46,11 @@ Partial Class Frm_Report
         Me.ClientSize = New System.Drawing.Size(784, 511)
         Me.Controls.Add(Me.DataGridView2)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
-        Me.MaximizeBox = False
-        Me.MaximumSize = New System.Drawing.Size(800, 550)
+        Me.MaximumSize = New System.Drawing.Size(1366, 768)
         Me.MinimumSize = New System.Drawing.Size(800, 550)
         Me.Name = "Frm_Report"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Reporte de errores"
-        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

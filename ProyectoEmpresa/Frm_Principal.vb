@@ -31,9 +31,6 @@ Public Class Frm_Principal
         btn_procesar.Enabled = False
         btn_BrowseCSV.Enabled = True
         Lab_wait.Visible = False
-        'contabilización de filas y colummnas
-        lblCMMUpdCurrentRow.Visible = False
-        lblCMMUpdTotalRows.Visible = False
         LblEstado.Text = ""
     End Sub
 
@@ -56,8 +53,9 @@ Public Class Frm_Principal
         openFileDialogCSV.CheckFileExists = True
         openFileDialogCSV.ShowDialog()
         TextBox_FileName.Text = openFileDialogCSV.FileName
-        'Lab_wait.Visible = True
+        Lab_wait.Visible = True
         Me.Cursor = Cursors.WaitCursor
+        My.Application.DoEvents()
         GuardarDatosEnAccess()
     End Sub
 
@@ -1631,13 +1629,10 @@ Public Class Frm_Principal
         ProgressBar1.Value = ProgressBar1.Value + 30
         My.Application.DoEvents()
 
-
-
         'Exit Sub
-
         'parseXML_update_CMM(codError, msgError)
 
-        executeShellBulk(multipleInputFile, My.Settings.gblCMMIdCluster, codError, msgError)
+        executeShellBulk(multipleInputFile, codError, msgError)
         If codError = 0 Then
             parseXML_update_CMM(codError, msgError)
             'My.Application.DoEvents()
@@ -1645,77 +1640,10 @@ Public Class Frm_Principal
 
     End Sub
 
-
-    Public Sub ModifyProxy()
-
-        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\
-        '| XML para "GroupAccessDeviceGetListRequest"   |
-        '\\\\\\\\\\\\\\\\\\\\///////////////////////////
-        Dim r_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
-        Dim r_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
-        Dim r_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
-        Dim r_4 As String = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceGetListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
-        Dim r_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
-        Dim r_6 As String = "<groupId>AGPRO_cloudpbx</groupId>"
-        Dim r_7 As String = "<responseSizeLimit>1000</responseSizeLimit>"
-        Dim r_8 As String = "</command>"
-        Dim lineaFinal As String = "</BroadsoftDocument>"
-
-        Dim fileIXML As String = ""
-        Dim fileOXML As String = ""
-        Dim estadoArchivo As Integer = 0
-        Dim codError As Integer
-        Dim msgError As String = ""
-        Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile1.txt"
-        Dim lineConfigFile As String = ""
-        Dim numFile As Integer = 1
-
-        FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
-
-        'XML PARA ACTIVAR LA MUSICA EN ESPERA DEL GRUPO--------------------------------------------------------------
-        If TextBox1.Text <> "" Then
-            numFile += 1
-            indiceXML += 1
-            fileIXML = gblSetPathTmp & "\" & indiceXML & "_DeviceGetList_request_tmp.xml"
-            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-            FileOpen(numFile, fileIXML, OpenMode.Output)
-            WriteLine(numFile, r_1.ToCharArray)
-            WriteLine(numFile, r_2.ToCharArray)
-            WriteLine(numFile, r_3.ToCharArray)
-            WriteLine(numFile, r_4.ToCharArray)
-            WriteLine(numFile, r_5.ToCharArray)
-            r_6 = "<groupId>" & TextBox1.Text.ToString & "_cloudpbx" & "</groupId>"
-            WriteLine(numFile, r_6.ToCharArray)
-            WriteLine(numFile, r_7.ToCharArray)
-            WriteLine(numFile, r_8.ToCharArray)
-            WriteLine(numFile, lineaFinal.ToCharArray)
-            FileClose(numFile)
-            lineConfigFile = fileIXML & ";" & fileOXML
-            WriteLine(1, lineConfigFile.ToCharArray)
-
-            FileClose(1)
-        Else
-            MsgBox("Campo de groupId inválido", MsgBoxStyle.Exclamation)
-            Exit Sub
-        End If
-
-
-        executeShellBulk(multipleInputFile, My.Settings.gblCMMIdCluster, codError, msgError)
-        If codError = 0 Then
-            parseXML_update_CMM(codError, msgError)
-            'My.Application.DoEvents()
-        End If
-
-
-    End Sub
-
-
-
-    Public Sub executeShellBulk(ByVal fileMIF As String, ByVal cluster As Integer, ByVal codError As Integer, ByVal msgError As String)
+    Public Sub executeShellBulk(ByVal fileMIF As String, ByVal codError As Integer, ByVal msgError As String)
         Dim fileConfig As String = ""
         Dim linregConfig As String = ""
         Dim strArguments As String = ""
-
 
         fileConfig = gblSetPathTmp & "\ociclient.config"
         FileOpen(1, fileConfig, OpenMode.Output, OpenAccess.Write)
@@ -1815,7 +1743,6 @@ Public Class Frm_Principal
 
 
         Dim reader As XmlTextReader
-        Dim swCol As Boolean = False
         Dim exito As Boolean = False
         Dim parseXMl As String
         Dim i As Integer = 0
@@ -1837,9 +1764,7 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
-        'MyConn.Open()
-        'dcUser = New OleDb.OleDbCommand()
-        'dcUser.Connection = MyConn
+
         Dim fileNameTmp As String = ""
         For num = 1 To indiceXML
 
@@ -1953,7 +1878,68 @@ Public Class Frm_Principal
         FileClose(2)
     End Sub
 
+    Public Sub ModifyProxy()
 
+        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\
+        '| XML para "GroupAccessDeviceGetListRequest"   |
+        '\\\\\\\\\\\\\\\\\\\\///////////////////////////
+        Dim r_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim r_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim r_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim r_4 As String = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceGetListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim r_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim r_6 As String = "<groupId>AGPRO_cloudpbx</groupId>"
+        Dim r_7 As String = "<responseSizeLimit>1000</responseSizeLimit>"
+        Dim r_8 As String = "</command>"
+        Dim lineaFinal As String = "</BroadsoftDocument>"
+
+        Dim fileIXML As String = ""
+        Dim fileOXML As String = ""
+        Dim estadoArchivo As Integer = 0
+        Dim codError As Integer
+        Dim msgError As String = ""
+        Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile1.txt"
+        Dim lineConfigFile As String = ""
+        Dim numFile As Integer = 1
+
+        FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
+
+        'XML PARA ACTIVAR LA MUSICA EN ESPERA DEL GRUPO--------------------------------------------------------------
+        If TextBox1.Text <> "" Then
+            numFile += 1
+            indiceXML += 1
+            fileIXML = gblSetPathTmp & "\" & indiceXML & "_DeviceGetList_request_tmp.xml"
+            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, r_1.ToCharArray)
+            WriteLine(numFile, r_2.ToCharArray)
+            WriteLine(numFile, r_3.ToCharArray)
+            WriteLine(numFile, r_4.ToCharArray)
+            WriteLine(numFile, r_5.ToCharArray)
+            r_6 = "<groupId>" & TextBox1.Text.ToString & "_cloudpbx" & "</groupId>"
+            WriteLine(numFile, r_6.ToCharArray)
+            WriteLine(numFile, r_7.ToCharArray)
+            WriteLine(numFile, r_8.ToCharArray)
+            WriteLine(numFile, lineaFinal.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            WriteLine(1, lineConfigFile.ToCharArray)
+
+            FileClose(1)
+        Else
+            MsgBox("Campo de groupId inválido", MsgBoxStyle.Exclamation)
+            Exit Sub
+        End If
+
+
+        executeShellBulk(multipleInputFile, codError, msgError)
+        If codError = 0 Then
+            parseXML_update_CMM(codError, msgError)
+            'My.Application.DoEvents()
+        End If
+
+
+    End Sub
     Private Sub TabPage1_Click(sender As Object, e As EventArgs) Handles TabPage1.Click
 
     End Sub
@@ -1966,23 +1952,9 @@ Public Class Frm_Principal
         TooltipAyudaBotones(ToolTipHelpButtons, btn_procesar, "Procesar y enviar la información")
     End Sub
 
-    Private Sub LblEstado_Click(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub TabPage2_Click(sender As Object, e As EventArgs) Handles TabPage2.Click
-
-    End Sub
-
-    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
-
-    End Sub
-
-    Private Sub Label3_Click(sender As Object, e As EventArgs) Handles Label3.Click
-
-    End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         ModifyProxy()
     End Sub
+
 End Class

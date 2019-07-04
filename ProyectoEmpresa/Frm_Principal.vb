@@ -70,12 +70,22 @@ Public Class Frm_Principal
             FileOpen(1, TextBox_FileName.Text, OpenMode.Input)
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Asegurese de que el archivo no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation)
+            MsgBox("Asegurese de que el archivo no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
+            Lbl_wait.Visible = False
             Me.Cursor = Cursors.Default
             FileClose(1)
             Exit Sub
         End Try
+
+        'Variables para validar el formato del archivo
+        Dim controlArchivoVacio As Integer = 0
+
         While Not EOF(1)
+
+            'Si el programa modifica la variable controlArchivoVacio a 1, significa
+            'que ingreso al while donde se lee el archivo y por ende este no esta vacio
+            controlArchivoVacio = 1
+
             'Variables para guardar la información encontrada en el archivo
             Dim readLine As String = ""
             Dim arrayLine() As String
@@ -85,32 +95,36 @@ Public Class Frm_Principal
 
             'Comprueba que la primera linea del archivo contenga 26 columnas
             If arrayLine.Length <> 26 Then
-                MsgBox("Revisa el número de columnas del archivo cargado", MsgBoxStyle.Exclamation)
-                FileClose(1)
+                Lbl_wait.Visible = False
                 Me.Cursor = Cursors.Default
+                MsgBox("Revise el número de columnas del archivo cargado", MsgBoxStyle.Exclamation, "Error en la estructura del archivo")
+                FileClose(1)
                 Exit Sub
             End If
         End While
+
+        If controlArchivoVacio = 0 Then
+            Me.Cursor = Cursors.Default
+            Lbl_wait.Visible = False
+            MsgBox("El archivo esta vacio", MsgBoxStyle.Exclamation, "Error en la estructura del archivo")
+            FileClose(1)
+            Exit Sub
+        End If
+
         FileClose(1)
         save_File_Data_Access()
     End Sub
 
     Private Sub save_File_Data_Access()
 
-        ''Si no se escogió ningun archivo, se cancela la llamada al metodo
-        'If TextBox_FileName.Text = "" Then
-        '    Lbl_wait.Visible = False
-        '    Me.Cursor = Cursors.Default
-        '    Exit Sub
-        'End If
-
         'Se abre el archivo selccionado en modo lectura y se le asigna un id
         Try
             FileOpen(1, TextBox_FileName.Text, OpenMode.Input)
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Asegurese de que el archivo no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation)
+            MsgBox("Asegurese de que el archivo no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
             Me.Cursor = Cursors.Default
+            Lbl_wait.Visible = False
             FileClose(1)
             Exit Sub
         End Try
@@ -126,6 +140,11 @@ Public Class Frm_Principal
             cmd.ExecuteNonQuery()
         Catch ex As Exception
             MessageBox.Show(ex.Message)
+            Me.Cursor = Cursors.Default
+            Lbl_wait.Visible = False
+            FileClose(1)
+            Conexion.Close()
+            Exit Sub
         End Try
         Conexion.Close()
 
@@ -161,30 +180,12 @@ Public Class Frm_Principal
         Dim readLine As String = ""
         Dim arrayLine() As String
 
-        'Variables para validar el formato del archivo
-        Dim controlNumColummnas As Integer = 0
-        Dim controlArchivoVacio As Integer = 0
-
         'Se lee linea por linea el archivo con id = 1, hasta que este acabe, EndOfFile
         While Not EOF(1)
 
             'Lee una linea del archivo
             readLine = LineInput(1)
             arrayLine = Split(readLine, ";")
-
-            ''Comprueba que la primera linea del archivo contenga 26 columnas
-            'If arrayLine.Length <> 26 And controlNumColummnas = 0 Then
-            '    MsgBox("Revisa el número de columnas del archivo cargado", MsgBoxStyle.Exclamation)
-            '    FileClose(1)
-            '    Me.Cursor = Cursors.Default
-            '    Exit Sub
-            'End If
-
-            'Si el programa modifica la variable controlArchivoVacio a 1, significa
-            'que ingreso al while donde se lee el archivo y por ende este no esta vacio
-            controlArchivoVacio = 1
-
-            'La matriz debe ser cudrada
             Dominio = arrayLine(0).ToString()
             Numeros = arrayLine(1).ToString()
             Nombre_grupo = arrayLine(2).ToString()
@@ -212,17 +213,8 @@ Public Class Frm_Principal
             OCP_especial2 = arrayLine(24).ToString()
             OCP_premium1 = arrayLine(25).ToString()
 
-            'Se modifica el valor de esta variable para que no se realice una validacion del numero de columnas
-            'a partir de la segunda linea del archivo
-            controlNumColummnas = 1
-
-            'Se debe modificar el tipo de dato, de numero entero largo a -> doble
-            'Access no redondea cifras automaticamente si estas estan en formato general y si no superan los 16 caracteres
-            'Numeros = Convert.ToInt64(arrayLine(1))
-            'MsgBox(Dominio & " " & Numeros.ToString())
 
             'Instrucción SQL
-            'Se insertan datos en los campos domain y numbers de la tabla brs_create_group
             Dim cadenaSql As String = "INSERT INTO broadsoft_cloudPBX ([domain], numbers, group_id, group_name, contact_name, contact_phone, enterprise_address, city,
                                                                         device_type, mac, serial_number, physical_location, deparment_name,
                                                                         first_name, last_name, user_email, user_address, user_city,
@@ -266,18 +258,14 @@ Public Class Frm_Principal
                 'MsgBox("Se agregó correctamente el registro")
             Catch ex As Exception
                 MsgBox(ex.ToString())
+                Me.Cursor = Cursors.Default
+                Lbl_wait.Visible = False
+                FileClose(1)
+                Conexion.Close()
+                Exit Sub
             End Try
             Conexion.Close()
         End While
-
-        'Si el valor de controlArchivoVacio no cambio a 1, quiere decir que se salto el bucle While
-        'debido a que el archivo estaba vacio
-        If controlArchivoVacio = 0 Then
-            MsgBox("El archivo esta vacio", MsgBoxStyle.Exclamation)
-            FileClose(1)
-            Me.Cursor = Cursors.Default
-            Exit Sub
-        End If
 
         FileClose(1)
         Lbl_state.Text = ""
@@ -294,7 +282,6 @@ Public Class Frm_Principal
         Dim cmd As New OleDbCommand
         Dim dt1 As New DataTable
         Dim da As New OleDbDataAdapter
-
         dt = dt1
 
         Try
@@ -304,25 +291,26 @@ Public Class Frm_Principal
             'cmd.CommandType = CommandType.TableDirect
             da.SelectCommand = cmd
             da.Fill(dt1)
-            'Se muestran los datos en el datagridview 
-            DataGridView1.DataSource = dt1
-            DataGridView1.Refresh()
         Catch ex As Exception
-            MsgBox("Can not open connection ! , " & ex.Message)
+            MsgBox(ex.Message)
+            MsgBox("No se pudieron traer los datos de la Base de datos a la grilla", MsgBoxStyle.Exclamation, "Error en la base de datos")
+            Me.Cursor = Cursors.Default
+            Lbl_wait.Visible = False
+            Exit Sub
         End Try
         Conexion.Close()
 
+        'Se muestran los datos en el datagridview 
+        DataGridView1.DataSource = dt1
+        DataGridView1.Refresh()
+
         'DataGridView1.CurrentCell = DataGridView1.Rows(0).Cells(0)
-        ''lblCMMUpdCurrentRow.Text = DataGridView1.CurrentCell.RowIndex + 1
-        ''lblCMMUpdTotalRows.Text = DataGridView1.RowCount
+        'lblCMMUpdCurrentRow.Text = DataGridView1.CurrentCell.RowIndex + 1
+        'lblCMMUpdTotalRows.Text = DataGridView1.RowCount
 
         Lbl_wait.Visible = False
         Me.Cursor = Cursors.Default
         Interface_Salida()
-    End Sub
-
-    Private Sub BtnCMMOpenFile_Click(sender As Object, e As EventArgs)
-
     End Sub
 
     Private Sub Interface_Salida()
@@ -333,7 +321,7 @@ Public Class Frm_Principal
     Private Sub btn_procesar_Click(sender As Object, e As EventArgs) Handles btn_procesar.Click
 
         'If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
-        '    'MsgBox("Server pinged successfully.")
+        '    MsgBox("Server pinged successfully.")
         'Else
         '    MsgBox("Servidor fuera de Linea, favor verifique la conexion", MsgBoxStyle.Exclamation, "Error de Comunicación")
         '    Exit Sub

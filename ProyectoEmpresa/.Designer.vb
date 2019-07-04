@@ -26,12 +26,20 @@ Partial Class Frm_Principal
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Frm_Principal))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
-        Me.Lab_wait = New System.Windows.Forms.Label()
+        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.ProgressBar1 = New System.Windows.Forms.ToolStripProgressBar()
+        Me.Lbl_state = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.Lbl_wait = New System.Windows.Forms.Label()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.btn_procesar = New System.Windows.Forms.Button()
         Me.TextBox_FileName = New System.Windows.Forms.TextBox()
-        Me.btn_BrowseCSV = New System.Windows.Forms.Button()
+        Me.btn_Browse_CSV = New System.Windows.Forms.Button()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.ListBox1 = New System.Windows.Forms.ListBox()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -41,14 +49,11 @@ Partial Class Frm_Principal
         Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
-        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
-        Me.ProgressBar1 = New System.Windows.Forms.ToolStripProgressBar()
-        Me.LblEstado = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
+        Me.StatusStrip1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage2.SuspendLayout()
-        Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -72,11 +77,11 @@ Partial Class Frm_Principal
         'TabPage1
         '
         Me.TabPage1.Controls.Add(Me.StatusStrip1)
-        Me.TabPage1.Controls.Add(Me.Lab_wait)
+        Me.TabPage1.Controls.Add(Me.Lbl_wait)
         Me.TabPage1.Controls.Add(Me.DataGridView1)
         Me.TabPage1.Controls.Add(Me.btn_procesar)
         Me.TabPage1.Controls.Add(Me.TextBox_FileName)
-        Me.TabPage1.Controls.Add(Me.btn_BrowseCSV)
+        Me.TabPage1.Controls.Add(Me.btn_Browse_CSV)
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
@@ -85,19 +90,43 @@ Partial Class Frm_Principal
         Me.TabPage1.Text = "Crear Grupo"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
-        'Lab_wait
+        'StatusStrip1
         '
-        Me.Lab_wait.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
-        Me.Lab_wait.AutoSize = True
-        Me.Lab_wait.BackColor = System.Drawing.Color.White
-        Me.Lab_wait.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Lab_wait.ForeColor = System.Drawing.Color.Black
-        Me.Lab_wait.Location = New System.Drawing.Point(255, 288)
-        Me.Lab_wait.Name = "Lab_wait"
-        Me.Lab_wait.Size = New System.Drawing.Size(300, 31)
-        Me.Lab_wait.TabIndex = 0
-        Me.Lab_wait.Text = "Espere un momento..."
-        Me.Lab_wait.Visible = False
+        Me.StatusStrip1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.StatusStrip1.Dock = System.Windows.Forms.DockStyle.None
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar1, Me.Lbl_state})
+        Me.StatusStrip1.Location = New System.Drawing.Point(6, 574)
+        Me.StatusStrip1.MaximumSize = New System.Drawing.Size(400, 22)
+        Me.StatusStrip1.MinimumSize = New System.Drawing.Size(269, 22)
+        Me.StatusStrip1.Name = "StatusStrip1"
+        Me.StatusStrip1.Size = New System.Drawing.Size(269, 22)
+        Me.StatusStrip1.TabIndex = 52
+        Me.StatusStrip1.Text = "StatusStrip1"
+        '
+        'ProgressBar1
+        '
+        Me.ProgressBar1.Name = "ProgressBar1"
+        Me.ProgressBar1.Size = New System.Drawing.Size(100, 16)
+        '
+        'Lbl_state
+        '
+        Me.Lbl_state.Name = "Lbl_state"
+        Me.Lbl_state.Size = New System.Drawing.Size(119, 17)
+        Me.Lbl_state.Text = "ToolStripStatusLabel1"
+        '
+        'Lbl_wait
+        '
+        Me.Lbl_wait.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.Lbl_wait.AutoSize = True
+        Me.Lbl_wait.BackColor = System.Drawing.Color.White
+        Me.Lbl_wait.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lbl_wait.ForeColor = System.Drawing.Color.Black
+        Me.Lbl_wait.Location = New System.Drawing.Point(255, 288)
+        Me.Lbl_wait.Name = "Lbl_wait"
+        Me.Lbl_wait.Size = New System.Drawing.Size(300, 31)
+        Me.Lbl_wait.TabIndex = 0
+        Me.Lbl_wait.Text = "Espere un momento..."
+        Me.Lbl_wait.Visible = False
         '
         'DataGridView1
         '
@@ -138,26 +167,31 @@ Partial Class Frm_Principal
         Me.TextBox_FileName.Size = New System.Drawing.Size(700, 20)
         Me.TextBox_FileName.TabIndex = 49
         '
-        'btn_BrowseCSV
+        'btn_Browse_CSV
         '
-        Me.btn_BrowseCSV.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.btn_Browse_CSV.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_BrowseCSV.BackColor = System.Drawing.Color.Transparent
-        Me.btn_BrowseCSV.BackgroundImage = CType(resources.GetObject("btn_BrowseCSV.BackgroundImage"), System.Drawing.Image)
-        Me.btn_BrowseCSV.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.btn_BrowseCSV.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btn_BrowseCSV.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_BrowseCSV.Location = New System.Drawing.Point(709, 7)
-        Me.btn_BrowseCSV.Margin = New System.Windows.Forms.Padding(4)
-        Me.btn_BrowseCSV.MaximumSize = New System.Drawing.Size(70, 70)
-        Me.btn_BrowseCSV.MinimumSize = New System.Drawing.Size(70, 70)
-        Me.btn_BrowseCSV.Name = "btn_BrowseCSV"
-        Me.btn_BrowseCSV.Size = New System.Drawing.Size(70, 70)
-        Me.btn_BrowseCSV.TabIndex = 48
-        Me.btn_BrowseCSV.UseVisualStyleBackColor = False
+        Me.btn_Browse_CSV.BackColor = System.Drawing.Color.Transparent
+        Me.btn_Browse_CSV.BackgroundImage = CType(resources.GetObject("btn_Browse_CSV.BackgroundImage"), System.Drawing.Image)
+        Me.btn_Browse_CSV.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.btn_Browse_CSV.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btn_Browse_CSV.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_Browse_CSV.Location = New System.Drawing.Point(709, 7)
+        Me.btn_Browse_CSV.Margin = New System.Windows.Forms.Padding(4)
+        Me.btn_Browse_CSV.MaximumSize = New System.Drawing.Size(70, 70)
+        Me.btn_Browse_CSV.MinimumSize = New System.Drawing.Size(70, 70)
+        Me.btn_Browse_CSV.Name = "btn_Browse_CSV"
+        Me.btn_Browse_CSV.Size = New System.Drawing.Size(70, 70)
+        Me.btn_Browse_CSV.TabIndex = 48
+        Me.btn_Browse_CSV.UseVisualStyleBackColor = False
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.Button2)
+        Me.TabPage2.Controls.Add(Me.TextBox2)
+        Me.TabPage2.Controls.Add(Me.Label5)
+        Me.TabPage2.Controls.Add(Me.Label2)
+        Me.TabPage2.Controls.Add(Me.ListBox1)
         Me.TabPage2.Controls.Add(Me.Label3)
         Me.TabPage2.Controls.Add(Me.TextBox1)
         Me.TabPage2.Controls.Add(Me.Label1)
@@ -170,11 +204,53 @@ Partial Class Frm_Principal
         Me.TabPage2.Text = "Rebuild the file"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
+        'Button2
+        '
+        Me.Button2.Location = New System.Drawing.Point(153, 418)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(75, 23)
+        Me.Button2.TabIndex = 9
+        Me.Button2.Text = "Procesar"
+        Me.Button2.UseVisualStyleBackColor = True
+        '
+        'TextBox2
+        '
+        Me.TextBox2.Location = New System.Drawing.Point(153, 392)
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.Size = New System.Drawing.Size(202, 20)
+        Me.TextBox2.TabIndex = 8
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(54, 395)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(33, 13)
+        Me.Label5.TabIndex = 7
+        Me.Label5.Text = "Proxy"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(78, 142)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(70, 13)
+        Me.Label2.TabIndex = 6
+        Me.Label2.Text = "Device name"
+        '
+        'ListBox1
+        '
+        Me.ListBox1.FormattingEnabled = True
+        Me.ListBox1.Location = New System.Drawing.Point(153, 142)
+        Me.ListBox1.Name = "ListBox1"
+        Me.ListBox1.Size = New System.Drawing.Size(202, 225)
+        Me.ListBox1.TabIndex = 5
+        '
         'Label3
         '
         Me.Label3.AutoSize = True
         Me.Label3.Enabled = False
-        Me.Label3.Location = New System.Drawing.Point(360, 77)
+        Me.Label3.Location = New System.Drawing.Point(361, 77)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(56, 13)
         Me.Label3.TabIndex = 4
@@ -182,7 +258,7 @@ Partial Class Frm_Principal
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(152, 74)
+        Me.TextBox1.Location = New System.Drawing.Point(153, 74)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(202, 20)
         Me.TextBox1.TabIndex = 3
@@ -198,7 +274,7 @@ Partial Class Frm_Principal
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(151, 120)
+        Me.Button1.Location = New System.Drawing.Point(153, 100)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 23)
         Me.Button1.TabIndex = 0
@@ -239,30 +315,6 @@ Partial Class Frm_Principal
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
         '
-        'StatusStrip1
-        '
-        Me.StatusStrip1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.StatusStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar1, Me.LblEstado})
-        Me.StatusStrip1.Location = New System.Drawing.Point(6, 574)
-        Me.StatusStrip1.MaximumSize = New System.Drawing.Size(400, 22)
-        Me.StatusStrip1.MinimumSize = New System.Drawing.Size(269, 22)
-        Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(269, 22)
-        Me.StatusStrip1.TabIndex = 52
-        Me.StatusStrip1.Text = "StatusStrip1"
-        '
-        'ProgressBar1
-        '
-        Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(100, 16)
-        '
-        'LblEstado
-        '
-        Me.LblEstado.Name = "LblEstado"
-        Me.LblEstado.Size = New System.Drawing.Size(119, 17)
-        Me.LblEstado.Text = "ToolStripStatusLabel1"
-        '
         'Frm_Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -279,11 +331,11 @@ Partial Class Frm_Principal
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
+        Me.StatusStrip1.ResumeLayout(False)
+        Me.StatusStrip1.PerformLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
-        Me.StatusStrip1.ResumeLayout(False)
-        Me.StatusStrip1.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -294,12 +346,12 @@ Partial Class Frm_Principal
     Friend WithEvents TabPage3 As TabPage
     Friend WithEvents TabPage4 As TabPage
     Friend WithEvents TabPage5 As TabPage
-    Friend WithEvents btn_BrowseCSV As Button
+    Friend WithEvents btn_Browse_CSV As Button
     Friend WithEvents openFileDialogCSV As OpenFileDialog
     Friend WithEvents TextBox_FileName As TextBox
     Friend WithEvents btn_procesar As Button
     Friend WithEvents DataGridView1 As DataGridView
-    Friend WithEvents Lab_wait As Label
+    Friend WithEvents Lbl_wait As Label
     Friend WithEvents ToolTipHelpButtons As ToolTip
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Label1 As Label
@@ -307,5 +359,10 @@ Partial Class Frm_Principal
     Friend WithEvents Label3 As Label
     Friend WithEvents StatusStrip1 As StatusStrip
     Friend WithEvents ProgressBar1 As ToolStripProgressBar
-    Friend WithEvents LblEstado As ToolStripStatusLabel
+    Friend WithEvents Lbl_state As ToolStripStatusLabel
+    Friend WithEvents ListBox1 As ListBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents Button2 As Button
 End Class

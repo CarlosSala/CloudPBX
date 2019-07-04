@@ -639,7 +639,7 @@ Public Class Frm_Principal
         'validar la informacion obligatoria-----------------------------------------------------------------------------------
 
         'validar dominio-----------------------------------------------------------------------------------------------------
-        domain = dt.Rows(0)(0).ToString
+        domain = dt.Rows(0)(0).ToString.ToLower
         If domain = "" Or domain.Length = 0 Then
             MsgBox("Revise el campo 'domain'", MsgBoxStyle.Exclamation, "Error de validación")
             Me.Cursor = Cursors.Default

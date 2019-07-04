@@ -12,6 +12,7 @@ Public Class Frm_Principal
     Dim gblSetPathLog As String
     Dim gblTimePing As Integer = 2000
     Dim gblSession As String = ""
+    Dim codError As Integer = 0
 
     Private Sub For1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -326,13 +327,14 @@ Public Class Frm_Principal
         '    MsgBox("Servidor fuera de Linea, favor verifique la conexion", MsgBoxStyle.Exclamation, "Error de Comunicación")
         '    Exit Sub
         'End If
+        Me.Cursor = Cursors.WaitCursor
+        btn_procesar.Enabled = False
+        btn_Browse_CSV.Enabled = False
 
 
         'FASE 1
 
-        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-        '| XML para SystemDomainAddRequest                    |
-        '\\\\\\\\\\\\\\\\\\\\/////////////////////////////////
+        'XML PARA CREAR UN DOMINIO-----------------------------------------------------------------------------------------------------------
         Dim a_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim a_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim a_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -340,9 +342,7 @@ Public Class Frm_Principal
         Dim a_5 As String = "<domain>pruebacarlos.cl</domain>"
         Dim a_6 As String = "</command>"
 
-        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-        '| XML para ServiceProviderDomainAssignListRequest    |
-        '\\\\\\\\\\\\\\\\\\\\/////////////////////////////////
+        'XML PARA ASIGNAR EL DOMINIO CREADO----------------------------------------------------------------------
         Dim b_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim b_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim b_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -351,9 +351,7 @@ Public Class Frm_Principal
         Dim b_6 As String = "<domain>pruebacarlos.cl</domain>"
         Dim b_7 As String = "</command>"
 
-        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-        '| XML para ServiceProviderDnAddListRequest           |
-        '\\\\\\\\\\\\\\\\\\\\/////////////////////////////////
+        'XML PARA CREAR NUMERACIÓN------------------------------------------------------------------------------
         Dim c_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim c_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim c_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -362,9 +360,7 @@ Public Class Frm_Principal
         Dim c_6 As String = "<phoneNumber>232781567</phoneNumber>"
         Dim c_7 As String = "</command>"
 
-        '/////////////////////\\\\\\\\\\\\\\\\
-        '| XML para GroupAddRequest           |
-        '\\\\\\\\\\\\\\\\\\\\/////////////////
+        ' 'XML PARA CREAR PERFIL DE GRUPO-------------------------------------------------------------------------
         Dim d_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim d_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim d_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -386,9 +382,7 @@ Public Class Frm_Principal
         Dim d_19 As String = "</address>"
         Dim d_20 As String = "</command>"
 
-        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\
-        '| XML para GroupServiceAssignListRequest     |
-        '\\\\\\\\\\\\\\\\\\\\/////////////////////////
+        'XML PARA ASIGNAR LOS SERVICIOS---------------------------------------------------------------------------------
         Dim e_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim e_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim e_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -419,9 +413,7 @@ Public Class Frm_Principal
         Dim e_28 As String = "<serviceName>Voice Messaging Group</serviceName>"
         Dim e_29 As String = "</command>"
 
-        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\
-        '| XML para GroupDnAssignListRequest          |
-        '\\\\\\\\\\\\\\\\\\\\/////////////////////////
+        'XML PARA ASIGNAR LA NUMERACIÓN----------------------------------------------------------------------------------------
         Dim f_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim f_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim f_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -431,9 +423,7 @@ Public Class Frm_Principal
         Dim f_7 As String = "<phoneNumber>+56-232781566</phoneNumber>"
         Dim f_8 As String = "</command>"
 
-        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\
-        '| XML para GroupAccessDeviceAddRequest14     |
-        '\\\\\\\\\\\\\\\\\\\\/////////////////////////
+        'XML PARA CREAR LOS DISPOSITIVOS---------------------------------------------------------------------------------
         Dim g_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim g_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim g_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -449,9 +439,7 @@ Public Class Frm_Principal
         Dim g_13 As String = "<transportProtocol>Unspecified</transportProtocol>"
         Dim g_14 As String = "</command>"
 
-        '/////////////////////\\\\\\\\\\\\\\\\\\\
-        '| XML para GroupDepartmentAddRequest    |
-        '\\\\\\\\\\\\\\\\\\\\////////////////////
+        'XML PARA CREAR LOS DEPARTAMENTOS---------------------------------------------------------------------------------
         Dim h_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim h_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim h_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -461,9 +449,7 @@ Public Class Frm_Principal
         Dim h_7 As String = "<departmentName>Administracion</departmentName>"
         Dim h_8 As String = "</command>"
 
-        '/////////////////////\\\\\\\\\\\\\\\
-        '| XML para "UserAddRequest17sp4"    |
-        '\\\\\\\\\\\\\\\\\\\\////////////////
+        'XML PARA CREAR LOS USUARIOS---------------------------------------------------------------------------------
         Dim i_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim i_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim i_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -490,10 +476,7 @@ Public Class Frm_Principal
         Dim i_24 As String = "</address>"
         Dim i_25 As String = "</command>"
 
-
-        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-        '| XML para "GroupAccessDeviceCustomTagAddRequest"     |
-        '\\\\\\\\\\\\\\\\\\\\//////////////////////////////////
+        'XML PARA EL PROXY-----------------------------------------------------------------------------------------------
         Dim j_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim j_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim j_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -505,10 +488,7 @@ Public Class Frm_Principal
         Dim j_9 As String = "<tagValue>172.24.16.211</tagValue>"
         Dim j_10 As String = "</command>"
 
-
-        '/////////////////////\\\\\\\\\\\\\\\\\\\
-        '| XML para "UserModifyRequest17sp4"     |
-        '\\\\\\\\\\\\\\\\\\\\////////////////////
+        'XML PARA ASIGNAR DISPOSITIVOS A USUARIOS---------------------------------------------------------------------
         Dim k_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim k_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim k_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -529,10 +509,7 @@ Public Class Frm_Principal
         Dim k_18 As String = "</endpoint>"
         Dim k_19 As String = "</command>"
 
-
-        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\
-        '| XML para "UserServiceAssignListRequest"     |
-        '\\\\\\\\\\\\\\\\\\\\//////////////////////////
+        'XML PARA ASIGNAR PACK DE SERVICIOS---------------------------------------------------------------------
         Dim l_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim l_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim l_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -541,10 +518,7 @@ Public Class Frm_Principal
         Dim l_6 As String = "<servicePackName>Pack_Basico</servicePackName>"
         Dim l_7 As String = "</command>"
 
-
-        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-        '| XML para "UserOutgoingCallingPlanOriginatingModifyRequest"    |
-        '\\\\\\\\\\\\\\\\\\\\////////////////////////////////////////////
+        'XML PARA OCP OUTGOING-CALLING-PLAN------------------------------------------------------------------------
         Dim m_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim m_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim m_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -569,10 +543,7 @@ Public Class Frm_Principal
         Dim m_22 As String = "</userPermissions>"
         Dim m_23 As String = "</command>"
 
-
-        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\
-        '| XML para "UserAuthenticationModifyRequest"   |
-        '\\\\\\\\\\\\\\\\\\\\///////////////////////////
+        'XML PARA ASIGNAR CONTRASEÑA SIP------------------------------------------------------------------------
         Dim n_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim n_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim n_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -582,10 +553,7 @@ Public Class Frm_Principal
         Dim n_7 As String = "<newPassword>XXXXX</newPassword>"
         Dim n_8 As String = "</command>"
 
-
-        '/////////////////////\\\\\\\\\\\\\\\\\\\\\
-        '| XML para "GroupDnActivateListRequest"   |
-        '\\\\\\\\\\\\\\\\\\\\//////////////////////
+        'XML PARA ACTIVAR LOS NUMEROS------------------------------------------------------------------------
         Dim o_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim o_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim o_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -598,9 +566,7 @@ Public Class Frm_Principal
 
         'FASE 2
 
-        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-        '| XML para "GroupExtensionLengthModifyRequest17"   |
-        '\\\\\\\\\\\\\\\\\\\\///////////////////////////////
+        'XML PARA MODIFICAR EL LARGO DE LAS EXTENSIONES DE GRUPO--------------------------------------------------------------
         Dim p_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim p_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim p_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -612,9 +578,7 @@ Public Class Frm_Principal
         Dim p_9 As String = "<defaultExtensionLength>4</defaultExtensionLength>"
         Dim p_10 As String = "</command>"
 
-        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-        '| XML para "GroupMusicOnHoldModifyInstanceRequest20"   |
-        '\\\\\\\\\\\\\\\\\\\\///////////////////////////////////
+        'XML PARA ACTIVAR LA MUSICA EN ESPERA DEL GRUPO--------------------------------------------------------------/
         Dim q_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim q_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim q_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
@@ -637,24 +601,12 @@ Public Class Frm_Principal
         Dim q_20 As String = "</source>"
         Dim q_21 As String = "</command>"
 
-
         'Ultima linea de todos los XML
         Dim lineaFinal As String = "</BroadsoftDocument>"
 
         ProgressBar1.Minimum = 0
         ProgressBar1.Value = 0
         ProgressBar1.Maximum = 100
-
-        'SearchAllSubDirectories
-        Try
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblSetPathTmp, FileIO.SearchOption.SearchAllSubDirectories, "*.*")
-                My.Computer.FileSystem.DeleteFile(foundFile)
-            Next
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-            Exit Sub
-        End Try
-
 
         Dim domain As String = ""
         Dim phoneNumber As String = ""
@@ -684,31 +636,25 @@ Public Class Frm_Principal
         Dim ocp_premium1 As String = ""
 
 
-
-        Dim fileIXML As String = ""
-        Dim fileOXML As String = ""
-        Dim estadoArchivo As Integer = 0
-        Dim codError As Integer
-        Dim msgError As String = ""
-        Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile.txt"
-        Dim lineConfigFile As String = ""
-        Dim numFile As Integer = 1
-
-
-
         'validar la informacion obligatoria-----------------------------------------------------------------------------------
 
         'validar dominio-----------------------------------------------------------------------------------------------------
         domain = dt.Rows(0)(0).ToString
         If domain = "" Or domain.Length = 0 Then
-            MsgBox("Revise el campo 'domain'", MsgBoxStyle.Exclamation)
+            MsgBox("Revise el campo 'domain'", MsgBoxStyle.Exclamation, "Error de validación")
+            Me.Cursor = Cursors.Default
+            btn_Browse_CSV.Enabled = True
+            Exit Sub
         End If
 
         'validar numeración-------------------------------------------------------------------------------------------------
         For j = 0 To dt.Rows.Count - 1
             phoneNumber = dt.Rows(j)(1).ToString
             If phoneNumber = "" Or phoneNumber.Length <= 8 Then
-                MsgBox("Revise el campo 'numbers'", MsgBoxStyle.Exclamation)
+                MsgBox("Revise el campo 'numbers'", MsgBoxStyle.Exclamation, "Error de validación")
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
+                Exit Sub
             End If
         Next
 
@@ -719,19 +665,31 @@ Public Class Frm_Principal
         city = dt.Rows(0)(7).ToString
 
         If group_id = "" Or group_id.Length = 0 Then
-            MsgBox("Revise el campo 'group_id'", MsgBoxStyle.Exclamation)
+            MsgBox("Revise el campo 'group_id'", MsgBoxStyle.Exclamation, "Error de validación")
+            Me.Cursor = Cursors.Default
+            btn_Browse_CSV.Enabled = True
+            Exit Sub
         End If
 
         If group_name = "" Or group_name.Length = 0 Then
-            MsgBox("Revise el campo 'group_name", MsgBoxStyle.Exclamation)
+            MsgBox("Revise el campo 'group_name", MsgBoxStyle.Exclamation, "Error de validación")
+            Me.Cursor = Cursors.Default
+            btn_Browse_CSV.Enabled = True
+            Exit Sub
         End If
 
         If address = "" Or address.Length = 0 Then
-            MsgBox("Revise el campo 'enterprise_adress'", MsgBoxStyle.Exclamation)
+            MsgBox("Revise el campo 'enterprise_adress'", MsgBoxStyle.Exclamation, "Error de validación")
+            Me.Cursor = Cursors.Default
+            btn_Browse_CSV.Enabled = True
+            Exit Sub
         End If
 
         If city = "" Or city.Length = 0 Then
-            MsgBox("Revise el campo 'city'", MsgBoxStyle.Exclamation)
+            MsgBox("Revise el campo 'city'", MsgBoxStyle.Exclamation, "Error de validación")
+            Me.Cursor = Cursors.Default
+            btn_Browse_CSV.Enabled = True
+            Exit Sub
         End If
 
 
@@ -753,16 +711,28 @@ Public Class Frm_Principal
             physical_location = dt.Rows(j)(11).ToString
 
             If mac = "" Or mac.Length = 0 Then
-                MsgBox("Revise el campo 'mac'", MsgBoxStyle.Exclamation)
+                MsgBox("Revise el campo 'mac'", MsgBoxStyle.Exclamation, "Error de validación")
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
+                Exit Sub
             End If
             If device_type = "" Or device_type.Length = 0 Then
-                MsgBox("Revise el campo 'device_type'", MsgBoxStyle.Exclamation)
+                MsgBox("Revise el campo 'device_type'", MsgBoxStyle.Exclamation, "Error de validación")
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
+                Exit Sub
             End If
             If serial_number = "" Or serial_number.Length = 0 Then
-                MsgBox("Revise el campo 'serial_number'", MsgBoxStyle.Exclamation)
+                MsgBox("Revise el campo 'serial_number'", MsgBoxStyle.Exclamation, "Error de validación")
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
+                Exit Sub
             End If
             If physical_location = "" Or physical_location.Length = 0 Then
-                MsgBox("Revise el campo 'physical_location'", MsgBoxStyle.Exclamation)
+                MsgBox("Revise el campo 'physical_location'", MsgBoxStyle.Exclamation, "Error de validación")
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
+                Exit Sub
             End If
         Next
 
@@ -797,8 +767,11 @@ Public Class Frm_Principal
             'Next
         Catch ex As Exception
             MsgBox(ex.ToString)
+            MsgBox("Error en el procedimiento de creación de los depatamentos", MsgBoxStyle.Exclamation, "Error de validación")
+            Me.Cursor = Cursors.Default
+            btn_Browse_CSV.Enabled = True
+            Exit Sub
         End Try
-
 
         For j = 0 To contadorFilas - 1
             first_name = dt.Rows(j)(13).ToString
@@ -814,46 +787,108 @@ Public Class Frm_Principal
             ocp_premium1 = dt.Rows(j)(25).ToString
 
             If first_name = "" Or first_name.Length = 0 Then
-                MsgBox("Revise el campo 'first_name'", MsgBoxStyle.Exclamation)
+                MsgBox("Revise el campo 'first_name'", MsgBoxStyle.Exclamation, "Error de validación")
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
+                Exit Sub
             End If
             If last_name = "" Or last_name.Length = 0 Then
-                MsgBox("Revise el campo 'last_name'", MsgBoxStyle.Exclamation)
+                MsgBox("Revise el campo 'last_name'", MsgBoxStyle.Exclamation, "Error de validación")
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
+                Exit Sub
             End If
             If user_address = "" Or user_address.Length = 0 Then
-                MsgBox("Revise el campo 'user_address'", MsgBoxStyle.Exclamation)
+                MsgBox("Revise el campo 'user_address'", MsgBoxStyle.Exclamation, "Error de validación")
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
+                Exit Sub
             End If
             If user_city = "" Or user_city.Length = 0 Then
-                MsgBox("Revise el campo 'user_city'", MsgBoxStyle.Exclamation)
+                MsgBox("Revise el campo 'user_city'", MsgBoxStyle.Exclamation, "Error de validación")
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
+                Exit Sub
             End If
             If extensions = "" Or extensions.Length = 0 Then
-                MsgBox("Revise el campo 'extensions'", MsgBoxStyle.Exclamation)
+                MsgBox("Revise el campo 'extensions'", MsgBoxStyle.Exclamation, "Error de validación")
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
+                Exit Sub
             End If
             If ocp_local = "" Or ocp_local.Length = 0 Then
-                MsgBox("Revise el campo 'ocp_local'", MsgBoxStyle.Exclamation)
+                MsgBox("Revise el campo 'ocp_local'", MsgBoxStyle.Exclamation, "Error de validación")
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
+                Exit Sub
             End If
             If ocp_tollFree = "" Or ocp_tollFree.Length = 0 Then
-                MsgBox("Revise el campo 'ocp_tollFree'", MsgBoxStyle.Exclamation)
+                MsgBox("Revise el campo 'ocp_tollFree'", MsgBoxStyle.Exclamation, "Error de validación")
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
+                Exit Sub
             End If
             If ocp_internacional = "" Or ocp_internacional.Length = 0 Then
-                MsgBox("Revise el campo 'ocp_internacional'", MsgBoxStyle.Exclamation)
+                MsgBox("Revise el campo 'ocp_internacional'", MsgBoxStyle.Exclamation, "Error de validación")
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
+                Exit Sub
             End If
             If ocp_special1 = "" Or ocp_special1.Length = 0 Then
-                MsgBox("Revise el campo 'ocp_special1'", MsgBoxStyle.Exclamation)
+                MsgBox("Revise el campo 'ocp_special1'", MsgBoxStyle.Exclamation, "Error de validación")
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
+                Exit Sub
             End If
             If ocp_special2 = "" Or ocp_special2.Length = 0 Then
-                MsgBox("Revise el campo 'ocp_special2'", MsgBoxStyle.Exclamation)
+                MsgBox("Revise el campo 'ocp_special2'", MsgBoxStyle.Exclamation, "Error de validación")
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
+                Exit Sub
             End If
             If ocp_premium1 = "" Or ocp_premium1.Length = 0 Then
-                MsgBox("Revise el campo 'ocp_premium1'", MsgBoxStyle.Exclamation)
+                MsgBox("Revise el campo 'ocp_premium1'", MsgBoxStyle.Exclamation, "Error de validación")
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
+                Exit Sub
             End If
         Next
 
 
-        Lbl_state.Text = "Generando archivos XML..."
-        ProgressBar1.Value += 10
-        My.Application.DoEvents()
+        'SearchAllSubDirectories
+        Try
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblSetPathTmp, FileIO.SearchOption.SearchAllSubDirectories, "*.*")
+                My.Computer.FileSystem.DeleteFile(foundFile)
+            Next
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & My.Application.Info.DirectoryPath & My.Settings.SetPathTmp &
+                   ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
+            Me.Cursor = Cursors.Default
+            btn_Browse_CSV.Enabled = True
+            Exit Sub
+        End Try
 
-        FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
+        Dim fileIXML As String = ""
+        Dim fileOXML As String = ""
+        Dim estadoArchivo As Integer = 0
+
+        Dim msgError As String = ""
+        Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile.txt"
+        Dim lineConfigFile As String = ""
+        Dim numFile As Integer = 1
+
+        Try
+            FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            'MsgBox("Asegurese de que el archivo " & gblSetPathTmp & "\multipleInputFile.txt" & " no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
+            FileClose(1)
+            Me.Cursor = Cursors.Default
+            btn_Browse_CSV.Enabled = True
+            Exit Sub
+        End Try
+
 
         'XML PARA CREAR UN DOMINIO-----------------------------------------------------------------------------------------------------------
         Try
@@ -878,10 +913,11 @@ Public Class Frm_Principal
             MsgBox("Error al crear el archivo " & indiceXML & "_CreateDomain_request_tmp.xml", MsgBoxStyle.Exclamation)
             FileClose(numFile)
             FileClose(1)
+            Me.Cursor = Cursors.Default
+            btn_Browse_CSV.Enabled = True
             Exit Sub
         End Try
         estadoArchivo = 1
-
 
         'XML PARA ASIGNAR EL DOMINIO CREADO----------------------------------------------------------------------
         If estadoArchivo = 1 Then
@@ -908,11 +944,12 @@ Public Class Frm_Principal
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignDomain_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(numFile)
                 FileClose(1)
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
             estadoArchivo = 2
         End If
-
 
         'XML PARA CREAR NUMERACIÓN------------------------------------------------------------------------------
         If estadoArchivo = 2 Then
@@ -942,11 +979,12 @@ Public Class Frm_Principal
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateNumbers_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(numFile)
                 FileClose(1)
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
             estadoArchivo = 3
         End If
-
 
         'XML PARA CREAR PERFIL DE GRUPO-------------------------------------------------------------------------
         If estadoArchivo = 3 Then
@@ -997,11 +1035,12 @@ Public Class Frm_Principal
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateProfileGroup_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(numFile)
                 FileClose(1)
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
             estadoArchivo = 4
         End If
-
 
         'XML PARA MODIFICAR EL LARGO DE LAS EXTENSIONES DE GRUPO--------------------------------------------------------------
         If estadoArchivo = 4 Then
@@ -1031,11 +1070,12 @@ Public Class Frm_Principal
                 MsgBox("Error al crear el archivo " & indiceXML & "_ExtensionsLength_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(numFile)
                 FileClose(1)
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
             estadoArchivo = 5
         End If
-
 
         'XML PARA SELECCIONAR SERVICIOS DE GRUPO (ARCHIVO EXTERNO)--------------------------------------------------------------
         indiceXML += 1
@@ -1057,12 +1097,13 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Error al modificar el archivo " & indiceXML & "_SelectServices_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(1)
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
 
             estadoArchivo = 6
         End If
-
 
         'XML PARA ASIGNAR LOS SERVICIOS---------------------------------------------------------------------------------
         If estadoArchivo = 6 Then
@@ -1111,6 +1152,8 @@ Public Class Frm_Principal
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignServices_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(numFile)
                 FileClose(1)
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
             estadoArchivo = 7
@@ -1146,11 +1189,12 @@ Public Class Frm_Principal
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignNumber_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(numFile)
                 FileClose(1)
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
             estadoArchivo = 8
         End If
-
 
         'XML PARA CREAR LOS DISPOSITIVOS---------------------------------------------------------------------------------
         If estadoArchivo = 8 Then
@@ -1195,11 +1239,12 @@ Public Class Frm_Principal
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateDevice_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(numFile)
                 FileClose(1)
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
             estadoArchivo = 9
         End If
-
 
         'XML PARA CREAR LOS DEPARTAMENTOS---------------------------------------------------------------------------------
         If estadoArchivo = 9 Then
@@ -1231,11 +1276,12 @@ Public Class Frm_Principal
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateDepartment_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(numFile)
                 FileClose(1)
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
             estadoArchivo = 10
         End If
-
 
         'XML PARA CREAR LOS USUARIOS---------------------------------------------------------------------------------
         If estadoArchivo = 10 Then
@@ -1303,11 +1349,12 @@ Public Class Frm_Principal
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateUser_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(numFile)
                 FileClose(1)
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
             estadoArchivo = 11
         End If
-
 
         'XML PARA EL PROXY-----------------------------------------------------------------------------------------------
         If estadoArchivo = 11 Then
@@ -1346,11 +1393,12 @@ Public Class Frm_Principal
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateProxy_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(numFile)
                 FileClose(1)
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
             estadoArchivo = 12
         End If
-
 
         'XML PARA ASIGNAR DISPOSITIVOS A USUARIOS---------------------------------------------------------------------
         If estadoArchivo = 12 Then
@@ -1398,11 +1446,12 @@ Public Class Frm_Principal
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateProxy_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(numFile)
                 FileClose(1)
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
             estadoArchivo = 13
         End If
-
 
         'XML PARA ASIGNAR PACK DE SERVICIOS---------------------------------------------------------------------
         If estadoArchivo = 13 Then
@@ -1441,11 +1490,12 @@ Public Class Frm_Principal
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignServices_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(numFile)
                 FileClose(1)
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
             estadoArchivo = 14
         End If
-
 
         'XML PARA OCP OUTGOING-CALLING-PLAN------------------------------------------------------------------------
         If estadoArchivo = 14 Then
@@ -1527,11 +1577,12 @@ Public Class Frm_Principal
                 MsgBox("Error al crear el archivo " & indiceXML & "_OCP_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(numFile)
                 FileClose(1)
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
             estadoArchivo = 15
         End If
-
 
         'XML PARA ASIGNAR CONTRASEÑA SIP------------------------------------------------------------------------
         If estadoArchivo = 15 Then
@@ -1566,11 +1617,12 @@ Public Class Frm_Principal
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignPasswordSIP_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(numFile)
                 FileClose(1)
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
             estadoArchivo = 16
         End If
-
 
         'XML PARA ACTIVAR LOS NUMEROS------------------------------------------------------------------------
         If estadoArchivo = 16 Then
@@ -1602,11 +1654,12 @@ Public Class Frm_Principal
                 MsgBox("Error al crear el archivo " & indiceXML & "_ActivateNumber_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(numFile)
                 FileClose(1)
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
             estadoArchivo = 17
         End If
-
 
         'XML PARA ACTIVAR LA MUSICA EN ESPERA DEL GRUPO--------------------------------------------------------------
         If estadoArchivo = 17 Then
@@ -1647,6 +1700,8 @@ Public Class Frm_Principal
                 MsgBox("Error al crear el archivo " & indiceXML & "_GroupMusicOnHold_request_tmp.xml", MsgBoxStyle.Exclamation)
                 FileClose(numFile)
                 FileClose(1)
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
         End If
@@ -1660,68 +1715,80 @@ Public Class Frm_Principal
         'Exit Sub
         'parseXML_update_CMM(codError, msgError)
 
-        executeShellBulk(multipleInputFile, codError, msgError)
+        executeShellBulk(multipleInputFile, msgError)
         If codError = 0 Then
-            parseXML_proxy(codError, msgError)
+            parseXML_cloudPBX(codError, msgError)
             'My.Application.DoEvents()
         End If
-
     End Sub
 
-    Public Sub executeShellBulk(ByVal fileMIF As String, ByVal codError As Integer, ByVal msgError As String)
+    Public Sub executeShellBulk(ByVal fileMIF As String, ByVal msgError As String)
+
         Dim fileConfig As String = ""
         Dim linregConfig As String = ""
         Dim strArguments As String = ""
 
-        fileConfig = gblSetPathTmp & "\ociclient.config"
-        FileOpen(1, fileConfig, OpenMode.Output, OpenAccess.Write)
+        Try
+            fileConfig = gblSetPathTmp & "\ociclient.config"
+            FileOpen(1, fileConfig, OpenMode.Output, OpenAccess.Write)
 
-        linregConfig = "userId = " & My.Settings.SetUser
-        WriteLine(1, linregConfig.ToCharArray)
+            linregConfig = "userId = " & My.Settings.SetUser
+            WriteLine(1, linregConfig.ToCharArray)
 
-        linregConfig = "password = " & My.Settings.SetPassword
-        WriteLine(1, linregConfig.ToCharArray)
+            linregConfig = "password = " & My.Settings.SetPassword
+            WriteLine(1, linregConfig.ToCharArray)
 
-        linregConfig = "hostname = " & My.Settings.SetHost
-        WriteLine(1, linregConfig.ToCharArray)
+            linregConfig = "hostname = " & My.Settings.SetHost
+            WriteLine(1, linregConfig.ToCharArray)
 
-        linregConfig = "port = " & My.Settings.SetPort
-        WriteLine(1, linregConfig.ToCharArray)
+            linregConfig = "port = " & My.Settings.SetPort
+            WriteLine(1, linregConfig.ToCharArray)
 
-        linregConfig = "sessionID = " & gblSession
-        WriteLine(1, linregConfig.ToCharArray)
+            linregConfig = "sessionID = " & gblSession
+            WriteLine(1, linregConfig.ToCharArray)
 
-        linregConfig = "connectionMode = " & My.Settings.SetMode
-        WriteLine(1, linregConfig.ToCharArray)
+            linregConfig = "connectionMode = " & My.Settings.SetMode
+            WriteLine(1, linregConfig.ToCharArray)
 
-        linregConfig = "runMode =  Multiple"
-        WriteLine(1, linregConfig.ToCharArray)
+            linregConfig = "runMode =  Multiple"
+            WriteLine(1, linregConfig.ToCharArray)
 
-        linregConfig = "multipleInputFile = " & fileMIF
-        WriteLine(1, linregConfig.ToCharArray)
+            linregConfig = "multipleInputFile = " & fileMIF
+            WriteLine(1, linregConfig.ToCharArray)
 
-        linregConfig = "pauseTimeBeforeRunStart = 3"
-        WriteLine(1, linregConfig.ToCharArray)
+            linregConfig = "pauseTimeBeforeRunStart = 3"
+            WriteLine(1, linregConfig.ToCharArray)
 
-        linregConfig = "numberOfRuns = 1"
-        WriteLine(1, linregConfig.ToCharArray)
+            linregConfig = "numberOfRuns = 1"
+            WriteLine(1, linregConfig.ToCharArray)
 
-        linregConfig = "quietMode = " & My.Settings.SetModeQuit
-        'linregConfig = "quietMode = " & "False"
-        WriteLine(1, linregConfig.ToCharArray)
+            linregConfig = "quietMode = " & My.Settings.SetModeQuit
+            'linregConfig = "quietMode = " & "False"
+            WriteLine(1, linregConfig.ToCharArray)
 
-        linregConfig = "resultOutputFile = " & gblSetPathLog & "\voxTool_UserExtract_" & Format(Now(), "ddMMyyyy_hhmmss") & ".log"
-        WriteLine(1, linregConfig.ToCharArray)
+            linregConfig = "resultOutputFile = " & gblSetPathLog & "\voxTool_UserExtract_" & Format(Now(), "ddMMyyyy_hhmmss") & ".log"
+            WriteLine(1, linregConfig.ToCharArray)
 
-        FileClose(1)
-        strArguments &= fileConfig
-        'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\ociclient.config
+            FileClose(1)
+            strArguments &= fileConfig
+            'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\ociclient.config
+        Catch ex As Exception
+            FileClose(1)
+            MsgBox(ex.ToString)
+            MsgBox("Se produjo un error al crear el archivo" & gblSetPathTmp & "\ociclient.config" & " y los archivos XML no fueron enviados", MsgBoxStyle.Exclamation, "Error al crear archivo")
+            codError = 1
+            Me.Cursor = Cursors.Default
+            btn_Browse_CSV.Enabled = True
+            Lbl_state.Text = "Error en archivo ociclient.config"
+            ProgressBar1.Value = ProgressBar1.Maximum
+            My.Application.DoEvents()
+            Exit Sub
+        End Try
 
-        btn_procesar.Enabled = False
-        btn_Browse_CSV.Enabled = False
         Lbl_state.Text = "Ejecutando aplicación Voxcom..."
-        ProgressBar1.Value += 10
+        ProgressBar1.Value += 20
         My.Application.DoEvents()
+
         Try
             Dim proceso As New Process()
             'StartInfo obtiene propiedades que luego se pasan al metodo Proceso.Start()
@@ -1734,41 +1801,26 @@ Public Class Frm_Principal
             proceso.Close()
             'My.Application.DoEvents()
         Catch ex As Exception
-            Console.WriteLine(ex.Message)
+            'Console.WriteLine(ex.Message)
             MsgBox("Archivo no ha sido generado " & ex.ToString)
             grabaLog(1, 3, "Error al ejecutar Shell>" & strArguments)
             codError = 1
             msgError = "Archivo no ha sido generado"
             Lbl_state.Text = "Error"
+            Me.Cursor = Cursors.Default
+            btn_Browse_CSV.Enabled = True
+            Lbl_state.Text = "Error al ejecutar startASOCIClient.bat"
+            ProgressBar1.Value = ProgressBar1.Maximum
+            My.Application.DoEvents()
             Exit Sub
         End Try
+    End Sub
+
+    Sub parseXML_cloudPBX(ByRef codError As Integer, ByRef msgError As String)
 
         Lbl_state.Text = "Generando reporte"
         ProgressBar1.Value += 25
         My.Application.DoEvents()
-
-    End Sub
-
-    Sub parseXML_update_CMM(ByRef codError As Integer, ByRef msgError As String)
-
-
-
-        '        <?xml version="1.0" encoding="ISO-8859-1"?> -----------------------------------------------------nodo tipo declaracion
-        '<BroadsoftDocument protocol = "OCI" xmlns="C" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" >--nodo tipo element
-        '<sessionId xmlns="">10.184.67.132,312714112,1561598861624</sessionId>
-        '<command type = "Error" echo="" xsi:type = "c:ErrorResponse" xmlns:c = "C" xmlns="">
-        '<summary>[Error 4267] Error assigning domain since the domain Is already assigned: felipe.cl</summary>
-        '<summaryEnglish>[Error 4267] Error assigning domain since the domain Is already assigned: felipe.cl</summaryEnglish>
-        '</command>
-        '</BroadsoftDocument>
-
-
-        '        <?xml version="1.0" encoding="ISO-8859-1"?>
-        '<BroadsoftDocument protocol = "OCI" xmlns="C" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" >
-        '<sessionId xmlns="">10.184.67.129,312714112,1561578139714</sessionId>
-        '<command echo = "" xsi:Type = "c:SuccessResponse" xmlns:c = "C" xmlns=""/>
-        '</BroadsoftDocument>
-
 
         Dim reader As XmlTextReader
         Dim exito As Boolean = False
@@ -1789,9 +1841,13 @@ Public Class Frm_Principal
             comando1.ExecuteNonQuery()
         Catch ex As Exception
             MessageBox.Show(ex.Message)
+            MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla broadsoft_response_error",
+                            MsgBoxStyle.Exclamation, "Error al generar reporte")
+            Me.Cursor = Cursors.Default
+            btn_Browse_CSV.Enabled = True
+            Exit Sub
         End Try
         Conexion.Close()
-
 
         Dim fileNameTmp As String = ""
         For num = 1 To indiceXML
@@ -1855,14 +1911,17 @@ Public Class Frm_Principal
                 msgError = "Respuesta No Generada"
             End Try
         Next
+
         indiceXML = 0
-        btn_procesar.Enabled = False
-        btn_Browse_CSV.Enabled = Enabled
+
 
         Dim FMP As New Frm_Report
         FMP.Show()
         FMP.BringToFront()
         My.Application.DoEvents()
+        Me.Cursor = Cursors.Default
+        btn_procesar.Enabled = False
+        btn_Browse_CSV.Enabled = Enabled
         Lbl_state.Text = "Finalizado"
         ProgressBar1.Value = ProgressBar1.Maximum
         My.Application.DoEvents()
@@ -1906,356 +1965,338 @@ Public Class Frm_Principal
         FileClose(2)
     End Sub
 
-    Public Sub getDeviceName()
+    'Public Sub getDeviceName()
 
-        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\
-        '| XML para "GroupAccessDeviceGetListRequest"   |
-        '\\\\\\\\\\\\\\\\\\\\///////////////////////////
-        Dim r_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
-        Dim r_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
-        Dim r_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
-        Dim r_4 As String = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceGetListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
-        Dim r_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
-        Dim r_6 As String = "<groupId>AGPRO_cloudpbx</groupId>"
-        Dim r_7 As String = "<responseSizeLimit>1000</responseSizeLimit>"
-        Dim r_8 As String = "</command>"
-        Dim lineaFinal As String = "</BroadsoftDocument>"
+    '    '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\
+    '    '| XML para "GroupAccessDeviceGetListRequest"   |
+    '    '\\\\\\\\\\\\\\\\\\\\///////////////////////////
+    '    Dim r_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+    '    Dim r_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+    '    Dim r_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+    '    Dim r_4 As String = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceGetListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+    '    Dim r_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+    '    Dim r_6 As String = "<groupId>AGPRO_cloudpbx</groupId>"
+    '    Dim r_7 As String = "<responseSizeLimit>1000</responseSizeLimit>"
+    '    Dim r_8 As String = "</command>"
+    '    Dim lineaFinal As String = "</BroadsoftDocument>"
 
-        Dim fileIXML As String = ""
-        Dim fileOXML As String = ""
-        Dim estadoArchivo As Integer = 0
-        Dim codError As Integer
-        Dim msgError As String = ""
-        Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile1.txt"
-        Dim lineConfigFile As String = ""
-        Dim numFile As Integer = 1
+    '    Dim fileIXML As String = ""
+    '    Dim fileOXML As String = ""
+    '    Dim estadoArchivo As Integer = 0
+    '    Dim codError As Integer
+    '    Dim msgError As String = ""
+    '    Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile1.txt"
+    '    Dim lineConfigFile As String = ""
+    '    Dim numFile As Integer = 1
 
-        FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
+    '    FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
 
-        'XML PARA OBTENER LA MAC DE LOS DISPOSITIVOS--------------------------------------------------------------
-        If TextBox1.Text <> "" Then
-            numFile += 1
-            indiceXML += 1
-            fileIXML = gblSetPathTmp & "\" & indiceXML & "_DeviceGetList_request_tmp.xml"
-            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-            FileOpen(numFile, fileIXML, OpenMode.Output)
-            WriteLine(numFile, r_1.ToCharArray)
-            WriteLine(numFile, r_2.ToCharArray)
-            WriteLine(numFile, r_3.ToCharArray)
-            WriteLine(numFile, r_4.ToCharArray)
-            WriteLine(numFile, r_5.ToCharArray)
-            r_6 = "<groupId>" & TextBox1.Text.ToString.ToUpper & "_cloudpbx" & "</groupId>"
-            WriteLine(numFile, r_6.ToCharArray)
-            WriteLine(numFile, r_7.ToCharArray)
-            WriteLine(numFile, r_8.ToCharArray)
-            WriteLine(numFile, lineaFinal.ToCharArray)
-            FileClose(numFile)
-            lineConfigFile = fileIXML & ";" & fileOXML
-            WriteLine(1, lineConfigFile.ToCharArray)
+    '    'XML PARA OBTENER LA MAC DE LOS DISPOSITIVOS--------------------------------------------------------------
+    '    If TextBox1.Text <> "" Then
+    '        numFile += 1
+    '        indiceXML += 1
+    '        fileIXML = gblSetPathTmp & "\" & indiceXML & "_DeviceGetList_request_tmp.xml"
+    '        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+    '        FileOpen(numFile, fileIXML, OpenMode.Output)
+    '        WriteLine(numFile, r_1.ToCharArray)
+    '        WriteLine(numFile, r_2.ToCharArray)
+    '        WriteLine(numFile, r_3.ToCharArray)
+    '        WriteLine(numFile, r_4.ToCharArray)
+    '        WriteLine(numFile, r_5.ToCharArray)
+    '        r_6 = "<groupId>" & TextBox1.Text.ToString.ToUpper & "_cloudpbx" & "</groupId>"
+    '        WriteLine(numFile, r_6.ToCharArray)
+    '        WriteLine(numFile, r_7.ToCharArray)
+    '        WriteLine(numFile, r_8.ToCharArray)
+    '        WriteLine(numFile, lineaFinal.ToCharArray)
+    '        FileClose(numFile)
+    '        lineConfigFile = fileIXML & ";" & fileOXML
+    '        WriteLine(1, lineConfigFile.ToCharArray)
 
-            FileClose(1)
-        Else
-            MsgBox("Campo de groupId inválido", MsgBoxStyle.Exclamation)
-            Exit Sub
-        End If
-
-
-
-
-        executeShellBulk(multipleInputFile, codError, msgError)
-        If codError = 0 Then
-            parseXML_proxy(codError, msgError)
-            'My.Application.DoEvents()
-        End If
-
-
-    End Sub
-
-
-    Public Sub modificarProxy()
-
-        '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-        '| XML para "GroupAccessDeviceCustomTagAddRequest"     |
-        '\\\\\\\\\\\\\\\\\\\\//////////////////////////////////
-        Dim j_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
-        Dim j_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
-        Dim j_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
-        Dim j_4 As String = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceCustomTagAddRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
-        Dim j_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
-        Dim j_6 As String = "<groupId>AUTOPRO_cloudpbx</groupId>"
-        Dim j_7 As String = "<deviceName>DV_805EC02EC440</deviceName>"
-        Dim j_8 As String = "<tagName>%SBC_ADDRESS%</tagName>"
-        Dim j_9 As String = "<tagValue>172.24.16.211</tagValue>"
-        Dim j_10 As String = "</command>"
-
-        Dim lineaFinal As String = "</BroadsoftDocument>"
-
-        Dim fileIXML As String = ""
-        Dim fileOXML As String = ""
-        Dim estadoArchivo As Integer = 0
-        Dim codError As Integer
-        Dim msgError As String = ""
-        Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile2.txt"
-        Dim lineConfigFile As String = ""
-        Dim numFile As Integer = 1
-        Dim proxy As String = ""
-        Dim group_id As String = ""
-        Dim mac As String = ""
-
-        FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
-
-        Try
-            proxy = TextBox2.Text.ToString
-            If proxy <> "" And proxy.Length >= 8 Then
-                For j = 0 To dtproxy.Rows.Count - 1
-                    numFile += 1
-                    indiceXML += 1
-                    fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateProxy_request_tmp.xml"
-                    fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-                    FileOpen(numFile, fileIXML, OpenMode.Output)
-                    WriteLine(numFile, j_1.ToCharArray)
-                    WriteLine(numFile, j_2.ToCharArray)
-                    WriteLine(numFile, j_3.ToCharArray)
-                    WriteLine(numFile, j_4.ToCharArray)
-                    WriteLine(numFile, j_5.ToCharArray)
-                    group_id = TextBox1.Text.ToString
-                    j_6 = "<groupId>" & group_id & "</groupId>"
-                    WriteLine(numFile, j_6.ToCharArray)
-                    mac = dtproxy.Rows(j)(9)
-                    j_7 = "<deviceName>DV_" & mac & "</deviceName>"
-                    WriteLine(numFile, j_7.ToCharArray)
-                    WriteLine(numFile, j_8.ToCharArray)
-                    proxy = TextBox2.Text.ToString
-                    j_9 = "<tagValue>" & proxy & "</tagValue>"
-                    WriteLine(numFile, j_9.ToCharArray)
-                    WriteLine(numFile, j_10.ToCharArray)
-                    WriteLine(numFile, lineaFinal.ToCharArray)
-                    FileClose(numFile)
-                    lineConfigFile = fileIXML & ";" & fileOXML
-                    WriteLine(1, lineConfigFile.ToCharArray)
-                Next
-            End If
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-            MsgBox("Error al crear el archivo " & indiceXML & "_CreateProxy_request_tmp.xml", MsgBoxStyle.Exclamation)
-            FileClose(numFile)
-            FileClose(1)
-            Exit Sub
-        End Try
-
-        executeShellBulk(multipleInputFile, codError, msgError)
-        If codError = 0 Then
-            parseXML_update_CMM(codError, msgError)
-            'My.Application.DoEvents()
-        End If
-
-    End Sub
-
-    Sub parseXML_proxy(ByRef codError As Integer, ByRef msgError As String)
+    '        FileClose(1)
+    '    Else
+    '        MsgBox("Campo de groupId inválido", MsgBoxStyle.Exclamation)
+    '        Exit Sub
+    '    End If
 
 
 
-        '        <?xml version="1.0" encoding="ISO-8859-1"?> -----------------------------------------------------nodo tipo declaracion
-        '<BroadsoftDocument protocol = "OCI" xmlns="C" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" >--nodo tipo element
-        '<sessionId xmlns="">10.184.67.132,312714112,1561598861624</sessionId>
-        '<command type = "Error" echo="" xsi:type = "c:ErrorResponse" xmlns:c = "C" xmlns="">
-        '<summary>[Error 4267] Error assigning domain since the domain Is already assigned: felipe.cl</summary>
-        '<summaryEnglish>[Error 4267] Error assigning domain since the domain Is already assigned: felipe.cl</summaryEnglish>
-        '</command>
-        '</BroadsoftDocument>
+
+    '    executeShellBulk(multipleInputFile, codError, msgError)
+    '    If codError = 0 Then
+    '        parseXML_proxy(codError, msgError)
+    '        'My.Application.DoEvents()
+    '    End If
 
 
-        '        <?xml version="1.0" encoding="ISO-8859-1"?>
-        '<BroadsoftDocument protocol = "OCI" xmlns="C" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" >
-        '<sessionId xmlns="">10.184.67.129,312714112,1561578139714</sessionId>
-        '<command echo = "" xsi:Type = "c:SuccessResponse" xmlns:c = "C" xmlns=""/>
-        '</BroadsoftDocument>
+    'End Sub
 
 
-        Dim reader As XmlTextReader
-        Dim exito As Boolean = False
-        Dim parseXMl As String
-        Dim i As Integer = 0
-        Dim iSql As String = ""
-        Dim iXml As Integer = 1
-        Dim topeXml As Integer = 0
-        Dim response As String = ""
+    'Public Sub modificarProxy()
 
-        Dim comando1 As New OleDbCommand()
-        comando1.Connection = Conexion
-        Dim Sql As String = "DELETE * FROM broadsoft_device_get_mac"
-        comando1.CommandText = Sql
+    '    '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    '    '| XML para "GroupAccessDeviceCustomTagAddRequest"     |
+    '    '\\\\\\\\\\\\\\\\\\\\//////////////////////////////////
+    '    Dim j_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+    '    Dim j_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+    '    Dim j_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+    '    Dim j_4 As String = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceCustomTagAddRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+    '    Dim j_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+    '    Dim j_6 As String = "<groupId>AUTOPRO_cloudpbx</groupId>"
+    '    Dim j_7 As String = "<deviceName>DV_805EC02EC440</deviceName>"
+    '    Dim j_8 As String = "<tagName>%SBC_ADDRESS%</tagName>"
+    '    Dim j_9 As String = "<tagValue>172.24.16.211</tagValue>"
+    '    Dim j_10 As String = "</command>"
 
-        Try
-            Conexion.Open()
-            comando1.ExecuteNonQuery()
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-        End Try
-        Conexion.Close()
+    '    Dim lineaFinal As String = "</BroadsoftDocument>"
 
+    '    Dim fileIXML As String = ""
+    '    Dim fileOXML As String = ""
+    '    Dim estadoArchivo As Integer = 0
+    '    Dim codError As Integer
+    '    Dim msgError As String = ""
+    '    Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile2.txt"
+    '    Dim lineConfigFile As String = ""
+    '    Dim numFile As Integer = 1
+    '    Dim proxy As String = ""
+    '    Dim group_id As String = ""
+    '    Dim mac As String = ""
 
-        Dim fileNameTmp As String = ""
-        For num = 1 To indiceXML
+    '    FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
 
-            exito = False
-            Try
-                parseXMl = gblSetPathTmp & "\" & num & "_Broadsoft_response_tmp.xml"
-                reader = New XmlTextReader(parseXMl)
-                Do While (reader.Read())
+    '    Try
+    '        proxy = TextBox2.Text.ToString
+    '        If proxy <> "" And proxy.Length >= 8 Then
+    '            For j = 0 To dtproxy.Rows.Count - 1
+    '                numFile += 1
+    '                indiceXML += 1
+    '                fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateProxy_request_tmp.xml"
+    '                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+    '                FileOpen(numFile, fileIXML, OpenMode.Output)
+    '                WriteLine(numFile, j_1.ToCharArray)
+    '                WriteLine(numFile, j_2.ToCharArray)
+    '                WriteLine(numFile, j_3.ToCharArray)
+    '                WriteLine(numFile, j_4.ToCharArray)
+    '                WriteLine(numFile, j_5.ToCharArray)
+    '                group_id = TextBox1.Text.ToString
+    '                j_6 = "<groupId>" & group_id & "</groupId>"
+    '                WriteLine(numFile, j_6.ToCharArray)
+    '                mac = dtproxy.Rows(j)(9)
+    '                j_7 = "<deviceName>DV_" & mac & "</deviceName>"
+    '                WriteLine(numFile, j_7.ToCharArray)
+    '                WriteLine(numFile, j_8.ToCharArray)
+    '                proxy = TextBox2.Text.ToString
+    '                j_9 = "<tagValue>" & proxy & "</tagValue>"
+    '                WriteLine(numFile, j_9.ToCharArray)
+    '                WriteLine(numFile, j_10.ToCharArray)
+    '                WriteLine(numFile, lineaFinal.ToCharArray)
+    '                FileClose(numFile)
+    '                lineConfigFile = fileIXML & ";" & fileOXML
+    '                WriteLine(1, lineConfigFile.ToCharArray)
+    '            Next
+    '        End If
+    '    Catch ex As Exception
+    '        MsgBox(ex.ToString)
+    '        MsgBox("Error al crear el archivo " & indiceXML & "_CreateProxy_request_tmp.xml", MsgBoxStyle.Exclamation)
+    '        FileClose(numFile)
+    '        FileClose(1)
+    '        Exit Sub
+    '    End Try
 
-                    Select Case reader.NodeType
+    '    executeShellBulk(multipleInputFile, codError, msgError)
+    '    If codError = 0 Then
+    '        parseXML_cloudPBX(codError, msgError)
+    '        'My.Application.DoEvents()
+    '    End If
 
-                        Case XmlNodeType.Element
-                            If reader.Name = "command" Then
+    'End Sub
 
-                                i += 1
-                                If reader.HasAttributes Then 'If attributes exist
-                                    While reader.MoveToNextAttribute()
-                                        'Display attribute name and value.
-                                        'MsgBox(reader.Name.ToString & reader.Value.ToString)
-                                        If reader.Name = "xsi:type" Then
-                                            If reader.Value = "GroupAccessDeviceGetListResponse" Then
-                                                'MsgBox("comando exitoso")
-                                            ElseIf reader.Value = "c:ErrorResponse" Then
-
-                                                'MsgBox("Error en el comando")
-                                            End If
-                                        End If
-                                    End While
-                                End If
-                            End If
-                            If reader.Name = "col" Then
-
-                                'MsgBox(reader.ReadString.ToString)
-                                response = reader.ReadString
-
-                                If response.Length = 15 Then
-                                    'Dim mac As String = response.Substring(3, 12)
-                                    Dim cadenaSql As String = "INSERT INTO broadsoft_device_get_mac (mac_address) VALUES ( '" & response & "')"
-
-                                    'Crear un comando
-                                    Dim Comando As OleDbCommand = Conexion.CreateCommand()
-                                    Comando.CommandText = cadenaSql
-
-                                    'Ejecutar la consulta de accion (agregan registros)
-                                    Try
-                                        Conexion.Open()
-                                        Comando.ExecuteNonQuery()
-                                        'MsgBox("Se agregó correctamente el registro")
-                                    Catch ex As Exception
-                                        MsgBox(" errorcito " & ex.ToString())
-                                    End Try
-                                    Conexion.Close()
-                                End If
-                            End If
-                            'Case XmlNodeType.XmlDeclaration
-                    End Select
-                Loop
-                reader.Close()
-            Catch ex As Exception
-                'MsgBox("Archivo de Respuesta no ha sido encontrado!", vbExclamation, "Error")
-                MsgBox(ex.ToString)
-                grabaLog1(1, 2, "Error al leer archivo XML>" & gblSetPathTmp & "\CMM_response_tmp_" & iXml & ".xml")
-                codError = 1
-                msgError = "Respuesta No Generada"
-            End Try
-        Next
-        indiceXML = 0
-        btn_procesar.Enabled = False
-        btn_Browse_CSV.Enabled = Enabled
-
-        'Dim FMP As New Frm_Report
-        'FMP.Show()
-        'FMP.BringToFront()
-        actualizarListBox()
-        My.Application.DoEvents()
-        Lbl_state.Text = "Finalizado"
-        ProgressBar1.Value = ProgressBar1.Maximum
-        My.Application.DoEvents()
-    End Sub
-
-    Public Sub grabaLog1(ByVal tipo As Integer, ByVal subtipo As Integer, ByVal mensaje As String)
-        Dim fileLog As String = ""
-        Dim linerr As String = ""
-
-        linerr = DateAndTime.Now & ">"
-        'tipo -> 1=ERRO,2=INFO,3=WARN
-        'subtipo -> 1=DB,2=XML,3=CNX
-        If tipo = 1 Then
-            linerr = linerr & "ERROR>"
-        End If
-        If tipo = 2 Then
-            linerr = linerr & "INFO>"
-        End If
-        If tipo = 3 Then
-            linerr = linerr & "WARNING>"
-        End If
-        If subtipo = 1 Then
-            linerr = linerr & "DB>"
-        End If
-        If subtipo = 2 Then
-            linerr = linerr & "XML>"
-        End If
-        If subtipo = 2 Then
-            linerr = linerr & "CNX>"
-        End If
-        linerr = linerr & mensaje
-        fileLog = gblSetPathLog & "\LOG_" & DateAndTime.DateString & ".log"
+    'Sub parseXML_proxy(ByRef codError As Integer, ByRef msgError As String)
 
 
-        'MsgBox(fileLog.ToString)
-        Lbl_state.Text = "Guardando log"
-        My.Application.DoEvents()
+    '    Dim reader As XmlTextReader
+    '    Dim exito As Boolean = False
+    '    Dim parseXMl As String
+    '    Dim i As Integer = 0
+    '    Dim iSql As String = ""
+    '    Dim iXml As Integer = 1
+    '    Dim topeXml As Integer = 0
+    '    Dim response As String = ""
 
-        FileOpen(2, fileLog, OpenMode.Append, OpenAccess.Write)
-        WriteLine(2, linerr.ToCharArray)
-        FileClose(2)
-    End Sub
+    '    Dim comando1 As New OleDbCommand()
+    '    comando1.Connection = Conexion
+    '    Dim Sql As String = "DELETE * FROM broadsoft_device_get_mac"
+    '    comando1.CommandText = Sql
 
-    Dim dtproxy As New DataTable
-    Public Sub actualizarListBox()
-
-        Dim iSql As String = "select * from broadsoft_device_get_mac"
-        Dim cmd As New OleDbCommand
-        Dim dt1 As New DataTable
-        Dim da As New OleDbDataAdapter
-
-        dtproxy = dt1
-
-        Try
-            Conexion.Open()
-            cmd.Connection = Conexion
-            cmd.CommandText = iSql
-            'cmd.CommandType = CommandType.TableDirect
-            da.SelectCommand = cmd
-            da.Fill(dt1)
-
-            For j = 0 To dt1.Rows.Count - 1
-
-                ListBox1.Items.Add(dt1.Rows.Item(j)(0).ToString)
-            Next
+    '    Try
+    '        Conexion.Open()
+    '        comando1.ExecuteNonQuery()
+    '    Catch ex As Exception
+    '        MessageBox.Show(ex.Message)
+    '    End Try
+    '    Conexion.Close()
 
 
+    '    Dim fileNameTmp As String = ""
+    '    For num = 1 To indiceXML
 
-            'While itm <> Nothing 'Mientras haya datos
-            'End While
-            'Se muestran los datos en el datagridview 
+    '        exito = False
+    '        Try
+    '            parseXMl = gblSetPathTmp & "\" & num & "_Broadsoft_response_tmp.xml"
+    '            reader = New XmlTextReader(parseXMl)
+    '            Do While (reader.Read())
 
-        Catch ex As Exception
-            MsgBox("Can not open connection ! , " & ex.Message)
-        End Try
-        Conexion.Close()
+    '                Select Case reader.NodeType
 
-        'DataGridView1.CurrentCell = DataGridView1.Rows(0).Cells(0)
-        ''lblCMMUpdCurrentRow.Text = DataGridView1.CurrentCell.RowIndex + 1
-        ''lblCMMUpdTotalRows.Text = DataGridView1.RowCount
+    '                    Case XmlNodeType.Element
+    '                        If reader.Name = "command" Then
 
-        Lbl_wait.Visible = False
-        Me.Cursor = Cursors.Default
-        Interface_Salida()
+    '                            i += 1
+    '                            If reader.HasAttributes Then 'If attributes exist
+    '                                While reader.MoveToNextAttribute()
+    '                                    'Display attribute name and value.
+    '                                    'MsgBox(reader.Name.ToString & reader.Value.ToString)
+    '                                    If reader.Name = "xsi:type" Then
+    '                                        If reader.Value = "GroupAccessDeviceGetListResponse" Then
+    '                                            'MsgBox("comando exitoso")
+    '                                        ElseIf reader.Value = "c:ErrorResponse" Then
 
-    End Sub
+    '                                            'MsgBox("Error en el comando")
+    '                                        End If
+    '                                    End If
+    '                                End While
+    '                            End If
+    '                        End If
+    '                        If reader.Name = "col" Then
+
+    '                            'MsgBox(reader.ReadString.ToString)
+    '                            response = reader.ReadString
+
+    '                            If response.Length = 15 Then
+    '                                'Dim mac As String = response.Substring(3, 12)
+    '                                Dim cadenaSql As String = "INSERT INTO broadsoft_device_get_mac (mac_address) VALUES ( '" & response & "')"
+
+    '                                'Crear un comando
+    '                                Dim Comando As OleDbCommand = Conexion.CreateCommand()
+    '                                Comando.CommandText = cadenaSql
+
+    '                                'Ejecutar la consulta de accion (agregan registros)
+    '                                Try
+    '                                    Conexion.Open()
+    '                                    Comando.ExecuteNonQuery()
+    '                                    'MsgBox("Se agregó correctamente el registro")
+    '                                Catch ex As Exception
+    '                                    MsgBox(" errorcito " & ex.ToString())
+    '                                End Try
+    '                                Conexion.Close()
+    '                            End If
+    '                        End If
+    '                        'Case XmlNodeType.XmlDeclaration
+    '                End Select
+    '            Loop
+    '            reader.Close()
+    '        Catch ex As Exception
+    '            'MsgBox("Archivo de Respuesta no ha sido encontrado!", vbExclamation, "Error")
+    '            MsgBox(ex.ToString)
+    '            grabaLog1(1, 2, "Error al leer archivo XML>" & gblSetPathTmp & "\CMM_response_tmp_" & iXml & ".xml")
+    '            codError = 1
+    '            msgError = "Respuesta No Generada"
+    '        End Try
+    '    Next
+    '    indiceXML = 0
+    '    btn_procesar.Enabled = False
+    '    btn_Browse_CSV.Enabled = Enabled
+
+    '    'Dim FMP As New Frm_Report
+    '    'FMP.Show()
+    '    'FMP.BringToFront()
+    '    actualizarListBox()
+    '    My.Application.DoEvents()
+    '    Lbl_state.Text = "Finalizado"
+    '    ProgressBar1.Value = ProgressBar1.Maximum
+    '    My.Application.DoEvents()
+    'End Sub
+
+    'Public Sub grabaLog1(ByVal tipo As Integer, ByVal subtipo As Integer, ByVal mensaje As String)
+    '    Dim fileLog As String = ""
+    '    Dim linerr As String = ""
+
+    '    linerr = DateAndTime.Now & ">"
+    '    'tipo -> 1=ERRO,2=INFO,3=WARN
+    '    'subtipo -> 1=DB,2=XML,3=CNX
+    '    If tipo = 1 Then
+    '        linerr = linerr & "ERROR>"
+    '    End If
+    '    If tipo = 2 Then
+    '        linerr = linerr & "INFO>"
+    '    End If
+    '    If tipo = 3 Then
+    '        linerr = linerr & "WARNING>"
+    '    End If
+    '    If subtipo = 1 Then
+    '        linerr = linerr & "DB>"
+    '    End If
+    '    If subtipo = 2 Then
+    '        linerr = linerr & "XML>"
+    '    End If
+    '    If subtipo = 2 Then
+    '        linerr = linerr & "CNX>"
+    '    End If
+    '    linerr = linerr & mensaje
+    '    fileLog = gblSetPathLog & "\LOG_" & DateAndTime.DateString & ".log"
+
+
+    '    'MsgBox(fileLog.ToString)
+    '    Lbl_state.Text = "Guardando log"
+    '    My.Application.DoEvents()
+
+    '    FileOpen(2, fileLog, OpenMode.Append, OpenAccess.Write)
+    '    WriteLine(2, linerr.ToCharArray)
+    '    FileClose(2)
+    'End Sub
+
+    'Dim dtproxy As New DataTable
+    'Public Sub actualizarListBox()
+
+    '    Dim iSql As String = "select * from broadsoft_device_get_mac"
+    '    Dim cmd As New OleDbCommand
+    '    Dim dt1 As New DataTable
+    '    Dim da As New OleDbDataAdapter
+
+    '    dtproxy = dt1
+
+    '    Try
+    '        Conexion.Open()
+    '        cmd.Connection = Conexion
+    '        cmd.CommandText = iSql
+    '        'cmd.CommandType = CommandType.TableDirect
+    '        da.SelectCommand = cmd
+    '        da.Fill(dt1)
+
+    '        For j = 0 To dt1.Rows.Count - 1
+
+    '            ListBox1.Items.Add(dt1.Rows.Item(j)(0).ToString)
+    '        Next
+
+
+
+    '        'While itm <> Nothing 'Mientras haya datos
+    '        'End While
+    '        'Se muestran los datos en el datagridview 
+
+    '    Catch ex As Exception
+    '        MsgBox("Can not open connection ! , " & ex.Message)
+    '    End Try
+    '    Conexion.Close()
+
+    '    'DataGridView1.CurrentCell = DataGridView1.Rows(0).Cells(0)
+    '    ''lblCMMUpdCurrentRow.Text = DataGridView1.CurrentCell.RowIndex + 1
+    '    ''lblCMMUpdTotalRows.Text = DataGridView1.RowCount
+
+    '    Lbl_wait.Visible = False
+    '    Me.Cursor = Cursors.Default
+    '    Interface_Salida()
+
+    'End Sub
 
 
 
@@ -2273,7 +2314,7 @@ Public Class Frm_Principal
 
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        getDeviceName()
+        'getDeviceName()
     End Sub
 
     Private Sub ListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox1.SelectedIndexChanged
@@ -2289,6 +2330,6 @@ Public Class Frm_Principal
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        modificarProxy()
+        'modificarProxy()
     End Sub
 End Class

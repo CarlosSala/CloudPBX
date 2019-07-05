@@ -70,7 +70,7 @@ Partial Class Frm_Principal
         Me.TabControl1.MinimumSize = New System.Drawing.Size(800, 625)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(800, 625)
+        Me.TabControl1.Size = New System.Drawing.Size(1334, 707)
         Me.TabControl1.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight
         Me.TabControl1.TabIndex = 0
         '
@@ -85,7 +85,7 @@ Partial Class Frm_Principal
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(792, 599)
+        Me.TabPage1.Size = New System.Drawing.Size(1326, 681)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Crear Grupo"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -95,7 +95,7 @@ Partial Class Frm_Principal
         Me.StatusStrip1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.StatusStrip1.Dock = System.Windows.Forms.DockStyle.None
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar1, Me.Lbl_state})
-        Me.StatusStrip1.Location = New System.Drawing.Point(6, 574)
+        Me.StatusStrip1.Location = New System.Drawing.Point(6, 656)
         Me.StatusStrip1.MaximumSize = New System.Drawing.Size(400, 22)
         Me.StatusStrip1.MinimumSize = New System.Drawing.Size(269, 22)
         Me.StatusStrip1.Name = "StatusStrip1"
@@ -121,7 +121,7 @@ Partial Class Frm_Principal
         Me.Lbl_wait.BackColor = System.Drawing.Color.White
         Me.Lbl_wait.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lbl_wait.ForeColor = System.Drawing.Color.Black
-        Me.Lbl_wait.Location = New System.Drawing.Point(255, 288)
+        Me.Lbl_wait.Location = New System.Drawing.Point(522, 288)
         Me.Lbl_wait.Name = "Lbl_wait"
         Me.Lbl_wait.Size = New System.Drawing.Size(300, 31)
         Me.Lbl_wait.TabIndex = 0
@@ -140,13 +140,13 @@ Partial Class Frm_Principal
         Me.DataGridView1.MaximumSize = New System.Drawing.Size(1307, 400)
         Me.DataGridView1.MinimumSize = New System.Drawing.Size(780, 400)
         Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.Size = New System.Drawing.Size(780, 400)
+        Me.DataGridView1.Size = New System.Drawing.Size(1307, 400)
         Me.DataGridView1.TabIndex = 51
         '
         'btn_procesar
         '
         Me.btn_procesar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_procesar.Location = New System.Drawing.Point(647, 490)
+        Me.btn_procesar.Location = New System.Drawing.Point(1181, 490)
         Me.btn_procesar.MaximumSize = New System.Drawing.Size(132, 75)
         Me.btn_procesar.MinimumSize = New System.Drawing.Size(132, 75)
         Me.btn_procesar.Name = "btn_procesar"
@@ -164,7 +164,7 @@ Partial Class Frm_Principal
         Me.TextBox_FileName.MaximumSize = New System.Drawing.Size(1230, 20)
         Me.TextBox_FileName.MinimumSize = New System.Drawing.Size(700, 20)
         Me.TextBox_FileName.Name = "TextBox_FileName"
-        Me.TextBox_FileName.Size = New System.Drawing.Size(700, 20)
+        Me.TextBox_FileName.Size = New System.Drawing.Size(1230, 20)
         Me.TextBox_FileName.TabIndex = 49
         '
         'btn_Browse_CSV
@@ -176,7 +176,7 @@ Partial Class Frm_Principal
         Me.btn_Browse_CSV.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
         Me.btn_Browse_CSV.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_Browse_CSV.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Browse_CSV.Location = New System.Drawing.Point(709, 7)
+        Me.btn_Browse_CSV.Location = New System.Drawing.Point(1243, 7)
         Me.btn_Browse_CSV.Margin = New System.Windows.Forms.Padding(4)
         Me.btn_Browse_CSV.MaximumSize = New System.Drawing.Size(70, 70)
         Me.btn_Browse_CSV.MinimumSize = New System.Drawing.Size(70, 70)
@@ -319,7 +319,7 @@ Partial Class Frm_Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(816, 647)
+        Me.ClientSize = New System.Drawing.Size(1350, 729)
         Me.Controls.Add(Me.TabControl1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximumSize = New System.Drawing.Size(1366, 768)

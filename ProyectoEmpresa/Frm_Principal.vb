@@ -1715,14 +1715,14 @@ Public Class Frm_Principal
         'Exit Sub
         'parseXML_update_CMM(codError, msgError)
 
-        executeShellBulk(multipleInputFile, msgError)
+        executeShellBulk(multipleInputFile)
         If codError = 0 Then
-            parseXML_cloudPBX(codError, msgError)
+            parseXML_cloudPBX()
             'My.Application.DoEvents()
         End If
     End Sub
 
-    Public Sub executeShellBulk(ByVal fileMIF As String, ByVal msgError As String)
+    Public Sub executeShellBulk(ByVal fileMIF As String)
 
         Dim fileConfig As String = ""
         Dim linregConfig As String = ""
@@ -1805,7 +1805,6 @@ Public Class Frm_Principal
             MsgBox("Archivo no ha sido generado " & ex.ToString)
             grabaLog(1, 3, "Error al ejecutar Shell>" & strArguments)
             codError = 1
-            msgError = "Archivo no ha sido generado"
             Lbl_state.Text = "Error"
             Me.Cursor = Cursors.Default
             btn_Browse_CSV.Enabled = True
@@ -1816,87 +1815,78 @@ Public Class Frm_Principal
         End Try
     End Sub
 
-    Sub parseXML_cloudPBX(ByRef codError As Integer, ByRef msgError As String)
+    Sub parseXML_cloudPBX()
 
         Lbl_state.Text = "Generando reporte"
         ProgressBar1.Value += 25
         My.Application.DoEvents()
 
         Dim reader As XmlTextReader
-        Dim exito As Boolean = False
         Dim parseXMl As String
-        Dim i As Integer = 0
-        Dim iSql As String = ""
         Dim iXml As Integer = 1
-        Dim topeXml As Integer = 0
         Dim response As String = ""
 
-        Dim comando1 As New OleDbCommand()
-        comando1.Connection = Conexion
+        Dim comando As New OleDbCommand()
+        comando.Connection = Conexion
         Dim Sql As String = "DELETE * FROM broadsoft_response_error"
-        comando1.CommandText = Sql
+        comando.CommandText = Sql
 
         Try
             Conexion.Open()
-            comando1.ExecuteNonQuery()
+            comando.ExecuteNonQuery()
         Catch ex As Exception
             MessageBox.Show(ex.Message)
-            MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla broadsoft_response_error",
+            MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'broadsoft_response_error'",
                             MsgBoxStyle.Exclamation, "Error al generar reporte")
+            Lbl_state.Text = "Error al acceder a la base de datos"
+            ProgressBar1.Value = ProgressBar1.Maximum
             Me.Cursor = Cursors.Default
             btn_Browse_CSV.Enabled = True
             Exit Sub
         End Try
         Conexion.Close()
 
-        Dim fileNameTmp As String = ""
         For num = 1 To indiceXML
-
-            exito = False
             Try
                 parseXMl = gblSetPathTmp & "\" & num & "_Broadsoft_response_tmp.xml"
                 reader = New XmlTextReader(parseXMl)
                 Do While (reader.Read())
-
                     Select Case reader.NodeType
-
                         Case XmlNodeType.Element
-                            If reader.Name = "command" Then
-
-                                i += 1
-                                If reader.HasAttributes Then 'If attributes exist
-                                    While reader.MoveToNextAttribute()
-                                        'Display attribute name and value.
-                                        'MsgBox(reader.Name.ToString & reader.Value.ToString)
-                                        If reader.Name = "xsi:type" Then
-                                            If reader.Value = "c:SuccessResponse" Then
-                                                'MsgBox("comando exitoso")
-                                            ElseIf reader.Value = "c:ErrorResponse" Then
-
-                                                'MsgBox("Error en el comando")
-                                            End If
-                                        End If
-                                    End While
-                                End If
-                            End If
+                            'If reader.Name = "command" Then
+                            '    If reader.HasAttributes Then 'If attributes exist
+                            '        While reader.MoveToNextAttribute()
+                            '            'Display attribute name and value.
+                            '            'MsgBox(reader.Name.ToString & reader.Value.ToString)
+                            '            If reader.Name = "xsi:type" Then
+                            '                If reader.Value = "c:SuccessResponse" Then
+                            '                    'MsgBox("comando exitoso")
+                            '                ElseIf reader.Value = "c:ErrorResponse" Then
+                            '                    'MsgBox("Error en el comando")
+                            '                End If
+                            '            End If
+                            '        End While
+                            '    End If
+                            'End If
                             If reader.Name = "summary" Then
-
                                 'MsgBox(reader.ReadString.ToString)
                                 response = reader.ReadString & "_[File:" & num & "_Broadsoft_response_tmp.xml]"
-
-                                Dim cadenaSql As String = "INSERT INTO broadsoft_response_error ([error]) VALUES ( '" & response & "')"
-
+                                Dim Sql1 As String = "INSERT INTO broadsoft_response_error ([error]) VALUES ( '" & response & "')"
                                 'Crear un comando
-                                Dim Comando As OleDbCommand = Conexion.CreateCommand()
-                                Comando.CommandText = cadenaSql
-
-                                'Ejecutar la consulta de accion (agregan registros)
+                                Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
+                                Comando1.CommandText = Sql1
                                 Try
                                     Conexion.Open()
-                                    Comando.ExecuteNonQuery()
-                                    'MsgBox("Se agregó correctamente el registro")
+                                    Comando1.ExecuteNonQuery()
                                 Catch ex As Exception
-                                    MsgBox(" errorcito " & ex.ToString())
+                                    MessageBox.Show(ex.Message)
+                                    MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'broadsoft_response_error'",
+                                                    MsgBoxStyle.Exclamation, "Error al generar reporte")
+                                    Lbl_state.Text = "Error al acceder a la base de datos"
+                                    ProgressBar1.Value = ProgressBar1.Maximum
+                                    Me.Cursor = Cursors.Default
+                                    btn_Browse_CSV.Enabled = True
+                                    Exit Sub
                                 End Try
                                 Conexion.Close()
                             End If
@@ -1905,16 +1895,17 @@ Public Class Frm_Principal
                 Loop
                 reader.Close()
             Catch ex As Exception
-                'MsgBox("Archivo de Respuesta no ha sido encontrado!", vbExclamation, "Error")
-                grabaLog(1, 2, "Error al leer archivo XML>" & gblSetPathTmp & "\CMM_response_tmp_" & iXml & ".xml")
-                codError = 1
-                msgError = "Respuesta No Generada"
+                MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
+                grabaLog(1, 2, "Error al leer archivo XML>" & gblSetPathTmp & "\" & num & "_Broadsoft_response_tmp.xml")
+                Lbl_state.Text = "Error al generar reporte"
+                ProgressBar1.Value = ProgressBar1.Maximum
+                Me.Cursor = Cursors.Default
+                btn_Browse_CSV.Enabled = True
+                Exit Sub
             End Try
         Next
 
         indiceXML = 0
-
-
         Dim FMP As New Frm_Report
         FMP.Show()
         FMP.BringToFront()
@@ -1955,9 +1946,9 @@ Public Class Frm_Principal
         linerr = linerr & mensaje
         fileLog = gblSetPathLog & "\LOG_" & DateAndTime.DateString & ".log"
 
-
         'MsgBox(fileLog.ToString)
         Lbl_state.Text = "Guardando log"
+        ProgressBar1.Value = ProgressBar1.Maximum
         My.Application.DoEvents()
 
         FileOpen(2, fileLog, OpenMode.Append, OpenAccess.Write)

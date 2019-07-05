@@ -24,6 +24,7 @@ Partial Class Frm_Report
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Frm_Report))
         Me.DataGridView2 = New System.Windows.Forms.DataGridView()
+        Me.Button1 = New System.Windows.Forms.Button()
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -36,18 +37,29 @@ Partial Class Frm_Report
         Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView2.Location = New System.Drawing.Point(12, 12)
         Me.DataGridView2.Name = "DataGridView2"
-        Me.DataGridView2.Size = New System.Drawing.Size(760, 487)
+        Me.DataGridView2.Size = New System.Drawing.Size(792, 487)
         Me.DataGridView2.TabIndex = 0
+        '
+        'Button1
+        '
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button1.Location = New System.Drawing.Point(685, 526)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(119, 43)
+        Me.Button1.TabIndex = 1
+        Me.Button1.Text = "Cerrar"
+        Me.Button1.UseVisualStyleBackColor = True
         '
         'Frm_Report
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(784, 511)
+        Me.ClientSize = New System.Drawing.Size(816, 647)
+        Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.DataGridView2)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximumSize = New System.Drawing.Size(1366, 768)
-        Me.MinimumSize = New System.Drawing.Size(800, 550)
+        Me.MinimumSize = New System.Drawing.Size(832, 686)
         Me.Name = "Frm_Report"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Reporte de errores"
@@ -57,4 +69,5 @@ Partial Class Frm_Report
     End Sub
 
     Friend WithEvents DataGridView2 As DataGridView
+    Friend WithEvents Button1 As Button
 End Class

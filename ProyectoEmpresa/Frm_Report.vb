@@ -36,20 +36,19 @@ Public Class Frm_Report
             DataGridView2.DataSource = dt
             DataGridView2.Refresh()
         Catch ex As Exception
-            MsgBox("Can not open connection ! , " & ex.Message)
+            MessageBox.Show(ex.Message)
+            MsgBox("Error al acceder a la base de datos para mostrar el reporte", MsgBoxStyle.Exclamation, "Error al generar reporte")
+            Exit Sub
         End Try
         Conexion.Close()
 
-        'DataGridView2.CurrentCell = DataGridView2.Rows(0).Cells(0)
-        'lblCMMUpdCurrentRow.Text = DataGridView2.CurrentCell.RowIndex + 1
-        'lblCMMUpdTotalRows.Text = DataGridView2.RowCount
-
-        'Lab_wait.Visible = False
-        'Me.Cursor = Cursors.Default
-        'Interface_Salida()
     End Sub
 
     Private Sub DataGridView2_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellContentClick
 
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Me.Close()
     End Sub
 End Class

@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="SetDatabase" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\voxcom\dat\Database1.accdb</Value>
+      <Value Profile="(Default)">\voxcom\database\Database1.accdb</Value>
     </Setting>
     <Setting Name="SetHost" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.25.210.32</Value>
@@ -17,8 +17,8 @@
     <Setting Name="SetMode" Type="System.String" Scope="User">
       <Value Profile="(Default)">OCS</Value>
     </Setting>
-    <Setting Name="SetPathTmp" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\voxcom\tmp</Value>
+    <Setting Name="SetPathTmpCloud" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\voxcom\tmp_cloud</Value>
     </Setting>
     <Setting Name="SetPathLog" Type="System.String" Scope="User">
       <Value Profile="(Default)">\voxcom\log</Value>
@@ -40,6 +40,12 @@
     </Setting>
     <Setting Name="gblCMMIdCluster" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="SetPathTmpProxy" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\voxcom\tmp_proxy</Value>
+    </Setting>
+    <Setting Name="SetPathTmp" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\voxcom\tmp</Value>
     </Setting>
   </Settings>
 </SettingsFile>

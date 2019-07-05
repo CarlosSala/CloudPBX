@@ -56,7 +56,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\dat\Database1.accdb")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\database\Database1.accdb")>  _
         Public Property SetDatabase() As String
             Get
                 Return CType(Me("SetDatabase"),String)
@@ -116,13 +116,13 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\tmp")>  _
-        Public Property SetPathTmp() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\tmp_cloud")>  _
+        Public Property SetPathTmpCloud() As String
             Get
-                Return CType(Me("SetPathTmp"),String)
+                Return CType(Me("SetPathTmpCloud"),String)
             End Get
             Set
-                Me("SetPathTmp") = value
+                Me("SetPathTmpCloud") = value
             End Set
         End Property
         
@@ -207,6 +207,30 @@ Namespace My
             End Get
             Set
                 Me("gblCMMIdCluster") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\tmp_proxy")>  _
+        Public Property SetPathTmpProxy() As String
+            Get
+                Return CType(Me("SetPathTmpProxy"),String)
+            End Get
+            Set
+                Me("SetPathTmpProxy") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\tmp")>  _
+        Public Property SetPathTmp() As String
+            Get
+                Return CType(Me("SetPathTmp"),String)
+            End Get
+            Set
+                Me("SetPathTmp") = value
             End Set
         End Property
     End Class

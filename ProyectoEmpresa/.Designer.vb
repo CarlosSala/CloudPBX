@@ -199,7 +199,7 @@ Partial Class Frm_Principal
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(792, 599)
+        Me.TabPage2.Size = New System.Drawing.Size(1326, 681)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Rebuild the file"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -286,7 +286,7 @@ Partial Class Frm_Principal
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(792, 599)
+        Me.TabPage3.Size = New System.Drawing.Size(1326, 681)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Crear Usuarios"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -296,7 +296,7 @@ Partial Class Frm_Principal
         Me.TabPage4.Location = New System.Drawing.Point(4, 22)
         Me.TabPage4.Name = "TabPage4"
         Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(792, 599)
+        Me.TabPage4.Size = New System.Drawing.Size(1326, 681)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Crear Servicios"
         Me.TabPage4.UseVisualStyleBackColor = True
@@ -306,7 +306,7 @@ Partial Class Frm_Principal
         Me.TabPage5.Location = New System.Drawing.Point(4, 22)
         Me.TabPage5.Name = "TabPage5"
         Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage5.Size = New System.Drawing.Size(792, 599)
+        Me.TabPage5.Size = New System.Drawing.Size(1326, 681)
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "Asignar Dispositivos"
         Me.TabPage5.UseVisualStyleBackColor = True

@@ -6,17 +6,27 @@ Public Class Frm_Principal
     Dim ConexionString As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & My.Application.Info.DirectoryPath & My.Settings.SetDatabase
     Dim Conexion As New OleDbConnection(ConexionString)
 
-    Dim indiceXML As Integer = 0
+
     Dim gblSetPathTmp As String
     Dim gblSetPathAppl As String
     Dim gblSetPathLog As String
+    Dim gblSetPathTmpCloud As String
+    Dim gblSetPathTmpProxy As String
     Dim gblTimePing As Integer = 2000
     Dim gblSession As String = ""
     Dim codError As Integer = 0
+    Dim indiceXML As Integer = 0
+    Dim indiceXMLproxy As Integer = 0
+    Dim numFile As Integer = 1
+    Dim n_File As Integer = FreeFile()
 
     Private Sub For1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         Interface_Entrada()
+        gblSetPathTmpProxy = My.Application.Info.DirectoryPath & My.Settings.SetPathTmpProxy
+        'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy
+        gblSetPathTmpCloud = My.Application.Info.DirectoryPath & My.Settings.SetPathTmpCloud
+        'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud
         gblSetPathTmp = My.Application.Info.DirectoryPath & My.Settings.SetPathTmp
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp
         gblSetPathAppl = My.Application.Info.DirectoryPath & My.Settings.SetPathAppl
@@ -857,12 +867,12 @@ Public Class Frm_Principal
 
         'SearchAllSubDirectories
         Try
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblSetPathTmp, FileIO.SearchOption.SearchAllSubDirectories, "*.*")
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblSetPathTmpCloud, FileIO.SearchOption.SearchAllSubDirectories, "*.*")
                 My.Computer.FileSystem.DeleteFile(foundFile)
             Next
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & My.Application.Info.DirectoryPath & My.Settings.SetPathTmp &
+            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & My.Application.Info.DirectoryPath & My.Settings.SetPathTmpCloud &
                    ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
             Me.Cursor = Cursors.Default
             btn_Browse_CSV.Enabled = True
@@ -872,11 +882,11 @@ Public Class Frm_Principal
         Dim fileIXML As String = ""
         Dim fileOXML As String = ""
         Dim estadoArchivo As Integer = 0
-
-        Dim msgError As String = ""
-        Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile.txt"
-        Dim lineConfigFile As String = ""
         Dim numFile As Integer = 1
+        Dim msgError As String = ""
+        Dim multipleInputFile As String = gblSetPathTmpCloud & "\multipleInputFile.txt"
+        Dim lineConfigFile As String = ""
+
 
         Try
             FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
@@ -894,8 +904,8 @@ Public Class Frm_Principal
         Try
             numFile += 1
             indiceXML += 1
-            fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateDomain_request_tmp.xml"
-            fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+            fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_CreateDomain_request_tmp.xml"
+            fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, a_1.ToCharArray)
             WriteLine(numFile, a_2.ToCharArray)
@@ -924,8 +934,8 @@ Public Class Frm_Principal
             Try
                 numFile += 1
                 indiceXML += 1
-                fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignDomain_request_tmp.xml"
-                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_AssignDomain_request_tmp.xml"
+                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                 FileOpen(numFile, fileIXML, OpenMode.Output)
                 WriteLine(numFile, b_1.ToCharArray)
                 WriteLine(numFile, b_2.ToCharArray)
@@ -956,8 +966,8 @@ Public Class Frm_Principal
             Try
                 numFile += 1
                 indiceXML += 1
-                fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateNumbers_request_tmp.xml"
-                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_CreateNumbers_request_tmp.xml"
+                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                 FileOpen(numFile, fileIXML, OpenMode.Output)
                 WriteLine(numFile, c_1.ToCharArray)
                 WriteLine(numFile, c_2.ToCharArray)
@@ -991,8 +1001,8 @@ Public Class Frm_Principal
             Try
                 numFile += 1
                 indiceXML += 1
-                fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateProfileGroup_request_tmp.xml"
-                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_CreateProfileGroup_request_tmp.xml"
+                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                 FileOpen(numFile, fileIXML, OpenMode.Output)
                 WriteLine(numFile, d_1.ToCharArray)
                 WriteLine(numFile, d_2.ToCharArray)
@@ -1047,8 +1057,8 @@ Public Class Frm_Principal
             Try
                 numFile += 1
                 indiceXML += 1
-                fileIXML = gblSetPathTmp & "\" & indiceXML & "_ExtensionsLength_request_tmp.xml"
-                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_ExtensionsLength_request_tmp.xml"
+                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                 FileOpen(numFile, fileIXML, OpenMode.Output)
                 WriteLine(numFile, p_1.ToCharArray)
                 WriteLine(numFile, p_2.ToCharArray)
@@ -1082,17 +1092,16 @@ Public Class Frm_Principal
         If estadoArchivo = 5 Then
             Try
                 'Lee un archivo, modifica la linea 6
-                Dim Lines_Array() As String = IO.File.ReadAllLines(gblSetPathAppl & "\arch_permanent\" & "5_SelectServices_request_tmp.xml")
+                Dim Lines_Array() As String = IO.File.ReadAllLines(gblSetPathAppl & "\permanentFile_cloud\" & "5_SelectServices_request_tmp.xml")
                 Lines_Array(5) = " <groupId>" & group_id & "</groupId>"
 
                 'Se reescribe el archivo con la linea 6 ya editada
-                IO.File.WriteAllLines(gblSetPathAppl & "\arch_permanent\" & indiceXML & "_SelectServices_request_tmp.xml", Lines_Array)
+                IO.File.WriteAllLines(gblSetPathAppl & "\permanentFile_cloud\" & indiceXML & "_SelectServices_request_tmp.xml", Lines_Array)
 
-                fileIXML = gblSetPathAppl & "\arch_permanent\" & indiceXML & "_SelectServices_request_tmp.xml"
-                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                fileIXML = gblSetPathAppl & "\permanentFile_cloud\" & indiceXML & "_SelectServices_request_tmp.xml"
+                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                 lineConfigFile = fileIXML & ";" & fileOXML
                 WriteLine(1, lineConfigFile.ToCharArray)
-
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al modificar el archivo " & indiceXML & "_SelectServices_request_tmp.xml", MsgBoxStyle.Exclamation)
@@ -1101,7 +1110,6 @@ Public Class Frm_Principal
                 btn_Browse_CSV.Enabled = True
                 Exit Sub
             End Try
-
             estadoArchivo = 6
         End If
 
@@ -1110,8 +1118,8 @@ Public Class Frm_Principal
             Try
                 numFile += 1
                 indiceXML += 1
-                fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignServices_request_tmp.xml"
-                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_AssignServices_request_tmp.xml"
+                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                 FileOpen(numFile, fileIXML, OpenMode.Output)
                 WriteLine(numFile, e_1.ToCharArray)
                 WriteLine(numFile, e_2.ToCharArray)
@@ -1164,8 +1172,8 @@ Public Class Frm_Principal
             Try
                 numFile += 1
                 indiceXML += 1
-                fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignNumber_request_tmp.xml"
-                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_AssignNumber_request_tmp.xml"
+                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                 FileOpen(numFile, fileIXML, OpenMode.Output)
                 WriteLine(numFile, f_1.ToCharArray)
                 WriteLine(numFile, f_2.ToCharArray)
@@ -1202,8 +1210,8 @@ Public Class Frm_Principal
                 For j = 0 To contadorFilas - 1
                     numFile += 1
                     indiceXML += 1
-                    fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateDevice_request_tmp.xml"
-                    fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_CreateDevice_request_tmp.xml"
+                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, g_1.ToCharArray)
                     WriteLine(numFile, g_2.ToCharArray)
@@ -1252,8 +1260,8 @@ Public Class Frm_Principal
                 For j = 0 To arregloDeptos.Length - 1
                     numFile += 1
                     indiceXML += 1
-                    fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateDepartment_request_tmp.xml"
-                    fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_CreateDepartment_request_tmp.xml"
+                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, h_1.ToCharArray)
                     WriteLine(numFile, h_2.ToCharArray)
@@ -1289,8 +1297,8 @@ Public Class Frm_Principal
                 For j = 0 To contadorFilas - 1
                     numFile += 1
                     indiceXML += 1
-                    fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateUser_request_tmp.xml"
-                    fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_CreateUser_request_tmp.xml"
+                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, i_1.ToCharArray)
                     WriteLine(numFile, i_2.ToCharArray)
@@ -1364,8 +1372,8 @@ Public Class Frm_Principal
                     For j = 0 To contadorFilas - 1
                         numFile += 1
                         indiceXML += 1
-                        fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateProxy_request_tmp.xml"
-                        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                        fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_CreateProxy_request_tmp.xml"
+                        fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                         FileOpen(numFile, fileIXML, OpenMode.Output)
                         WriteLine(numFile, j_1.ToCharArray)
                         WriteLine(numFile, j_2.ToCharArray)
@@ -1406,8 +1414,8 @@ Public Class Frm_Principal
                 For j = 0 To contadorFilas - 1
                     numFile += 1
                     indiceXML += 1
-                    fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignUser_request_tmp.xml"
-                    fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_AssignUser_request_tmp.xml"
+                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, k_1.ToCharArray)
                     WriteLine(numFile, k_2.ToCharArray)
@@ -1459,8 +1467,8 @@ Public Class Frm_Principal
                 For j = 0 To contadorFilas - 1
                     numFile += 1
                     indiceXML += 1
-                    fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignServices_request_tmp.xml"
-                    fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_AssignServices_request_tmp.xml"
+                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, l_1.ToCharArray)
                     WriteLine(numFile, l_2.ToCharArray)
@@ -1503,8 +1511,8 @@ Public Class Frm_Principal
                 For j = 0 To contadorFilas - 1
                     numFile += 1
                     indiceXML += 1
-                    fileIXML = gblSetPathTmp & "\" & indiceXML & "_OCP_request_tmp.xml"
-                    fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_OCP_request_tmp.xml"
+                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, m_1.ToCharArray)
                     WriteLine(numFile, m_2.ToCharArray)
@@ -1590,8 +1598,8 @@ Public Class Frm_Principal
                 For j = 0 To contadorFilas - 1
                     numFile += 1
                     indiceXML += 1
-                    fileIXML = gblSetPathTmp & "\" & indiceXML & "_AssignPasswordSIP_request_tmp.xml"
-                    fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_AssignPasswordSIP_request_tmp.xml"
+                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, n_1.ToCharArray)
                     WriteLine(numFile, n_2.ToCharArray)
@@ -1630,8 +1638,8 @@ Public Class Frm_Principal
                 For j = 0 To contadorFilas - 1
                     numFile += 1
                     indiceXML += 1
-                    fileIXML = gblSetPathTmp & "\" & indiceXML & "_ActivateNumber_request_tmp.xml"
-                    fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_ActivateNumber_request_tmp.xml"
+                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, o_1.ToCharArray)
                     WriteLine(numFile, o_2.ToCharArray)
@@ -1666,8 +1674,8 @@ Public Class Frm_Principal
             Try
                 numFile += 1
                 indiceXML += 1
-                fileIXML = gblSetPathTmp & "\" & indiceXML & "_GroupMusicOnHold_request_tmp.xml"
-                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_GroupMusicOnHold_request_tmp.xml"
+                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                 FileOpen(numFile, fileIXML, OpenMode.Output)
                 WriteLine(numFile, q_1.ToCharArray)
                 WriteLine(numFile, q_2.ToCharArray)
@@ -1727,55 +1735,55 @@ Public Class Frm_Principal
         Dim fileConfig As String = ""
         Dim linregConfig As String = ""
         Dim strArguments As String = ""
-
         Try
-            fileConfig = gblSetPathTmp & "\ociclient.config"
-            FileOpen(1, fileConfig, OpenMode.Output, OpenAccess.Write)
+            numFile += 1
+            fileConfig = gblSetPathAppl & "\ociclient.config"
+            FileOpen(numFile, fileConfig, OpenMode.Output, OpenAccess.Write)
 
             linregConfig = "userId = " & My.Settings.SetUser
-            WriteLine(1, linregConfig.ToCharArray)
+            WriteLine(numFile, linregConfig.ToCharArray)
 
             linregConfig = "password = " & My.Settings.SetPassword
-            WriteLine(1, linregConfig.ToCharArray)
+            WriteLine(numFile, linregConfig.ToCharArray)
 
             linregConfig = "hostname = " & My.Settings.SetHost
-            WriteLine(1, linregConfig.ToCharArray)
+            WriteLine(numFile, linregConfig.ToCharArray)
 
             linregConfig = "port = " & My.Settings.SetPort
-            WriteLine(1, linregConfig.ToCharArray)
+            WriteLine(numFile, linregConfig.ToCharArray)
 
             linregConfig = "sessionID = " & gblSession
-            WriteLine(1, linregConfig.ToCharArray)
+            WriteLine(numFile, linregConfig.ToCharArray)
 
             linregConfig = "connectionMode = " & My.Settings.SetMode
-            WriteLine(1, linregConfig.ToCharArray)
+            WriteLine(numFile, linregConfig.ToCharArray)
 
             linregConfig = "runMode =  Multiple"
-            WriteLine(1, linregConfig.ToCharArray)
+            WriteLine(numFile, linregConfig.ToCharArray)
 
             linregConfig = "multipleInputFile = " & fileMIF
-            WriteLine(1, linregConfig.ToCharArray)
+            WriteLine(numFile, linregConfig.ToCharArray)
 
             linregConfig = "pauseTimeBeforeRunStart = 3"
-            WriteLine(1, linregConfig.ToCharArray)
+            WriteLine(numFile, linregConfig.ToCharArray)
 
             linregConfig = "numberOfRuns = 1"
-            WriteLine(1, linregConfig.ToCharArray)
+            WriteLine(numFile, linregConfig.ToCharArray)
 
             linregConfig = "quietMode = " & My.Settings.SetModeQuit
             'linregConfig = "quietMode = " & "False"
-            WriteLine(1, linregConfig.ToCharArray)
+            WriteLine(numFile, linregConfig.ToCharArray)
 
             linregConfig = "resultOutputFile = " & gblSetPathLog & "\voxTool_UserExtract_" & Format(Now(), "ddMMyyyy_hhmmss") & ".log"
-            WriteLine(1, linregConfig.ToCharArray)
+            WriteLine(numFile, linregConfig.ToCharArray)
 
-            FileClose(1)
+            FileClose(numFile)
             strArguments &= fileConfig
-            'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp\ociclient.config
+            'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\ociclient.config
         Catch ex As Exception
-            FileClose(1)
+            FileClose(numFile)
             MsgBox(ex.ToString)
-            MsgBox("Se produjo un error al crear el archivo" & gblSetPathTmp & "\ociclient.config" & " y los archivos XML no fueron enviados", MsgBoxStyle.Exclamation, "Error al crear archivo")
+            MsgBox("Se produjo un error al crear el archivo" & gblSetPathTmpCloud & "\ociclient.config" & " y los archivos XML no fueron enviados", MsgBoxStyle.Exclamation, "Error al crear archivo")
             codError = 1
             Me.Cursor = Cursors.Default
             btn_Browse_CSV.Enabled = True
@@ -1786,7 +1794,7 @@ Public Class Frm_Principal
         End Try
 
         Lbl_state.Text = "Ejecutando aplicación Voxcom..."
-        ProgressBar1.Value += 20
+        'ProgressBar1.Value += 20
         My.Application.DoEvents()
 
         Try
@@ -1848,7 +1856,7 @@ Public Class Frm_Principal
 
         For num = 1 To indiceXML
             Try
-                parseXMl = gblSetPathTmp & "\" & num & "_Broadsoft_response_tmp.xml"
+                parseXMl = gblSetPathTmpCloud & "\" & num & "_Broadsoft_response_tmp.xml"
                 reader = New XmlTextReader(parseXMl)
                 Do While (reader.Read())
                     Select Case reader.NodeType
@@ -1896,7 +1904,7 @@ Public Class Frm_Principal
                 reader.Close()
             Catch ex As Exception
                 MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
-                grabaLog(1, 2, "Error al leer archivo XML>" & gblSetPathTmp & "\" & num & "_Broadsoft_response_tmp.xml")
+                grabaLog(1, 2, "Error al leer archivo XML>" & gblSetPathTmpCloud & "\" & num & "_Broadsoft_response_tmp.xml")
                 Lbl_state.Text = "Error al generar reporte"
                 ProgressBar1.Value = ProgressBar1.Maximum
                 Me.Cursor = Cursors.Default
@@ -1950,344 +1958,366 @@ Public Class Frm_Principal
         Lbl_state.Text = "Guardando log"
         ProgressBar1.Value = ProgressBar1.Maximum
         My.Application.DoEvents()
+        numFile += 1
 
-        FileOpen(2, fileLog, OpenMode.Append, OpenAccess.Write)
-        WriteLine(2, linerr.ToCharArray)
-        FileClose(2)
+        FileOpen(numFile, fileLog, OpenMode.Append, OpenAccess.Write)
+        WriteLine(numFile, linerr.ToCharArray)
+        FileClose(numFile)
     End Sub
 
-    'Public Sub getDeviceName()
 
-    '    '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\
-    '    '| XML para "GroupAccessDeviceGetListRequest"   |
-    '    '\\\\\\\\\\\\\\\\\\\\///////////////////////////
-    '    Dim r_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
-    '    Dim r_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
-    '    Dim r_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
-    '    Dim r_4 As String = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceGetListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
-    '    Dim r_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
-    '    Dim r_6 As String = "<groupId>AGPRO_cloudpbx</groupId>"
-    '    Dim r_7 As String = "<responseSizeLimit>1000</responseSizeLimit>"
-    '    Dim r_8 As String = "</command>"
-    '    Dim lineaFinal As String = "</BroadsoftDocument>"
+    'SEGUNDA INTERFAZ---------------------------------------------------------------------------------------------------------------------------------------------------------
+    Public Sub getDeviceName()
 
-    '    Dim fileIXML As String = ""
-    '    Dim fileOXML As String = ""
-    '    Dim estadoArchivo As Integer = 0
-    '    Dim codError As Integer
-    '    Dim msgError As String = ""
-    '    Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile1.txt"
-    '    Dim lineConfigFile As String = ""
-    '    Dim numFile As Integer = 1
+        indiceXMLproxy = 0
+        'XML PARA OBTENER LAS MAC DE LOS DISPOSITIVOS DE UN GRUPO
+        Dim r_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim r_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim r_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim r_4 As String = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceGetListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim r_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim r_6 As String = "<groupId>AGPRO_cloudpbx</groupId>"
+        Dim r_7 As String = "<responseSizeLimit>1000</responseSizeLimit>"
+        Dim r_8 As String = "</command>"
+        Dim lineaFinal As String = "</BroadsoftDocument>"
 
-    '    FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
+        Dim fileIXML As String = ""
+        Dim fileOXML As String = ""
+        Dim codError As Integer
+        Dim msgError As String = ""
+        Dim multipleInputFile As String = gblSetPathTmpProxy & "\getDeviceName\multipleInputFileProxy.txt"
+        Dim lineConfigFile As String = ""
+        numFile += 1
+        Dim numeroArchivo = numFile
 
-    '    'XML PARA OBTENER LA MAC DE LOS DISPOSITIVOS--------------------------------------------------------------
-    '    If TextBox1.Text <> "" Then
-    '        numFile += 1
-    '        indiceXML += 1
-    '        fileIXML = gblSetPathTmp & "\" & indiceXML & "_DeviceGetList_request_tmp.xml"
-    '        fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-    '        FileOpen(numFile, fileIXML, OpenMode.Output)
-    '        WriteLine(numFile, r_1.ToCharArray)
-    '        WriteLine(numFile, r_2.ToCharArray)
-    '        WriteLine(numFile, r_3.ToCharArray)
-    '        WriteLine(numFile, r_4.ToCharArray)
-    '        WriteLine(numFile, r_5.ToCharArray)
-    '        r_6 = "<groupId>" & TextBox1.Text.ToString.ToUpper & "_cloudpbx" & "</groupId>"
-    '        WriteLine(numFile, r_6.ToCharArray)
-    '        WriteLine(numFile, r_7.ToCharArray)
-    '        WriteLine(numFile, r_8.ToCharArray)
-    '        WriteLine(numFile, lineaFinal.ToCharArray)
-    '        FileClose(numFile)
-    '        lineConfigFile = fileIXML & ";" & fileOXML
-    '        WriteLine(1, lineConfigFile.ToCharArray)
+        Try
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblSetPathTmpProxy & "\getDeviceName", FileIO.SearchOption.SearchAllSubDirectories, "*.*")
+                My.Computer.FileSystem.DeleteFile(foundFile)
+            Next
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & My.Application.Info.DirectoryPath & My.Settings.SetPathTmpProxy &
+                   ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
+            Me.Cursor = Cursors.Default
+            btn_Browse_CSV.Enabled = True
+            Exit Sub
+        End Try
 
-    '        FileClose(1)
-    '    Else
-    '        MsgBox("Campo de groupId inválido", MsgBoxStyle.Exclamation)
-    '        Exit Sub
-    '    End If
+        FileOpen(numeroArchivo, multipleInputFile, OpenMode.Output, OpenAccess.Write)
 
+        'XML PARA OBTENER LA MAC DE LOS DISPOSITIVOS--------------------------------------------------------------
+        If TextBox1.Text <> "" Then
+            Try
+                numFile += 1
+                indiceXMLproxy += 1
+                fileIXML = gblSetPathTmpProxy & "\getDeviceName\" & indiceXMLproxy & "_DeviceGetList_request_tmp.xml"
+                fileOXML = gblSetPathTmpProxy & "\getDeviceName\" & indiceXMLproxy & "_Broadsoft_response_tmp.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, r_1.ToCharArray)
+                WriteLine(numFile, r_2.ToCharArray)
+                WriteLine(numFile, r_3.ToCharArray)
+                WriteLine(numFile, r_4.ToCharArray)
+                WriteLine(numFile, r_5.ToCharArray)
+                r_6 = "<groupId>" & TextBox1.Text.ToString.ToUpper & "_cloudpbx" & "</groupId>"
+                WriteLine(numFile, r_6.ToCharArray)
+                WriteLine(numFile, r_7.ToCharArray)
+                WriteLine(numFile, r_8.ToCharArray)
+                WriteLine(numFile, lineaFinal.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(numeroArchivo, lineConfigFile.ToCharArray)
+                FileClose(numeroArchivo)
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+                MsgBox("Error al crear el archivo " & "\getDeviceName\" & indiceXMLproxy & "_DeviceGetList_request_tmp.xml", MsgBoxStyle.Exclamation)
+                FileClose(numFile)
+                FileClose(numeroArchivo)
+                'Me.Cursor = Cursors.Default
+                'btn_Browse_CSV.Enabled = True
+                Exit Sub
+            End Try
+        Else
+            MsgBox("Campo de groupId inválido", MsgBoxStyle.Exclamation)
+            Exit Sub
+        End If
 
-
-
-    '    executeShellBulk(multipleInputFile, codError, msgError)
-    '    If codError = 0 Then
-    '        parseXML_proxy(codError, msgError)
-    '        'My.Application.DoEvents()
-    '    End If
-
-
-    'End Sub
-
-
-    'Public Sub modificarProxy()
-
-    '    '/////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    '    '| XML para "GroupAccessDeviceCustomTagAddRequest"     |
-    '    '\\\\\\\\\\\\\\\\\\\\//////////////////////////////////
-    '    Dim j_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
-    '    Dim j_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
-    '    Dim j_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
-    '    Dim j_4 As String = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceCustomTagAddRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
-    '    Dim j_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
-    '    Dim j_6 As String = "<groupId>AUTOPRO_cloudpbx</groupId>"
-    '    Dim j_7 As String = "<deviceName>DV_805EC02EC440</deviceName>"
-    '    Dim j_8 As String = "<tagName>%SBC_ADDRESS%</tagName>"
-    '    Dim j_9 As String = "<tagValue>172.24.16.211</tagValue>"
-    '    Dim j_10 As String = "</command>"
-
-    '    Dim lineaFinal As String = "</BroadsoftDocument>"
-
-    '    Dim fileIXML As String = ""
-    '    Dim fileOXML As String = ""
-    '    Dim estadoArchivo As Integer = 0
-    '    Dim codError As Integer
-    '    Dim msgError As String = ""
-    '    Dim multipleInputFile As String = gblSetPathTmp & "\multipleInputFile2.txt"
-    '    Dim lineConfigFile As String = ""
-    '    Dim numFile As Integer = 1
-    '    Dim proxy As String = ""
-    '    Dim group_id As String = ""
-    '    Dim mac As String = ""
-
-    '    FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
-
-    '    Try
-    '        proxy = TextBox2.Text.ToString
-    '        If proxy <> "" And proxy.Length >= 8 Then
-    '            For j = 0 To dtproxy.Rows.Count - 1
-    '                numFile += 1
-    '                indiceXML += 1
-    '                fileIXML = gblSetPathTmp & "\" & indiceXML & "_CreateProxy_request_tmp.xml"
-    '                fileOXML = gblSetPathTmp & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
-    '                FileOpen(numFile, fileIXML, OpenMode.Output)
-    '                WriteLine(numFile, j_1.ToCharArray)
-    '                WriteLine(numFile, j_2.ToCharArray)
-    '                WriteLine(numFile, j_3.ToCharArray)
-    '                WriteLine(numFile, j_4.ToCharArray)
-    '                WriteLine(numFile, j_5.ToCharArray)
-    '                group_id = TextBox1.Text.ToString
-    '                j_6 = "<groupId>" & group_id & "</groupId>"
-    '                WriteLine(numFile, j_6.ToCharArray)
-    '                mac = dtproxy.Rows(j)(9)
-    '                j_7 = "<deviceName>DV_" & mac & "</deviceName>"
-    '                WriteLine(numFile, j_7.ToCharArray)
-    '                WriteLine(numFile, j_8.ToCharArray)
-    '                proxy = TextBox2.Text.ToString
-    '                j_9 = "<tagValue>" & proxy & "</tagValue>"
-    '                WriteLine(numFile, j_9.ToCharArray)
-    '                WriteLine(numFile, j_10.ToCharArray)
-    '                WriteLine(numFile, lineaFinal.ToCharArray)
-    '                FileClose(numFile)
-    '                lineConfigFile = fileIXML & ";" & fileOXML
-    '                WriteLine(1, lineConfigFile.ToCharArray)
-    '            Next
-    '        End If
-    '    Catch ex As Exception
-    '        MsgBox(ex.ToString)
-    '        MsgBox("Error al crear el archivo " & indiceXML & "_CreateProxy_request_tmp.xml", MsgBoxStyle.Exclamation)
-    '        FileClose(numFile)
-    '        FileClose(1)
-    '        Exit Sub
-    '    End Try
-
-    '    executeShellBulk(multipleInputFile, codError, msgError)
-    '    If codError = 0 Then
-    '        parseXML_cloudPBX(codError, msgError)
-    '        'My.Application.DoEvents()
-    '    End If
-
-    'End Sub
-
-    'Sub parseXML_proxy(ByRef codError As Integer, ByRef msgError As String)
+        executeShellBulk(multipleInputFile)
+        If codError = 0 Then
+            parseXML_proxy(codError, msgError)
+            'My.Application.DoEvents()
+        End If
+    End Sub
 
 
-    '    Dim reader As XmlTextReader
-    '    Dim exito As Boolean = False
-    '    Dim parseXMl As String
-    '    Dim i As Integer = 0
-    '    Dim iSql As String = ""
-    '    Dim iXml As Integer = 1
-    '    Dim topeXml As Integer = 0
-    '    Dim response As String = ""
-
-    '    Dim comando1 As New OleDbCommand()
-    '    comando1.Connection = Conexion
-    '    Dim Sql As String = "DELETE * FROM broadsoft_device_get_mac"
-    '    comando1.CommandText = Sql
-
-    '    Try
-    '        Conexion.Open()
-    '        comando1.ExecuteNonQuery()
-    '    Catch ex As Exception
-    '        MessageBox.Show(ex.Message)
-    '    End Try
-    '    Conexion.Close()
+    Sub parseXML_proxy(ByRef codError As Integer, ByRef msgError As String)
 
 
-    '    Dim fileNameTmp As String = ""
-    '    For num = 1 To indiceXML
+        Dim reader As XmlTextReader
+        Dim exito As Boolean = False
+        Dim parseXMl As String
+        Dim i As Integer = 0
+        Dim iSql As String = ""
+        Dim iXml As Integer = 1
+        Dim topeXml As Integer = 0
+        Dim response As String = ""
 
-    '        exito = False
-    '        Try
-    '            parseXMl = gblSetPathTmp & "\" & num & "_Broadsoft_response_tmp.xml"
-    '            reader = New XmlTextReader(parseXMl)
-    '            Do While (reader.Read())
+        Dim comando1 As New OleDbCommand()
+        comando1.Connection = Conexion
+        Dim Sql As String = "DELETE * FROM broadsoft_device_get_mac"
+        comando1.CommandText = Sql
 
-    '                Select Case reader.NodeType
-
-    '                    Case XmlNodeType.Element
-    '                        If reader.Name = "command" Then
-
-    '                            i += 1
-    '                            If reader.HasAttributes Then 'If attributes exist
-    '                                While reader.MoveToNextAttribute()
-    '                                    'Display attribute name and value.
-    '                                    'MsgBox(reader.Name.ToString & reader.Value.ToString)
-    '                                    If reader.Name = "xsi:type" Then
-    '                                        If reader.Value = "GroupAccessDeviceGetListResponse" Then
-    '                                            'MsgBox("comando exitoso")
-    '                                        ElseIf reader.Value = "c:ErrorResponse" Then
-
-    '                                            'MsgBox("Error en el comando")
-    '                                        End If
-    '                                    End If
-    '                                End While
-    '                            End If
-    '                        End If
-    '                        If reader.Name = "col" Then
-
-    '                            'MsgBox(reader.ReadString.ToString)
-    '                            response = reader.ReadString
-
-    '                            If response.Length = 15 Then
-    '                                'Dim mac As String = response.Substring(3, 12)
-    '                                Dim cadenaSql As String = "INSERT INTO broadsoft_device_get_mac (mac_address) VALUES ( '" & response & "')"
-
-    '                                'Crear un comando
-    '                                Dim Comando As OleDbCommand = Conexion.CreateCommand()
-    '                                Comando.CommandText = cadenaSql
-
-    '                                'Ejecutar la consulta de accion (agregan registros)
-    '                                Try
-    '                                    Conexion.Open()
-    '                                    Comando.ExecuteNonQuery()
-    '                                    'MsgBox("Se agregó correctamente el registro")
-    '                                Catch ex As Exception
-    '                                    MsgBox(" errorcito " & ex.ToString())
-    '                                End Try
-    '                                Conexion.Close()
-    '                            End If
-    '                        End If
-    '                        'Case XmlNodeType.XmlDeclaration
-    '                End Select
-    '            Loop
-    '            reader.Close()
-    '        Catch ex As Exception
-    '            'MsgBox("Archivo de Respuesta no ha sido encontrado!", vbExclamation, "Error")
-    '            MsgBox(ex.ToString)
-    '            grabaLog1(1, 2, "Error al leer archivo XML>" & gblSetPathTmp & "\CMM_response_tmp_" & iXml & ".xml")
-    '            codError = 1
-    '            msgError = "Respuesta No Generada"
-    '        End Try
-    '    Next
-    '    indiceXML = 0
-    '    btn_procesar.Enabled = False
-    '    btn_Browse_CSV.Enabled = Enabled
-
-    '    'Dim FMP As New Frm_Report
-    '    'FMP.Show()
-    '    'FMP.BringToFront()
-    '    actualizarListBox()
-    '    My.Application.DoEvents()
-    '    Lbl_state.Text = "Finalizado"
-    '    ProgressBar1.Value = ProgressBar1.Maximum
-    '    My.Application.DoEvents()
-    'End Sub
-
-    'Public Sub grabaLog1(ByVal tipo As Integer, ByVal subtipo As Integer, ByVal mensaje As String)
-    '    Dim fileLog As String = ""
-    '    Dim linerr As String = ""
-
-    '    linerr = DateAndTime.Now & ">"
-    '    'tipo -> 1=ERRO,2=INFO,3=WARN
-    '    'subtipo -> 1=DB,2=XML,3=CNX
-    '    If tipo = 1 Then
-    '        linerr = linerr & "ERROR>"
-    '    End If
-    '    If tipo = 2 Then
-    '        linerr = linerr & "INFO>"
-    '    End If
-    '    If tipo = 3 Then
-    '        linerr = linerr & "WARNING>"
-    '    End If
-    '    If subtipo = 1 Then
-    '        linerr = linerr & "DB>"
-    '    End If
-    '    If subtipo = 2 Then
-    '        linerr = linerr & "XML>"
-    '    End If
-    '    If subtipo = 2 Then
-    '        linerr = linerr & "CNX>"
-    '    End If
-    '    linerr = linerr & mensaje
-    '    fileLog = gblSetPathLog & "\LOG_" & DateAndTime.DateString & ".log"
+        Try
+            Conexion.Open()
+            comando1.ExecuteNonQuery()
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+        Conexion.Close()
 
 
-    '    'MsgBox(fileLog.ToString)
-    '    Lbl_state.Text = "Guardando log"
-    '    My.Application.DoEvents()
+        Dim fileNameTmp As String = ""
+        For num = 1 To indiceXMLproxy
 
-    '    FileOpen(2, fileLog, OpenMode.Append, OpenAccess.Write)
-    '    WriteLine(2, linerr.ToCharArray)
-    '    FileClose(2)
-    'End Sub
+            exito = False
+            Try
+                parseXMl = gblSetPathTmpProxy & "\getDeviceName\" & num & "_Broadsoft_response_tmp.xml"
+                reader = New XmlTextReader(parseXMl)
+                Do While (reader.Read())
 
-    'Dim dtproxy As New DataTable
-    'Public Sub actualizarListBox()
+                    Select Case reader.NodeType
 
-    '    Dim iSql As String = "select * from broadsoft_device_get_mac"
-    '    Dim cmd As New OleDbCommand
-    '    Dim dt1 As New DataTable
-    '    Dim da As New OleDbDataAdapter
+                        Case XmlNodeType.Element
+                            If reader.Name = "command" Then
 
-    '    dtproxy = dt1
+                                i += 1
+                                If reader.HasAttributes Then 'If attributes exist
+                                    While reader.MoveToNextAttribute()
+                                        'Display attribute name and value.
+                                        'MsgBox(reader.Name.ToString & reader.Value.ToString)
+                                        If reader.Name = "xsi:type" Then
+                                            If reader.Value = "GroupAccessDeviceGetListResponse" Then
+                                                'MsgBox("comando exitoso")
+                                            ElseIf reader.Value = "c:ErrorResponse" Then
 
-    '    Try
-    '        Conexion.Open()
-    '        cmd.Connection = Conexion
-    '        cmd.CommandText = iSql
-    '        'cmd.CommandType = CommandType.TableDirect
-    '        da.SelectCommand = cmd
-    '        da.Fill(dt1)
+                                                'MsgBox("Error en el comando")
+                                            End If
+                                        End If
+                                    End While
+                                End If
+                            End If
+                            If reader.Name = "col" Then
 
-    '        For j = 0 To dt1.Rows.Count - 1
+                                'MsgBox(reader.ReadString.ToString)
+                                response = reader.ReadString
 
-    '            ListBox1.Items.Add(dt1.Rows.Item(j)(0).ToString)
-    '        Next
+                                If response.Length = 15 Then
+                                    'Dim mac As String = response.Substring(3, 12)
+                                    Dim cadenaSql As String = "INSERT INTO broadsoft_device_get_mac (mac_address) VALUES ( '" & response & "')"
+
+                                    'Crear un comando
+                                    Dim Comando As OleDbCommand = Conexion.CreateCommand()
+                                    Comando.CommandText = cadenaSql
+
+                                    'Ejecutar la consulta de accion (agregan registros)
+                                    Try
+                                        Conexion.Open()
+                                        Comando.ExecuteNonQuery()
+                                        'MsgBox("Se agregó correctamente el registro")
+                                    Catch ex As Exception
+                                        MsgBox(" errorcito " & ex.ToString())
+                                    End Try
+                                    Conexion.Close()
+                                End If
+                            End If
+                            'Case XmlNodeType.XmlDeclaration
+                    End Select
+                Loop
+                reader.Close()
+            Catch ex As Exception
+                'MsgBox("Archivo de Respuesta no ha sido encontrado!", vbExclamation, "Error")
+                MsgBox(ex.ToString)
+                grabaLog1(1, 2, "Error al leer archivo XML>" & gblSetPathTmpProxy & "\getDeviceName\" & num & "_Broadsoft_response_tmp.xml")
+                codError = 1
+                msgError = "Respuesta No Generada"
+            End Try
+        Next
+        'indiceXMLproxy = 0
+        btn_procesar.Enabled = False
+        btn_Browse_CSV.Enabled = Enabled
+
+        'Dim FMP As New Frm_Report
+        'FMP.Show()
+        'FMP.BringToFront()
+        actualizarListBox()
+        My.Application.DoEvents()
+        Lbl_state.Text = "Finalizado"
+        ProgressBar1.Value = ProgressBar1.Maximum
+        My.Application.DoEvents()
+    End Sub
+
+    Public Sub grabaLog1(ByVal tipo As Integer, ByVal subtipo As Integer, ByVal mensaje As String)
+        Dim fileLog As String = ""
+        Dim linerr As String = ""
+
+        linerr = DateAndTime.Now & ">"
+        'tipo -> 1=ERRO,2=INFO,3=WARN
+        'subtipo -> 1=DB,2=XML,3=CNX
+        If tipo = 1 Then
+            linerr = linerr & "ERROR>"
+        End If
+        If tipo = 2 Then
+            linerr = linerr & "INFO>"
+        End If
+        If tipo = 3 Then
+            linerr = linerr & "WARNING>"
+        End If
+        If subtipo = 1 Then
+            linerr = linerr & "DB>"
+        End If
+        If subtipo = 2 Then
+            linerr = linerr & "XML>"
+        End If
+        If subtipo = 2 Then
+            linerr = linerr & "CNX>"
+        End If
+        linerr = linerr & mensaje
+        fileLog = gblSetPathLog & "\LOG_" & DateAndTime.DateString & ".log"
+
+
+        'MsgBox(fileLog.ToString)
+        Lbl_state.Text = "Guardando log"
+        My.Application.DoEvents()
+        numFile += 1
+        Dim numFileLog2 As Integer = numFile
+        FileOpen(numFileLog2, fileLog, OpenMode.Append, OpenAccess.Write)
+        WriteLine(numFileLog2, linerr.ToCharArray)
+        FileClose(numFileLog2)
+    End Sub
+
+    'DataTable utilizada para el rebuild de archivos
+    Dim dt1 As New DataTable
+    Public Sub actualizarListBox()
+
+        Dim iSql As String = "select * from broadsoft_device_get_mac"
+        Dim cmd As New OleDbCommand
+
+        Dim da As New OleDbDataAdapter
+        Dim dtproxy As New DataTable
+        dt1 = dtproxy
+
+        Try
+            Conexion.Open()
+            cmd.Connection = Conexion
+            cmd.CommandText = iSql
+            'cmd.CommandType = CommandType.TableDirect
+            da.SelectCommand = cmd
+            da.Fill(dtproxy)
+
+            'ListBox1.DataSource = Nothing
+            Me.ListBox1.Items.Clear()
+
+            For j = 0 To dtproxy.Rows.Count - 1
+
+                ListBox1.Items.Add(dtproxy.Rows.Item(j)(0).ToString)
+            Next
+
+        Catch ex As Exception
+            MsgBox("Can not open connection ! , " & ex.Message)
+        End Try
+        Conexion.Close()
+
+        'DataGridView1.CurrentCell = DataGridView1.Rows(0).Cells(0)
+        ''lblCMMUpdCurrentRow.Text = DataGridView1.CurrentCell.RowIndex + 1
+        ''lblCMMUpdTotalRows.Text = DataGridView1.RowCount
+
+        Lbl_wait.Visible = False
+        Me.Cursor = Cursors.Default
+        Interface_Salida()
+        Exit Sub
+    End Sub
 
 
 
-    '        'While itm <> Nothing 'Mientras haya datos
-    '        'End While
-    '        'Se muestran los datos en el datagridview 
+    Public Sub modificarProxy()
 
-    '    Catch ex As Exception
-    '        MsgBox("Can not open connection ! , " & ex.Message)
-    '    End Try
-    '    Conexion.Close()
+        'XML PARA MODIFICAR PROXY
+        Dim j_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim j_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim j_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim j_4 As String = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceCustomTagAddRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim j_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim j_6 As String = "<groupId>AUTOPRO_cloudpbx</groupId>"
+        Dim j_7 As String = "<deviceName>DV_805EC02EC440</deviceName>"
+        Dim j_8 As String = "<tagName>%SBC_ADDRESS%</tagName>"
+        Dim j_9 As String = "<tagValue>172.24.16.211</tagValue>"
+        Dim j_10 As String = "</command>"
 
-    '    'DataGridView1.CurrentCell = DataGridView1.Rows(0).Cells(0)
-    '    ''lblCMMUpdCurrentRow.Text = DataGridView1.CurrentCell.RowIndex + 1
-    '    ''lblCMMUpdTotalRows.Text = DataGridView1.RowCount
+        Dim lineaFinal As String = "</BroadsoftDocument>"
 
-    '    Lbl_wait.Visible = False
-    '    Me.Cursor = Cursors.Default
-    '    Interface_Salida()
+        Dim fileIXML As String = ""
+        Dim fileOXML As String = ""
+        Dim estadoArchivo As Integer = 0
+        Dim codError As Integer
+        Dim msgError As String = ""
+        Dim multipleInputFile As String = gblSetPathTmp & "\modifyProxy\multipleInputFile2.txt"
+        Dim lineConfigFile As String = ""
+        Dim proxy As String = ""
+        Dim group_id As String = ""
+        Dim mac As String = ""
 
-    'End Sub
+        Dim numFileProxy As Integer = numFile + 1
+
+        FileOpen(numFileProxy, multipleInputFile, OpenMode.Output, OpenAccess.Write)
+
+        Try
+            proxy = TextBox2.Text.ToString
+            If proxy <> "" And proxy.Length >= 8 Then
+                For j = 0 To dt1.Rows.Count - 1
+                    numFile += 1
+                    indiceXML += 1
+                    fileIXML = gblSetPathTmpProxy & "\modifyProxy\" & indiceXML & "_CreateProxy_request_tmp.xml"
+                    fileOXML = gblSetPathTmpProxy & "\modifyProxy\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    FileOpen(numFile, fileIXML, OpenMode.Output)
+                    WriteLine(numFile, j_1.ToCharArray)
+                    WriteLine(numFile, j_2.ToCharArray)
+                    WriteLine(numFile, j_3.ToCharArray)
+                    WriteLine(numFile, j_4.ToCharArray)
+                    WriteLine(numFile, j_5.ToCharArray)
+                    group_id = TextBox1.Text.ToString
+                    j_6 = "<groupId>" & group_id & "</groupId>"
+                    WriteLine(numFile, j_6.ToCharArray)
+                    mac = dt1.Rows(j)(9)
+                    j_7 = "<deviceName>DV_" & mac & "</deviceName>"
+                    WriteLine(numFile, j_7.ToCharArray)
+                    WriteLine(numFile, j_8.ToCharArray)
+                    proxy = TextBox2.Text.ToString
+                    j_9 = "<tagValue>" & proxy & "</tagValue>"
+                    WriteLine(numFile, j_9.ToCharArray)
+                    WriteLine(numFile, j_10.ToCharArray)
+                    WriteLine(numFile, lineaFinal.ToCharArray)
+                    FileClose(numFile)
+                    lineConfigFile = fileIXML & ";" & fileOXML
+                    WriteLine(1, lineConfigFile.ToCharArray)
+                Next
+            End If
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("Error al crear el archivo " & indiceXML & "_CreateProxy_request_tmp.xml", MsgBoxStyle.Exclamation)
+            FileClose(numFile)
+            FileClose(1)
+            Exit Sub
+        End Try
+        Exit Sub
+        executeShellBulk(multipleInputFile)
+        If codError = 0 Then
+            parseXML_cloudPBX()
+            'My.Application.DoEvents()
+        End If
+
+    End Sub
+
+
+
 
 
 
@@ -2305,7 +2335,7 @@ Public Class Frm_Principal
 
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        'getDeviceName()
+        getDeviceName()
     End Sub
 
     Private Sub ListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ListBox1.SelectedIndexChanged
@@ -2321,6 +2351,10 @@ Public Class Frm_Principal
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
-        'modificarProxy()
+        modificarProxy()
+    End Sub
+
+    Private Sub TabPage2_Click(sender As Object, e As EventArgs) Handles TabPage2.Click
+
     End Sub
 End Class

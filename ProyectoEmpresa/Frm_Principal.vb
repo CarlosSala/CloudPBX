@@ -341,7 +341,6 @@ Public Class Frm_Principal
         Me.Cursor = Cursors.Default
         btn_Browse_CSV.Enabled = True
         indiceXML = 0
-        Exit Sub
     End Sub
 
     Private Sub btn_procesar_Click(sender As Object, e As EventArgs) Handles btn_procesar.Click
@@ -355,7 +354,6 @@ Public Class Frm_Principal
         Me.Cursor = Cursors.WaitCursor
         btn_procesar.Enabled = False
         btn_Browse_CSV.Enabled = False
-
 
         'FASE 1
 
@@ -1012,7 +1010,6 @@ Public Class Frm_Principal
         Dim fileIXML As String = ""
         Dim fileOXML As String = ""
         Dim estadoArchivo As Integer = 0
-        Dim numFile As Integer = 1
         Dim msgError As String = ""
         Dim multipleInputFile As String = gblSetPathTmpCloud & "\multipleInputFile.txt"
         Dim lineConfigFile As String = ""
@@ -1035,7 +1032,7 @@ Public Class Frm_Principal
             numFile += 1
             indiceXML += 1
             fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_CreateDomain_request_tmp.xml"
-            fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+            fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, a_1.ToCharArray)
             WriteLine(numFile, a_2.ToCharArray)
@@ -1052,6 +1049,7 @@ Public Class Frm_Principal
             MsgBox(ex.ToString)
             MsgBox("Error al crear el archivo " & indiceXML & "_CreateDomain_request_tmp.xml", MsgBoxStyle.Exclamation)
             Error_File()
+            Exit Sub
         End Try
         estadoArchivo = 1
 
@@ -1061,7 +1059,7 @@ Public Class Frm_Principal
                 numFile += 1
                 indiceXML += 1
                 fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_AssignDomain_request_tmp.xml"
-                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
                 FileOpen(numFile, fileIXML, OpenMode.Output)
                 WriteLine(numFile, b_1.ToCharArray)
                 WriteLine(numFile, b_2.ToCharArray)
@@ -1079,6 +1077,7 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignDomain_request_tmp.xml", MsgBoxStyle.Exclamation)
                 Error_File()
+                Exit Sub
             End Try
             estadoArchivo = 2
         End If
@@ -1089,7 +1088,7 @@ Public Class Frm_Principal
                 numFile += 1
                 indiceXML += 1
                 fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_CreateNumbers_request_tmp.xml"
-                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
                 FileOpen(numFile, fileIXML, OpenMode.Output)
                 WriteLine(numFile, c_1.ToCharArray)
                 WriteLine(numFile, c_2.ToCharArray)
@@ -1110,6 +1109,7 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateNumbers_request_tmp.xml", MsgBoxStyle.Exclamation)
                 Error_File()
+                Exit Sub
             End Try
             estadoArchivo = 3
         End If
@@ -1120,7 +1120,7 @@ Public Class Frm_Principal
                 numFile += 1
                 indiceXML += 1
                 fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_CreateProfileGroup_request_tmp.xml"
-                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
                 FileOpen(numFile, fileIXML, OpenMode.Output)
                 WriteLine(numFile, d_1.ToCharArray)
                 WriteLine(numFile, d_2.ToCharArray)
@@ -1160,6 +1160,7 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateProfileGroup_request_tmp.xml", MsgBoxStyle.Exclamation)
                 Error_File()
+                Exit Sub
             End Try
             estadoArchivo = 4
         End If
@@ -1170,7 +1171,7 @@ Public Class Frm_Principal
                 numFile += 1
                 indiceXML += 1
                 fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_ExtensionsLength_request_tmp.xml"
-                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
                 FileOpen(numFile, fileIXML, OpenMode.Output)
                 WriteLine(numFile, p_1.ToCharArray)
                 WriteLine(numFile, p_2.ToCharArray)
@@ -1191,6 +1192,7 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_ExtensionsLength_request_tmp.xml", MsgBoxStyle.Exclamation)
                 Error_File()
+                Exit Sub
             End Try
             estadoArchivo = 5
         End If
@@ -1207,7 +1209,7 @@ Public Class Frm_Principal
                 IO.File.WriteAllLines(gblSetPathAppl & "\servicesFile_cloud\" & indiceXML & "_SelectServices_request_tmp.xml", Lines_Array)
 
                 fileIXML = gblSetPathAppl & "\servicesFile_cloud\" & indiceXML & "_SelectServices_request_tmp.xml"
-                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
                 lineConfigFile = fileIXML & ";" & fileOXML
                 WriteLine(1, lineConfigFile.ToCharArray)
             Catch ex As Exception
@@ -1227,7 +1229,7 @@ Public Class Frm_Principal
                 numFile += 1
                 indiceXML += 1
                 fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_AssignServices_request_tmp.xml"
-                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
                 FileOpen(numFile, fileIXML, OpenMode.Output)
                 WriteLine(numFile, e_1.ToCharArray)
                 WriteLine(numFile, e_2.ToCharArray)
@@ -1267,6 +1269,7 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignServices_request_tmp.xml", MsgBoxStyle.Exclamation)
                 Error_File()
+                Exit Sub
             End Try
             estadoArchivo = 7
         End If
@@ -1277,7 +1280,7 @@ Public Class Frm_Principal
                 numFile += 1
                 indiceXML += 1
                 fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_AssignNumber_request_tmp.xml"
-                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
                 FileOpen(numFile, fileIXML, OpenMode.Output)
                 WriteLine(numFile, f_1.ToCharArray)
                 WriteLine(numFile, f_2.ToCharArray)
@@ -1300,6 +1303,7 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignNumber_request_tmp.xml", MsgBoxStyle.Exclamation)
                 Error_File()
+                Exit Sub
             End Try
             estadoArchivo = 8
         End If
@@ -1311,7 +1315,7 @@ Public Class Frm_Principal
                     numFile += 1
                     indiceXML += 1
                     fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_CreateDevice_request_tmp.xml"
-                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, g_1.ToCharArray)
                     WriteLine(numFile, g_2.ToCharArray)
@@ -1346,6 +1350,7 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateDevice_request_tmp.xml", MsgBoxStyle.Exclamation)
                 Error_File()
+                Exit Sub
             End Try
             estadoArchivo = 9
         End If
@@ -1357,7 +1362,7 @@ Public Class Frm_Principal
                     numFile += 1
                     indiceXML += 1
                     fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_CreateDepartment_request_tmp.xml"
-                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, h_1.ToCharArray)
                     WriteLine(numFile, h_2.ToCharArray)
@@ -1379,6 +1384,7 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateDepartment_request_tmp.xml", MsgBoxStyle.Exclamation)
                 Error_File()
+                Exit Sub
             End Try
             estadoArchivo = 10
         End If
@@ -1390,7 +1396,7 @@ Public Class Frm_Principal
                     numFile += 1
                     indiceXML += 1
                     fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_CreateUser_request_tmp.xml"
-                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, i_1.ToCharArray)
                     WriteLine(numFile, i_2.ToCharArray)
@@ -1448,6 +1454,7 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateUser_request_tmp.xml", MsgBoxStyle.Exclamation)
                 Error_File()
+                Exit Sub
             End Try
             estadoArchivo = 11
         End If
@@ -1460,7 +1467,7 @@ Public Class Frm_Principal
                         numFile += 1
                         indiceXML += 1
                         fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_CreateProxy_request_tmp.xml"
-                        fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                        fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
                         FileOpen(numFile, fileIXML, OpenMode.Output)
                         WriteLine(numFile, j_1.ToCharArray)
                         WriteLine(numFile, j_2.ToCharArray)
@@ -1486,6 +1493,7 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateProxy_request_tmp.xml", MsgBoxStyle.Exclamation)
                 Error_File()
+                Exit Sub
             End Try
             estadoArchivo = 12
         End If
@@ -1497,7 +1505,7 @@ Public Class Frm_Principal
                     numFile += 1
                     indiceXML += 1
                     fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_AssignUser_request_tmp.xml"
-                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, k_1.ToCharArray)
                     WriteLine(numFile, k_2.ToCharArray)
@@ -1535,6 +1543,7 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateProxy_request_tmp.xml", MsgBoxStyle.Exclamation)
                 Error_File()
+                Exit Sub
             End Try
             estadoArchivo = 13
         End If
@@ -1546,7 +1555,7 @@ Public Class Frm_Principal
                     numFile += 1
                     indiceXML += 1
                     fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_AssignServices_request_tmp.xml"
-                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, l_1.ToCharArray)
                     WriteLine(numFile, l_2.ToCharArray)
@@ -1575,6 +1584,7 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignServices_request_tmp.xml", MsgBoxStyle.Exclamation)
                 Error_File()
+                Exit Sub
             End Try
             estadoArchivo = 14
         End If
@@ -1586,7 +1596,7 @@ Public Class Frm_Principal
                     numFile += 1
                     indiceXML += 1
                     fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_OCP_request_tmp.xml"
-                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, m_1.ToCharArray)
                     WriteLine(numFile, m_2.ToCharArray)
@@ -1658,6 +1668,7 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_OCP_request_tmp.xml", MsgBoxStyle.Exclamation)
                 Error_File()
+                Exit Sub
             End Try
             estadoArchivo = 15
         End If
@@ -1669,7 +1680,7 @@ Public Class Frm_Principal
                     numFile += 1
                     indiceXML += 1
                     fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_AssignPasswordSIP_request_tmp.xml"
-                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, n_1.ToCharArray)
                     WriteLine(numFile, n_2.ToCharArray)
@@ -1694,6 +1705,7 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignPasswordSIP_request_tmp.xml", MsgBoxStyle.Exclamation)
                 Error_File()
+                Exit Sub
             End Try
             estadoArchivo = 16
         End If
@@ -1705,7 +1717,7 @@ Public Class Frm_Principal
                     numFile += 1
                     indiceXML += 1
                     fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_ActivateNumber_request_tmp.xml"
-                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, o_1.ToCharArray)
                     WriteLine(numFile, o_2.ToCharArray)
@@ -1727,6 +1739,7 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_ActivateNumber_request_tmp.xml", MsgBoxStyle.Exclamation)
                 Error_File()
+                Exit Sub
             End Try
             estadoArchivo = 17
         End If
@@ -1737,7 +1750,7 @@ Public Class Frm_Principal
                 numFile += 1
                 indiceXML += 1
                 fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_GroupMusicOnHold_request_tmp.xml"
-                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_cloudpbx_response_.xml"
                 FileOpen(numFile, fileIXML, OpenMode.Output)
                 WriteLine(numFile, q_1.ToCharArray)
                 WriteLine(numFile, q_2.ToCharArray)
@@ -1769,6 +1782,7 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_GroupMusicOnHold_request_tmp.xml", MsgBoxStyle.Exclamation)
                 Error_File()
+                Exit Sub
             End Try
         End If
 
@@ -1842,6 +1856,7 @@ Public Class Frm_Principal
             FileClose(numFile)
             MsgBox(ex.ToString)
             MsgBox("Se produjo un error al crear el archivo" & gblSetPathTmpCloud & "\ociclient.config" & " y los archivos XML no fueron enviados", MsgBoxStyle.Exclamation, "Error al crear archivo")
+            indiceXML = 0
             codError = 1
             Me.Cursor = Cursors.Default
             btn_Browse_CSV.Enabled = True
@@ -1865,13 +1880,11 @@ Public Class Frm_Principal
             proceso.Start()
             proceso.WaitForExit()
             proceso.Close()
-            'My.Application.DoEvents()
         Catch ex As Exception
-            'Console.WriteLine(ex.Message)
-            MsgBox("Archivo no ha sido generado " & ex.ToString)
-            grabaLog(1, 3, "Error al ejecutar Shell>" & strArguments)
+            MsgBox(ex.ToString)
+            'grabaLog(1, 3, "Error al ejecutar Shell>" & strArguments)
+            indiceXML = 0
             codError = 1
-            Lbl_state.Text = "Error"
             Me.Cursor = Cursors.Default
             btn_Browse_CSV.Enabled = True
             Lbl_state.Text = "Error al ejecutar startASOCIClient.bat"
@@ -1889,7 +1902,6 @@ Public Class Frm_Principal
 
         Dim reader As XmlTextReader
         Dim parseXMl As String
-        Dim iXml As Integer = 1
         Dim response As String = ""
 
         Dim comando As New OleDbCommand()
@@ -1901,20 +1913,22 @@ Public Class Frm_Principal
             Conexion.Open()
             comando.ExecuteNonQuery()
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
+            MsgBox(ex.ToString)
             MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'broadsoft_response_error'",
                             MsgBoxStyle.Exclamation, "Error al generar reporte")
+            indiceXML = 0
             Lbl_state.Text = "Error al acceder a la base de datos"
             ProgressBar1.Value = ProgressBar1.Maximum
             Me.Cursor = Cursors.Default
             btn_Browse_CSV.Enabled = True
+            Conexion.Close()
             Exit Sub
         End Try
         Conexion.Close()
 
         For num = 1 To indiceXML
             Try
-                parseXMl = gblSetPathTmpCloud & "\" & num & "_Broadsoft_response_tmp.xml"
+                parseXMl = gblSetPathTmpCloud & "\" & num & "_cloudpbx_response_.xml"
                 reader = New XmlTextReader(parseXMl)
                 Do While (reader.Read())
                     Select Case reader.NodeType
@@ -1936,7 +1950,7 @@ Public Class Frm_Principal
                             'End If
                             If reader.Name = "summary" Then
                                 'MsgBox(reader.ReadString.ToString)
-                                response = reader.ReadString & "_[File:" & num & "_Broadsoft_response_tmp.xml]"
+                                response = reader.ReadString & "_[File:" & num & "_cloudpbx_response_.xml]"
                                 Dim Sql1 As String = "INSERT INTO broadsoft_response_error ([error]) VALUES ( '" & response & "')"
                                 'Crear un comando
                                 Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
@@ -1945,13 +1959,16 @@ Public Class Frm_Principal
                                     Conexion.Open()
                                     Comando1.ExecuteNonQuery()
                                 Catch ex As Exception
-                                    MessageBox.Show(ex.Message)
+                                    MsgBox(ex.ToString)
                                     MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'broadsoft_response_error'",
                                                     MsgBoxStyle.Exclamation, "Error al generar reporte")
+                                    indiceXML = 0
                                     Lbl_state.Text = "Error al acceder a la base de datos"
                                     ProgressBar1.Value = ProgressBar1.Maximum
                                     Me.Cursor = Cursors.Default
                                     btn_Browse_CSV.Enabled = True
+                                    Conexion.Close()
+                                    reader.Close()
                                     Exit Sub
                                 End Try
                                 Conexion.Close()
@@ -1962,11 +1979,13 @@ Public Class Frm_Principal
                 reader.Close()
             Catch ex As Exception
                 MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
-                grabaLog(1, 2, "Error al leer archivo XML>" & gblSetPathTmpCloud & "\" & num & "_Broadsoft_response_tmp.xml")
+                'grabaLog(1, 2, "Error al leer archivo XML>" & gblSetPathTmpCloud & "\" & num & "_cloudpbx_response_.xml")
+                indiceXML = 0
                 Lbl_state.Text = "Error al generar reporte"
                 ProgressBar1.Value = ProgressBar1.Maximum
                 Me.Cursor = Cursors.Default
                 btn_Browse_CSV.Enabled = True
+                Conexion.Close()
                 Exit Sub
             End Try
         Next
@@ -1977,7 +1996,6 @@ Public Class Frm_Principal
         FMP.BringToFront()
         My.Application.DoEvents()
         Me.Cursor = Cursors.Default
-        btn_procesar.Enabled = False
         btn_Browse_CSV.Enabled = Enabled
         Lbl_state.Text = "Finalizado"
         ProgressBar1.Value = ProgressBar1.Maximum
@@ -2069,7 +2087,7 @@ Public Class Frm_Principal
                 numFile += 1
                 indiceXMLproxy += 1
                 fileIXML = gblSetPathTmpProxy & "\getDeviceName\" & indiceXMLproxy & "_DeviceGetList_request_tmp.xml"
-                fileOXML = gblSetPathTmpProxy & "\getDeviceName\" & indiceXMLproxy & "_Broadsoft_response_tmp.xml"
+                fileOXML = gblSetPathTmpProxy & "\getDeviceName\" & indiceXMLproxy & "_cloudpbx_response_.xml"
                 FileOpen(numFile, fileIXML, OpenMode.Output)
                 WriteLine(numFile, r_1.ToCharArray)
                 WriteLine(numFile, r_2.ToCharArray)
@@ -2129,6 +2147,7 @@ Public Class Frm_Principal
             comando1.ExecuteNonQuery()
         Catch ex As Exception
             MessageBox.Show(ex.Message)
+            Conexion.Close()
         End Try
         Conexion.Close()
 
@@ -2138,7 +2157,7 @@ Public Class Frm_Principal
 
             exito = False
             Try
-                parseXMl = gblSetPathTmpProxy & "\getDeviceName\" & num & "_Broadsoft_response_tmp.xml"
+                parseXMl = gblSetPathTmpProxy & "\getDeviceName\" & num & "_cloudpbx_response_.xml"
                 reader = New XmlTextReader(parseXMl)
                 Do While (reader.Read())
 
@@ -2183,6 +2202,7 @@ Public Class Frm_Principal
                                         'MsgBox("Se agregó correctamente el registro")
                                     Catch ex As Exception
                                         MsgBox(" errorcito " & ex.ToString())
+                                        Conexion.Close()
                                     End Try
                                     Conexion.Close()
                                 End If
@@ -2194,7 +2214,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 'MsgBox("Archivo de Respuesta no ha sido encontrado!", vbExclamation, "Error")
                 MsgBox(ex.ToString)
-                grabaLog1(1, 2, "Error al leer archivo XML>" & gblSetPathTmpProxy & "\getDeviceName\" & num & "_Broadsoft_response_tmp.xml")
+                grabaLog1(1, 2, "Error al leer archivo XML>" & gblSetPathTmpProxy & "\getDeviceName\" & num & "_cloudpbx_response_.xml")
                 codError = 1
                 msgError = "Respuesta No Generada"
             End Try
@@ -2281,6 +2301,7 @@ Public Class Frm_Principal
 
         Catch ex As Exception
             MsgBox("Can not open connection ! , " & ex.Message)
+            Conexion.Close()
         End Try
         Conexion.Close()
 
@@ -2334,7 +2355,7 @@ Public Class Frm_Principal
                     numFile += 1
                     indiceXML += 1
                     fileIXML = gblSetPathTmpProxy & "\modifyProxy\" & indiceXML & "_CreateProxy_request_tmp.xml"
-                    fileOXML = gblSetPathTmpProxy & "\modifyProxy\" & indiceXML & "_Broadsoft_response_tmp.xml"
+                    fileOXML = gblSetPathTmpProxy & "\modifyProxy\" & indiceXML & "_cloudpbx_response_.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, j_1.ToCharArray)
                     WriteLine(numFile, j_2.ToCharArray)

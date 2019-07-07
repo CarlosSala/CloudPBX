@@ -130,6 +130,7 @@ Partial Class Frm_Principal
         '
         'DataGridView1
         '
+        Me.DataGridView1.AllowUserToResizeColumns = False
         Me.DataGridView1.AllowUserToResizeRows = False
         Me.DataGridView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
@@ -143,6 +144,7 @@ Partial Class Frm_Principal
         Me.DataGridView1.MaximumSize = New System.Drawing.Size(1307, 400)
         Me.DataGridView1.MinimumSize = New System.Drawing.Size(780, 400)
         Me.DataGridView1.Name = "DataGridView1"
+        Me.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.DataGridView1.Size = New System.Drawing.Size(1307, 400)
         Me.DataGridView1.TabIndex = 51
         '

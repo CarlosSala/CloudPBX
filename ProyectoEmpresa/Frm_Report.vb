@@ -4,21 +4,14 @@ Public Class Frm_Report
     Dim ConexionString As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & My.Application.Info.DirectoryPath & My.Settings.SetDatabase
     Dim Conexion As New OleDbConnection(ConexionString)
 
-    Dim gblSession As String = ""
-    Dim gblUpdTotalReg As Integer = 0
-    Dim gblUpdTotaliXML As Integer = 0
-    Dim indiceXML As Integer = 0
-    Dim gblSetPathTmp As String
-    Dim gblSetPathAppl As String
-    Dim gblSetPathLog As String
-    Dim gblTimePing As Integer = 2000
+
     Private Sub Frm_Report_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        actualizarGrilla()
+        Update_Grid()
     End Sub
 
 
-    Public Sub actualizarGrilla()
+    Public Sub Update_Grid()
 
         Dim iSql As String = "select * from broadsoft_response_error"
         Dim cmd As New OleDbCommand
@@ -29,18 +22,23 @@ Public Class Frm_Report
             Conexion.Open()
             cmd.Connection = Conexion
             cmd.CommandText = iSql
-            cmd.CommandType = CommandType.TableDirect
             da.SelectCommand = cmd
             da.Fill(dt)
-            'Se muestran los datos en el datagridview 
-            DataGridView2.DataSource = dt
-            DataGridView2.Refresh()
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
-            MsgBox("Error al acceder a la base de datos para mostrar el reporte", MsgBoxStyle.Exclamation, "Error al generar reporte")
+            MsgBox(ex.ToString)
+            MsgBox("Error al acceder a la base de datos para mostrar reporte", MsgBoxStyle.Exclamation, "Error al generar reporte")
+            Conexion.Close()
             Exit Sub
         End Try
         Conexion.Close()
+
+        'Se muestran los datos en el datagridview 
+        DataGridView2.DataSource = dt
+        DataGridView2.Refresh()
+
+        For j = 0 To DataGridView2.ColumnCount - 1
+            DataGridView2.Columns(j).SortMode = DataGridViewColumnSortMode.NotSortable
+        Next
 
     End Sub
 

@@ -4,7 +4,7 @@
 <command xsi:type="GroupAddRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
 <groupId>miguel_grupo</groupId>
-<defaultDomain>losjaivas.cl</defaultDomain>
+<defaultDomain>felipe.cl</defaultDomain>
 <userLimit>100</userLimit>
 <groupName>felipe_empresa</groupName>
 <callingLineIdName>felipe_empresa</callingLineIdName>

@@ -5,5 +5,10 @@
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
 <groupId>miguel_grupo</groupId>
 <phoneNumber>+56-222360347</phoneNumber>
+<phoneNumber>+56-232781882</phoneNumber>
+<phoneNumber>+56-232781883</phoneNumber>
+<phoneNumber>+56-232781888</phoneNumber>
+<phoneNumber>+56-232781889</phoneNumber>
+<phoneNumber>+56-232781890</phoneNumber>
 </command>
 </BroadsoftDocument>

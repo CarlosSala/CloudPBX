@@ -4,5 +4,10 @@
 <command xsi:type="ServiceProviderDnAddListRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
 <phoneNumber>222360347</phoneNumber>
+<phoneNumber>232781882</phoneNumber>
+<phoneNumber>232781883</phoneNumber>
+<phoneNumber>232781888</phoneNumber>
+<phoneNumber>232781889</phoneNumber>
+<phoneNumber>232781890</phoneNumber>
 </command>
 </BroadsoftDocument>

@@ -18,7 +18,7 @@ Public Class Frm_Principal
     Dim indiceXML As Integer = 0
     Dim indiceXMLproxy As Integer = 0
     Dim numFile As Integer = 1
-    Dim n_File As Integer = FreeFile()
+    'Dim n_File As Integer = FreeFile()
 
     Private Sub For1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -68,8 +68,13 @@ Public Class Frm_Principal
         validar_Archivo()
     End Sub
 
+    'A continuación, se valida que:
+    'Se haya seleccionado un archivo
+    'El archivo no se encuentre en uso
+    'El archivo no este vacio
+    'El archivo posea 26 columnas por cada fila, sin excepción
     Private Sub validar_Archivo()
-        'Si no se escogió ningun archivo, se cancela la llamada al metodo
+        'Si no se escogió ningun archivo, se expulsa del metodo validar_Archivo
         If TextBox_FileName.Text = "" Then
             Lbl_wait.Visible = False
             Me.Cursor = Cursors.Default
@@ -88,23 +93,22 @@ Public Class Frm_Principal
             Exit Sub
         End Try
 
-        'Variables para validar el formato del archivo
+        'Se valida el formato del archivo
         Dim controlArchivoVacio As Integer = 0
 
+        'Mientras no se llegue al final del archivo
         While Not EOF(1)
 
-            'Si el programa modifica la variable controlArchivoVacio a 1, significa
-            'que ingreso al while donde se lee el archivo y por ende este no esta vacio
+            'Si la variable controlArchivoVacio cambia a 1 es porque el while comenzo a recorrer el archivo y por ende este no esta vacio
             controlArchivoVacio = 1
 
-            'Variables para guardar la información encontrada en el archivo
+            'Se lee una linea del archivo por cada ejecución
             Dim readLine As String = ""
             Dim arrayLine() As String
-            'Lee una linea del archivo
             readLine = LineInput(1)
             arrayLine = Split(readLine, ";")
 
-            'Comprueba que la primera linea del archivo contenga 26 columnas
+            'Se comprueba que cada linea del archivo contenga 26 columnas por fila
             If arrayLine.Length <> 26 Then
                 Lbl_wait.Visible = False
                 Me.Cursor = Cursors.Default
@@ -123,10 +127,10 @@ Public Class Frm_Principal
         End If
 
         FileClose(1)
-        save_File_Data_Access()
+        save_Data_Access()
     End Sub
 
-    Private Sub save_File_Data_Access()
+    Private Sub save_Data_Access()
 
         'Se abre el archivo selccionado en modo lectura y se le asigna un id
         Try
@@ -140,17 +144,17 @@ Public Class Frm_Principal
             Exit Sub
         End Try
 
-        'Se eliminan los datos antiguos de la tabla broadsoft_cloudPBX
+        'Se eliminan los datos antiguos de la tabla brs_cloudPBX
         Dim cmd As New OleDbCommand()
         cmd.Connection = Conexion
-        Dim instruccionSql As String = "DELETE * FROM broadsoft_cloudPBX"
+        Dim instruccionSql As String = "DELETE * FROM brs_cloudpbx"
         cmd.CommandText = instruccionSql
-
         Try
             Conexion.Open()
             cmd.ExecuteNonQuery()
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
+            MsgBox(ex.ToString)
+            MsgBox("No se pudieron eliminar los datos antiguos de la tabla brs_cloudpbx", MsgBoxStyle.Exclamation, "Error de conexión con base de datos")
             Me.Cursor = Cursors.Default
             Lbl_wait.Visible = False
             FileClose(1)
@@ -159,7 +163,7 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
-        'Variables que contendrán las valores a guardar en access
+        'Variables que contendrán las valores a guardar en Access
         Dim Dominio As String = ""
         Dim Numeros As String = ""
         Dim Nombre_grupo As String = ""
@@ -187,46 +191,43 @@ Public Class Frm_Principal
         Dim OCP_especial2 As String = ""
         Dim OCP_premium1 As String = ""
 
-        'Variables para guardar la información encontrada en el archivo
         Dim readLine As String = ""
         Dim arrayLine() As String
 
         'Se lee linea por linea el archivo con id = 1, hasta que este acabe, EndOfFile
         While Not EOF(1)
 
-            'Lee una linea del archivo
             readLine = LineInput(1)
             arrayLine = Split(readLine, ";")
-            Dominio = arrayLine(0).ToString()
-            Numeros = arrayLine(1).ToString()
-            Nombre_grupo = arrayLine(2).ToString()
-            Nombre_empresa = arrayLine(3).ToString()
-            Nombre_contacto = arrayLine(4).ToString()
-            Telefono_contacto = arrayLine(5).ToString()
-            Direccion_empresa = arrayLine(6).ToString()
-            Ciudad = arrayLine(7).ToString()
-            Tipo_dispositivo = arrayLine(8).ToString()
-            Mac = arrayLine(9).ToString()
-            Numero_serie = arrayLine(10).ToString()
-            Locacion_fisica = arrayLine(11).ToString()
-            Departamento = arrayLine(12).ToString()
-            Nombre_usuario = arrayLine(13).ToString()
-            Apellido_usuario = arrayLine(14).ToString()
-            Correo_usuario = arrayLine(15).ToString()
-            Direccion_usuario = arrayLine(16).ToString()
-            Ciudad_usuario = arrayLine(17).ToString()
-            Proxy = arrayLine(18).ToString()
-            Extensiones = arrayLine(19).ToString()
-            OCP_local = arrayLine(20).ToString()
-            OCP_linea_gratis = arrayLine(21).ToString()
-            OCP_internacional = arrayLine(22).ToString()
-            OCP_especial1 = arrayLine(23).ToString()
-            OCP_especial2 = arrayLine(24).ToString()
-            OCP_premium1 = arrayLine(25).ToString()
-
+            Dominio = arrayLine(0).ToString
+            Numeros = arrayLine(1).ToString
+            Nombre_grupo = arrayLine(2).ToString
+            Nombre_empresa = arrayLine(3).ToString
+            Nombre_contacto = arrayLine(4).ToString
+            Telefono_contacto = arrayLine(5).ToString
+            Direccion_empresa = arrayLine(6).ToString
+            Ciudad = arrayLine(7).ToString
+            Tipo_dispositivo = arrayLine(8).ToString
+            Mac = arrayLine(9).ToString
+            Numero_serie = arrayLine(10).ToString
+            Locacion_fisica = arrayLine(11).ToString
+            Departamento = arrayLine(12).ToString
+            Nombre_usuario = arrayLine(13).ToString
+            Apellido_usuario = arrayLine(14).ToString
+            Correo_usuario = arrayLine(15).ToString
+            Direccion_usuario = arrayLine(16).ToString
+            Ciudad_usuario = arrayLine(17).ToString
+            Proxy = arrayLine(18).ToString
+            Extensiones = arrayLine(19).ToString
+            OCP_local = arrayLine(20).ToString
+            OCP_linea_gratis = arrayLine(21).ToString
+            OCP_internacional = arrayLine(22).ToString
+            OCP_especial1 = arrayLine(23).ToString
+            OCP_especial2 = arrayLine(24).ToString
+            OCP_premium1 = arrayLine(25).ToString
 
             'Instrucción SQL
-            Dim cadenaSql As String = "INSERT INTO broadsoft_cloudPBX ([domain], numbers, group_id, group_name, contact_name, contact_phone, enterprise_address, city,
+            Dim cadenaSql As String = "INSERT INTO brs_cloudpbx ([domain], numbers, group_id, group_name, contact_name, contact_phone, enterprise_address, city,
                                                                         device_type, mac, serial_number, physical_location, deparment_name,
                                                                         first_name, last_name, user_email, user_address, user_city,
                                                                         proxy, extensions,
@@ -258,17 +259,17 @@ Public Class Frm_Principal
             cadenaSql += "          '" & OCP_especial2 & "',"
             cadenaSql += "          '" & OCP_premium1 & "')"
 
-            'Crear un comando
+            'Se crea el comando
             Dim Comando As OleDbCommand = Conexion.CreateCommand()
             Comando.CommandText = cadenaSql
 
-            'Ejecutar la consulta de accion (agregan registros)
+            'Se Ejecuta la consulta de accion (agregar registros)
             Try
                 Conexion.Open()
                 Comando.ExecuteNonQuery()
-                'MsgBox("Se agregó correctamente el registro")
             Catch ex As Exception
-                MsgBox(ex.ToString())
+                MsgBox(ex.ToString)
+                MsgBox("No se pudieron insertar los nuevos datos en la tabla brs_cloudpbx", MsgBoxStyle.Exclamation, "Error de conexión con base de datos")
                 Me.Cursor = Cursors.Default
                 Lbl_wait.Visible = False
                 FileClose(1)
@@ -281,32 +282,33 @@ Public Class Frm_Principal
         FileClose(1)
         Lbl_state.Text = ""
         ProgressBar1.Value = 0
-        actualizarGrilla()
+        update_Grid()
     End Sub
 
 
-    'dt de dataTable se utiliza como variable global para trabajar con access
+    'dt o dataTable es una variable global para utilizarla desde otros metodos
     Dim dt As New DataTable
-    Public Sub actualizarGrilla()
+    Public Sub update_Grid()
 
-        Dim iSql As String = "select * from broadsoft_cloudPBX"
+        Dim iSql As String = "select * from brs_cloudpbx"
         Dim cmd As New OleDbCommand
         Dim dt1 As New DataTable
         Dim da As New OleDbDataAdapter
         dt = dt1
 
+        'Se Ejecuta la consulta para traer registros
         Try
             Conexion.Open()
             cmd.Connection = Conexion
             cmd.CommandText = iSql
-            'cmd.CommandType = CommandType.TableDirect
             da.SelectCommand = cmd
             da.Fill(dt1)
         Catch ex As Exception
-            MsgBox(ex.Message)
-            MsgBox("No se pudieron traer los datos de la Base de datos a la grilla", MsgBoxStyle.Exclamation, "Error en la base de datos")
+            MsgBox(ex.ToString)
+            MsgBox("No se pudo traer la información desde la tabla brs_cloudpbx", MsgBoxStyle.Exclamation, "Error de conexión con base de datos")
             Me.Cursor = Cursors.Default
             Lbl_wait.Visible = False
+            Conexion.Close()
             Exit Sub
         End Try
         Conexion.Close()
@@ -314,6 +316,10 @@ Public Class Frm_Principal
         'Se muestran los datos en el datagridview 
         DataGridView1.DataSource = dt1
         DataGridView1.Refresh()
+
+        For j = 0 To DataGridView1.ColumnCount - 1
+            DataGridView1.Columns(j).SortMode = DataGridViewColumnSortMode.NotSortable
+        Next
 
         'DataGridView1.CurrentCell = DataGridView1.Rows(0).Cells(0)
         'lblCMMUpdCurrentRow.Text = DataGridView1.CurrentCell.RowIndex + 1
@@ -327,6 +333,15 @@ Public Class Frm_Principal
     Private Sub Interface_Salida()
         btn_procesar.Enabled = True
         btn_Browse_CSV.Enabled = True
+    End Sub
+
+    Private Sub Error_File()
+        FileClose(numFile)
+        FileClose(1)
+        Me.Cursor = Cursors.Default
+        btn_Browse_CSV.Enabled = True
+        indiceXML = 0
+        Exit Sub
     End Sub
 
     Private Sub btn_procesar_Click(sender As Object, e As EventArgs) Handles btn_procesar.Click
@@ -645,26 +660,51 @@ Public Class Frm_Principal
         Dim ocp_special2 As String = ""
         Dim ocp_premium1 As String = ""
 
+        'Esta variable se usa para controlar que todas las validaciones se realizaron correctamente
+        Dim estadoCeldas As Integer = 0
 
-        'validar la informacion obligatoria-----------------------------------------------------------------------------------
+        'INFORMACION OBLIGATORIA. A CONTINUACION SE VALIDA QUE:
+
+        'domain sea mayor a un largo 3
+        'todos los phoneNumber tengan un largo mayor a 8
+        'group_id sea mayor a un largo 3
+        'group_name sea mayor a un largo 3
+        'address sea mayor a un largo 3
+        'city sea mayor a un largo 3
+        'device_type se mayor a un largo 11
+        'mac sea mayor a un largo 11
+        'serial_number sea mayor a un largo 15
+        'physical_location sea mayor a un largo 3
+        'first_name sea mayor a un largo 1
+        'last_name sea mayor a un largo 0
+        'user_address sea mayor a un largo 3
+        'user_city sea mayor a un largo 3
+        'first_name sea mayor a un largo 1
+        'extensions sea mayor a un largo 1
+        'ocp_local sea mayor a un largo 8
+        'ocp_tollFree sea mayor a un largo 8
+        'ocp_internacional sea mayor a un largo 8
+        'ocp_special1 sea mayor a un largo 8
+        'ocp_special2 sea mayor a un largo 8
+        'ocp_premium1 sea mayor a un largo 8
 
         'validar dominio-----------------------------------------------------------------------------------------------------
         domain = dt.Rows(0)(0).ToString.ToLower
-        If domain = "" Or domain.Length = 0 Then
-            MsgBox("Revise el campo 'domain'", MsgBoxStyle.Exclamation, "Error de validación")
-            Me.Cursor = Cursors.Default
-            btn_Browse_CSV.Enabled = True
-            Exit Sub
+        If domain.Length <= 3 Then
+            DataGridView1.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(254, 84, 97)
+            estadoCeldas += 1
+        Else
+            DataGridView1.Rows(0).Cells(0).Style.BackColor = Nothing
         End If
 
         'validar numeración-------------------------------------------------------------------------------------------------
         For j = 0 To dt.Rows.Count - 1
             phoneNumber = dt.Rows(j)(1).ToString
-            If phoneNumber = "" Or phoneNumber.Length <= 8 Then
-                MsgBox("Revise el campo 'numbers'", MsgBoxStyle.Exclamation, "Error de validación")
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+            If phoneNumber.Length <= 8 Then
+                DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas += 1
+            Else
+                DataGridView1.Rows(j).Cells(1).Style.BackColor = Nothing
             End If
         Next
 
@@ -674,77 +714,90 @@ Public Class Frm_Principal
         address = dt.Rows(0)(6).ToString
         city = dt.Rows(0)(7).ToString
 
-        If group_id = "" Or group_id.Length = 0 Then
-            MsgBox("Revise el campo 'group_id'", MsgBoxStyle.Exclamation, "Error de validación")
-            Me.Cursor = Cursors.Default
-            btn_Browse_CSV.Enabled = True
-            Exit Sub
+        If group_id.Length <= 3 Then
+            DataGridView1.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(254, 84, 97)
+            estadoCeldas += 1
+        Else
+            DataGridView1.Rows(0).Cells(2).Style.BackColor = Nothing
         End If
 
-        If group_name = "" Or group_name.Length = 0 Then
-            MsgBox("Revise el campo 'group_name", MsgBoxStyle.Exclamation, "Error de validación")
-            Me.Cursor = Cursors.Default
-            btn_Browse_CSV.Enabled = True
-            Exit Sub
+        If group_name.Length <= 3 Then
+            DataGridView1.Rows(0).Cells(3).Style.BackColor = Color.FromArgb(254, 84, 97)
+            estadoCeldas += 1
+        Else
+            DataGridView1.Rows(0).Cells(3).Style.BackColor = Nothing
         End If
 
-        If address = "" Or address.Length = 0 Then
-            MsgBox("Revise el campo 'enterprise_adress'", MsgBoxStyle.Exclamation, "Error de validación")
-            Me.Cursor = Cursors.Default
-            btn_Browse_CSV.Enabled = True
-            Exit Sub
+        If address.Length <= 3 Then
+            DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(254, 84, 97)
+            estadoCeldas += 1
+        Else
+            DataGridView1.Rows(0).Cells(6).Style.BackColor = Nothing
         End If
 
-        If city = "" Or city.Length = 0 Then
-            MsgBox("Revise el campo 'city'", MsgBoxStyle.Exclamation, "Error de validación")
-            Me.Cursor = Cursors.Default
-            btn_Browse_CSV.Enabled = True
-            Exit Sub
+        If city.Length <= 3 Then
+            DataGridView1.Rows(0).Cells(7).Style.BackColor = Color.FromArgb(254, 84, 97)
+            estadoCeldas += 1
+        Else
+            DataGridView1.Rows(0).Cells(7).Style.BackColor = Nothing
         End If
-
 
         'validar información de los dispositivos-----------------------------------------------------------------------------------
-        Dim contadorFilas As Integer = 0
-        'For para saber cantidad de filas desde device_type hacia adelante
+
+        'La columna 'device_type' es la referencia para las demas, por ello se valida lo sigte:
+        'no puede estar vacia la primera celda
+        'no puede haber celdas vacias entremedio
+
+        If dt.Rows(0)(8).ToString.Length <= 11 Then
+            DataGridView1.Rows(0).Cells(8).Style.BackColor = Color.FromArgb(254, 84, 97)
+            estadoCeldas += 1
+        Else
+            DataGridView1.Rows(0).Cells(8).Style.BackColor = Nothing
+        End If
+
+        Dim filasValidas As Integer = 0
+        'For para saber cantidad de filas no vacias de la columna device_type (utilizada como referencia)
         For j = 0 To dt.Rows.Count - 1
             If dt.Rows(j)(8).ToString.Length > 0 Then
-                contadorFilas += 1
-            Else
-                Exit For
+                filasValidas += 1
             End If
         Next
 
-        For j = 0 To contadorFilas - 1
+        For j = 0 To filasValidas - 1
             mac = dt.Rows(j)(9).ToString
             device_type = dt.Rows(j)(8).ToString
             serial_number = dt.Rows(j)(10).ToString
             physical_location = dt.Rows(j)(11).ToString
 
-            If mac = "" Or mac.Length = 0 Then
-                MsgBox("Revise el campo 'mac'", MsgBoxStyle.Exclamation, "Error de validación")
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+            If mac.Length <= 11 Then
+                DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas += 1
+            Else
+                DataGridView1.Rows(j).Cells(9).Style.BackColor = Nothing
             End If
-            If device_type = "" Or device_type.Length = 0 Then
-                MsgBox("Revise el campo 'device_type'", MsgBoxStyle.Exclamation, "Error de validación")
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+
+            If device_type.Length <= 11 Then
+                DataGridView1.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas += 1
+            Else
+                DataGridView1.Rows(j).Cells(8).Style.BackColor = Nothing
             End If
-            If serial_number = "" Or serial_number.Length = 0 Then
-                MsgBox("Revise el campo 'serial_number'", MsgBoxStyle.Exclamation, "Error de validación")
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+
+            If serial_number.Length <= 15 Then
+                DataGridView1.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas += 1
+            Else
+                DataGridView1.Rows(j).Cells(10).Style.BackColor = Nothing
             End If
-            If physical_location = "" Or physical_location.Length = 0 Then
-                MsgBox("Revise el campo 'physical_location'", MsgBoxStyle.Exclamation, "Error de validación")
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+
+            If physical_location.Length <= 3 Then
+                DataGridView1.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas += 1
+            Else
+                DataGridView1.Rows(j).Cells(11).Style.BackColor = Nothing
             End If
         Next
+
 
         'validar información de los usuarios------------------------------------------------------------------------------------------
         Dim varAcumulaDepto As String = ""
@@ -762,7 +815,8 @@ Public Class Frm_Principal
             For k = 0 To arreglo.Length - 1
                 indice = Array.IndexOf(arregloDeptos, arreglo(k))
                 'MsgBox("El elemento " & arreglo(k) & " arroja: " & indice)
-                If indice = -1 And arreglo(k) <> "" And arreglo(k).Length > 0 Then
+                'Se guarda en arregloDeptos todo aquello que no este repetido y que tenga un largo mayor a cero
+                If indice = -1 And arreglo(k).Length > 0 Then
                     arregloDeptos(numElementos) = arreglo(k)
                     'MsgBox("Se guardó el elemento: " & arregloDeptos(numElementos) & " en arregloDeptos")
                     numElementos += 1
@@ -779,11 +833,12 @@ Public Class Frm_Principal
             MsgBox(ex.ToString)
             MsgBox("Error en el procedimiento de creación de los depatamentos", MsgBoxStyle.Exclamation, "Error de validación")
             Me.Cursor = Cursors.Default
+            btn_procesar.Enabled = True
             btn_Browse_CSV.Enabled = True
             Exit Sub
         End Try
 
-        For j = 0 To contadorFilas - 1
+        For j = 0 To filasValidas - 1
             first_name = dt.Rows(j)(13).ToString
             last_name = dt.Rows(j)(14).ToString
             user_address = dt.Rows(j)(16).ToString
@@ -796,74 +851,149 @@ Public Class Frm_Principal
             ocp_special2 = dt.Rows(j)(24).ToString
             ocp_premium1 = dt.Rows(j)(25).ToString
 
-            If first_name = "" Or first_name.Length = 0 Then
-                MsgBox("Revise el campo 'first_name'", MsgBoxStyle.Exclamation, "Error de validación")
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+            If first_name.Length <= 1 Then
+                DataGridView1.Rows(j).Cells(13).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas += 1
+            Else
+                DataGridView1.Rows(j).Cells(13).Style.BackColor = Nothing
             End If
-            If last_name = "" Or last_name.Length = 0 Then
-                MsgBox("Revise el campo 'last_name'", MsgBoxStyle.Exclamation, "Error de validación")
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+
+            If last_name.Length < 1 Then
+                DataGridView1.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas += 1
+            Else
+                DataGridView1.Rows(j).Cells(14).Style.BackColor = Nothing
             End If
-            If user_address = "" Or user_address.Length = 0 Then
-                MsgBox("Revise el campo 'user_address'", MsgBoxStyle.Exclamation, "Error de validación")
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+
+            If user_address.Length <= 3 Then
+                DataGridView1.Rows(j).Cells(16).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas += 1
+            Else
+                DataGridView1.Rows(j).Cells(16).Style.BackColor = Nothing
             End If
-            If user_city = "" Or user_city.Length = 0 Then
-                MsgBox("Revise el campo 'user_city'", MsgBoxStyle.Exclamation, "Error de validación")
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+
+            If user_city.Length <= 3 Then
+                DataGridView1.Rows(j).Cells(17).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas += 1
+            Else
+                DataGridView1.Rows(j).Cells(17).Style.BackColor = Nothing
             End If
-            If extensions = "" Or extensions.Length = 0 Then
-                MsgBox("Revise el campo 'extensions'", MsgBoxStyle.Exclamation, "Error de validación")
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+
+            If extensions.Length <= 1 Then
+                DataGridView1.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas += 1
+            Else
+                DataGridView1.Rows(j).Cells(19).Style.BackColor = Nothing
             End If
-            If ocp_local = "" Or ocp_local.Length = 0 Then
-                MsgBox("Revise el campo 'ocp_local'", MsgBoxStyle.Exclamation, "Error de validación")
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+
+            If ocp_local.Length <= 8 Then
+                DataGridView1.Rows(j).Cells(20).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas += 1
+            Else
+                DataGridView1.Rows(j).Cells(20).Style.BackColor = Nothing
             End If
-            If ocp_tollFree = "" Or ocp_tollFree.Length = 0 Then
-                MsgBox("Revise el campo 'ocp_tollFree'", MsgBoxStyle.Exclamation, "Error de validación")
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+
+            If ocp_tollFree.Length <= 8 Then
+                DataGridView1.Rows(j).Cells(21).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas += 1
+            Else
+                DataGridView1.Rows(j).Cells(21).Style.BackColor = Nothing
             End If
-            If ocp_internacional = "" Or ocp_internacional.Length = 0 Then
-                MsgBox("Revise el campo 'ocp_internacional'", MsgBoxStyle.Exclamation, "Error de validación")
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+
+            If ocp_internacional.Length <= 8 Then
+                DataGridView1.Rows(j).Cells(22).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas += 1
+            Else
+                DataGridView1.Rows(j).Cells(22).Style.BackColor = Nothing
             End If
-            If ocp_special1 = "" Or ocp_special1.Length = 0 Then
-                MsgBox("Revise el campo 'ocp_special1'", MsgBoxStyle.Exclamation, "Error de validación")
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+            If ocp_special1.Length <= 8 Then
+                DataGridView1.Rows(j).Cells(23).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas += 1
+            Else
+                DataGridView1.Rows(j).Cells(23).Style.BackColor = Nothing
             End If
-            If ocp_special2 = "" Or ocp_special2.Length = 0 Then
-                MsgBox("Revise el campo 'ocp_special2'", MsgBoxStyle.Exclamation, "Error de validación")
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+            If ocp_special2.Length <= 8 Then
+                DataGridView1.Rows(j).Cells(24).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas += 1
+            Else
+                DataGridView1.Rows(j).Cells(24).Style.BackColor = Nothing
             End If
-            If ocp_premium1 = "" Or ocp_premium1.Length = 0 Then
-                MsgBox("Revise el campo 'ocp_premium1'", MsgBoxStyle.Exclamation, "Error de validación")
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+            If ocp_premium1.Length <= 8 Then
+                DataGridView1.Rows(j).Cells(25).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas += 1
+            Else
+                DataGridView1.Rows(j).Cells(25).Style.BackColor = Nothing
             End If
         Next
 
+
+        'INFORMACION OPCIONAL. A CONTINUACION SE VALIDA QUE:
+
+        'Para añadir contact_name y conctact_number al archivo xml correspondiente:
+        'contact_name debe ser mayor a un largo 3 y
+        'contact_number deber ser mayor a un largo 8
+
+        Dim infoContact As Integer = 0
+        contact_name = dt.Rows(0)(4).ToString
+        contact_number = dt.Rows(0)(5).ToString
+
+        If contact_name.Length <= 3 And contact_number.Length <= 8 Then
+            DataGridView1.Rows(0).Cells(4).Style.BackColor = Nothing
+            DataGridView1.Rows(0).Cells(5).Style.BackColor = Nothing
+            infoContact = 0
+
+        ElseIf contact_name.Length > 3 And contact_number.Length > 8 Then
+            DataGridView1.Rows(0).Cells(4).Style.BackColor = Nothing
+            DataGridView1.Rows(0).Cells(5).Style.BackColor = Nothing
+            infoContact = 1
+
+        ElseIf contact_name.Length > 3 And contact_number.Length <= 8 Then
+            DataGridView1.Rows(0).Cells(4).Style.BackColor = Nothing
+            DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(254, 84, 97)
+            infoContact = 0
+            estadoCeldas += 1
+
+        ElseIf contact_name.Length <= 3 And contact_number.Length > 8 Then
+            DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView1.Rows(0).Cells(5).Style.BackColor = Nothing
+            infoContact = 0
+            estadoCeldas += 1
+        End If
+
+
+        For j = 0 To filasValidas - 1
+            user_email = dt.Rows(j)(15).ToString
+            If user_email.Length = 0 Then
+                DataGridView1.Rows(j).Cells(15).Style.BackColor = Nothing
+            ElseIf user_email.Length > 10 Then
+                DataGridView1.Rows(j).Cells(15).Style.BackColor = Nothing
+            ElseIf user_email.Length <= 10 And user_email.Length > 0 Then
+                DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas += 1
+            End If
+        Next
+
+        Dim proxyInfo As Integer = 0
+        proxy = dt.Rows(0)(18).ToString
+        If proxy.Length = 0 Then
+            DataGridView1.Rows(0).Cells(18).Style.BackColor = Nothing
+            proxyInfo = 0
+        ElseIf proxy.Length > 0 And proxy.Length < 7 Then
+            DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(254, 84, 97)
+            proxyInfo = 0
+            estadoCeldas += 1
+        ElseIf proxy.Length > 7 Then
+            DataGridView1.Rows(0).Cells(18).Style.BackColor = Nothing
+            proxyInfo = 1
+        End If
+
+        If estadoCeldas <> 0 Then
+            Me.Cursor = Cursors.Default
+            btn_procesar.Enabled = True
+            btn_Browse_CSV.Enabled = True
+            'MsgBox("revise las celdas")
+            Exit Sub
+        End If
 
         'SearchAllSubDirectories
         Try
@@ -892,7 +1022,7 @@ Public Class Frm_Principal
             FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
         Catch ex As Exception
             MsgBox(ex.ToString)
-            'MsgBox("Asegurese de que el archivo " & gblSetPathTmp & "\multipleInputFile.txt" & " no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
+            MsgBox("Asegurese de que el archivo " & gblSetPathTmp & "\multipleInputFile.txt" & " no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
             FileClose(1)
             Me.Cursor = Cursors.Default
             btn_Browse_CSV.Enabled = True
@@ -921,11 +1051,7 @@ Public Class Frm_Principal
         Catch ex As Exception
             MsgBox(ex.ToString)
             MsgBox("Error al crear el archivo " & indiceXML & "_CreateDomain_request_tmp.xml", MsgBoxStyle.Exclamation)
-            FileClose(numFile)
-            FileClose(1)
-            Me.Cursor = Cursors.Default
-            btn_Browse_CSV.Enabled = True
-            Exit Sub
+            Error_File()
         End Try
         estadoArchivo = 1
 
@@ -952,11 +1078,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignDomain_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(numFile)
-                FileClose(1)
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+                Error_File()
             End Try
             estadoArchivo = 2
         End If
@@ -987,11 +1109,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateNumbers_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(numFile)
-                FileClose(1)
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+                Error_File()
             End Try
             estadoArchivo = 3
         End If
@@ -1018,10 +1136,8 @@ Public Class Frm_Principal
                 WriteLine(numFile, d_9.ToCharArray)
                 d_10 = "<callingLineIdName>" & group_name & "</callingLineIdName>"
                 WriteLine(numFile, d_10.ToCharArray)
-                'WriteLine(numFile, d_11.ToCharArray)
-                contact_name = dt.Rows(0)(4).ToString
-                contact_number = dt.Rows(0)(5).ToString
-                If contact_name <> "" And contact_name.Length > 0 And contact_number <> "" And contact_number.Length > 0 Then
+                'WriteLine(numFile, d_11.ToCharArray) "<timeZone>America/Santiago</timeZone>"
+                If infoContact = 1 Then
                     WriteLine(numFile, d_12.ToCharArray)
                     d_13 = "<contactName>" & contact_name & "</contactName>"
                     WriteLine(numFile, d_13.ToCharArray)
@@ -1043,11 +1159,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateProfileGroup_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(numFile)
-                FileClose(1)
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+                Error_File()
             End Try
             estadoArchivo = 4
         End If
@@ -1078,11 +1190,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_ExtensionsLength_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(numFile)
-                FileClose(1)
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+                Error_File()
             End Try
             estadoArchivo = 5
         End If
@@ -1092,13 +1200,13 @@ Public Class Frm_Principal
         If estadoArchivo = 5 Then
             Try
                 'Lee un archivo, modifica la linea 6
-                Dim Lines_Array() As String = IO.File.ReadAllLines(gblSetPathAppl & "\permanentFile_cloud\" & "5_SelectServices_request_tmp.xml")
+                Dim Lines_Array() As String = IO.File.ReadAllLines(gblSetPathAppl & "\servicesFile_cloud\" & "5_SelectServices_request_tmp.xml")
                 Lines_Array(5) = " <groupId>" & group_id & "</groupId>"
 
                 'Se reescribe el archivo con la linea 6 ya editada
-                IO.File.WriteAllLines(gblSetPathAppl & "\permanentFile_cloud\" & indiceXML & "_SelectServices_request_tmp.xml", Lines_Array)
+                IO.File.WriteAllLines(gblSetPathAppl & "\servicesFile_cloud\" & indiceXML & "_SelectServices_request_tmp.xml", Lines_Array)
 
-                fileIXML = gblSetPathAppl & "\permanentFile_cloud\" & indiceXML & "_SelectServices_request_tmp.xml"
+                fileIXML = gblSetPathAppl & "\servicesFile_cloud\" & indiceXML & "_SelectServices_request_tmp.xml"
                 fileOXML = gblSetPathTmpCloud & "\" & indiceXML & "_Broadsoft_response_tmp.xml"
                 lineConfigFile = fileIXML & ";" & fileOXML
                 WriteLine(1, lineConfigFile.ToCharArray)
@@ -1158,11 +1266,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignServices_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(numFile)
-                FileClose(1)
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+                Error_File()
             End Try
             estadoArchivo = 7
         End If
@@ -1195,11 +1299,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignNumber_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(numFile)
-                FileClose(1)
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+                Error_File()
             End Try
             estadoArchivo = 8
         End If
@@ -1207,7 +1307,7 @@ Public Class Frm_Principal
         'XML PARA CREAR LOS DISPOSITIVOS---------------------------------------------------------------------------------
         If estadoArchivo = 8 Then
             Try
-                For j = 0 To contadorFilas - 1
+                For j = 0 To filasValidas - 1
                     numFile += 1
                     indiceXML += 1
                     fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_CreateDevice_request_tmp.xml"
@@ -1245,11 +1345,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateDevice_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(numFile)
-                FileClose(1)
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+                Error_File()
             End Try
             estadoArchivo = 9
         End If
@@ -1282,11 +1378,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateDepartment_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(numFile)
-                FileClose(1)
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+                Error_File()
             End Try
             estadoArchivo = 10
         End If
@@ -1294,7 +1386,7 @@ Public Class Frm_Principal
         'XML PARA CREAR LOS USUARIOS---------------------------------------------------------------------------------
         If estadoArchivo = 10 Then
             Try
-                For j = 0 To contadorFilas - 1
+                For j = 0 To filasValidas - 1
                     numFile += 1
                     indiceXML += 1
                     fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_CreateUser_request_tmp.xml"
@@ -1321,8 +1413,8 @@ Public Class Frm_Principal
                     i_11 = "<callingLineIdFirstName>" & first_name & "</callingLineIdFirstName>"
                     WriteLine(numFile, i_11.ToCharArray)
                     WriteLine(numFile, i_12.ToCharArray)
-                    department = dt.Rows(j)(12)
-                    If department <> "" And department.Length <> 0 And department <> Nothing Then
+                    department = dt.Rows(j)(12).ToString
+                    If department.Length > 0 Then
                         WriteLine(numFile, i_13.ToCharArray)
                         WriteLine(numFile, i_14.ToCharArray)
                         i_15 = "<groupId>" & group_id & "</groupId>"
@@ -1333,8 +1425,8 @@ Public Class Frm_Principal
                     End If
                     WriteLine(numFile, i_18.ToCharArray)
                     WriteLine(numFile, i_19.ToCharArray)
-                    user_email = dt.Rows(j)(15)
-                    If user_email <> "" And user_email.Length <> 0 And user_email <> Nothing Then
+                    user_email = dt.Rows(j)(15).ToString
+                    If user_email.Length > 0 Then
                         i_20 = "<emailAddress>" & user_email & "</emailAddress>"
                         WriteLine(numFile, i_20.ToCharArray)
                     End If
@@ -1355,11 +1447,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateUser_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(numFile)
-                FileClose(1)
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+                Error_File()
             End Try
             estadoArchivo = 11
         End If
@@ -1367,9 +1455,8 @@ Public Class Frm_Principal
         'XML PARA EL PROXY-----------------------------------------------------------------------------------------------
         If estadoArchivo = 11 Then
             Try
-                proxy = dt.Rows(0)(18).ToString
-                If proxy <> "" And proxy.Length >= 8 Then
-                    For j = 0 To contadorFilas - 1
+                If proxyInfo = 1 Then
+                    For j = 0 To filasValidas - 1
                         numFile += 1
                         indiceXML += 1
                         fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_CreateProxy_request_tmp.xml"
@@ -1386,7 +1473,6 @@ Public Class Frm_Principal
                         j_7 = "<deviceName>DV_" & mac & "</deviceName>"
                         WriteLine(numFile, j_7.ToCharArray)
                         WriteLine(numFile, j_8.ToCharArray)
-                        proxy = dt.Rows(0)(18)
                         j_9 = "<tagValue>" & proxy & "</tagValue>"
                         WriteLine(numFile, j_9.ToCharArray)
                         WriteLine(numFile, j_10.ToCharArray)
@@ -1399,11 +1485,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateProxy_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(numFile)
-                FileClose(1)
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+                Error_File()
             End Try
             estadoArchivo = 12
         End If
@@ -1411,7 +1493,7 @@ Public Class Frm_Principal
         'XML PARA ASIGNAR DISPOSITIVOS A USUARIOS---------------------------------------------------------------------
         If estadoArchivo = 12 Then
             Try
-                For j = 0 To contadorFilas - 1
+                For j = 0 To filasValidas - 1
                     numFile += 1
                     indiceXML += 1
                     fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_AssignUser_request_tmp.xml"
@@ -1452,11 +1534,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_CreateProxy_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(numFile)
-                FileClose(1)
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+                Error_File()
             End Try
             estadoArchivo = 13
         End If
@@ -1464,7 +1542,7 @@ Public Class Frm_Principal
         'XML PARA ASIGNAR PACK DE SERVICIOS---------------------------------------------------------------------
         If estadoArchivo = 13 Then
             Try
-                For j = 0 To contadorFilas - 1
+                For j = 0 To filasValidas - 1
                     numFile += 1
                     indiceXML += 1
                     fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_AssignServices_request_tmp.xml"
@@ -1496,11 +1574,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignServices_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(numFile)
-                FileClose(1)
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+                Error_File()
             End Try
             estadoArchivo = 14
         End If
@@ -1508,7 +1582,7 @@ Public Class Frm_Principal
         'XML PARA OCP OUTGOING-CALLING-PLAN------------------------------------------------------------------------
         If estadoArchivo = 14 Then
             Try
-                For j = 0 To contadorFilas - 1
+                For j = 0 To filasValidas - 1
                     numFile += 1
                     indiceXML += 1
                     fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_OCP_request_tmp.xml"
@@ -1583,11 +1657,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_OCP_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(numFile)
-                FileClose(1)
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+                Error_File()
             End Try
             estadoArchivo = 15
         End If
@@ -1595,7 +1665,7 @@ Public Class Frm_Principal
         'XML PARA ASIGNAR CONTRASEÑA SIP------------------------------------------------------------------------
         If estadoArchivo = 15 Then
             Try
-                For j = 0 To contadorFilas - 1
+                For j = 0 To filasValidas - 1
                     numFile += 1
                     indiceXML += 1
                     fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_AssignPasswordSIP_request_tmp.xml"
@@ -1623,11 +1693,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_AssignPasswordSIP_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(numFile)
-                FileClose(1)
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+                Error_File()
             End Try
             estadoArchivo = 16
         End If
@@ -1635,7 +1701,7 @@ Public Class Frm_Principal
         'XML PARA ACTIVAR LOS NUMEROS------------------------------------------------------------------------
         If estadoArchivo = 16 Then
             Try
-                For j = 0 To contadorFilas - 1
+                For j = 0 To filasValidas - 1
                     numFile += 1
                     indiceXML += 1
                     fileIXML = gblSetPathTmpCloud & "\" & indiceXML & "_ActivateNumber_request_tmp.xml"
@@ -1660,11 +1726,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_ActivateNumber_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(numFile)
-                FileClose(1)
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+                Error_File()
             End Try
             estadoArchivo = 17
         End If
@@ -1706,11 +1768,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & indiceXML & "_GroupMusicOnHold_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(numFile)
-                FileClose(1)
-                Me.Cursor = Cursors.Default
-                btn_Browse_CSV.Enabled = True
-                Exit Sub
+                Error_File()
             End Try
         End If
 
@@ -2357,4 +2415,5 @@ Public Class Frm_Principal
     Private Sub TabPage2_Click(sender As Object, e As EventArgs) Handles TabPage2.Click
 
     End Sub
+
 End Class

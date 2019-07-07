@@ -130,11 +130,14 @@ Partial Class Frm_Principal
         '
         'DataGridView1
         '
+        Me.DataGridView1.AllowUserToResizeRows = False
         Me.DataGridView1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
+        Me.DataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView1.Cursor = System.Windows.Forms.Cursors.Default
         Me.DataGridView1.GridColor = System.Drawing.SystemColors.ActiveCaption
         Me.DataGridView1.Location = New System.Drawing.Point(6, 84)
         Me.DataGridView1.MaximumSize = New System.Drawing.Size(1307, 400)

@@ -16,13 +16,15 @@ Public Class Frm_Principal
     Dim gblSession As String = ""
     Dim codError As Integer = 0
     Dim indiceXML As Integer = 0
-    Dim indiceXMLproxy As Integer = 0
+    Dim indiceXML_DVmac As Integer = 0
+    Dim indiceXML_Proxy As Integer = 0
     Dim numFile As Integer = 1
     'Dim n_File As Integer = FreeFile()
 
     Private Sub For1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        Interface_Entrada()
+        Interface_Entrada1()
+        interface_entrada2()
         gblSetPathTmpProxy = My.Application.Info.DirectoryPath & My.Settings.SetPathTmpProxy
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy
         gblSetPathTmpCloud = My.Application.Info.DirectoryPath & My.Settings.SetPathTmpCloud
@@ -35,13 +37,20 @@ Public Class Frm_Principal
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\log
     End Sub
 
-    Private Sub Interface_Entrada()
+    Private Sub Interface_Entrada1()
 
         btn_procesar.Enabled = False
         btn_Browse_CSV.Enabled = True
         Lbl_wait.Visible = False
         Lbl_state.Text = ""
     End Sub
+
+    Private Sub Interface_entrada2()
+        TextBox2.Enabled = False
+        Button2.Enabled = False
+        Label5.Enabled = False
+    End Sub
+
 
     Public Sub Tooltip_Ayuda_Botones(ByVal TooltipAyuda As ToolTip, ByVal Boton As Button, ByVal mensaje As String)
 
@@ -1858,6 +1867,7 @@ Public Class Frm_Principal
             FileClose(numFile)
             MsgBox(ex.ToString)
             MsgBox("Se produjo un error al crear el archivo" & gblSetPathTmpCloud & "\ociclient.config" & " y los archivos XML no fueron enviados", MsgBoxStyle.Exclamation, "Error al crear archivo")
+            indiceXML_DVmac = 0
             indiceXML = 0
             codError = 1
             Me.Cursor = Cursors.Default
@@ -1885,6 +1895,7 @@ Public Class Frm_Principal
         Catch ex As Exception
             MsgBox(ex.ToString)
             'grabaLog(1, 3, "Error al ejecutar Shell>" & strArguments)
+            indiceXML_DVmac = 0
             indiceXML = 0
             codError = 1
             Me.Cursor = Cursors.Default
@@ -1908,7 +1919,7 @@ Public Class Frm_Principal
 
         Dim comando As New OleDbCommand()
         comando.Connection = Conexion
-        Dim Sql As String = "DELETE * FROM broadsoft_response_error"
+        Dim Sql As String = "DELETE * FROM brs_cloudpbx_response_error"
         comando.CommandText = Sql
 
         Try
@@ -1916,7 +1927,7 @@ Public Class Frm_Principal
             comando.ExecuteNonQuery()
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'broadsoft_response_error'",
+            MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_cloudpbx_response_error'",
                             MsgBoxStyle.Exclamation, "Error al generar reporte")
             indiceXML = 0
             Lbl_state.Text = "Error al acceder a la base de datos"
@@ -1953,7 +1964,7 @@ Public Class Frm_Principal
                             If reader.Name = "summary" Then
                                 'MsgBox(reader.ReadString.ToString)
                                 response = reader.ReadString & "_[File:" & num & "_cloudpbx_response_.xml]"
-                                Dim Sql1 As String = "INSERT INTO broadsoft_response_error ([error]) VALUES ( '" & response & "')"
+                                Dim Sql1 As String = "INSERT INTO brs_cloudpbx_response_error ([error]) VALUES ( '" & response & "')"
                                 'Crear un comando
                                 Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
                                 Comando1.CommandText = Sql1
@@ -1962,7 +1973,7 @@ Public Class Frm_Principal
                                     Comando1.ExecuteNonQuery()
                                 Catch ex As Exception
                                     MsgBox(ex.ToString)
-                                    MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'broadsoft_response_error'",
+                                    MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'brs_cloudpbx_response_error'",
                                                     MsgBoxStyle.Exclamation, "Error al generar reporte")
                                     indiceXML = 0
                                     Lbl_state.Text = "Error al acceder a la base de datos"
@@ -2048,15 +2059,15 @@ Public Class Frm_Principal
     Public Sub getDeviceName()
 
         If TextBox1.Text.Length > 0 Then
-            TextBox1.Enabled = False
-            Button1.Enabled = False
+            'TextBox1.Enabled = False
+            'Button1.Enabled = False
             Me.Cursor = Cursors.WaitCursor
         Else
             MsgBox("Campo de 'groupId' inválido", MsgBoxStyle.Exclamation, "Error campo de búsqueda")
             Exit Sub
         End If
 
-        indiceXMLproxy = 0
+        indiceXML_DVmac = 0
 
         Try
             For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblSetPathTmpProxy & "\getDeviceName", FileIO.SearchOption.SearchAllSubDirectories, "*.*")
@@ -2066,8 +2077,6 @@ Public Class Frm_Principal
             MsgBox(ex.ToString)
             MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & My.Application.Info.DirectoryPath & My.Settings.SetPathTmpProxy & "\getDeviceName" &
                    ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
-            TextBox1.Enabled = True
-            Button1.Enabled = True
             Me.Cursor = Cursors.Default
             Exit Sub
         End Try
@@ -2081,6 +2090,7 @@ Public Class Frm_Principal
         Dim r_6 As String = "<groupId>AGPRO_cloudpbx</groupId>"
         Dim r_7 As String = "<responseSizeLimit>1000</responseSizeLimit>"
         Dim r_8 As String = "</command>"
+
         Dim lineaFinal As String = "</BroadsoftDocument>"
 
         Dim fileIXML As String = ""
@@ -2099,8 +2109,6 @@ Public Class Frm_Principal
             MsgBox(ex.ToString)
             MsgBox("Asegurese de que el archivo" & "gblSetPathTmpProxy" & "\getDeviceName\multipleInputFileProxy.txt" & " no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
             FileClose(numeroArchivo)
-            TextBox1.Enabled = True
-            Button1.Enabled = True
             Me.Cursor = Cursors.Default
             Exit Sub
         End Try
@@ -2108,9 +2116,9 @@ Public Class Frm_Principal
         'XML PARA OBTENER LA MAC DE LOS DISPOSITIVOS--------------------------------------------------------------
         Try
             numFile += 1
-            indiceXMLproxy += 1
-            fileIXML = gblSetPathTmpProxy & "\getDeviceName\" & indiceXMLproxy & "_DeviceGetList_request_tmp.xml"
-            fileOXML = gblSetPathTmpProxy & "\getDeviceName\" & indiceXMLproxy & "_cloudpbx_response_.xml"
+            indiceXML_DVmac += 1
+            fileIXML = gblSetPathTmpProxy & "\getDeviceName\" & indiceXML_DVmac & "_DeviceGetList_request_tmp.xml"
+            fileOXML = gblSetPathTmpProxy & "\getDeviceName\" & indiceXML_DVmac & "_cloudpbx_response_.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, r_1.ToCharArray)
             WriteLine(numFile, r_2.ToCharArray)
@@ -2128,102 +2136,105 @@ Public Class Frm_Principal
             FileClose(numeroArchivo)
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Error al crear el archivo " & "\getDeviceName\" & indiceXMLproxy & "_DeviceGetList_request_tmp.xml", MsgBoxStyle.Exclamation, "Error al crear el archivo")
+            MsgBox("Error al crear el archivo " & "\getDeviceName\" & indiceXML_DVmac & "_DeviceGetList_request_tmp.xml", MsgBoxStyle.Exclamation, "Error al crear el archivo")
             FileClose(numFile)
             FileClose(numeroArchivo)
-            TextBox1.Enabled = True
-            Button1.Enabled = True
             Me.Cursor = Cursors.Default
             Exit Sub
         End Try
 
-        'se va hasta aqui
-        Exit Sub
+
         executeShellBulk(multipleInputFile)
         If codError = 0 Then
-            parseXML_proxy(codError, msgError)
+            parseXML_DvMac(codError, msgError)
             'My.Application.DoEvents()
         End If
     End Sub
 
 
-    Sub parseXML_proxy(ByRef codError As Integer, ByRef msgError As String)
+    Sub parseXML_DvMac(ByRef codError As Integer, ByRef msgError As String)
 
+        'Lbl_state.Text = "Generando reporte"
+        'ProgressBar1.Value += 25
+        'My.Application.DoEvents()
 
         Dim reader As XmlTextReader
-        Dim exito As Boolean = False
         Dim parseXMl As String
-        Dim i As Integer = 0
-        Dim iSql As String = ""
-        Dim iXml As Integer = 1
-        Dim topeXml As Integer = 0
         Dim response As String = ""
-
-        Dim comando1 As New OleDbCommand()
-        comando1.Connection = Conexion
-        Dim Sql As String = "DELETE * FROM broadsoft_device_get_mac"
-        comando1.CommandText = Sql
+        Dim comando As New OleDbCommand()
+        comando.Connection = Conexion
+        Dim Sql As String = "DELETE * FROM brs_proxy_get_dvmac"
+        comando.CommandText = Sql
 
         Try
             Conexion.Open()
-            comando1.ExecuteNonQuery()
+            comando.ExecuteNonQuery()
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
+            MsgBox(ex.ToString)
+            MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_cloudpbx_response_error'",
+                            MsgBoxStyle.Exclamation, "Error al generar reporte")
+            indiceXML_DVmac = 0
+            'Lbl_state.Text = "Error al acceder a la base de datos"
+            'ProgressBar1.Value = ProgressBar1.Maximum
+            Me.Cursor = Cursors.Default
             Conexion.Close()
         End Try
         Conexion.Close()
 
 
-        Dim fileNameTmp As String = ""
-        For num = 1 To indiceXMLproxy
-
-            exito = False
+        For num = 1 To indiceXML_DVmac
             Try
                 parseXMl = gblSetPathTmpProxy & "\getDeviceName\" & num & "_cloudpbx_response_.xml"
                 reader = New XmlTextReader(parseXMl)
                 Do While (reader.Read())
-
                     Select Case reader.NodeType
-
                         Case XmlNodeType.Element
-                            If reader.Name = "command" Then
 
-                                i += 1
-                                If reader.HasAttributes Then 'If attributes exist
-                                    While reader.MoveToNextAttribute()
-                                        'Display attribute name and value.
-                                        'MsgBox(reader.Name.ToString & reader.Value.ToString)
-                                        If reader.Name = "xsi:type" Then
-                                            If reader.Value = "GroupAccessDeviceGetListResponse" Then
-                                                'MsgBox("comando exitoso")
-                                            ElseIf reader.Value = "c:ErrorResponse" Then
+                            'If reader.Name = "command" Then
+                            '    If reader.HasAttributes Then 'If attributes exist
+                            '        While reader.MoveToNextAttribute()
+                            '            'Display attribute name and value.
+                            '            'MsgBox(reader.Name.ToString & reader.Value.ToString)
+                            '            'If reader.Name = "xsi:type" Then
+                            '            If reader.Value = "GroupAccessDeviceGetListResponse" Then
 
-                                                'MsgBox("Error en el comando")
-                                            End If
-                                        End If
-                                    End While
-                                End If
-                            End If
-                            If reader.Name = "col" Then
+                            '            ElseIf reader.Value = "c:ErrorResponse" Then
+                            '                'MsgBox("Error en el comando")
+                            '            End If
+                            '        End While
+                            '    End If
+                            'End If
 
+                            'Si no se encuentra el grupo buscado
+                            If reader.Name = "summary" Then
                                 'MsgBox(reader.ReadString.ToString)
                                 response = reader.ReadString
+                                MsgBox(response.ToString, MsgBoxStyle.Exclamation)
+                                Me.Cursor = Cursors.Default
+                                reader.Close()
+                                Exit Sub
 
+                            ElseIf reader.Name = "col" Then
+                                'MsgBox(reader.ReadString.ToString)
+                                response = reader.ReadString
                                 If response.Length = 15 Then
                                     'Dim mac As String = response.Substring(3, 12)
-                                    Dim cadenaSql As String = "INSERT INTO broadsoft_device_get_mac (mac_address) VALUES ( '" & response & "')"
-
-                                    'Crear un comando
-                                    Dim Comando As OleDbCommand = Conexion.CreateCommand()
-                                    Comando.CommandText = cadenaSql
-
-                                    'Ejecutar la consulta de accion (agregan registros)
+                                    Dim cadenaSql As String = "INSERT INTO brs_proxy_get_dvmac (mac_address) VALUES ( '" & response & "')"
+                                    Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
+                                    Comando1.CommandText = cadenaSql
                                     Try
                                         Conexion.Open()
-                                        Comando.ExecuteNonQuery()
-                                        'MsgBox("Se agregó correctamente el registro")
+                                        Comando1.ExecuteNonQuery()
                                     Catch ex As Exception
-                                        MsgBox(" errorcito " & ex.ToString())
+                                        MsgBox(ex.ToString)
+                                        MsgBox("Error al acceder a la base de datos e intentar insertar nuevos elementos en la tabla 'brs_proxy_get_dvmac'",
+                            MsgBoxStyle.Exclamation, "Error al generar reporte")
+                                        indiceXML_DVmac = 0
+                                        Me.Cursor = Cursors.Default
+                                        reader.Close()
+                                        'Lbl_state.Text = "Error al acceder a la base de datos"
+                                        'ProgressBar1.Value = ProgressBar1.Maximum
+                                        reader.Close()
                                         Conexion.Close()
                                     End Try
                                     Conexion.Close()
@@ -2241,18 +2252,13 @@ Public Class Frm_Principal
                 msgError = "Respuesta No Generada"
             End Try
         Next
-        'indiceXMLproxy = 0
-        btn_procesar.Enabled = False
-        btn_Browse_CSV.Enabled = Enabled
 
-        'Dim FMP As New Frm_Report
-        'FMP.Show()
-        'FMP.BringToFront()
+        indiceXML_DVmac = 0
         actualizarListBox()
         My.Application.DoEvents()
-        Lbl_state.Text = "Finalizado"
-        ProgressBar1.Value = ProgressBar1.Maximum
-        My.Application.DoEvents()
+        'Lbl_state.Text = "Finalizado"
+        'ProgressBar1.Value = ProgressBar1.Maximum
+        'My.Application.DoEvents()
     End Sub
 
     Public Sub grabaLog1(ByVal tipo As Integer, ByVal subtipo As Integer, ByVal mensaje As String)
@@ -2298,7 +2304,7 @@ Public Class Frm_Principal
     Dim dt1 As New DataTable
     Public Sub actualizarListBox()
 
-        Dim iSql As String = "select * from broadsoft_device_get_mac"
+        Dim iSql As String = "select * from brs_proxy_get_dvmac"
         Dim cmd As New OleDbCommand
 
         Dim da As New OleDbDataAdapter
@@ -2321,6 +2327,7 @@ Public Class Frm_Principal
                 ListBox1.Items.Add(dtproxy.Rows.Item(j)(0).ToString)
             Next
 
+            ListBox1.Refresh()
         Catch ex As Exception
             MsgBox("Can not open connection ! , " & ex.Message)
             Conexion.Close()
@@ -2330,6 +2337,11 @@ Public Class Frm_Principal
         'DataGridView1.CurrentCell = DataGridView1.Rows(0).Cells(0)
         ''lblCMMUpdCurrentRow.Text = DataGridView1.CurrentCell.RowIndex + 1
         ''lblCMMUpdTotalRows.Text = DataGridView1.RowCount
+        Label2.Text = "Se encontraron " + dtproxy.Rows.Count.ToString() + " dispositivos" + " en el grupo " + TextBox1.Text
+
+        TextBox2.Enabled = True
+        Button2.Enabled = True
+        Label5.Enabled = True
 
         Lbl_wait.Visible = False
         Me.Cursor = Cursors.Default
@@ -2341,11 +2353,18 @@ Public Class Frm_Principal
 
     Public Sub modificarProxy()
 
+        If TextBox2.Text.Length >= 7 Then
+            Me.Cursor = Cursors.WaitCursor
+        Else
+            MsgBox("Campo de 'proxy' inválido", MsgBoxStyle.Exclamation, "Error campo de búsqueda")
+            Exit Sub
+        End If
+
         'XML PARA MODIFICAR PROXY
         Dim j_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim j_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
         Dim j_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
-        Dim j_4 As String = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceCustomTagAddRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim j_4 As String = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceCustomTagModifyRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
         Dim j_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
         Dim j_6 As String = "<groupId>AUTOPRO_cloudpbx</groupId>"
         Dim j_7 As String = "<deviceName>DV_805EC02EC440</deviceName>"
@@ -2353,71 +2372,224 @@ Public Class Frm_Principal
         Dim j_9 As String = "<tagValue>172.24.16.211</tagValue>"
         Dim j_10 As String = "</command>"
 
+        'XML PARA RECONSTRUIR LOS ARCHIVOS DE LOS DISPOSITIVOS
+        Dim s_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim s_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim s_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+        Dim s_4 As String = "<command xsi:type=" & Chr(34) & "GroupCPEConfigRebuildDeviceConfigFileRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim s_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim s_6 As String = "<groupId>PRUEBACARLOS_cloudpbx</groupId>"
+        Dim s_7 As String = "<deviceName>DV_805EC0568966</deviceName>"
+        Dim s_8 As String = "</command>"
+
         Dim lineaFinal As String = "</BroadsoftDocument>"
 
         Dim fileIXML As String = ""
         Dim fileOXML As String = ""
         Dim estadoArchivo As Integer = 0
-        Dim codError As Integer
-        Dim msgError As String = ""
-        Dim multipleInputFile As String = gblSetPathTmp & "\modifyProxy\multipleInputFile2.txt"
+        Dim multipleInputFile As String = gblSetPathTmpProxy & "\modifyProxy\multipleInputFile2.txt"
         Dim lineConfigFile As String = ""
         Dim proxy As String = ""
         Dim group_id As String = ""
-        Dim mac As String = ""
+        Dim dv_mac As String = ""
 
-        Dim numFileProxy As Integer = numFile + 1
+        numFile += 1
+        Dim numFileProxy As Integer = numFile
 
-        FileOpen(numFileProxy, multipleInputFile, OpenMode.Output, OpenAccess.Write)
+        Try
+            FileOpen(numFileProxy, multipleInputFile, OpenMode.Output, OpenAccess.Write)
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("Asegurese de que el archivo " & gblSetPathTmpProxy & "\modifyProxy\multipleInputFile2.txt" & " no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
+            FileClose(1)
+            Me.Cursor = Cursors.Default
+            Exit Sub
+        End Try
+
 
         Try
             proxy = TextBox2.Text.ToString
-            If proxy <> "" And proxy.Length >= 8 Then
-                For j = 0 To dt1.Rows.Count - 1
-                    numFile += 1
-                    indiceXML += 1
-                    fileIXML = gblSetPathTmpProxy & "\modifyProxy\" & indiceXML & "_CreateProxy_request_tmp.xml"
-                    fileOXML = gblSetPathTmpProxy & "\modifyProxy\" & indiceXML & "_cloudpbx_response_.xml"
-                    FileOpen(numFile, fileIXML, OpenMode.Output)
-                    WriteLine(numFile, j_1.ToCharArray)
-                    WriteLine(numFile, j_2.ToCharArray)
-                    WriteLine(numFile, j_3.ToCharArray)
-                    WriteLine(numFile, j_4.ToCharArray)
-                    WriteLine(numFile, j_5.ToCharArray)
-                    group_id = TextBox1.Text.ToString
-                    j_6 = "<groupId>" & group_id & "</groupId>"
-                    WriteLine(numFile, j_6.ToCharArray)
-                    mac = dt1.Rows(j)(9)
-                    j_7 = "<deviceName>DV_" & mac & "</deviceName>"
-                    WriteLine(numFile, j_7.ToCharArray)
-                    WriteLine(numFile, j_8.ToCharArray)
-                    proxy = TextBox2.Text.ToString
-                    j_9 = "<tagValue>" & proxy & "</tagValue>"
-                    WriteLine(numFile, j_9.ToCharArray)
-                    WriteLine(numFile, j_10.ToCharArray)
-                    WriteLine(numFile, lineaFinal.ToCharArray)
-                    FileClose(numFile)
-                    lineConfigFile = fileIXML & ";" & fileOXML
-                    WriteLine(1, lineConfigFile.ToCharArray)
-                Next
-            End If
+            For j = 0 To dt1.Rows.Count - 1
+                numFile += 1
+                indiceXML_Proxy += 1
+                fileIXML = gblSetPathTmpProxy & "\modifyProxy\" & indiceXML_Proxy & "_CreateProxy_request_tmp.xml"
+                fileOXML = gblSetPathTmpProxy & "\modifyProxy\" & indiceXML_Proxy & "_cloudpbx_response_.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, j_1.ToCharArray)
+                WriteLine(numFile, j_2.ToCharArray)
+                WriteLine(numFile, j_3.ToCharArray)
+                WriteLine(numFile, j_4.ToCharArray)
+                WriteLine(numFile, j_5.ToCharArray)
+                group_id = TextBox1.Text.ToString
+                j_6 = "<groupId>" & group_id.ToUpper & "_cloudpbx" & "</groupId>"
+                WriteLine(numFile, j_6.ToCharArray)
+                dv_mac = dt1.Rows(j)(0).ToString
+                j_7 = "<deviceName>" & dv_mac & "</deviceName>"
+                WriteLine(numFile, j_7.ToCharArray)
+                WriteLine(numFile, j_8.ToCharArray)
+                proxy = TextBox2.Text.ToString
+                j_9 = "<tagValue>" & proxy & "</tagValue>"
+                WriteLine(numFile, j_9.ToCharArray)
+                WriteLine(numFile, j_10.ToCharArray)
+                WriteLine(numFile, lineaFinal.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(numFileProxy, lineConfigFile.ToCharArray)
+            Next
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Error al crear el archivo " & indiceXML & "_CreateProxy_request_tmp.xml", MsgBoxStyle.Exclamation)
+            MsgBox("Error al crear el archivo " & indiceXML_Proxy & "_CreateProxy_request_tmp.xml", MsgBoxStyle.Exclamation)
             FileClose(numFile)
-            FileClose(1)
+            FileClose(numFileProxy)
             Exit Sub
         End Try
-        Exit Sub
+
+        Try
+            For j = 0 To dt1.Rows.Count - 1
+                numFile += 1
+                indiceXML_Proxy += 1
+                fileIXML = gblSetPathTmpProxy & "\modifyProxy\" & indiceXML_Proxy & "_RebuildDevice_request_tmp.xml"
+                fileOXML = gblSetPathTmpProxy & "\modifyProxy\" & indiceXML_Proxy & "_cloudpbx_response_.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, s_1.ToCharArray)
+                WriteLine(numFile, s_2.ToCharArray)
+                WriteLine(numFile, s_3.ToCharArray)
+                WriteLine(numFile, s_4.ToCharArray)
+                WriteLine(numFile, s_5.ToCharArray)
+                group_id = TextBox1.Text.ToString
+                s_6 = "<groupId>" & group_id.ToUpper & "_cloudpbx" & "</groupId>"
+                WriteLine(numFile, s_6.ToCharArray)
+                dv_mac = dt1.Rows(j)(0).ToString
+                s_7 = "<deviceName>" & dv_mac & "</deviceName>"
+                WriteLine(numFile, s_7.ToCharArray)
+                WriteLine(numFile, s_8.ToCharArray)
+                WriteLine(numFile, lineaFinal.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(numFileProxy, lineConfigFile.ToCharArray)
+            Next
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("Error al crear el archivo " & indiceXML_Proxy & "_RebuildDevice_request_tmp.xml", MsgBoxStyle.Exclamation)
+            FileClose(numFile)
+            FileClose(numFileProxy)
+            Exit Sub
+        End Try
+
+
+        FileClose(numFileProxy)
+
+        'Exit Sub
         executeShellBulk(multipleInputFile)
         If codError = 0 Then
-            parseXML_cloudPBX()
+            parseXML_proxy()
             'My.Application.DoEvents()
         End If
 
     End Sub
 
+    Private Sub parseXML_proxy()
+        'Lbl_state.Text = "Generando reporte"
+        'ProgressBar1.Value += 25
+        'My.Application.DoEvents()
 
+        Dim reader As XmlTextReader
+        Dim parseXMl As String
+        Dim response As String = ""
+
+        Dim comando As New OleDbCommand()
+        comando.Connection = Conexion
+        Dim Sql As String = "DELETE * FROM brs_proxy_response_error"
+        comando.CommandText = Sql
+
+        Try
+            Conexion.Open()
+            comando.ExecuteNonQuery()
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_proxy_response_error'",
+                            MsgBoxStyle.Exclamation, "Error al generar reporte")
+            indiceXML = 0
+            Lbl_state.Text = "Error al acceder a la base de datos"
+            'ProgressBar1.Value = ProgressBar1.Maximum
+            Me.Cursor = Cursors.Default
+            Conexion.Close()
+            Exit Sub
+        End Try
+        Conexion.Close()
+
+        For num = indiceXML_DVmac To indiceXML_DVmac + indiceXML_Proxy
+            Try
+                parseXMl = gblSetPathTmpProxy & "\modifyProxy\" & num & "_cloudpbx_response_.xml"
+                reader = New XmlTextReader(parseXMl)
+                Do While (reader.Read())
+                    Select Case reader.NodeType
+                        Case XmlNodeType.Element
+                            'If reader.Name = "command" Then
+                            '    If reader.HasAttributes Then 'If attributes exist
+                            '        While reader.MoveToNextAttribute()
+                            '            'Display attribute name and value.
+                            '            'MsgBox(reader.Name.ToString & reader.Value.ToString)
+                            '            If reader.Name = "xsi:type" Then
+                            '                If reader.Value = "c:SuccessResponse" Then
+                            '                    'MsgBox("comando exitoso")
+                            '                ElseIf reader.Value = "c:ErrorResponse" Then
+                            '                    'MsgBox("Error en el comando")
+                            '                End If
+                            '            End If
+                            '        End While
+                            '    End If
+                            'End If
+                            If reader.Name = "summary" Then
+                                'MsgBox(reader.ReadString.ToString)
+                                response = reader.ReadString & "_[File:" & num & "_cloudpbx_response_.xml]"
+                                Dim Sql1 As String = "INSERT INTO brs_proxy_response_error ([error]) VALUES ( '" & response & "')"
+                                'Crear un comando
+                                Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
+                                Comando1.CommandText = Sql1
+                                Try
+                                    Conexion.Open()
+                                    Comando1.ExecuteNonQuery()
+                                Catch ex As Exception
+                                    MsgBox(ex.ToString)
+                                    MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'brs_proxy_response_error'",
+                                                    MsgBoxStyle.Exclamation, "Error al generar reporte")
+                                    indiceXML_Proxy = 0
+                                    Lbl_state.Text = "Error al acceder a la base de datos"
+                                    'ProgressBar1.Value = ProgressBar1.Maximum
+                                    Me.Cursor = Cursors.Default
+                                    Conexion.Close()
+                                    reader.Close()
+                                    Exit Sub
+                                End Try
+                                Conexion.Close()
+                            End If
+                            'Case XmlNodeType.XmlDeclaration
+                    End Select
+                Loop
+                reader.Close()
+            Catch ex As Exception
+                MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
+                'grabaLog(1, 2, "Error al leer archivo XML>" & gblSetPathTmpCloud & "\" & num & "_cloudpbx_response_.xml")
+                indiceXML = 0
+                Lbl_state.Text = "Error al generar reporte"
+                'ProgressBar1.Value = ProgressBar1.Maximum
+                Me.Cursor = Cursors.Default
+                Conexion.Close()
+                Exit Sub
+            End Try
+        Next
+
+        indiceXML_Proxy = 0
+        'Dim FMP As New Frm_Report
+        'FMP.Show()
+        'FMP.BringToFront()
+        'My.Application.DoEvents()
+        Me.Cursor = Cursors.Default
+        'Lbl_state.Text = "Finalizado"
+        'ProgressBar1.Value = ProgressBar1.Maximum
+        My.Application.DoEvents()
+    End Sub
 
 
 

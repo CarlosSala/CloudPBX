@@ -930,6 +930,8 @@ Public Class Frm_Principal
         'Para añadir contact_name y conctact_number al archivo xml correspondiente:
         'contact_name debe ser mayor a un largo 3 y
         'contact_number deber ser mayor a un largo 8
+        'user_email  debe ser mayor a un largo 10
+        'proxy sea mayor a un largo 7
 
         Dim infoContact As Integer = 0
         contact_name = dt.Rows(0)(4).ToString
@@ -2045,7 +2047,31 @@ Public Class Frm_Principal
     'SEGUNDA INTERFAZ---------------------------------------------------------------------------------------------------------------------------------------------------------
     Public Sub getDeviceName()
 
+        If TextBox1.Text.Length > 0 Then
+            TextBox1.Enabled = False
+            Button1.Enabled = False
+            Me.Cursor = Cursors.WaitCursor
+        Else
+            MsgBox("Campo de 'groupId' inválido", MsgBoxStyle.Exclamation, "Error campo de búsqueda")
+            Exit Sub
+        End If
+
         indiceXMLproxy = 0
+
+        Try
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblSetPathTmpProxy & "\getDeviceName", FileIO.SearchOption.SearchAllSubDirectories, "*.*")
+                My.Computer.FileSystem.DeleteFile(foundFile)
+            Next
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & My.Application.Info.DirectoryPath & My.Settings.SetPathTmpProxy & "\getDeviceName" &
+                   ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
+            TextBox1.Enabled = True
+            Button1.Enabled = True
+            Me.Cursor = Cursors.Default
+            Exit Sub
+        End Try
+
         'XML PARA OBTENER LAS MAC DE LOS DISPOSITIVOS DE UN GRUPO
         Dim r_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim r_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
@@ -2063,60 +2089,56 @@ Public Class Frm_Principal
         Dim msgError As String = ""
         Dim multipleInputFile As String = gblSetPathTmpProxy & "\getDeviceName\multipleInputFileProxy.txt"
         Dim lineConfigFile As String = ""
+
         numFile += 1
         Dim numeroArchivo = numFile
 
         Try
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblSetPathTmpProxy & "\getDeviceName", FileIO.SearchOption.SearchAllSubDirectories, "*.*")
-                My.Computer.FileSystem.DeleteFile(foundFile)
-            Next
+            FileOpen(numeroArchivo, multipleInputFile, OpenMode.Output, OpenAccess.Write)
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & My.Application.Info.DirectoryPath & My.Settings.SetPathTmpProxy &
-                   ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
+            MsgBox("Asegurese de que el archivo" & "gblSetPathTmpProxy" & "\getDeviceName\multipleInputFileProxy.txt" & " no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
+            FileClose(numeroArchivo)
+            TextBox1.Enabled = True
+            Button1.Enabled = True
             Me.Cursor = Cursors.Default
-            btn_Browse_CSV.Enabled = True
             Exit Sub
         End Try
 
-        FileOpen(numeroArchivo, multipleInputFile, OpenMode.Output, OpenAccess.Write)
-
         'XML PARA OBTENER LA MAC DE LOS DISPOSITIVOS--------------------------------------------------------------
-        If TextBox1.Text <> "" Then
-            Try
-                numFile += 1
-                indiceXMLproxy += 1
-                fileIXML = gblSetPathTmpProxy & "\getDeviceName\" & indiceXMLproxy & "_DeviceGetList_request_tmp.xml"
-                fileOXML = gblSetPathTmpProxy & "\getDeviceName\" & indiceXMLproxy & "_cloudpbx_response_.xml"
-                FileOpen(numFile, fileIXML, OpenMode.Output)
-                WriteLine(numFile, r_1.ToCharArray)
-                WriteLine(numFile, r_2.ToCharArray)
-                WriteLine(numFile, r_3.ToCharArray)
-                WriteLine(numFile, r_4.ToCharArray)
-                WriteLine(numFile, r_5.ToCharArray)
-                r_6 = "<groupId>" & TextBox1.Text.ToString.ToUpper & "_cloudpbx" & "</groupId>"
-                WriteLine(numFile, r_6.ToCharArray)
-                WriteLine(numFile, r_7.ToCharArray)
-                WriteLine(numFile, r_8.ToCharArray)
-                WriteLine(numFile, lineaFinal.ToCharArray)
-                FileClose(numFile)
-                lineConfigFile = fileIXML & ";" & fileOXML
-                WriteLine(numeroArchivo, lineConfigFile.ToCharArray)
-                FileClose(numeroArchivo)
-            Catch ex As Exception
-                MsgBox(ex.ToString)
-                MsgBox("Error al crear el archivo " & "\getDeviceName\" & indiceXMLproxy & "_DeviceGetList_request_tmp.xml", MsgBoxStyle.Exclamation)
-                FileClose(numFile)
-                FileClose(numeroArchivo)
-                'Me.Cursor = Cursors.Default
-                'btn_Browse_CSV.Enabled = True
-                Exit Sub
-            End Try
-        Else
-            MsgBox("Campo de groupId inválido", MsgBoxStyle.Exclamation)
+        Try
+            numFile += 1
+            indiceXMLproxy += 1
+            fileIXML = gblSetPathTmpProxy & "\getDeviceName\" & indiceXMLproxy & "_DeviceGetList_request_tmp.xml"
+            fileOXML = gblSetPathTmpProxy & "\getDeviceName\" & indiceXMLproxy & "_cloudpbx_response_.xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, r_1.ToCharArray)
+            WriteLine(numFile, r_2.ToCharArray)
+            WriteLine(numFile, r_3.ToCharArray)
+            WriteLine(numFile, r_4.ToCharArray)
+            WriteLine(numFile, r_5.ToCharArray)
+            r_6 = "<groupId>" & TextBox1.Text.ToString.ToUpper & "_cloudpbx" & "</groupId>"
+            WriteLine(numFile, r_6.ToCharArray)
+            WriteLine(numFile, r_7.ToCharArray)
+            WriteLine(numFile, r_8.ToCharArray)
+            WriteLine(numFile, lineaFinal.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            WriteLine(numeroArchivo, lineConfigFile.ToCharArray)
+            FileClose(numeroArchivo)
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("Error al crear el archivo " & "\getDeviceName\" & indiceXMLproxy & "_DeviceGetList_request_tmp.xml", MsgBoxStyle.Exclamation, "Error al crear el archivo")
+            FileClose(numFile)
+            FileClose(numeroArchivo)
+            TextBox1.Enabled = True
+            Button1.Enabled = True
+            Me.Cursor = Cursors.Default
             Exit Sub
-        End If
+        End Try
 
+        'se va hasta aqui
+        Exit Sub
         executeShellBulk(multipleInputFile)
         If codError = 0 Then
             parseXML_proxy(codError, msgError)

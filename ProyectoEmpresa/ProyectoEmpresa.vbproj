@@ -102,10 +102,16 @@
     <Compile Include="Frm_Login.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frm_Report.Designer.vb">
-      <DependentUpon>Frm_Report.vb</DependentUpon>
+    <Compile Include="Frm_Report_Cloudpbx.Designer.vb">
+      <DependentUpon>Frm_Report_Cloudpbx.vb</DependentUpon>
     </Compile>
-    <Compile Include="Frm_Report.vb">
+    <Compile Include="Frm_Report_Cloudpbx.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Frm_Report_Proxy.Designer.vb">
+      <DependentUpon>Frm_Report_Proxy.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Frm_Report_Proxy.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -132,8 +138,11 @@
     <EmbeddedResource Include="Frm_Principal.resx">
       <DependentUpon>Frm_Principal.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Report.resx">
-      <DependentUpon>Frm_Report.vb</DependentUpon>
+    <EmbeddedResource Include="Frm_Report_Cloudpbx.resx">
+      <DependentUpon>Frm_Report_Cloudpbx.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Frm_Report_Proxy.resx">
+      <DependentUpon>Frm_Report_Proxy.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>

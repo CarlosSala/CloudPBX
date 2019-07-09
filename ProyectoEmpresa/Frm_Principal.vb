@@ -2004,7 +2004,7 @@ Public Class Frm_Principal
         Next
 
         indiceXML = 0
-        Dim FMP As New Frm_Report
+        Dim FMP As New Frm_Report_Cloudpbx
         FMP.Show()
         FMP.BringToFront()
         My.Application.DoEvents()
@@ -2518,7 +2518,7 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
-        For num = indiceXML_DVmac To indiceXML_DVmac + indiceXML_Proxy
+        For num = 1 To indiceXML_DVmac + indiceXML_Proxy
             Try
                 parseXMl = gblSetPathTmpProxy & "\modifyProxy\" & num & "_cloudpbx_response_.xml"
                 reader = New XmlTextReader(parseXMl)
@@ -2569,6 +2569,7 @@ Public Class Frm_Principal
                 Loop
                 reader.Close()
             Catch ex As Exception
+                MsgBox(ex.ToString)
                 MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
                 'grabaLog(1, 2, "Error al leer archivo XML>" & gblSetPathTmpCloud & "\" & num & "_cloudpbx_response_.xml")
                 indiceXML = 0
@@ -2581,10 +2582,10 @@ Public Class Frm_Principal
         Next
 
         indiceXML_Proxy = 0
-        'Dim FMP As New Frm_Report
-        'FMP.Show()
-        'FMP.BringToFront()
-        'My.Application.DoEvents()
+        Dim FMP As New Frm_Report_Proxy
+        FMP.Show()
+        FMP.BringToFront()
+        My.Application.DoEvents()
         Me.Cursor = Cursors.Default
         'Lbl_state.Text = "Finalizado"
         'ProgressBar1.Value = ProgressBar1.Maximum

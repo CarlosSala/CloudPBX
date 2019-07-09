@@ -39,10 +39,14 @@ Public Class Frm_Principal
 
     Private Sub Interface_Entrada1()
 
+        btn_report_cloudpbx.Enabled = True
         btn_procesar.Enabled = False
         btn_Browse_CSV.Enabled = True
         Lbl_wait.Visible = False
         Lbl_state.Text = ""
+        CheckBox1.Enabled = False
+        CheckBox2.Enabled = False
+
     End Sub
 
     Private Sub Interface_entrada2()
@@ -1907,10 +1911,12 @@ Public Class Frm_Principal
         End Try
     End Sub
 
+
+
     Sub parseXML_cloudPBX()
 
         Lbl_state.Text = "Generando reporte"
-        ProgressBar1.Value += 25
+        'ProgressBar1.Value += 25
         My.Application.DoEvents()
 
         Dim reader As XmlTextReader
@@ -1963,32 +1969,41 @@ Public Class Frm_Principal
                             'End If
                             If reader.Name = "summary" Then
                                 'MsgBox(reader.ReadString.ToString)
-                                response = reader.ReadString & "_[File:" & num & "_cloudpbx_response_.xml]"
-                                Dim Sql1 As String = "INSERT INTO brs_cloudpbx_response_error ([error]) VALUES ( '" & response & "')"
-                                'Crear un comando
-                                Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
-                                Comando1.CommandText = Sql1
-                                Try
-                                    Conexion.Open()
-                                    Comando1.ExecuteNonQuery()
-                                Catch ex As Exception
-                                    MsgBox(ex.ToString)
-                                    MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'brs_cloudpbx_response_error'",
-                                                    MsgBoxStyle.Exclamation, "Error al generar reporte")
-                                    indiceXML = 0
-                                    Lbl_state.Text = "Error al acceder a la base de datos"
-                                    ProgressBar1.Value = ProgressBar1.Maximum
-                                    Me.Cursor = Cursors.Default
-                                    btn_Browse_CSV.Enabled = True
-                                    Conexion.Close()
-                                    reader.Close()
-                                    Exit Sub
-                                End Try
-                                Conexion.Close()
+                                response = reader.ReadString
+                                '& "_[File:" & num & "_cloudpbx_response_.xml]"
+                            End If
+
+                            If reader.Name = "detail" Then
+                                response += reader.ReadString
                             End If
                             'Case XmlNodeType.XmlDeclaration
                     End Select
                 Loop
+
+                If response.Length <> 0 Then
+                    Dim Sql1 As String = "INSERT INTO brs_cloudpbx_response_error ([error]) VALUES ( '" & response & "')"
+                    'Crear un comando
+                    Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
+                    Comando1.CommandText = Sql1
+                    Try
+                        Conexion.Open()
+                        Comando1.ExecuteNonQuery()
+                    Catch ex As Exception
+                        MsgBox(ex.ToString)
+                        MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'brs_cloudpbx_response_error'",
+                                                        MsgBoxStyle.Exclamation, "Error al generar reporte")
+                        indiceXML = 0
+                        Lbl_state.Text = "Error al acceder a la base de datos"
+                        ProgressBar1.Value = ProgressBar1.Maximum
+                        Me.Cursor = Cursors.Default
+                        btn_Browse_CSV.Enabled = True
+                        Conexion.Close()
+                        reader.Close()
+                        Exit Sub
+                    End Try
+                    response = ""
+                    Conexion.Close()
+                End If
                 reader.Close()
             Catch ex As Exception
                 MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
@@ -2003,7 +2018,7 @@ Public Class Frm_Principal
             End Try
         Next
 
-        indiceXML = 0
+        'indiceXML = 0
         Dim FMP As New Frm_Report_Cloudpbx
         FMP.Show()
         FMP.BringToFront()
@@ -2339,10 +2354,14 @@ Public Class Frm_Principal
         ''lblCMMUpdTotalRows.Text = DataGridView1.RowCount
         Label2.Text = "Se encontraron " + dtproxy.Rows.Count.ToString() + " dispositivos" + " en el grupo " + TextBox1.Text
 
+
         TextBox2.Enabled = True
         Button2.Enabled = True
         Label5.Enabled = True
-
+        CheckBox1.Enabled = True
+        CheckBox2.Enabled = True
+        CheckBox1.Checked = True
+        CheckBox2.Checked = False
         Lbl_wait.Visible = False
         Me.Cursor = Cursors.Default
         Interface_Salida()
@@ -2363,6 +2382,8 @@ Public Class Frm_Principal
             MsgBox("Campo de 'proxy' inválido", MsgBoxStyle.Exclamation, "Error campo de búsqueda")
             Exit Sub
         End If
+
+
 
         'XML PARA MODIFICAR PROXY
         Dim j_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
@@ -2387,6 +2408,14 @@ Public Class Frm_Principal
         Dim s_8 As String = "</command>"
 
         Dim lineaFinal As String = "</BroadsoftDocument>"
+
+
+        If CheckBox1.Checked = True Then
+            j_4 = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceCustomTagModifyRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        ElseIf CheckBox2.Checked = True Then
+            j_4 = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceCustomTagAddRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        End If
+
 
         Dim fileIXML As String = ""
         Dim fileOXML As String = ""
@@ -2636,4 +2665,21 @@ Public Class Frm_Principal
 
     End Sub
 
+    Private Sub Btn_report_cloudpbx_Click(sender As Object, e As EventArgs) Handles btn_report_cloudpbx.Click
+        parseXML_cloudPBX()
+    End Sub
+
+    Private Sub CheckBox1_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox1.CheckedChanged
+
+        If CheckBox1.CheckState = 1 Then
+            CheckBox2.Checked = 0
+        End If
+    End Sub
+
+    Private Sub CheckBox2_CheckedChanged(sender As Object, e As EventArgs) Handles CheckBox2.CheckedChanged
+
+        If CheckBox2.CheckState = 1 Then
+            CheckBox1.Checked = 0
+        End If
+    End Sub
 End Class

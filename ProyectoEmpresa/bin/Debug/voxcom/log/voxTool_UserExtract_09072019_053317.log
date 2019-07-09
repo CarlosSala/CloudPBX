@@ -1,0 +1,39 @@
+**** Version Voxcom --> 2019.07.09 17:33:19:270 CLT
+**** Start OCIClient initialization --> 2019.07.09 17:33:19:297 CLT
+**** Sending request at: 2019.07.09 17:33:19:337 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 26 ms)
+AuthenticationRequest command successful
+
+**** Sending request at: 2019.07.09 17:33:19:366 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 13 ms)
+LoginRequest command successful
+
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\getDeviceName\1_DeviceGetList_request_tmp.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\getDeviceName\1_cloudpbx_response_.xml
+********* Starting Run #: 1 in: 3 ms *********
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\getDeviceName\1_DeviceGetList_request_tmp.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\getDeviceName\1_cloudpbx_response_.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\getDeviceName\1_DeviceGetList_request_tmp.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\getDeviceName\1_cloudpbx_response_.xml
+**** Sending request #: 1 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\getDeviceName\1_DeviceGetList_request_tmp.xml at: 2019.07.09 17:33:19:389 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 16 ms)
+
+Run #: 1 -- Statistics ========================>
+Total Requests: 1
+Total Time for all requests: 16 ms
+Average Time per request: 16 ms
+Smallest request time: 16 ms
+Longest request time: 16 ms, FileName: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\getDeviceName\1_DeviceGetList_request_tmp.xml, Time: 2019.07.09 17:33:19:409 CLT
+<========================
+
+**** Sending request at: 2019.07.09 17:33:19:442 CLT
+**** Time Out:1
+
+**** Received response (Request process time: 1000 ms)
+LogoutRequest command successful (no response when OCS)
+

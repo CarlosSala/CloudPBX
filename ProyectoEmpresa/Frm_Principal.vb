@@ -2353,6 +2353,10 @@ Public Class Frm_Principal
 
     Public Sub modificarProxy()
 
+        If MsgBox("¿Está seguro que desea continuar?", vbOKCancel, "Confirmación") = MsgBoxResult.Cancel Then
+            Exit Sub
+        End If
+
         If TextBox2.Text.Length >= 7 Then
             Me.Cursor = Cursors.WaitCursor
         Else
@@ -2406,7 +2410,7 @@ Public Class Frm_Principal
             Exit Sub
         End Try
 
-
+        
         Try
             proxy = TextBox2.Text.ToString
             For j = 0 To dt1.Rows.Count - 1

@@ -332,8 +332,14 @@ Public Class Frm_Principal
 
         For j = 0 To DataGridView1.ColumnCount - 1
             DataGridView1.Columns(j).SortMode = DataGridViewColumnSortMode.NotSortable
+
         Next
 
+        'bloquear celdas no usadas
+        'For j = 0 To DataGridView1.RowCount - 1
+        '    DataGridView1.Rows(j).Cells(0).ReadOnly = True
+        '    DataGridView1.Rows(j).Cells(0).Style.BackColor = Color.FromArgb(121, 116, 117)
+        'Next
         'DataGridView1.CurrentCell = DataGridView1.Rows(0).Cells(0)
         'lblCMMUpdCurrentRow.Text = DataGridView1.CurrentCell.RowIndex + 1
         'lblCMMUpdTotalRows.Text = DataGridView1.RowCount
@@ -708,6 +714,7 @@ Public Class Frm_Principal
             DataGridView1.Rows(0).Cells(0).Style.BackColor = Nothing
         End If
 
+        'volver a trabajar con datagridview y no con el dataTable
         'validar numeración-------------------------------------------------------------------------------------------------
         For j = 0 To dt.Rows.Count - 1
             phoneNumber = dt.Rows(j)(1).ToString
@@ -2558,48 +2565,59 @@ Public Class Frm_Principal
                 Do While (reader.Read())
                     Select Case reader.NodeType
                         Case XmlNodeType.Element
-                            'If reader.Name = "command" Then
-                            '    If reader.HasAttributes Then 'If attributes exist
-                            '        While reader.MoveToNextAttribute()
-                            '            'Display attribute name and value.
-                            '            'MsgBox(reader.Name.ToString & reader.Value.ToString)
-                            '            If reader.Name = "xsi:type" Then
-                            '                If reader.Value = "c:SuccessResponse" Then
-                            '                    'MsgBox("comando exitoso")
-                            '                ElseIf reader.Value = "c:ErrorResponse" Then
-                            '                    'MsgBox("Error en el comando")
-                            '                End If
-                            '            End If
-                            '        End While
-                            '    End If
-                            'End If
+                            If reader.Name = "command" Then
+                                If reader.HasAttributes Then 'If attributes exist
+                                    While reader.MoveToNextAttribute()
+                                        'Display attribute name and value.
+                                        'MsgBox(reader.Name.ToString & reader.Value.ToString)
+                                        If reader.Name = "xsi:type" Then
+                                            If reader.Value = "c:SuccessResponse" Then
+                                                response = reader.Value.ToString
+                                                'ElseIf reader.Value = "c:ErrorResponse" Then
+                                                '    MsgBox("Error en el comando")
+                                                'End If
+                                            End If
+                                        End If
+                                    End While
+                                End If
+                            End If
+
                             If reader.Name = "summary" Then
                                 'MsgBox(reader.ReadString.ToString)
-                                response = reader.ReadString & "_[File:" & num & "_cloudpbx_response_.xml]"
-                                Dim Sql1 As String = "INSERT INTO brs_proxy_response_error ([error]) VALUES ( '" & response & "')"
-                                'Crear un comando
-                                Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
-                                Comando1.CommandText = Sql1
-                                Try
-                                    Conexion.Open()
-                                    Comando1.ExecuteNonQuery()
-                                Catch ex As Exception
-                                    MsgBox(ex.ToString)
-                                    MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'brs_proxy_response_error'",
-                                                    MsgBoxStyle.Exclamation, "Error al generar reporte")
-                                    indiceXML_Proxy = 0
-                                    Lbl_state.Text = "Error al acceder a la base de datos"
-                                    'ProgressBar1.Value = ProgressBar1.Maximum
-                                    Me.Cursor = Cursors.Default
-                                    Conexion.Close()
-                                    reader.Close()
-                                    Exit Sub
-                                End Try
-                                Conexion.Close()
+                                response = reader.ReadString
+                                '& "_[File:" & num & "_cloudpbx_response_.xml]"
+                            End If
+
+                            If reader.Name = "detail" Then
+                                response += reader.ReadString
                             End If
                             'Case XmlNodeType.XmlDeclaration
                     End Select
                 Loop
+                If response.Length <> 0 Then
+                    response += "_[File:" & num & "_cloudpbx_response_.xml]"
+                    Dim Sql1 As String = "INSERT INTO brs_proxy_response_error ([error]) VALUES ( '" & response & "')"
+                    'Crear un comando
+                    Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
+                    Comando1.CommandText = Sql1
+                    Try
+                        Conexion.Open()
+                        Comando1.ExecuteNonQuery()
+                    Catch ex As Exception
+                        MsgBox(ex.ToString)
+                        MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'brs_proxy_response_error'",
+                                            MsgBoxStyle.Exclamation, "Error al generar reporte")
+                        indiceXML_Proxy = 0
+                        Lbl_state.Text = "Error al acceder a la base de datos"
+                        'ProgressBar1.Value = ProgressBar1.Maximum
+                        Me.Cursor = Cursors.Default
+                        Conexion.Close()
+                        reader.Close()
+                        Exit Sub
+                    End Try
+                    response = ""
+                    Conexion.Close()
+                End If
                 reader.Close()
             Catch ex As Exception
                 MsgBox(ex.ToString)

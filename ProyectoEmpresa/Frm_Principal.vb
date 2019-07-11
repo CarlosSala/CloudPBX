@@ -39,7 +39,7 @@ Public Class Frm_Principal
 
     Private Sub Interface_Entrada1()
 
-        btn_report_cloudpbx.Enabled = True
+        btn_report_cloudpbx.Enabled = False
         btn_procesar.Enabled = False
         btn_Browse_CSV.Enabled = True
         Lbl_wait.Visible = False
@@ -78,15 +78,18 @@ Public Class Frm_Principal
         Lbl_wait.Visible = True
         Me.Cursor = Cursors.WaitCursor
         My.Application.DoEvents()
-        validar_Archivo()
+        Validar_Archivo()
     End Sub
 
-    'A continuación, se valida que:
-    'Se haya seleccionado un archivo
-    'El archivo no se encuentre en uso
-    'El archivo no este vacio
-    'El archivo posea 26 columnas por cada fila, sin excepción
-    Private Sub validar_Archivo()
+
+    Private Sub Validar_Archivo()
+
+        'A continuación, se valida que:
+        'Se haya seleccionado un archivo
+        'El archivo no se encuentre en uso
+        'El archivo no este vacio
+        'El archivo posea 26 columnas por cada fila, sin excepción
+
         'Si no se escogió ningun archivo, se expulsa del metodo validar_Archivo
         If TextBox_FileName.Text = "" Then
             Lbl_wait.Visible = False
@@ -109,7 +112,7 @@ Public Class Frm_Principal
         'Se valida el formato del archivo
         Dim controlArchivoVacio As Integer = 0
 
-        'Mientras no se llegue al final del archivo
+        'Se lee linea por linea el archivo con id = 1, hasta que este acabe, EndOfFile
         While Not EOF(1)
 
             'Si la variable controlArchivoVacio cambia a 1 es porque el while comenzo a recorrer el archivo y por ende este no esta vacio
@@ -143,7 +146,7 @@ Public Class Frm_Principal
         save_Data_Access()
     End Sub
 
-    Private Sub save_Data_Access()
+    Private Sub Save_Data_Access()
 
         'Se abre el archivo selccionado en modo lectura y se le asigna un id
         Try
@@ -295,21 +298,18 @@ Public Class Frm_Principal
         FileClose(1)
         Lbl_state.Text = ""
         ProgressBar1.Value = 0
-        update_Grid()
+        Update_Grid()
     End Sub
 
 
-    'dt o dataTable es una variable global para utilizarla desde otros metodos
-    Dim dt As New DataTable
-    Public Sub update_Grid()
+    Public Sub Update_Grid()
 
         Dim iSql As String = "select * from brs_cloudpbx"
         Dim cmd As New OleDbCommand
         Dim dt1 As New DataTable
         Dim da As New OleDbDataAdapter
-        dt = dt1
 
-        'Se Ejecuta la consulta para traer registros
+        'Se ejecuta la consulta para traer registros
         Try
             Conexion.Open()
             cmd.Connection = Conexion
@@ -330,12 +330,12 @@ Public Class Frm_Principal
         DataGridView1.DataSource = dt1
         DataGridView1.Refresh()
 
+        'Se evita que el usuario pueda reordenar la grilla
         For j = 0 To DataGridView1.ColumnCount - 1
             DataGridView1.Columns(j).SortMode = DataGridViewColumnSortMode.NotSortable
-
         Next
 
-        'bloquear celdas no usadas
+        'Bloquear celdas no usadas
         'For j = 0 To DataGridView1.RowCount - 1
         '    DataGridView1.Rows(j).Cells(0).ReadOnly = True
         '    DataGridView1.Rows(j).Cells(0).Style.BackColor = Color.FromArgb(121, 116, 117)
@@ -358,6 +358,7 @@ Public Class Frm_Principal
         FileClose(numFile)
         FileClose(1)
         Me.Cursor = Cursors.Default
+        btn_procesar.Enabled = False
         btn_Browse_CSV.Enabled = True
         indiceXML = 0
     End Sub
@@ -365,11 +366,12 @@ Public Class Frm_Principal
     Private Sub btn_procesar_Click(sender As Object, e As EventArgs) Handles btn_procesar.Click
 
         If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
-            MsgBox("Server pinged successfully.")
+            'MsgBox("Server pinged successfully.")
         Else
             MsgBox("Servidor fuera de Linea, favor verifique la conexion", MsgBoxStyle.Exclamation, "Error de Comunicación")
             Exit Sub
         End If
+        indiceXML = 0
         Me.Cursor = Cursors.WaitCursor
         btn_procesar.Enabled = False
         btn_Browse_CSV.Enabled = False
@@ -762,8 +764,8 @@ Public Class Frm_Principal
 
         'validar información de los dispositivos-----------------------------------------------------------------------------------
         'La columna 'device_type' es la referencia para las demas, por ello se valida lo sigte:
-        'no puede estar vacia la primera celda
-        'no puede haber celdas vacias entremedio
+        'No puede estar vacia la primera celda
+        'No puede haber celdas vacias entremedio
 
         If DataGridView1.Rows(0).Cells(8).Value.ToString.Length <= 11 Then
             DataGridView1.Rows(0).Cells(8).Style.BackColor = Color.FromArgb(254, 84, 97)
@@ -818,7 +820,7 @@ Public Class Frm_Principal
         'validar información de los usuarios------------------------------------------------------------------------------------------
         Dim varAcumulaDepto As String = ""
         Dim arreglo() As String
-        Dim arregloDeptos(dt.Rows.Count - 1) As String
+        Dim arregloDeptos(DataGridView1.Rows.Count - 2) As String
         Dim indice As Integer
         Dim numElementos As Integer = 0
         Try
@@ -1025,6 +1027,7 @@ Public Class Frm_Principal
             MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & My.Application.Info.DirectoryPath & My.Settings.SetPathTmpCloud &
                    ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
             Me.Cursor = Cursors.Default
+            btn_procesar.Enabled = True
             btn_Browse_CSV.Enabled = True
             Exit Sub
         End Try
@@ -1036,14 +1039,14 @@ Public Class Frm_Principal
         Dim multipleInputFile As String = gblSetPathTmpCloud & "\multipleInputFile.txt"
         Dim lineConfigFile As String = ""
 
-
         Try
             FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Asegurese de que el archivo " & gblSetPathTmp & "\multipleInputFile.txt" & " no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
+            MsgBox("Asegurese de que el archivo " & gblSetPathTmpCloud & "\multipleInputFile.txt" & " no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
             FileClose(1)
             Me.Cursor = Cursors.Default
+            btn_procesar.Enabled = True
             btn_Browse_CSV.Enabled = True
             Exit Sub
         End Try
@@ -1882,12 +1885,12 @@ Public Class Frm_Principal
         Catch ex As Exception
             FileClose(numFile)
             MsgBox(ex.ToString)
-            MsgBox("Se produjo un error al crear el archivo" & gblSetPathTmpCloud & "\ociclient.config" & " y los archivos XML no fueron enviados", MsgBoxStyle.Exclamation, "Error al crear archivo")
+            MsgBox("Se produjo un error al crear el archivo" & gblSetPathAppl & "\ociclient.config" & " y los archivos XML no fueron enviados", MsgBoxStyle.Exclamation, "Error al crear archivo")
             indiceXML_DVmac = 0
-            indiceXML = 0
             codError = 1
             Me.Cursor = Cursors.Default
             btn_Browse_CSV.Enabled = True
+            btn_procesar.Enabled = True
             Lbl_state.Text = "Error en archivo ociclient.config"
             ProgressBar1.Value = ProgressBar1.Maximum
             My.Application.DoEvents()
@@ -1895,7 +1898,7 @@ Public Class Frm_Principal
         End Try
 
         Lbl_state.Text = "Ejecutando aplicación Voxcom..."
-        'ProgressBar1.Value += 20
+        ProgressBar1.Value += 20
         My.Application.DoEvents()
 
         Try
@@ -1912,9 +1915,9 @@ Public Class Frm_Principal
             MsgBox(ex.ToString)
             'grabaLog(1, 3, "Error al ejecutar Shell>" & strArguments)
             indiceXML_DVmac = 0
-            indiceXML = 0
             codError = 1
             Me.Cursor = Cursors.Default
+            btn_procesar.Enabled = True
             btn_Browse_CSV.Enabled = True
             Lbl_state.Text = "Error al ejecutar startASOCIClient.bat"
             ProgressBar1.Value = ProgressBar1.Maximum
@@ -1924,11 +1927,13 @@ Public Class Frm_Principal
     End Sub
 
 
-
     Sub parseXML_cloudPBX()
 
+        'Se habilita el boton que permite ver el reporte en cualquier momento
+        btn_report_cloudpbx.Enabled = True
+
         Lbl_state.Text = "Generando reporte"
-        'ProgressBar1.Value += 25
+        ProgressBar1.Value = 75
         My.Application.DoEvents()
 
         Dim reader As XmlTextReader
@@ -1947,10 +1952,10 @@ Public Class Frm_Principal
             MsgBox(ex.ToString)
             MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_cloudpbx_response_error'",
                             MsgBoxStyle.Exclamation, "Error al generar reporte")
-            indiceXML = 0
             Lbl_state.Text = "Error al acceder a la base de datos"
             ProgressBar1.Value = ProgressBar1.Maximum
             Me.Cursor = Cursors.Default
+            btn_procesar.Enabled = True
             btn_Browse_CSV.Enabled = True
             Conexion.Close()
             Exit Sub
@@ -1964,34 +1969,17 @@ Public Class Frm_Principal
                 Do While (reader.Read())
                     Select Case reader.NodeType
                         Case XmlNodeType.Element
-                            'If reader.Name = "command" Then
-                            '    If reader.HasAttributes Then 'If attributes exist
-                            '        While reader.MoveToNextAttribute()
-                            '            'Display attribute name and value.
-                            '            'MsgBox(reader.Name.ToString & reader.Value.ToString)
-                            '            If reader.Name = "xsi:type" Then
-                            '                If reader.Value = "c:SuccessResponse" Then
-                            '                    'MsgBox("comando exitoso")
-                            '                ElseIf reader.Value = "c:ErrorResponse" Then
-                            '                    'MsgBox("Error en el comando")
-                            '                End If
-                            '            End If
-                            '        End While
-                            '    End If
-                            'End If
                             If reader.Name = "summary" Then
                                 'MsgBox(reader.ReadString.ToString)
                                 response = reader.ReadString
                                 '& "_[File:" & num & "_cloudpbx_response_.xml]"
                             End If
-
                             If reader.Name = "detail" Then
-                                response += reader.ReadString
+                                response += " " & reader.ReadString
                             End If
                             'Case XmlNodeType.XmlDeclaration
                     End Select
                 Loop
-
                 If response.Length <> 0 Then
                     Dim Sql1 As String = "INSERT INTO brs_cloudpbx_response_error ([error]) VALUES ( '" & response & "')"
                     'Crear un comando
@@ -2004,14 +1992,14 @@ Public Class Frm_Principal
                         MsgBox(ex.ToString)
                         MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'brs_cloudpbx_response_error'",
                                                         MsgBoxStyle.Exclamation, "Error al generar reporte")
-                        indiceXML = 0
                         Lbl_state.Text = "Error al acceder a la base de datos"
                         ProgressBar1.Value = ProgressBar1.Maximum
                         Me.Cursor = Cursors.Default
+                        btn_procesar.Enabled = True
                         btn_Browse_CSV.Enabled = True
                         Conexion.Close()
                         reader.Close()
-                        Exit Sub
+                        'Exit Sub
                     End Try
                     response = ""
                     Conexion.Close()
@@ -2020,23 +2008,22 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
                 'grabaLog(1, 2, "Error al leer archivo XML>" & gblSetPathTmpCloud & "\" & num & "_cloudpbx_response_.xml")
-                indiceXML = 0
                 Lbl_state.Text = "Error al generar reporte"
                 ProgressBar1.Value = ProgressBar1.Maximum
                 Me.Cursor = Cursors.Default
                 btn_Browse_CSV.Enabled = True
-                Conexion.Close()
+                btn_procesar.Enabled = True
                 Exit Sub
             End Try
         Next
 
-        indiceXML = 0
         Dim FMP As New Frm_Report_Cloudpbx
         FMP.Show()
         FMP.BringToFront()
         My.Application.DoEvents()
         Me.Cursor = Cursors.Default
-        btn_Browse_CSV.Enabled = Enabled
+        btn_procesar.Enabled = True
+        btn_Browse_CSV.Enabled = True
         Lbl_state.Text = "Finalizado"
         ProgressBar1.Value = ProgressBar1.Maximum
         My.Application.DoEvents()
@@ -2227,6 +2214,23 @@ Public Class Frm_Principal
 
                             '            ElseIf reader.Value = "c:ErrorResponse" Then
                             '                'MsgBox("Error en el comando")
+                            '            End If
+                            '        End While
+                            '    End If
+                            'End If
+
+
+                            'If reader.Name = "command" Then
+                            '    If reader.HasAttributes Then 'If attributes exist
+                            '        While reader.MoveToNextAttribute()
+                            '            'Display attribute name and value.
+                            '            'MsgBox(reader.Name.ToString & reader.Value.ToString)
+                            '            If reader.Name = "xsi:type" Then
+                            '                If reader.Value = "c:SuccessResponse" Then
+                            '                    'MsgBox("comando exitoso")
+                            '                ElseIf reader.Value = "c:ErrorResponse" Then
+                            '                    'MsgBox("Error en el comando")
+                            '                End If
                             '            End If
                             '        End While
                             '    End If
@@ -2534,6 +2538,8 @@ Public Class Frm_Principal
     End Sub
 
     Private Sub parseXML_proxy()
+
+
         'Lbl_state.Text = "Generando reporte"
         'ProgressBar1.Value += 25
         'My.Application.DoEvents()

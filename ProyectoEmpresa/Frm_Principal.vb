@@ -2030,7 +2030,7 @@ Public Class Frm_Principal
             End Try
         Next
 
-        'indiceXML = 0
+        indiceXML = 0
         Dim FMP As New Frm_Report_Cloudpbx
         FMP.Show()
         FMP.BringToFront()

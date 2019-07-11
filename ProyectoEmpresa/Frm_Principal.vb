@@ -364,12 +364,12 @@ Public Class Frm_Principal
 
     Private Sub btn_procesar_Click(sender As Object, e As EventArgs) Handles btn_procesar.Click
 
-        'If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
-        '    MsgBox("Server pinged successfully.")
-        'Else
-        '    MsgBox("Servidor fuera de Linea, favor verifique la conexion", MsgBoxStyle.Exclamation, "Error de Comunicación")
-        '    Exit Sub
-        'End If
+        If My.Computer.Network.Ping(My.Settings.SetHost, gblTimePing) Then
+            MsgBox("Server pinged successfully.")
+        Else
+            MsgBox("Servidor fuera de Linea, favor verifique la conexion", MsgBoxStyle.Exclamation, "Error de Comunicación")
+            Exit Sub
+        End If
         Me.Cursor = Cursors.WaitCursor
         btn_procesar.Enabled = False
         btn_Browse_CSV.Enabled = False
@@ -902,42 +902,42 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(19).Style.BackColor = Nothing
             End If
 
-            If ocp_local = "bloqueado" Or ocp_local = "Bloqueado" Or ocp_local = "BLOQUEADO" Then
+            If ocp_local = "bloqueado" Or ocp_local = "Bloqueado" Or ocp_local = "BLOQUEADO" Or ocp_local = "desbloqueado" Or ocp_local = "Desbloqueado" Or ocp_local = "DESBLOQUEADO" Then
                 DataGridView1.Rows(j).Cells(20).Style.BackColor = Nothing
             Else
                 DataGridView1.Rows(j).Cells(20).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas += 1
             End If
 
-            If ocp_tollFree = "bloqueado" Or ocp_tollFree = "Bloqueado" Or ocp_tollFree = "BLOQUEADO" Then
+            If ocp_tollFree = "bloqueado" Or ocp_tollFree = "Bloqueado" Or ocp_tollFree = "BLOQUEADO" Or ocp_tollFree = "desbloqueado" Or ocp_tollFree = "Desbloqueado" Or ocp_tollFree = "DESBLOQUEADO" Then
                 DataGridView1.Rows(j).Cells(21).Style.BackColor = Nothing
             Else
                 DataGridView1.Rows(j).Cells(21).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas += 1
             End If
 
-            If ocp_internacional = "bloqueado" Or ocp_internacional = "Bloqueado" Or ocp_internacional = "BLOQUEADO" Then
+            If ocp_internacional = "bloqueado" Or ocp_internacional = "Bloqueado" Or ocp_internacional = "BLOQUEADO" Or ocp_internacional = "desbloqueado" Or ocp_internacional = "Desbloqueado" Or ocp_internacional = "DESBLOQUEADO" Then
                 DataGridView1.Rows(j).Cells(22).Style.BackColor = Nothing
             Else
                 DataGridView1.Rows(j).Cells(22).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas += 1
             End If
 
-            If ocp_special1 = "bloqueado" Or ocp_special1 = "Bloqueado" Or ocp_special1 = "BLOQUEADO" Then
+            If ocp_special1 = "bloqueado" Or ocp_special1 = "Bloqueado" Or ocp_special1 = "BLOQUEADO" Or ocp_special1 = "desbloqueado" Or ocp_special1 = "Desbloqueado" Or ocp_special1 = "DESBLOQUEADO" Then
                 DataGridView1.Rows(j).Cells(23).Style.BackColor = Nothing
             Else
                 DataGridView1.Rows(j).Cells(23).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas += 1
             End If
 
-            If ocp_special2 = "bloqueado" Or ocp_special2 = "Bloqueado" Or ocp_special2 = "BLOQUEADO" Then
+            If ocp_special2 = "bloqueado" Or ocp_special2 = "Bloqueado" Or ocp_special2 = "BLOQUEADO" Or ocp_special2 = "desbloqueado" Or ocp_special2 = "Desbloqueado" Or ocp_special2 = "DESBLOQUEADO" Then
                 DataGridView1.Rows(j).Cells(24).Style.BackColor = Nothing
             Else
                 DataGridView1.Rows(j).Cells(24).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas += 1
             End If
 
-            If ocp_premium1 = "bloqueado" Or ocp_premium1 = "Bloqueado" Or ocp_premium1 = "BLOQUEADO" Then
+            If ocp_premium1 = "bloqueado" Or ocp_premium1 = "Bloqueado" Or ocp_premium1 = "BLOQUEADO" Or ocp_premium1 = "desbloqueado" Or ocp_premium1 = "Desbloqueado" Or ocp_premium1 = "DESBLOQUEADO" Then
                 DataGridView1.Rows(j).Cells(25).Style.BackColor = Nothing
             Else
                 DataGridView1.Rows(j).Cells(25).Style.BackColor = Color.FromArgb(254, 84, 97)
@@ -1631,26 +1631,26 @@ Public Class Frm_Principal
                     WriteLine(numFile, m_8.ToCharArray)
 
                     ocp_local = DataGridView1.Rows(j).Cells(20).Value.ToString
-                    If ocp_local = "bloqueado" Or ocp_local = "Bloqueado" Then
+                    If ocp_local = "bloqueado" Or ocp_local = "Bloqueado" Or ocp_local = "BLOQUEADO" Then
                         m_9 = "<local>Disallow</local>"
-                    ElseIf ocp_local = "desbloqueado" Or ocp_local = "Desbloqueado" Then
+                    ElseIf ocp_local = "desbloqueado" Or ocp_local = "Desbloqueado" Or ocp_local = "DESBLOQUEADO" Then
                         m_9 = "<local>Allow</local>"
                     End If
                     WriteLine(numFile, m_9.ToCharArray)
 
                     ocp_tollFree = DataGridView1.Rows(j).Cells(21).Value.ToString
-                    If ocp_tollFree = "bloqueado" Or ocp_tollFree = "Bloqueado" Then
+                    If ocp_tollFree = "bloqueado" Or ocp_tollFree = "Bloqueado" Or ocp_tollFree = "BLOQUEADO" Then
                         m_10 = "<tollFree>Disallow</tollFree>"
-                    ElseIf ocp_tollFree = "desbloqueado" Or ocp_tollFree = "Desbloqueado" Then
+                    ElseIf ocp_tollFree = "desbloqueado" Or ocp_tollFree = "Desbloqueado" Or ocp_tollFree = "DESBLOQUEADO" Then
                         m_10 = "<tollFree>Allow</tollFree>"
                     End If
                     WriteLine(numFile, m_10.ToCharArray)
                     WriteLine(numFile, m_11.ToCharArray)
 
                     ocp_internacional = DataGridView1.Rows(j).Cells(22).Value.ToString
-                    If ocp_internacional = "bloqueado" Or ocp_internacional = "Bloqueado" Then
+                    If ocp_internacional = "bloqueado" Or ocp_internacional = "Bloqueado" Or ocp_internacional = "BLOQUEADO" Then
                         m_12 = "<international>Disallow</international>"
-                    ElseIf ocp_internacional = "desbloqueado" Or ocp_internacional = "Desbloqueado" Then
+                    ElseIf ocp_internacional = "desbloqueado" Or ocp_internacional = "Desbloqueado" Or ocp_internacional = "DESBLOQUEADO" Then
                         m_12 = "<international>Allow</international>"
                     End If
                     WriteLine(numFile, m_12.ToCharArray)
@@ -1658,25 +1658,25 @@ Public Class Frm_Principal
                     WriteLine(numFile, m_14.ToCharArray)
 
                     ocp_special1 = DataGridView1.Rows(j).Cells(23).Value.ToString
-                    If ocp_special1 = "bloqueado" Or ocp_special1 = "Bloqueado" Then
+                    If ocp_special1 = "bloqueado" Or ocp_special1 = "Bloqueado" Or ocp_special1 = "BLOQUEADO" Then
                         m_15 = "<specialServicesI>Disallow</specialServicesI>"
-                    ElseIf ocp_special1 = "desbloqueado" Or ocp_special1 = "Desbloqueado" Then
+                    ElseIf ocp_special1 = "desbloqueado" Or ocp_special1 = "Desbloqueado" Or ocp_special1 = "DESBLOQUEADO" Then
                         m_15 = "<specialServicesI>Allow</specialServicesI>"
                     End If
                     WriteLine(numFile, m_15.ToCharArray)
 
                     ocp_special2 = DataGridView1.Rows(j).Cells(24).Value.ToString
-                    If ocp_special2 = "bloqueado" Or ocp_special2 = "Bloqueado" Then
+                    If ocp_special2 = "bloqueado" Or ocp_special2 = "Bloqueado" Or ocp_special2 = "BLOQUEADO" Then
                         m_16 = "<specialServicesII>Disallow</specialServicesII>"
-                    ElseIf ocp_special2 = "desbloqueado" Or ocp_special2 = "Desbloqueado" Then
+                    ElseIf ocp_special2 = "desbloqueado" Or ocp_special2 = "Desbloqueado" Or ocp_special2 = "DESBLOQUEADO" Then
                         m_16 = "<specialServicesII>Allow</specialServicesII>"
                     End If
                     WriteLine(numFile, m_16.ToCharArray)
 
                     ocp_premium1 = DataGridView1.Rows(j).Cells(25).Value.ToString
-                    If ocp_premium1 = "bloqueado" Or ocp_premium1 = "Bloqueado" Then
+                    If ocp_premium1 = "bloqueado" Or ocp_premium1 = "Bloqueado" Or ocp_premium1 = "BLOQUEADO" Then
                         m_17 = "<premiumServicesI>Disallow</premiumServicesI>"
-                    ElseIf ocp_premium1 = "desbloqueado" Or ocp_premium1 = "Desbloqueado" Then
+                    ElseIf ocp_premium1 = "desbloqueado" Or ocp_premium1 = "Desbloqueado" Or ocp_premium1 = "DESBLOQUEADO" Then
                         m_17 = "<premiumServicesI>Allow</premiumServicesI>"
                     End If
                     WriteLine(numFile, m_17.ToCharArray)
@@ -2650,6 +2650,307 @@ Public Class Frm_Principal
 
 
 
+    ''TERCERA INTERFAZ---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    'Public Sub getDeviceType()
+
+    '    If TextBox1.Text.Length > 0 Then
+    '        'TextBox1.Enabled = False
+    '        'Button1.Enabled = False
+    '        Me.Cursor = Cursors.WaitCursor
+    '    Else
+    '        MsgBox("Campo de 'groupId' inválido", MsgBoxStyle.Exclamation, "Error campo de búsqueda")
+    '        Exit Sub
+    '    End If
+
+    '    indiceXML_DVmac = 0
+
+    '    Try
+    '        For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblSetPathTmpProxy & "\getDeviceName", FileIO.SearchOption.SearchAllSubDirectories, "*.*")
+    '            My.Computer.FileSystem.DeleteFile(foundFile)
+    '        Next
+    '    Catch ex As Exception
+    '        MsgBox(ex.ToString)
+    '        MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & My.Application.Info.DirectoryPath & My.Settings.SetPathTmpProxy & "\getDeviceName" &
+    '               ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
+    '        Me.Cursor = Cursors.Default
+    '        Exit Sub
+    '    End Try
+
+    '    'XML PARA OBTENER LAS MAC DE LOS DISPOSITIVOS DE UN GRUPO
+    '    Dim r_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+    '    Dim r_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+    '    Dim r_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+    '    Dim r_4 As String = "<command xsi:type=" & Chr(34) & "GroupAccessDeviceGetListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+    '    Dim r_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+    '    Dim r_6 As String = "<groupId>AGPRO_cloudpbx</groupId>"
+    '    Dim r_7 As String = "<responseSizeLimit>1000</responseSizeLimit>"
+    '    Dim r_8 As String = "</command>"
+
+    '    Dim lineaFinal As String = "</BroadsoftDocument>"
+
+    '    Dim fileIXML As String = ""
+    '    Dim fileOXML As String = ""
+    '    Dim codError As Integer
+    '    Dim msgError As String = ""
+    '    Dim multipleInputFile As String = gblSetPathTmpProxy & "\getDeviceName\multipleInputFileProxy.txt"
+    '    Dim lineConfigFile As String = ""
+
+    '    numFile += 1
+    '    Dim numeroArchivo = numFile
+
+    '    Try
+    '        FileOpen(numeroArchivo, multipleInputFile, OpenMode.Output, OpenAccess.Write)
+    '    Catch ex As Exception
+    '        MsgBox(ex.ToString)
+    '        MsgBox("Asegurese de que el archivo" & "gblSetPathTmpProxy" & "\getDeviceName\multipleInputFileProxy.txt" & " no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
+    '        FileClose(numeroArchivo)
+    '        Me.Cursor = Cursors.Default
+    '        Exit Sub
+    '    End Try
+
+    '    'XML PARA OBTENER LA MAC DE LOS DISPOSITIVOS--------------------------------------------------------------
+    '    Try
+    '        numFile += 1
+    '        indiceXML_DVmac += 1
+    '        fileIXML = gblSetPathTmpProxy & "\getDeviceName\" & indiceXML_DVmac & "_DeviceGetList_request_tmp.xml"
+    '        fileOXML = gblSetPathTmpProxy & "\getDeviceName\" & indiceXML_DVmac & "_cloudpbx_response_.xml"
+    '        FileOpen(numFile, fileIXML, OpenMode.Output)
+    '        WriteLine(numFile, r_1.ToCharArray)
+    '        WriteLine(numFile, r_2.ToCharArray)
+    '        WriteLine(numFile, r_3.ToCharArray)
+    '        WriteLine(numFile, r_4.ToCharArray)
+    '        WriteLine(numFile, r_5.ToCharArray)
+    '        r_6 = "<groupId>" & TextBox1.Text.ToString.ToUpper & "_cloudpbx" & "</groupId>"
+    '        WriteLine(numFile, r_6.ToCharArray)
+    '        WriteLine(numFile, r_7.ToCharArray)
+    '        WriteLine(numFile, r_8.ToCharArray)
+    '        WriteLine(numFile, lineaFinal.ToCharArray)
+    '        FileClose(numFile)
+    '        lineConfigFile = fileIXML & ";" & fileOXML
+    '        WriteLine(numeroArchivo, lineConfigFile.ToCharArray)
+    '        FileClose(numeroArchivo)
+    '    Catch ex As Exception
+    '        MsgBox(ex.ToString)
+    '        MsgBox("Error al crear el archivo " & "\getDeviceName\" & indiceXML_DVmac & "_DeviceGetList_request_tmp.xml", MsgBoxStyle.Exclamation, "Error al crear el archivo")
+    '        FileClose(numFile)
+    '        FileClose(numeroArchivo)
+    '        Me.Cursor = Cursors.Default
+    '        Exit Sub
+    '    End Try
+
+
+    '    executeShellBulk(multipleInputFile)
+    '    If codError = 0 Then
+    '        parseXML_DvMac(codError, msgError)
+    '        'My.Application.DoEvents()
+    '    End If
+    'End Sub
+
+
+    'Sub parseXML_DvMac(ByRef codError As Integer, ByRef msgError As String)
+
+    '    'Lbl_state.Text = "Generando reporte"
+    '    'ProgressBar1.Value += 25
+    '    'My.Application.DoEvents()
+
+    '    Dim reader As XmlTextReader
+    '    Dim parseXMl As String
+    '    Dim response As String = ""
+    '    Dim comando As New OleDbCommand()
+    '    comando.Connection = Conexion
+    '    Dim Sql As String = "DELETE * FROM brs_proxy_get_dvmac"
+    '    comando.CommandText = Sql
+
+    '    Try
+    '        Conexion.Open()
+    '        comando.ExecuteNonQuery()
+    '    Catch ex As Exception
+    '        MsgBox(ex.ToString)
+    '        MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_cloudpbx_response_error'",
+    '                        MsgBoxStyle.Exclamation, "Error al generar reporte")
+    '        indiceXML_DVmac = 0
+    '        'Lbl_state.Text = "Error al acceder a la base de datos"
+    '        'ProgressBar1.Value = ProgressBar1.Maximum
+    '        Me.Cursor = Cursors.Default
+    '        Conexion.Close()
+    '    End Try
+    '    Conexion.Close()
+
+
+    '    For num = 1 To indiceXML_DVmac
+    '        Try
+    '            parseXMl = gblSetPathTmpProxy & "\getDeviceName\" & num & "_cloudpbx_response_.xml"
+    '            reader = New XmlTextReader(parseXMl)
+    '            Do While (reader.Read())
+    '                Select Case reader.NodeType
+    '                    Case XmlNodeType.Element
+
+    '                        'If reader.Name = "command" Then
+    '                        '    If reader.HasAttributes Then 'If attributes exist
+    '                        '        While reader.MoveToNextAttribute()
+    '                        '            'Display attribute name and value.
+    '                        '            'MsgBox(reader.Name.ToString & reader.Value.ToString)
+    '                        '            'If reader.Name = "xsi:type" Then
+    '                        '            If reader.Value = "GroupAccessDeviceGetListResponse" Then
+
+    '                        '            ElseIf reader.Value = "c:ErrorResponse" Then
+    '                        '                'MsgBox("Error en el comando")
+    '                        '            End If
+    '                        '        End While
+    '                        '    End If
+    '                        'End If
+
+    '                        'Si no se encuentra el grupo buscado
+    '                        If reader.Name = "summary" Then
+    '                            'MsgBox(reader.ReadString.ToString)
+    '                            response = reader.ReadString
+    '                            MsgBox(response.ToString, MsgBoxStyle.Exclamation)
+    '                            Me.Cursor = Cursors.Default
+    '                            reader.Close()
+    '                            Exit Sub
+
+    '                        ElseIf reader.Name = "col" Then
+    '                            'MsgBox(reader.ReadString.ToString)
+    '                            response = reader.ReadString
+    '                            If response.Length = 15 Then
+    '                                'Dim mac As String = response.Substring(3, 12)
+    '                                Dim cadenaSql As String = "INSERT INTO brs_proxy_get_dvmac (mac_address) VALUES ( '" & response & "')"
+    '                                Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
+    '                                Comando1.CommandText = cadenaSql
+    '                                Try
+    '                                    Conexion.Open()
+    '                                    Comando1.ExecuteNonQuery()
+    '                                Catch ex As Exception
+    '                                    MsgBox(ex.ToString)
+    '                                    MsgBox("Error al acceder a la base de datos e intentar insertar nuevos elementos en la tabla 'brs_proxy_get_dvmac'",
+    '                        MsgBoxStyle.Exclamation, "Error al generar reporte")
+    '                                    indiceXML_DVmac = 0
+    '                                    Me.Cursor = Cursors.Default
+    '                                    reader.Close()
+    '                                    'Lbl_state.Text = "Error al acceder a la base de datos"
+    '                                    'ProgressBar1.Value = ProgressBar1.Maximum
+    '                                    reader.Close()
+    '                                    Conexion.Close()
+    '                                End Try
+    '                                Conexion.Close()
+    '                            End If
+    '                        End If
+    '                        'Case XmlNodeType.XmlDeclaration
+    '                End Select
+    '            Loop
+    '            reader.Close()
+    '        Catch ex As Exception
+    '            'MsgBox("Archivo de Respuesta no ha sido encontrado!", vbExclamation, "Error")
+    '            MsgBox(ex.ToString)
+    '            grabaLog1(1, 2, "Error al leer archivo XML>" & gblSetPathTmpProxy & "\getDeviceName\" & num & "_cloudpbx_response_.xml")
+    '            codError = 1
+    '            msgError = "Respuesta No Generada"
+    '        End Try
+    '    Next
+
+    '    indiceXML_DVmac = 0
+    '    actualizarListBox()
+    '    My.Application.DoEvents()
+    '    'Lbl_state.Text = "Finalizado"
+    '    'ProgressBar1.Value = ProgressBar1.Maximum
+    '    'My.Application.DoEvents()
+    'End Sub
+
+    'Public Sub grabaLog1(ByVal tipo As Integer, ByVal subtipo As Integer, ByVal mensaje As String)
+    '    Dim fileLog As String = ""
+    '    Dim linerr As String = ""
+
+    '    linerr = DateAndTime.Now & ">"
+    '    'tipo -> 1=ERRO,2=INFO,3=WARN
+    '    'subtipo -> 1=DB,2=XML,3=CNX
+    '    If tipo = 1 Then
+    '        linerr = linerr & "ERROR>"
+    '    End If
+    '    If tipo = 2 Then
+    '        linerr = linerr & "INFO>"
+    '    End If
+    '    If tipo = 3 Then
+    '        linerr = linerr & "WARNING>"
+    '    End If
+    '    If subtipo = 1 Then
+    '        linerr = linerr & "DB>"
+    '    End If
+    '    If subtipo = 2 Then
+    '        linerr = linerr & "XML>"
+    '    End If
+    '    If subtipo = 2 Then
+    '        linerr = linerr & "CNX>"
+    '    End If
+    '    linerr = linerr & mensaje
+    '    fileLog = gblSetPathLog & "\LOG_" & DateAndTime.DateString & ".log"
+
+
+    '    'MsgBox(fileLog.ToString)
+    '    Lbl_state.Text = "Guardando log"
+    '    My.Application.DoEvents()
+    '    numFile += 1
+    '    Dim numFileLog2 As Integer = numFile
+    '    FileOpen(numFileLog2, fileLog, OpenMode.Append, OpenAccess.Write)
+    '    WriteLine(numFileLog2, linerr.ToCharArray)
+    '    FileClose(numFileLog2)
+    'End Sub
+
+    ''DataTable utilizada para el rebuild de archivos
+    'Dim dt1 As New DataTable
+    'Public Sub actualizarListBox()
+
+    '    Dim iSql As String = "select * from brs_proxy_get_dvmac"
+    '    Dim cmd As New OleDbCommand
+
+    '    Dim da As New OleDbDataAdapter
+    '    Dim dtproxy As New DataTable
+    '    dt1 = dtproxy
+
+    '    Try
+    '        Conexion.Open()
+    '        cmd.Connection = Conexion
+    '        cmd.CommandText = iSql
+    '        'cmd.CommandType = CommandType.TableDirect
+    '        da.SelectCommand = cmd
+    '        da.Fill(dtproxy)
+
+    '        'ListBox1.DataSource = Nothing
+    '        Me.ListBox1.Items.Clear()
+
+    '        For j = 0 To dtproxy.Rows.Count - 1
+
+    '            ListBox1.Items.Add(dtproxy.Rows.Item(j)(0).ToString)
+    '        Next
+
+    '        ListBox1.Refresh()
+    '    Catch ex As Exception
+    '        MsgBox("Can not open connection ! , " & ex.Message)
+    '        Conexion.Close()
+    '    End Try
+    '    Conexion.Close()
+
+    '    'DataGridView1.CurrentCell = DataGridView1.Rows(0).Cells(0)
+    '    ''lblCMMUpdCurrentRow.Text = DataGridView1.CurrentCell.RowIndex + 1
+    '    ''lblCMMUpdTotalRows.Text = DataGridView1.RowCount
+    '    Label2.Text = "Se encontraron " + dtproxy.Rows.Count.ToString() + " dispositivos" + " en el grupo " + TextBox1.Text
+
+
+    '    TextBox2.Enabled = True
+    '    Button2.Enabled = True
+    '    Label5.Enabled = True
+    '    CheckBox1.Enabled = True
+    '    CheckBox2.Enabled = True
+    '    CheckBox1.Checked = True
+    '    CheckBox2.Checked = False
+    '    Lbl_wait.Visible = False
+    '    Me.Cursor = Cursors.Default
+    '    Interface_Salida()
+    '    Exit Sub
+    'End Sub
+
+
 
     Private Sub TabPage1_Click(sender As Object, e As EventArgs) Handles TabPage1.Click
 
@@ -2704,5 +3005,9 @@ Public Class Frm_Principal
         If CheckBox2.CheckState = 1 Then
             CheckBox1.Checked = 0
         End If
+    End Sub
+
+    Private Sub TabPage3_Click(sender As Object, e As EventArgs) Handles TabPage3.Click
+
     End Sub
 End Class

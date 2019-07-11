@@ -52,11 +52,22 @@ Partial Class Frm_Principal
         Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
+        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
+        Me.CheckBox4 = New System.Windows.Forms.CheckBox()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.TextBox3 = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.ListBox2 = New System.Windows.Forms.ListBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.TextBox4 = New System.Windows.Forms.TextBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Button4 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage2.SuspendLayout()
+        Me.TabPage3.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -224,13 +235,13 @@ Partial Class Frm_Principal
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage2.Size = New System.Drawing.Size(792, 599)
         Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Rebuild the file"
+        Me.TabPage2.Text = "Rebuild the Proxy File"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
         'CheckBox2
         '
         Me.CheckBox2.AutoSize = True
-        Me.CheckBox2.Location = New System.Drawing.Point(281, 402)
+        Me.CheckBox2.Location = New System.Drawing.Point(273, 400)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(74, 17)
         Me.CheckBox2.TabIndex = 11
@@ -240,7 +251,7 @@ Partial Class Frm_Principal
         'CheckBox1
         '
         Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Location = New System.Drawing.Point(153, 402)
+        Me.CheckBox1.Location = New System.Drawing.Point(145, 400)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(86, 17)
         Me.CheckBox1.TabIndex = 10
@@ -249,7 +260,7 @@ Partial Class Frm_Principal
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(153, 466)
+        Me.Button2.Location = New System.Drawing.Point(145, 464)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(75, 23)
         Me.Button2.TabIndex = 9
@@ -258,7 +269,7 @@ Partial Class Frm_Principal
         '
         'TextBox2
         '
-        Me.TextBox2.Location = New System.Drawing.Point(153, 440)
+        Me.TextBox2.Location = New System.Drawing.Point(145, 438)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(202, 20)
         Me.TextBox2.TabIndex = 8
@@ -266,7 +277,7 @@ Partial Class Frm_Principal
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(84, 443)
+        Me.Label5.Location = New System.Drawing.Point(76, 441)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(33, 13)
         Me.Label5.TabIndex = 7
@@ -275,7 +286,7 @@ Partial Class Frm_Principal
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(54, 139)
+        Me.Label2.Location = New System.Drawing.Point(53, 135)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(0, 13)
         Me.Label2.TabIndex = 6
@@ -283,7 +294,7 @@ Partial Class Frm_Principal
         'ListBox1
         '
         Me.ListBox1.FormattingEnabled = True
-        Me.ListBox1.Location = New System.Drawing.Point(153, 161)
+        Me.ListBox1.Location = New System.Drawing.Point(145, 159)
         Me.ListBox1.Name = "ListBox1"
         Me.ListBox1.Size = New System.Drawing.Size(202, 225)
         Me.ListBox1.TabIndex = 5
@@ -292,7 +303,7 @@ Partial Class Frm_Principal
         '
         Me.Label3.AutoSize = True
         Me.Label3.Enabled = False
-        Me.Label3.Location = New System.Drawing.Point(361, 77)
+        Me.Label3.Location = New System.Drawing.Point(353, 75)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(56, 13)
         Me.Label3.TabIndex = 4
@@ -300,7 +311,7 @@ Partial Class Frm_Principal
         '
         'TextBox1
         '
-        Me.TextBox1.Location = New System.Drawing.Point(153, 74)
+        Me.TextBox1.Location = New System.Drawing.Point(145, 72)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(202, 20)
         Me.TextBox1.TabIndex = 3
@@ -308,7 +319,7 @@ Partial Class Frm_Principal
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(84, 77)
+        Me.Label1.Location = New System.Drawing.Point(76, 75)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(45, 13)
         Me.Label1.TabIndex = 1
@@ -316,7 +327,7 @@ Partial Class Frm_Principal
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(153, 100)
+        Me.Button1.Location = New System.Drawing.Point(145, 98)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 23)
         Me.Button1.TabIndex = 0
@@ -325,12 +336,22 @@ Partial Class Frm_Principal
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.CheckBox3)
+        Me.TabPage3.Controls.Add(Me.CheckBox4)
+        Me.TabPage3.Controls.Add(Me.Button3)
+        Me.TabPage3.Controls.Add(Me.TextBox3)
+        Me.TabPage3.Controls.Add(Me.Label4)
+        Me.TabPage3.Controls.Add(Me.ListBox2)
+        Me.TabPage3.Controls.Add(Me.Label6)
+        Me.TabPage3.Controls.Add(Me.TextBox4)
+        Me.TabPage3.Controls.Add(Me.Label7)
+        Me.TabPage3.Controls.Add(Me.Button4)
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage3.Size = New System.Drawing.Size(792, 599)
         Me.TabPage3.TabIndex = 2
-        Me.TabPage3.Text = "Crear Usuarios"
+        Me.TabPage3.Text = "Assign Service Pack"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
         'TabPage4
@@ -357,6 +378,94 @@ Partial Class Frm_Principal
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
         '
+        'CheckBox3
+        '
+        Me.CheckBox3.AutoSize = True
+        Me.CheckBox3.Location = New System.Drawing.Point(274, 399)
+        Me.CheckBox3.Name = "CheckBox3"
+        Me.CheckBox3.Size = New System.Drawing.Size(74, 17)
+        Me.CheckBox3.TabIndex = 21
+        Me.CheckBox3.Text = "Add Proxy"
+        Me.CheckBox3.UseVisualStyleBackColor = True
+        '
+        'CheckBox4
+        '
+        Me.CheckBox4.AutoSize = True
+        Me.CheckBox4.Location = New System.Drawing.Point(146, 399)
+        Me.CheckBox4.Name = "CheckBox4"
+        Me.CheckBox4.Size = New System.Drawing.Size(86, 17)
+        Me.CheckBox4.TabIndex = 20
+        Me.CheckBox4.Text = "Modify Proxy"
+        Me.CheckBox4.UseVisualStyleBackColor = True
+        '
+        'Button3
+        '
+        Me.Button3.Location = New System.Drawing.Point(146, 463)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(75, 23)
+        Me.Button3.TabIndex = 19
+        Me.Button3.Text = "Process"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
+        'TextBox3
+        '
+        Me.TextBox3.Location = New System.Drawing.Point(146, 437)
+        Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.Size = New System.Drawing.Size(202, 20)
+        Me.TextBox3.TabIndex = 18
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(77, 440)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(33, 13)
+        Me.Label4.TabIndex = 17
+        Me.Label4.Text = "Proxy"
+        '
+        'ListBox2
+        '
+        Me.ListBox2.FormattingEnabled = True
+        Me.ListBox2.Location = New System.Drawing.Point(146, 158)
+        Me.ListBox2.Name = "ListBox2"
+        Me.ListBox2.Size = New System.Drawing.Size(202, 225)
+        Me.ListBox2.TabIndex = 16
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Enabled = False
+        Me.Label6.Location = New System.Drawing.Point(354, 74)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(56, 13)
+        Me.Label6.TabIndex = 15
+        Me.Label6.Text = "_cloudpbx"
+        '
+        'TextBox4
+        '
+        Me.TextBox4.Location = New System.Drawing.Point(146, 71)
+        Me.TextBox4.Name = "TextBox4"
+        Me.TextBox4.Size = New System.Drawing.Size(202, 20)
+        Me.TextBox4.TabIndex = 14
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(77, 74)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(45, 13)
+        Me.Label7.TabIndex = 13
+        Me.Label7.Text = "GroupId"
+        '
+        'Button4
+        '
+        Me.Button4.Location = New System.Drawing.Point(146, 97)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(75, 23)
+        Me.Button4.TabIndex = 12
+        Me.Button4.Text = "Search"
+        Me.Button4.UseVisualStyleBackColor = True
+        '
         'Frm_Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -378,6 +487,8 @@ Partial Class Frm_Principal
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
+        Me.TabPage3.ResumeLayout(False)
+        Me.TabPage3.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -410,4 +521,14 @@ Partial Class Frm_Principal
     Friend WithEvents btn_report_cloudpbx As Button
     Friend WithEvents CheckBox2 As CheckBox
     Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents CheckBox3 As CheckBox
+    Friend WithEvents CheckBox4 As CheckBox
+    Friend WithEvents Button3 As Button
+    Friend WithEvents TextBox3 As TextBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents ListBox2 As ListBox
+    Friend WithEvents Label6 As Label
+    Friend WithEvents TextBox4 As TextBox
+    Friend WithEvents Label7 As Label
+    Friend WithEvents Button4 As Button
 End Class

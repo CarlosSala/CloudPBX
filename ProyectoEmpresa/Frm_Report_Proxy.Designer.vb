@@ -67,7 +67,7 @@ Partial Class Frm_Report_Proxy
         Me.MaximumSize = New System.Drawing.Size(1366, 768)
         Me.MinimumSize = New System.Drawing.Size(832, 630)
         Me.Name = "Frm_Report_Proxy"
-        Me.Text = "CloudPBX Proxy Errors Reporting"
+        Me.Text = "CloudPBX Proxy Reporting"
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

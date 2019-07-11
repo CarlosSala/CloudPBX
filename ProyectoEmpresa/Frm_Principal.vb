@@ -902,43 +902,46 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(19).Style.BackColor = Nothing
             End If
 
-            If ocp_local.Length <= 8 Then
+            If ocp_local = "bloqueado" Or ocp_local = "Bloqueado" Or ocp_local = "BLOQUEADO" Then
+                DataGridView1.Rows(j).Cells(20).Style.BackColor = Nothing
+            Else
                 DataGridView1.Rows(j).Cells(20).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas += 1
-            Else
-                DataGridView1.Rows(j).Cells(20).Style.BackColor = Nothing
             End If
 
-            If ocp_tollFree.Length <= 8 Then
+            If ocp_tollFree = "bloqueado" Or ocp_tollFree = "Bloqueado" Or ocp_tollFree = "BLOQUEADO" Then
+                DataGridView1.Rows(j).Cells(21).Style.BackColor = Nothing
+            Else
                 DataGridView1.Rows(j).Cells(21).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas += 1
-            Else
-                DataGridView1.Rows(j).Cells(21).Style.BackColor = Nothing
             End If
 
-            If ocp_internacional.Length <= 8 Then
+            If ocp_internacional = "bloqueado" Or ocp_internacional = "Bloqueado" Or ocp_internacional = "BLOQUEADO" Then
+                DataGridView1.Rows(j).Cells(22).Style.BackColor = Nothing
+            Else
                 DataGridView1.Rows(j).Cells(22).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas += 1
-            Else
-                DataGridView1.Rows(j).Cells(22).Style.BackColor = Nothing
             End If
-            If ocp_special1.Length <= 8 Then
+
+            If ocp_special1 = "bloqueado" Or ocp_special1 = "Bloqueado" Or ocp_special1 = "BLOQUEADO" Then
+                DataGridView1.Rows(j).Cells(23).Style.BackColor = Nothing
+            Else
                 DataGridView1.Rows(j).Cells(23).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas += 1
-            Else
-                DataGridView1.Rows(j).Cells(23).Style.BackColor = Nothing
             End If
-            If ocp_special2.Length <= 8 Then
+
+            If ocp_special2 = "bloqueado" Or ocp_special2 = "Bloqueado" Or ocp_special2 = "BLOQUEADO" Then
+                DataGridView1.Rows(j).Cells(24).Style.BackColor = Nothing
+            Else
                 DataGridView1.Rows(j).Cells(24).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas += 1
-            Else
-                DataGridView1.Rows(j).Cells(24).Style.BackColor = Nothing
             End If
-            If ocp_premium1.Length <= 8 Then
+
+            If ocp_premium1 = "bloqueado" Or ocp_premium1 = "Bloqueado" Or ocp_premium1 = "BLOQUEADO" Then
+                DataGridView1.Rows(j).Cells(25).Style.BackColor = Nothing
+            Else
                 DataGridView1.Rows(j).Cells(25).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas += 1
-            Else
-                DataGridView1.Rows(j).Cells(25).Style.BackColor = Nothing
             End If
         Next
 
@@ -1627,14 +1630,15 @@ Public Class Frm_Principal
                     WriteLine(numFile, m_7.ToCharArray)
                     WriteLine(numFile, m_8.ToCharArray)
 
-                    ocp_local = dt.Rows(j)(20)
+                    ocp_local = DataGridView1.Rows(j).Cells(20).Value.ToString
                     If ocp_local = "bloqueado" Or ocp_local = "Bloqueado" Then
                         m_9 = "<local>Disallow</local>"
                     ElseIf ocp_local = "desbloqueado" Or ocp_local = "Desbloqueado" Then
                         m_9 = "<local>Allow</local>"
                     End If
                     WriteLine(numFile, m_9.ToCharArray)
-                    ocp_tollFree = dt.Rows(j)(21)
+
+                    ocp_tollFree = DataGridView1.Rows(j).Cells(21).Value.ToString
                     If ocp_tollFree = "bloqueado" Or ocp_tollFree = "Bloqueado" Then
                         m_10 = "<tollFree>Disallow</tollFree>"
                     ElseIf ocp_tollFree = "desbloqueado" Or ocp_tollFree = "Desbloqueado" Then
@@ -1642,7 +1646,8 @@ Public Class Frm_Principal
                     End If
                     WriteLine(numFile, m_10.ToCharArray)
                     WriteLine(numFile, m_11.ToCharArray)
-                    ocp_internacional = dt.Rows(j)(22)
+
+                    ocp_internacional = DataGridView1.Rows(j).Cells(22).Value.ToString
                     If ocp_internacional = "bloqueado" Or ocp_internacional = "Bloqueado" Then
                         m_12 = "<international>Disallow</international>"
                     ElseIf ocp_internacional = "desbloqueado" Or ocp_internacional = "Desbloqueado" Then
@@ -1651,28 +1656,29 @@ Public Class Frm_Principal
                     WriteLine(numFile, m_12.ToCharArray)
                     WriteLine(numFile, m_13.ToCharArray)
                     WriteLine(numFile, m_14.ToCharArray)
-                    ocp_special1 = dt.Rows(j)(23)
+
+                    ocp_special1 = DataGridView1.Rows(j).Cells(23).Value.ToString
                     If ocp_special1 = "bloqueado" Or ocp_special1 = "Bloqueado" Then
                         m_15 = "<specialServicesI>Disallow</specialServicesI>"
                     ElseIf ocp_special1 = "desbloqueado" Or ocp_special1 = "Desbloqueado" Then
                         m_15 = "<specialServicesI>Allow</specialServicesI>"
                     End If
                     WriteLine(numFile, m_15.ToCharArray)
-                    ocp_special2 = dt.Rows(j)(24)
+
+                    ocp_special2 = DataGridView1.Rows(j).Cells(24).Value.ToString
                     If ocp_special2 = "bloqueado" Or ocp_special2 = "Bloqueado" Then
                         m_16 = "<specialServicesII>Disallow</specialServicesII>"
                     ElseIf ocp_special2 = "desbloqueado" Or ocp_special2 = "Desbloqueado" Then
                         m_16 = "<specialServicesII>Allow</specialServicesII>"
                     End If
                     WriteLine(numFile, m_16.ToCharArray)
-                    ocp_premium1 = dt.Rows(j)(25)
+
+                    ocp_premium1 = DataGridView1.Rows(j).Cells(25).Value.ToString
                     If ocp_premium1 = "bloqueado" Or ocp_premium1 = "Bloqueado" Then
                         m_17 = "<premiumServicesI>Disallow</premiumServicesI>"
                     ElseIf ocp_premium1 = "desbloqueado" Or ocp_premium1 = "Desbloqueado" Then
                         m_17 = "<premiumServicesI>Allow</premiumServicesI>"
                     End If
-
-
                     WriteLine(numFile, m_17.ToCharArray)
                     WriteLine(numFile, m_18.ToCharArray)
                     WriteLine(numFile, m_19.ToCharArray)
@@ -1707,7 +1713,7 @@ Public Class Frm_Principal
                     WriteLine(numFile, n_2.ToCharArray)
                     WriteLine(numFile, n_3.ToCharArray)
                     WriteLine(numFile, n_4.ToCharArray)
-                    phoneNumber = dt.Rows(j)(1)
+                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
                     n_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
                     WriteLine(numFile, n_5.ToCharArray)
                     n_6 = "<userName>" & phoneNumber & "</userName>"
@@ -1747,7 +1753,7 @@ Public Class Frm_Principal
                     WriteLine(numFile, o_5.ToCharArray)
                     o_6 = "<groupId>" & group_id & "</groupId>"
                     WriteLine(numFile, o_6.ToCharArray)
-                    phoneNumber = dt.Rows(j)(1)
+                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
                     o_7 = "<phoneNumber>+56-" & phoneNumber & "</phoneNumber>"
                     WriteLine(numFile, o_7.ToCharArray)
                     WriteLine(numFile, o_8.ToCharArray)

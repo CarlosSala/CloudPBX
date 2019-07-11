@@ -705,8 +705,9 @@ Public Class Frm_Principal
         'ocp_special2 sea mayor a un largo 8
         'ocp_premium1 sea mayor a un largo 8
 
-        'validar dominio-----------------------------------------------------------------------------------------------------
-        domain = dt.Rows(0)(0).ToString.ToLower
+
+        'validar dominio----------------------------------------------------------------------------------------------------
+        domain = DataGridView1.Rows(0).Cells(0).Value.ToString.ToLower 'domain = dt.Rows(0)(0).ToString.ToLower
         If domain.Length <= 3 Then
             DataGridView1.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(254, 84, 97)
             estadoCeldas += 1
@@ -714,10 +715,9 @@ Public Class Frm_Principal
             DataGridView1.Rows(0).Cells(0).Style.BackColor = Nothing
         End If
 
-        'volver a trabajar con datagridview y no con el dataTable
         'validar numeración-------------------------------------------------------------------------------------------------
-        For j = 0 To dt.Rows.Count - 1
-            phoneNumber = dt.Rows(j)(1).ToString
+        For j = 0 To DataGridView1.Rows.Count - 2  'dt.Rows.Count - 1
+            phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
             If phoneNumber.Length <= 8 Then
                 DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas += 1
@@ -727,10 +727,10 @@ Public Class Frm_Principal
         Next
 
         'validar información del grupo---------------------------------------------------------------------------------------
-        group_id = dt.Rows(0)(2).ToString
-        group_name = dt.Rows(0)(3).ToString
-        address = dt.Rows(0)(6).ToString
-        city = dt.Rows(0)(7).ToString
+        group_id = DataGridView1.Rows(0).Cells(2).Value.ToString
+        group_name = DataGridView1.Rows(0).Cells(3).Value.ToString
+        address = DataGridView1.Rows(0).Cells(6).Value.ToString
+        city = DataGridView1.Rows(0).Cells(7).Value.ToString
 
         If group_id.Length <= 3 Then
             DataGridView1.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(254, 84, 97)
@@ -761,12 +761,11 @@ Public Class Frm_Principal
         End If
 
         'validar información de los dispositivos-----------------------------------------------------------------------------------
-
         'La columna 'device_type' es la referencia para las demas, por ello se valida lo sigte:
         'no puede estar vacia la primera celda
         'no puede haber celdas vacias entremedio
 
-        If dt.Rows(0)(8).ToString.Length <= 11 Then
+        If DataGridView1.Rows(0).Cells(8).Value.ToString.Length <= 11 Then
             DataGridView1.Rows(0).Cells(8).Style.BackColor = Color.FromArgb(254, 84, 97)
             estadoCeldas += 1
         Else
@@ -775,17 +774,17 @@ Public Class Frm_Principal
 
         Dim filasValidas As Integer = 0
         'For para saber cantidad de filas no vacias de la columna device_type (utilizada como referencia)
-        For j = 0 To dt.Rows.Count - 1
-            If dt.Rows(j)(8).ToString.Length > 0 Then
+        For j = 0 To DataGridView1.Rows.Count - 2
+            If DataGridView1.Rows(j).Cells(8).Value.ToString.Length > 0 Then
                 filasValidas += 1
             End If
         Next
 
         For j = 0 To filasValidas - 1
-            mac = dt.Rows(j)(9).ToString
-            device_type = dt.Rows(j)(8).ToString
-            serial_number = dt.Rows(j)(10).ToString
-            physical_location = dt.Rows(j)(11).ToString
+            mac = DataGridView1.Rows(j).Cells(9).Value.ToString
+            device_type = DataGridView1.Rows(j).Cells(8).Value.ToString
+            serial_number = DataGridView1.Rows(j).Cells(10).Value.ToString
+            physical_location = DataGridView1.Rows(j).Cells(11).Value.ToString
 
             If mac.Length <= 11 Then
                 DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(254, 84, 97)
@@ -794,11 +793,11 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(9).Style.BackColor = Nothing
             End If
 
-            If device_type.Length <= 11 Then
+            If device_type = "Yealink-T19xE2" Or device_type = "Yealink-T21xE2" Or device_type = "Yealink-T27G" Then
+
+            Else
                 DataGridView1.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas += 1
-            Else
-                DataGridView1.Rows(j).Cells(8).Style.BackColor = Nothing
             End If
 
             If serial_number.Length <= 15 Then
@@ -816,7 +815,6 @@ Public Class Frm_Principal
             End If
         Next
 
-
         'validar información de los usuarios------------------------------------------------------------------------------------------
         Dim varAcumulaDepto As String = ""
         Dim arreglo() As String
@@ -824,15 +822,14 @@ Public Class Frm_Principal
         Dim indice As Integer
         Dim numElementos As Integer = 0
         Try
-            For i = 0 To dt.Rows.Count - 1
-                varAcumulaDepto += dt.Rows(i)(12).ToString & ";"
-                'MsgBox(Depto.ToString)
+            For i = 0 To DataGridView1.RowCount - 2
+                varAcumulaDepto += DataGridView1.Rows(i).Cells(12).Value.ToString & ";"
             Next
+
             arreglo = Split(varAcumulaDepto, ";")
-            'MsgBox("Elementos en el arreglo: " & arreglo.Length)
+
             For k = 0 To arreglo.Length - 1
                 indice = Array.IndexOf(arregloDeptos, arreglo(k))
-                'MsgBox("El elemento " & arreglo(k) & " arroja: " & indice)
                 'Se guarda en arregloDeptos todo aquello que no este repetido y que tenga un largo mayor a cero
                 If indice = -1 And arreglo(k).Length > 0 Then
                     arregloDeptos(numElementos) = arreglo(k)
@@ -842,6 +839,7 @@ Public Class Frm_Principal
                     'MsgBox("Elemento repetido no se guardó")
                 End If
             Next
+
             ReDim Preserve arregloDeptos(numElementos - 1)
             'MsgBox("cantidad de departamentos a crear " & arregloDeptos.Length)
             'For Each elemento As String In arregloDeptos
@@ -857,17 +855,17 @@ Public Class Frm_Principal
         End Try
 
         For j = 0 To filasValidas - 1
-            first_name = dt.Rows(j)(13).ToString
-            last_name = dt.Rows(j)(14).ToString
-            user_address = dt.Rows(j)(16).ToString
-            user_city = dt.Rows(j)(17).ToString
-            extensions = dt.Rows(j)(19).ToString
-            ocp_local = dt.Rows(j)(20).ToString
-            ocp_tollFree = dt.Rows(j)(21).ToString
-            ocp_internacional = dt.Rows(j)(22).ToString
-            ocp_special1 = dt.Rows(j)(23).ToString
-            ocp_special2 = dt.Rows(j)(24).ToString
-            ocp_premium1 = dt.Rows(j)(25).ToString
+            first_name = DataGridView1.Rows(j).Cells(13).Value.ToString
+            last_name = DataGridView1.Rows(j).Cells(14).Value.ToString
+            user_address = DataGridView1.Rows(j).Cells(16).Value.ToString
+            user_city = DataGridView1.Rows(j).Cells(17).Value.ToString
+            extensions = DataGridView1.Rows(j).Cells(19).Value.ToString
+            ocp_local = DataGridView1.Rows(j).Cells(20).Value.ToString
+            ocp_tollFree = DataGridView1.Rows(j).Cells(21).Value.ToString
+            ocp_internacional = DataGridView1.Rows(j).Cells(22).Value.ToString
+            ocp_special1 = DataGridView1.Rows(j).Cells(23).Value.ToString
+            ocp_special2 = DataGridView1.Rows(j).Cells(24).Value.ToString
+            ocp_premium1 = DataGridView1.Rows(j).Cells(25).Value.ToString
 
             If first_name.Length <= 1 Then
                 DataGridView1.Rows(j).Cells(13).Style.BackColor = Color.FromArgb(254, 84, 97)
@@ -954,8 +952,8 @@ Public Class Frm_Principal
         'proxy sea mayor a un largo 7
 
         Dim infoContact As Integer = 0
-        contact_name = dt.Rows(0)(4).ToString
-        contact_number = dt.Rows(0)(5).ToString
+        contact_name = DataGridView1.Rows(0).Cells(4).Value.ToString
+        contact_number = DataGridView1.Rows(0).Cells(5).Value.ToString
 
         If contact_name.Length <= 3 And contact_number.Length <= 8 Then
             DataGridView1.Rows(0).Cells(4).Style.BackColor = Nothing
@@ -980,9 +978,8 @@ Public Class Frm_Principal
             estadoCeldas += 1
         End If
 
-
         For j = 0 To filasValidas - 1
-            user_email = dt.Rows(j)(15).ToString
+            user_email = DataGridView1.Rows(j).Cells(15).Value.ToString
             If user_email.Length = 0 Then
                 DataGridView1.Rows(j).Cells(15).Style.BackColor = Nothing
             ElseIf user_email.Length > 10 Then
@@ -994,7 +991,7 @@ Public Class Frm_Principal
         Next
 
         Dim proxyInfo As Integer = 0
-        proxy = dt.Rows(0)(18).ToString
+        proxy = DataGridView1.Rows(0).Cells(18).Value.ToString
         If proxy.Length = 0 Then
             DataGridView1.Rows(0).Cells(18).Style.BackColor = Nothing
             proxyInfo = 0
@@ -1117,8 +1114,8 @@ Public Class Frm_Principal
                 WriteLine(numFile, c_3.ToCharArray)
                 WriteLine(numFile, c_4.ToCharArray)
                 WriteLine(numFile, c_5.ToCharArray)
-                For j = 0 To dt.Rows.Count - 1
-                    phoneNumber = dt.Rows(j)(1)
+                For j = 0 To DataGridView1.Rows.Count - 2
+                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
                     c_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
                     WriteLine(numFile, c_6.ToCharArray)
                 Next
@@ -1311,8 +1308,8 @@ Public Class Frm_Principal
                 WriteLine(numFile, f_5.ToCharArray)
                 f_6 = "<groupId>" & group_id & "</groupId>"
                 WriteLine(numFile, f_6.ToCharArray)
-                For j = 0 To dt.Rows.Count - 1
-                    phoneNumber = dt.Rows(j)(1)
+                For j = 0 To DataGridView1.Rows.Count - 2
+                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
                     f_7 = "<phoneNumber>+56-" & phoneNumber & "</phoneNumber>"
                     WriteLine(numFile, f_7.ToCharArray)
                 Next
@@ -1346,19 +1343,19 @@ Public Class Frm_Principal
                     WriteLine(numFile, g_5.ToCharArray)
                     g_6 = "<groupId>" & group_id & "</groupId>"
                     WriteLine(numFile, g_6.ToCharArray)
-                    mac = dt.Rows(j)(9).ToString
+                    mac = DataGridView1.Rows(j).Cells(9).Value.ToString
                     g_7 = "<deviceName>DV_" & mac & "</deviceName>"
                     WriteLine(numFile, g_7.ToCharArray)
-                    device_type = dt.Rows(j)(8).ToString
+                    device_type = DataGridView1.Rows(j).Cells(8).Value.ToString
                     g_8 = "<deviceType>" & device_type & "</deviceType>"
                     WriteLine(numFile, g_8.ToCharArray)
                     WriteLine(numFile, g_9.ToCharArray)
                     g_10 = "<macAddress>" & mac & "</macAddress>"
                     WriteLine(numFile, g_10.ToCharArray)
-                    serial_number = dt.Rows(j)(10).ToString
+                    serial_number = DataGridView1.Rows(j).Cells(10).Value.ToString
                     g_11 = "<serialNumber>" & serial_number & "</serialNumber>"
                     WriteLine(numFile, g_11.ToCharArray)
-                    physical_location = dt.Rows(j)(11).ToString
+                    physical_location = DataGridView1.Rows(j).Cells(11).Value.ToString
                     g_12 = "<physicalLocation>" & physical_location & "</physicalLocation>"
                     WriteLine(numFile, g_12.ToCharArray)
                     WriteLine(numFile, g_13.ToCharArray)
@@ -1427,13 +1424,13 @@ Public Class Frm_Principal
                     WriteLine(numFile, i_5.ToCharArray)
                     i_6 = "<groupId>" & group_id & "</groupId>"
                     WriteLine(numFile, i_6.ToCharArray)
-                    phoneNumber = dt.Rows(j)(1)
+                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
                     i_7 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
                     WriteLine(numFile, i_7.ToCharArray)
-                    last_name = dt.Rows(j)(13)
+                    last_name = DataGridView1.Rows(j).Cells(13).Value.ToString
                     i_8 = "<lastName>" & last_name & "</lastName>"
                     WriteLine(numFile, i_8.ToCharArray)
-                    first_name = dt.Rows(j)(14)
+                    first_name = DataGridView1.Rows(j).Cells(14).Value.ToString
                     i_9 = "<firstName>" & first_name & "</firstName>"
                     WriteLine(numFile, i_9.ToCharArray)
                     i_10 = "<callingLineIdLastName>" & last_name & "</callingLineIdLastName>"
@@ -1441,7 +1438,7 @@ Public Class Frm_Principal
                     i_11 = "<callingLineIdFirstName>" & first_name & "</callingLineIdFirstName>"
                     WriteLine(numFile, i_11.ToCharArray)
                     WriteLine(numFile, i_12.ToCharArray)
-                    department = dt.Rows(j)(12).ToString
+                    department = DataGridView1.Rows(j).Cells(12).Value.ToString
                     If department.Length > 0 Then
                         WriteLine(numFile, i_13.ToCharArray)
                         WriteLine(numFile, i_14.ToCharArray)
@@ -1453,16 +1450,16 @@ Public Class Frm_Principal
                     End If
                     WriteLine(numFile, i_18.ToCharArray)
                     WriteLine(numFile, i_19.ToCharArray)
-                    user_email = dt.Rows(j)(15).ToString
+                    user_email = DataGridView1.Rows(j).Cells(15).Value.ToString
                     If user_email.Length > 0 Then
                         i_20 = "<emailAddress>" & user_email & "</emailAddress>"
                         WriteLine(numFile, i_20.ToCharArray)
                     End If
                     WriteLine(numFile, i_21.ToCharArray)
-                    user_address = dt.Rows(j)(16)
+                    user_address = DataGridView1.Rows(j).Cells(16).Value.ToString
                     i_22 = "<addressLine1>" & user_address & "</addressLine1>"
                     WriteLine(numFile, i_22.ToCharArray)
-                    user_city = dt.Rows(j)(17)
+                    user_city = DataGridView1.Rows(j).Cells(17).Value.ToString
                     i_23 = "<city>" & user_city & "</city>"
                     WriteLine(numFile, i_23.ToCharArray)
                     WriteLine(numFile, i_24.ToCharArray)
@@ -1498,7 +1495,7 @@ Public Class Frm_Principal
                         WriteLine(numFile, j_5.ToCharArray)
                         j_6 = "<groupId>" & group_id & "</groupId>"
                         WriteLine(numFile, j_6.ToCharArray)
-                        mac = dt.Rows(j)(9)
+                        mac = DataGridView1.Rows(j).Cells(9).Value.ToString
                         j_7 = "<deviceName>DV_" & mac & "</deviceName>"
                         WriteLine(numFile, j_7.ToCharArray)
                         WriteLine(numFile, j_8.ToCharArray)
@@ -1533,12 +1530,12 @@ Public Class Frm_Principal
                     WriteLine(numFile, k_2.ToCharArray)
                     WriteLine(numFile, k_3.ToCharArray)
                     WriteLine(numFile, k_4.ToCharArray)
-                    phoneNumber = dt.Rows(j)(1)
+                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
                     k_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
                     WriteLine(numFile, k_5.ToCharArray)
                     k_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
                     WriteLine(numFile, k_6.ToCharArray)
-                    extensions = dt.Rows(j)(19)
+                    extensions = DataGridView1.Rows(j).Cells(19).Value.ToString
                     k_7 = "<extension>" & extensions & "</extension>"
                     WriteLine(numFile, k_7.ToCharArray)
                     WriteLine(numFile, k_8.ToCharArray)
@@ -1546,7 +1543,7 @@ Public Class Frm_Principal
                     WriteLine(numFile, k_10.ToCharArray)
                     WriteLine(numFile, k_11.ToCharArray)
                     WriteLine(numFile, k_12.ToCharArray)
-                    mac = dt.Rows(j)(9)
+                    mac = DataGridView1.Rows(j).Cells(9).Value.ToString
                     k_13 = "<deviceName>DV_" & mac & "</deviceName>"
                     WriteLine(numFile, k_13.ToCharArray)
                     WriteLine(numFile, k_14.ToCharArray)
@@ -1583,17 +1580,16 @@ Public Class Frm_Principal
                     WriteLine(numFile, l_2.ToCharArray)
                     WriteLine(numFile, l_3.ToCharArray)
                     WriteLine(numFile, l_4.ToCharArray)
-                    phoneNumber = dt.Rows(j)(1)
+                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
                     l_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
                     WriteLine(numFile, l_5.ToCharArray)
-                    If dt.Rows(j)(8) = "Yealink-T19xE2" Then
+                    device_type = DataGridView1.Rows(j).Cells(8).Value.ToString
+                    If device_type = "Yealink-T19xE2" Then
                         l_6 = "<servicePackName>Pack_Basico</servicePackName>"
-                    ElseIf dt.Rows(j)(8) = "Yealink-T21xE2" Then
+                    ElseIf device_type = "Yealink-T21xE2" Then
                         l_6 = "<servicePackName>Pack_Estandar</servicePackName>"
-                    ElseIf dt.Rows(j)(8) = "Yealink-T27G" Then
+                    ElseIf device_type = "Yealink-T27G" Then
                         l_6 = "<servicePackName>Pack_Avanzado</servicePackName>"
-                    Else
-                        l_6 = "<servicePackName>Pack_Basico</servicePackName>"
                     End If
                     WriteLine(numFile, l_6.ToCharArray)
                     WriteLine(numFile, l_7.ToCharArray)
@@ -1624,12 +1620,13 @@ Public Class Frm_Principal
                     WriteLine(numFile, m_2.ToCharArray)
                     WriteLine(numFile, m_3.ToCharArray)
                     WriteLine(numFile, m_4.ToCharArray)
-                    phoneNumber = dt.Rows(j)(1)
+                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
                     m_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
                     WriteLine(numFile, m_5.ToCharArray)
                     WriteLine(numFile, m_6.ToCharArray)
                     WriteLine(numFile, m_7.ToCharArray)
                     WriteLine(numFile, m_8.ToCharArray)
+
                     ocp_local = dt.Rows(j)(20)
                     If ocp_local = "bloqueado" Or ocp_local = "Bloqueado" Then
                         m_9 = "<local>Disallow</local>"
@@ -1674,6 +1671,8 @@ Public Class Frm_Principal
                     ElseIf ocp_premium1 = "desbloqueado" Or ocp_premium1 = "Desbloqueado" Then
                         m_17 = "<premiumServicesI>Allow</premiumServicesI>"
                     End If
+
+
                     WriteLine(numFile, m_17.ToCharArray)
                     WriteLine(numFile, m_18.ToCharArray)
                     WriteLine(numFile, m_19.ToCharArray)

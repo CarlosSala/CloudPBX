@@ -1930,8 +1930,8 @@ Public Class Frm_Principal
     Sub parseXML_cloudPBX()
 
         'Se habilita el boton que permite ver el reporte en cualquier momento
+        Me.Cursor = Cursors.WaitCursor
         btn_report_cloudpbx.Enabled = True
-
         Lbl_state.Text = "Generando reporte"
         ProgressBar1.Value = 75
         My.Application.DoEvents()
@@ -1942,7 +1942,7 @@ Public Class Frm_Principal
 
         Dim comando As New OleDbCommand()
         comando.Connection = Conexion
-        Dim Sql As String = "DELETE * FROM brs_cloudpbx_response_error"
+        Dim Sql As String = "DELETE * FROM brs_cloudpbx_response"
         comando.CommandText = Sql
 
         Try
@@ -1969,10 +1969,23 @@ Public Class Frm_Principal
                 Do While (reader.Read())
                     Select Case reader.NodeType
                         Case XmlNodeType.Element
+                            If reader.Name = "command" Then
+                                If reader.HasAttributes Then 'If attributes exist
+                                    While reader.MoveToNextAttribute()
+                                        'Display attribute name and value.
+                                        'MsgBox(reader.Name.ToString & reader.Value.ToString)
+                                        If reader.Name = "xsi:type" Then
+                                            If reader.Value = "c:SuccessResponse" Then
+                                                response = reader.Value.ToString
+                                            ElseIf reader.Value = "c:ErrorResponse" Then
+
+                                            End If
+                                        End If
+                                    End While
+                                End If
+                            End If
                             If reader.Name = "summary" Then
-                                'MsgBox(reader.ReadString.ToString)
                                 response = reader.ReadString
-                                '& "_[File:" & num & "_cloudpbx_response_.xml]"
                             End If
                             If reader.Name = "detail" Then
                                 response += " " & reader.ReadString
@@ -1980,8 +1993,9 @@ Public Class Frm_Principal
                             'Case XmlNodeType.XmlDeclaration
                     End Select
                 Loop
+                response += " [File:" & num & "_cloudpbx_response_.xml]"
                 If response.Length <> 0 Then
-                    Dim Sql1 As String = "INSERT INTO brs_cloudpbx_response_error ([error]) VALUES ( '" & response & "')"
+                    Dim Sql1 As String = "INSERT INTO brs_cloudpbx_response (response) VALUES ( '" & response & "')"
                     'Crear un comando
                     Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
                     Comando1.CommandText = Sql1
@@ -1990,7 +2004,7 @@ Public Class Frm_Principal
                         Comando1.ExecuteNonQuery()
                     Catch ex As Exception
                         MsgBox(ex.ToString)
-                        MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'brs_cloudpbx_response_error'",
+                        MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'brs_cloudpbx_response'",
                                                         MsgBoxStyle.Exclamation, "Error al generar reporte")
                         Lbl_state.Text = "Error al acceder a la base de datos"
                         ProgressBar1.Value = ProgressBar1.Maximum
@@ -2220,21 +2234,7 @@ Public Class Frm_Principal
                             'End If
 
 
-                            'If reader.Name = "command" Then
-                            '    If reader.HasAttributes Then 'If attributes exist
-                            '        While reader.MoveToNextAttribute()
-                            '            'Display attribute name and value.
-                            '            'MsgBox(reader.Name.ToString & reader.Value.ToString)
-                            '            If reader.Name = "xsi:type" Then
-                            '                If reader.Value = "c:SuccessResponse" Then
-                            '                    'MsgBox("comando exitoso")
-                            '                ElseIf reader.Value = "c:ErrorResponse" Then
-                            '                    'MsgBox("Error en el comando")
-                            '                End If
-                            '            End If
-                            '        End While
-                            '    End If
-                            'End If
+
 
                             'Si no se encuentra el grupo buscado
                             If reader.Name = "summary" Then
@@ -2970,6 +2970,9 @@ Public Class Frm_Principal
         Tooltip_Ayuda_Botones(ToolTipHelpButtons, btn_procesar, "Procesar y enviar la información")
     End Sub
 
+    Private Sub Btn_report_cloudpbx_MouseEnter(sender As Object, e As EventArgs) Handles btn_report_cloudpbx.MouseEnter
+        Tooltip_Ayuda_Botones(ToolTipHelpButtons, btn_report_cloudpbx, "Generar informe del último CloudPBX procesado")
+    End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         getDeviceName()
@@ -3016,4 +3019,6 @@ Public Class Frm_Principal
     Private Sub TabPage3_Click(sender As Object, e As EventArgs) Handles TabPage3.Click
 
     End Sub
+
+
 End Class

@@ -48,10 +48,6 @@ Partial Class Frm_Principal
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Button1 = New System.Windows.Forms.Button()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
-        Me.TabPage4 = New System.Windows.Forms.TabPage()
-        Me.TabPage5 = New System.Windows.Forms.TabPage()
-        Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
-        Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
         Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         Me.CheckBox4 = New System.Windows.Forms.CheckBox()
         Me.Button3 = New System.Windows.Forms.Button()
@@ -62,6 +58,10 @@ Partial Class Frm_Principal
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Button4 = New System.Windows.Forms.Button()
+        Me.TabPage4 = New System.Windows.Forms.TabPage()
+        Me.TabPage5 = New System.Windows.Forms.TabPage()
+        Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
+        Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -84,7 +84,7 @@ Partial Class Frm_Principal
         Me.TabControl1.MinimumSize = New System.Drawing.Size(800, 625)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(800, 625)
+        Me.TabControl1.Size = New System.Drawing.Size(1334, 625)
         Me.TabControl1.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight
         Me.TabControl1.TabIndex = 0
         '
@@ -100,7 +100,7 @@ Partial Class Frm_Principal
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(792, 599)
+        Me.TabPage1.Size = New System.Drawing.Size(1326, 599)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Create CloudPBX"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -108,7 +108,7 @@ Partial Class Frm_Principal
         'btn_report_cloudpbx
         '
         Me.btn_report_cloudpbx.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_report_cloudpbx.Location = New System.Drawing.Point(508, 490)
+        Me.btn_report_cloudpbx.Location = New System.Drawing.Point(1050, 490)
         Me.btn_report_cloudpbx.MaximumSize = New System.Drawing.Size(132, 75)
         Me.btn_report_cloudpbx.MinimumSize = New System.Drawing.Size(132, 75)
         Me.btn_report_cloudpbx.Name = "btn_report_cloudpbx"
@@ -148,7 +148,7 @@ Partial Class Frm_Principal
         Me.Lbl_wait.BackColor = System.Drawing.Color.White
         Me.Lbl_wait.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lbl_wait.ForeColor = System.Drawing.Color.Black
-        Me.Lbl_wait.Location = New System.Drawing.Point(255, 288)
+        Me.Lbl_wait.Location = New System.Drawing.Point(522, 288)
         Me.Lbl_wait.Name = "Lbl_wait"
         Me.Lbl_wait.Size = New System.Drawing.Size(300, 31)
         Me.Lbl_wait.TabIndex = 0
@@ -163,22 +163,22 @@ Partial Class Frm_Principal
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
-        Me.DataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.DataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.Cursor = System.Windows.Forms.Cursors.Default
-        Me.DataGridView1.GridColor = System.Drawing.SystemColors.ActiveCaption
+        Me.DataGridView1.GridColor = System.Drawing.SystemColors.GradientActiveCaption
         Me.DataGridView1.Location = New System.Drawing.Point(6, 84)
-        Me.DataGridView1.MaximumSize = New System.Drawing.Size(1307, 400)
+        Me.DataGridView1.MaximumSize = New System.Drawing.Size(1313, 400)
         Me.DataGridView1.MinimumSize = New System.Drawing.Size(780, 400)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
-        Me.DataGridView1.Size = New System.Drawing.Size(780, 400)
+        Me.DataGridView1.Size = New System.Drawing.Size(1313, 400)
         Me.DataGridView1.TabIndex = 51
         '
         'btn_procesar
         '
         Me.btn_procesar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_procesar.Location = New System.Drawing.Point(647, 490)
+        Me.btn_procesar.Location = New System.Drawing.Point(1188, 490)
         Me.btn_procesar.MaximumSize = New System.Drawing.Size(132, 75)
         Me.btn_procesar.MinimumSize = New System.Drawing.Size(132, 75)
         Me.btn_procesar.Name = "btn_procesar"
@@ -193,10 +193,10 @@ Partial Class Frm_Principal
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TextBox_FileName.Location = New System.Drawing.Point(6, 57)
-        Me.TextBox_FileName.MaximumSize = New System.Drawing.Size(1230, 20)
+        Me.TextBox_FileName.MaximumSize = New System.Drawing.Size(1236, 20)
         Me.TextBox_FileName.MinimumSize = New System.Drawing.Size(700, 20)
         Me.TextBox_FileName.Name = "TextBox_FileName"
-        Me.TextBox_FileName.Size = New System.Drawing.Size(700, 20)
+        Me.TextBox_FileName.Size = New System.Drawing.Size(1236, 20)
         Me.TextBox_FileName.TabIndex = 49
         '
         'btn_Browse_CSV
@@ -208,7 +208,7 @@ Partial Class Frm_Principal
         Me.btn_Browse_CSV.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
         Me.btn_Browse_CSV.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_Browse_CSV.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Browse_CSV.Location = New System.Drawing.Point(709, 7)
+        Me.btn_Browse_CSV.Location = New System.Drawing.Point(1249, 7)
         Me.btn_Browse_CSV.Margin = New System.Windows.Forms.Padding(4)
         Me.btn_Browse_CSV.MaximumSize = New System.Drawing.Size(70, 70)
         Me.btn_Browse_CSV.MinimumSize = New System.Drawing.Size(70, 70)
@@ -233,7 +233,7 @@ Partial Class Frm_Principal
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(792, 599)
+        Me.TabPage2.Size = New System.Drawing.Size(1326, 599)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Rebuild the Proxy File"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -349,34 +349,10 @@ Partial Class Frm_Principal
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(792, 599)
+        Me.TabPage3.Size = New System.Drawing.Size(1326, 599)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Assign Service Pack"
         Me.TabPage3.UseVisualStyleBackColor = True
-        '
-        'TabPage4
-        '
-        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(792, 599)
-        Me.TabPage4.TabIndex = 3
-        Me.TabPage4.Text = "Crear Servicios"
-        Me.TabPage4.UseVisualStyleBackColor = True
-        '
-        'TabPage5
-        '
-        Me.TabPage5.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage5.Name = "TabPage5"
-        Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage5.Size = New System.Drawing.Size(792, 599)
-        Me.TabPage5.TabIndex = 4
-        Me.TabPage5.Text = "Asignar Dispositivos"
-        Me.TabPage5.UseVisualStyleBackColor = True
-        '
-        'openFileDialogCSV
-        '
-        Me.openFileDialogCSV.FileName = "OpenFileDialog1"
         '
         'CheckBox3
         '
@@ -466,11 +442,35 @@ Partial Class Frm_Principal
         Me.Button4.Text = "Search"
         Me.Button4.UseVisualStyleBackColor = True
         '
+        'TabPage4
+        '
+        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage4.Name = "TabPage4"
+        Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage4.Size = New System.Drawing.Size(1326, 599)
+        Me.TabPage4.TabIndex = 3
+        Me.TabPage4.Text = "Crear Servicios"
+        Me.TabPage4.UseVisualStyleBackColor = True
+        '
+        'TabPage5
+        '
+        Me.TabPage5.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage5.Name = "TabPage5"
+        Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage5.Size = New System.Drawing.Size(1326, 599)
+        Me.TabPage5.TabIndex = 4
+        Me.TabPage5.Text = "Asignar Dispositivos"
+        Me.TabPage5.UseVisualStyleBackColor = True
+        '
+        'openFileDialogCSV
+        '
+        Me.openFileDialogCSV.FileName = "OpenFileDialog1"
+        '
         'Frm_Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(816, 647)
+        Me.ClientSize = New System.Drawing.Size(1350, 647)
         Me.Controls.Add(Me.TabControl1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximumSize = New System.Drawing.Size(1366, 768)

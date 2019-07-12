@@ -70,7 +70,7 @@ Partial Class Frm_Report_Cloudpbx
         Me.MinimumSize = New System.Drawing.Size(832, 630)
         Me.Name = "Frm_Report_Cloudpbx"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "CloudPBX Errors Reporting"
+        Me.Text = "CloudPBX Reporting"
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

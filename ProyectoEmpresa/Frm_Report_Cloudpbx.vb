@@ -12,7 +12,7 @@ Public Class Frm_Report_Cloudpbx
 
     Public Sub Update_Grid()
 
-        Dim iSql As String = "select * from brs_cloudpbx_response_error"
+        Dim iSql As String = "select * from brs_cloudpbx_response"
         Dim cmd As New OleDbCommand
         Dim dt As New DataTable
         Dim da As New OleDbDataAdapter

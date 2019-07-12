@@ -62,12 +62,16 @@ Partial Class Frm_Principal
         Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
+        Me.StatusStrip2 = New System.Windows.Forms.StatusStrip()
+        Me.ProgressBar2 = New System.Windows.Forms.ToolStripProgressBar()
+        Me.Lbl_state2 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage2.SuspendLayout()
         Me.TabPage3.SuspendLayout()
+        Me.StatusStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -113,7 +117,7 @@ Partial Class Frm_Principal
         Me.btn_report_cloudpbx.MinimumSize = New System.Drawing.Size(132, 75)
         Me.btn_report_cloudpbx.Name = "btn_report_cloudpbx"
         Me.btn_report_cloudpbx.Size = New System.Drawing.Size(132, 75)
-        Me.btn_report_cloudpbx.TabIndex = 53
+        Me.btn_report_cloudpbx.TabIndex = 4
         Me.btn_report_cloudpbx.Text = "Ver informe"
         Me.btn_report_cloudpbx.UseVisualStyleBackColor = True
         '
@@ -183,7 +187,7 @@ Partial Class Frm_Principal
         Me.btn_procesar.MinimumSize = New System.Drawing.Size(132, 75)
         Me.btn_procesar.Name = "btn_procesar"
         Me.btn_procesar.Size = New System.Drawing.Size(132, 75)
-        Me.btn_procesar.TabIndex = 50
+        Me.btn_procesar.TabIndex = 3
         Me.btn_procesar.Text = "Procesar"
         Me.btn_procesar.UseVisualStyleBackColor = True
         '
@@ -197,7 +201,7 @@ Partial Class Frm_Principal
         Me.TextBox_FileName.MinimumSize = New System.Drawing.Size(700, 20)
         Me.TextBox_FileName.Name = "TextBox_FileName"
         Me.TextBox_FileName.Size = New System.Drawing.Size(1236, 20)
-        Me.TextBox_FileName.TabIndex = 49
+        Me.TextBox_FileName.TabIndex = 2
         '
         'btn_Browse_CSV
         '
@@ -214,11 +218,12 @@ Partial Class Frm_Principal
         Me.btn_Browse_CSV.MinimumSize = New System.Drawing.Size(70, 70)
         Me.btn_Browse_CSV.Name = "btn_Browse_CSV"
         Me.btn_Browse_CSV.Size = New System.Drawing.Size(70, 70)
-        Me.btn_Browse_CSV.TabIndex = 48
+        Me.btn_Browse_CSV.TabIndex = 1
         Me.btn_Browse_CSV.UseVisualStyleBackColor = False
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.StatusStrip2)
         Me.TabPage2.Controls.Add(Me.CheckBox2)
         Me.TabPage2.Controls.Add(Me.CheckBox1)
         Me.TabPage2.Controls.Add(Me.Button2)
@@ -244,7 +249,7 @@ Partial Class Frm_Principal
         Me.CheckBox2.Location = New System.Drawing.Point(273, 400)
         Me.CheckBox2.Name = "CheckBox2"
         Me.CheckBox2.Size = New System.Drawing.Size(74, 17)
-        Me.CheckBox2.TabIndex = 11
+        Me.CheckBox2.TabIndex = 5
         Me.CheckBox2.Text = "Add Proxy"
         Me.CheckBox2.UseVisualStyleBackColor = True
         '
@@ -254,7 +259,7 @@ Partial Class Frm_Principal
         Me.CheckBox1.Location = New System.Drawing.Point(145, 400)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(86, 17)
-        Me.CheckBox1.TabIndex = 10
+        Me.CheckBox1.TabIndex = 4
         Me.CheckBox1.Text = "Modify Proxy"
         Me.CheckBox1.UseVisualStyleBackColor = True
         '
@@ -263,7 +268,7 @@ Partial Class Frm_Principal
         Me.Button2.Location = New System.Drawing.Point(145, 464)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(75, 23)
-        Me.Button2.TabIndex = 9
+        Me.Button2.TabIndex = 7
         Me.Button2.Text = "Process"
         Me.Button2.UseVisualStyleBackColor = True
         '
@@ -272,7 +277,7 @@ Partial Class Frm_Principal
         Me.TextBox2.Location = New System.Drawing.Point(145, 438)
         Me.TextBox2.Name = "TextBox2"
         Me.TextBox2.Size = New System.Drawing.Size(202, 20)
-        Me.TextBox2.TabIndex = 8
+        Me.TextBox2.TabIndex = 6
         '
         'Label5
         '
@@ -297,7 +302,7 @@ Partial Class Frm_Principal
         Me.ListBox1.Location = New System.Drawing.Point(145, 159)
         Me.ListBox1.Name = "ListBox1"
         Me.ListBox1.Size = New System.Drawing.Size(202, 225)
-        Me.ListBox1.TabIndex = 5
+        Me.ListBox1.TabIndex = 3
         '
         'Label3
         '
@@ -314,7 +319,7 @@ Partial Class Frm_Principal
         Me.TextBox1.Location = New System.Drawing.Point(145, 72)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(202, 20)
-        Me.TextBox1.TabIndex = 3
+        Me.TextBox1.TabIndex = 1
         '
         'Label1
         '
@@ -330,7 +335,7 @@ Partial Class Frm_Principal
         Me.Button1.Location = New System.Drawing.Point(145, 98)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 23)
-        Me.Button1.TabIndex = 0
+        Me.Button1.TabIndex = 2
         Me.Button1.Text = "Search"
         Me.Button1.UseVisualStyleBackColor = True
         '
@@ -466,6 +471,26 @@ Partial Class Frm_Principal
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
         '
+        'StatusStrip2
+        '
+        Me.StatusStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar2, Me.Lbl_state2})
+        Me.StatusStrip2.Location = New System.Drawing.Point(3, 574)
+        Me.StatusStrip2.Name = "StatusStrip2"
+        Me.StatusStrip2.Size = New System.Drawing.Size(1320, 22)
+        Me.StatusStrip2.TabIndex = 12
+        Me.StatusStrip2.Text = "StatusStrip2"
+        '
+        'ProgressBar2
+        '
+        Me.ProgressBar2.Name = "ProgressBar2"
+        Me.ProgressBar2.Size = New System.Drawing.Size(100, 16)
+        '
+        'Lbl_state2
+        '
+        Me.Lbl_state2.Name = "Lbl_state2"
+        Me.Lbl_state2.Size = New System.Drawing.Size(119, 17)
+        Me.Lbl_state2.Text = "ToolStripStatusLabel1"
+        '
         'Frm_Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -489,6 +514,8 @@ Partial Class Frm_Principal
         Me.TabPage2.PerformLayout()
         Me.TabPage3.ResumeLayout(False)
         Me.TabPage3.PerformLayout()
+        Me.StatusStrip2.ResumeLayout(False)
+        Me.StatusStrip2.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -531,4 +558,7 @@ Partial Class Frm_Principal
     Friend WithEvents TextBox4 As TextBox
     Friend WithEvents Label7 As Label
     Friend WithEvents Button4 As Button
+    Friend WithEvents StatusStrip2 As StatusStrip
+    Friend WithEvents ProgressBar2 As ToolStripProgressBar
+    Friend WithEvents Lbl_state2 As ToolStripStatusLabel
 End Class

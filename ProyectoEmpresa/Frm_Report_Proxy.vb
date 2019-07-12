@@ -11,7 +11,7 @@ Public Class Frm_Report_Proxy
 
     Public Sub Update_Grid()
 
-        Dim iSql As String = "select * from brs_proxy_response_error"
+        Dim iSql As String = "select * from brs_proxy_response"
         Dim cmd As New OleDbCommand
         Dim dt As New DataTable
         Dim da As New OleDbDataAdapter
@@ -42,5 +42,9 @@ Public Class Frm_Report_Proxy
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         Me.Close()
+    End Sub
+
+    Private Sub DataGridView2_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellContentClick
+
     End Sub
 End Class

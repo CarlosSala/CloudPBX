@@ -2724,7 +2724,15 @@ Public Class Frm_Principal
         Dim FMP As New Frm_Report_Proxy
         FMP.Show()
         FMP.BringToFront()
-        My.Application.DoEvents()
+        TextBox1.Text = ""
+        TextBox2.Text = ""
+
+        CheckBox1.Enabled = False
+        CheckBox2.Enabled = False
+        TextBox2.Enabled = False
+        Button2.Enabled = False
+        Label5.Enabled = False
+
         Me.Cursor = Cursors.Default
         Lbl_state2.Text = "Finalizado"
         ProgressBar2.Value = ProgressBar2.Maximum

@@ -142,8 +142,7 @@ Partial Class Frm_Principal
         'Lbl_state
         '
         Me.Lbl_state.Name = "Lbl_state"
-        Me.Lbl_state.Size = New System.Drawing.Size(119, 17)
-        Me.Lbl_state.Text = "ToolStripStatusLabel1"
+        Me.Lbl_state.Size = New System.Drawing.Size(0, 17)
         '
         'Lbl_wait
         '
@@ -488,8 +487,7 @@ Partial Class Frm_Principal
         'Lbl_state2
         '
         Me.Lbl_state2.Name = "Lbl_state2"
-        Me.Lbl_state2.Size = New System.Drawing.Size(119, 17)
-        Me.Lbl_state2.Text = "ToolStripStatusLabel1"
+        Me.Lbl_state2.Size = New System.Drawing.Size(0, 17)
         '
         'Frm_Principal
         '

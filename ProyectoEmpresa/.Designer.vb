@@ -27,15 +27,15 @@ Partial Class Frm_Principal
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.btn_report_cloudpbx = New System.Windows.Forms.Button()
-        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
-        Me.ProgressBar1 = New System.Windows.Forms.ToolStripProgressBar()
-        Me.Lbl_state = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Lbl_wait = New System.Windows.Forms.Label()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.btn_procesar = New System.Windows.Forms.Button()
         Me.TextBox_FileName = New System.Windows.Forms.TextBox()
         Me.btn_Browse_CSV = New System.Windows.Forms.Button()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.StatusStrip2 = New System.Windows.Forms.StatusStrip()
+        Me.ProgressBar2 = New System.Windows.Forms.ToolStripProgressBar()
+        Me.Lbl_state2 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.Button2 = New System.Windows.Forms.Button()
@@ -51,27 +51,27 @@ Partial Class Frm_Principal
         Me.CheckBox3 = New System.Windows.Forms.CheckBox()
         Me.CheckBox4 = New System.Windows.Forms.CheckBox()
         Me.Button3 = New System.Windows.Forms.Button()
-        Me.TextBox3 = New System.Windows.Forms.TextBox()
+        Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.ListBox2 = New System.Windows.Forms.ListBox()
         Me.Label6 = New System.Windows.Forms.Label()
-        Me.TextBox4 = New System.Windows.Forms.TextBox()
+        Me.TextBox3 = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Button4 = New System.Windows.Forms.Button()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
         Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
-        Me.StatusStrip2 = New System.Windows.Forms.StatusStrip()
-        Me.ProgressBar2 = New System.Windows.Forms.ToolStripProgressBar()
-        Me.Lbl_state2 = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.ProgressBar1 = New System.Windows.Forms.ToolStripProgressBar()
+        Me.Lbl_state = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
-        Me.StatusStrip1.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage2.SuspendLayout()
-        Me.TabPage3.SuspendLayout()
         Me.StatusStrip2.SuspendLayout()
+        Me.TabPage3.SuspendLayout()
+        Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -94,8 +94,8 @@ Partial Class Frm_Principal
         '
         'TabPage1
         '
-        Me.TabPage1.Controls.Add(Me.btn_report_cloudpbx)
         Me.TabPage1.Controls.Add(Me.StatusStrip1)
+        Me.TabPage1.Controls.Add(Me.btn_report_cloudpbx)
         Me.TabPage1.Controls.Add(Me.Lbl_wait)
         Me.TabPage1.Controls.Add(Me.DataGridView1)
         Me.TabPage1.Controls.Add(Me.btn_procesar)
@@ -120,29 +120,6 @@ Partial Class Frm_Principal
         Me.btn_report_cloudpbx.TabIndex = 4
         Me.btn_report_cloudpbx.Text = "Ver informe"
         Me.btn_report_cloudpbx.UseVisualStyleBackColor = True
-        '
-        'StatusStrip1
-        '
-        Me.StatusStrip1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.StatusStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar1, Me.Lbl_state})
-        Me.StatusStrip1.Location = New System.Drawing.Point(6, 574)
-        Me.StatusStrip1.MaximumSize = New System.Drawing.Size(400, 22)
-        Me.StatusStrip1.MinimumSize = New System.Drawing.Size(269, 22)
-        Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(269, 22)
-        Me.StatusStrip1.TabIndex = 52
-        Me.StatusStrip1.Text = "StatusStrip1"
-        '
-        'ProgressBar1
-        '
-        Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(100, 16)
-        '
-        'Lbl_state
-        '
-        Me.Lbl_state.Name = "Lbl_state"
-        Me.Lbl_state.Size = New System.Drawing.Size(0, 17)
         '
         'Lbl_wait
         '
@@ -241,6 +218,25 @@ Partial Class Frm_Principal
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Rebuild the Proxy File"
         Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'StatusStrip2
+        '
+        Me.StatusStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar2, Me.Lbl_state2})
+        Me.StatusStrip2.Location = New System.Drawing.Point(3, 574)
+        Me.StatusStrip2.Name = "StatusStrip2"
+        Me.StatusStrip2.Size = New System.Drawing.Size(1320, 22)
+        Me.StatusStrip2.TabIndex = 12
+        Me.StatusStrip2.Text = "StatusStrip2"
+        '
+        'ProgressBar2
+        '
+        Me.ProgressBar2.Name = "ProgressBar2"
+        Me.ProgressBar2.Size = New System.Drawing.Size(100, 16)
+        '
+        'Lbl_state2
+        '
+        Me.Lbl_state2.Name = "Lbl_state2"
+        Me.Lbl_state2.Size = New System.Drawing.Size(0, 17)
         '
         'CheckBox2
         '
@@ -343,11 +339,11 @@ Partial Class Frm_Principal
         Me.TabPage3.Controls.Add(Me.CheckBox3)
         Me.TabPage3.Controls.Add(Me.CheckBox4)
         Me.TabPage3.Controls.Add(Me.Button3)
-        Me.TabPage3.Controls.Add(Me.TextBox3)
+        Me.TabPage3.Controls.Add(Me.TextBox4)
         Me.TabPage3.Controls.Add(Me.Label4)
         Me.TabPage3.Controls.Add(Me.ListBox2)
         Me.TabPage3.Controls.Add(Me.Label6)
-        Me.TabPage3.Controls.Add(Me.TextBox4)
+        Me.TabPage3.Controls.Add(Me.TextBox3)
         Me.TabPage3.Controls.Add(Me.Label7)
         Me.TabPage3.Controls.Add(Me.Button4)
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
@@ -387,12 +383,12 @@ Partial Class Frm_Principal
         Me.Button3.Text = "Process"
         Me.Button3.UseVisualStyleBackColor = True
         '
-        'TextBox3
+        'TextBox4
         '
-        Me.TextBox3.Location = New System.Drawing.Point(146, 437)
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(202, 20)
-        Me.TextBox3.TabIndex = 18
+        Me.TextBox4.Location = New System.Drawing.Point(146, 437)
+        Me.TextBox4.Name = "TextBox4"
+        Me.TextBox4.Size = New System.Drawing.Size(202, 20)
+        Me.TextBox4.TabIndex = 18
         '
         'Label4
         '
@@ -421,12 +417,12 @@ Partial Class Frm_Principal
         Me.Label6.TabIndex = 15
         Me.Label6.Text = "_cloudpbx"
         '
-        'TextBox4
+        'TextBox3
         '
-        Me.TextBox4.Location = New System.Drawing.Point(146, 71)
-        Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(202, 20)
-        Me.TextBox4.TabIndex = 14
+        Me.TextBox3.Location = New System.Drawing.Point(146, 71)
+        Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.Size = New System.Drawing.Size(202, 20)
+        Me.TextBox3.TabIndex = 14
         '
         'Label7
         '
@@ -470,24 +466,24 @@ Partial Class Frm_Principal
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
         '
-        'StatusStrip2
+        'StatusStrip1
         '
-        Me.StatusStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar2, Me.Lbl_state2})
-        Me.StatusStrip2.Location = New System.Drawing.Point(3, 574)
-        Me.StatusStrip2.Name = "StatusStrip2"
-        Me.StatusStrip2.Size = New System.Drawing.Size(1320, 22)
-        Me.StatusStrip2.TabIndex = 12
-        Me.StatusStrip2.Text = "StatusStrip2"
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar1, Me.Lbl_state})
+        Me.StatusStrip1.Location = New System.Drawing.Point(3, 574)
+        Me.StatusStrip1.Name = "StatusStrip1"
+        Me.StatusStrip1.Size = New System.Drawing.Size(1320, 22)
+        Me.StatusStrip1.TabIndex = 52
+        Me.StatusStrip1.Text = "StatusStrip1"
         '
-        'ProgressBar2
+        'ProgressBar1
         '
-        Me.ProgressBar2.Name = "ProgressBar2"
-        Me.ProgressBar2.Size = New System.Drawing.Size(100, 16)
+        Me.ProgressBar1.Name = "ProgressBar1"
+        Me.ProgressBar1.Size = New System.Drawing.Size(100, 16)
         '
-        'Lbl_state2
+        'Lbl_state
         '
-        Me.Lbl_state2.Name = "Lbl_state2"
-        Me.Lbl_state2.Size = New System.Drawing.Size(0, 17)
+        Me.Lbl_state.Name = "Lbl_state"
+        Me.Lbl_state.Size = New System.Drawing.Size(0, 17)
         '
         'Frm_Principal
         '
@@ -505,15 +501,15 @@ Partial Class Frm_Principal
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
-        Me.StatusStrip1.ResumeLayout(False)
-        Me.StatusStrip1.PerformLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
-        Me.TabPage3.ResumeLayout(False)
-        Me.TabPage3.PerformLayout()
         Me.StatusStrip2.ResumeLayout(False)
         Me.StatusStrip2.PerformLayout()
+        Me.TabPage3.ResumeLayout(False)
+        Me.TabPage3.PerformLayout()
+        Me.StatusStrip1.ResumeLayout(False)
+        Me.StatusStrip1.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -535,9 +531,6 @@ Partial Class Frm_Principal
     Friend WithEvents Label1 As Label
     Friend WithEvents Button1 As Button
     Friend WithEvents Label3 As Label
-    Friend WithEvents StatusStrip1 As StatusStrip
-    Friend WithEvents ProgressBar1 As ToolStripProgressBar
-    Friend WithEvents Lbl_state As ToolStripStatusLabel
     Friend WithEvents ListBox1 As ListBox
     Friend WithEvents Label2 As Label
     Friend WithEvents TextBox2 As TextBox
@@ -549,14 +542,17 @@ Partial Class Frm_Principal
     Friend WithEvents CheckBox3 As CheckBox
     Friend WithEvents CheckBox4 As CheckBox
     Friend WithEvents Button3 As Button
-    Friend WithEvents TextBox3 As TextBox
+    Friend WithEvents TextBox4 As TextBox
     Friend WithEvents Label4 As Label
     Friend WithEvents ListBox2 As ListBox
     Friend WithEvents Label6 As Label
-    Friend WithEvents TextBox4 As TextBox
+    Friend WithEvents TextBox3 As TextBox
     Friend WithEvents Label7 As Label
     Friend WithEvents Button4 As Button
     Friend WithEvents StatusStrip2 As StatusStrip
     Friend WithEvents ProgressBar2 As ToolStripProgressBar
     Friend WithEvents Lbl_state2 As ToolStripStatusLabel
+    Friend WithEvents StatusStrip1 As StatusStrip
+    Friend WithEvents ProgressBar1 As ToolStripProgressBar
+    Friend WithEvents Lbl_state As ToolStripStatusLabel
 End Class

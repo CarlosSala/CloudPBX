@@ -233,6 +233,18 @@ Namespace My
                 Me("SetPathTmp") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\tmp_servicePack_user")>  _
+        Public Property SetPathTmpUserServicePack() As String
+            Get
+                Return CType(Me("SetPathTmpUserServicePack"),String)
+            End Get
+            Set
+                Me("SetPathTmpUserServicePack") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

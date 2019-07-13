@@ -47,5 +47,8 @@
     <Setting Name="SetPathTmp" Type="System.String" Scope="User">
       <Value Profile="(Default)">\voxcom\tmp</Value>
     </Setting>
+    <Setting Name="SetPathTmpUserServicePack" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\voxcom\tmp_servicePack_user</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

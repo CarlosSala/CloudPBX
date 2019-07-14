@@ -52,7 +52,6 @@ Partial Class Frm_Principal
         Me.btn_search_proxy = New System.Windows.Forms.Button()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.Label8 = New System.Windows.Forms.Label()
-        Me.CheckedListBox1 = New System.Windows.Forms.CheckedListBox()
         Me.StatusStrip3 = New System.Windows.Forms.StatusStrip()
         Me.ProgressBar3 = New System.Windows.Forms.ToolStripProgressBar()
         Me.lbl_state_userLicense = New System.Windows.Forms.ToolStripStatusLabel()
@@ -364,7 +363,6 @@ Partial Class Frm_Principal
         'TabPage3
         '
         Me.TabPage3.Controls.Add(Me.Label8)
-        Me.TabPage3.Controls.Add(Me.CheckedListBox1)
         Me.TabPage3.Controls.Add(Me.StatusStrip3)
         Me.TabPage3.Controls.Add(Me.CheckBox3)
         Me.TabPage3.Controls.Add(Me.CheckBox4)
@@ -391,14 +389,6 @@ Partial Class Frm_Principal
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(0, 13)
         Me.Label8.TabIndex = 24
-        '
-        'CheckedListBox1
-        '
-        Me.CheckedListBox1.FormattingEnabled = True
-        Me.CheckedListBox1.Location = New System.Drawing.Point(461, 176)
-        Me.CheckedListBox1.Name = "CheckedListBox1"
-        Me.CheckedListBox1.Size = New System.Drawing.Size(120, 94)
-        Me.CheckedListBox1.TabIndex = 23
         '
         'StatusStrip3
         '
@@ -607,6 +597,5 @@ Partial Class Frm_Principal
     Friend WithEvents TextBox3 As TextBox
     Friend WithEvents Label7 As Label
     Friend WithEvents Button4 As Button
-    Friend WithEvents CheckedListBox1 As CheckedListBox
     Friend WithEvents Label8 As Label
 End Class

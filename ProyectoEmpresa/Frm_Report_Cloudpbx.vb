@@ -9,7 +9,6 @@ Public Class Frm_Report_Cloudpbx
         Update_Grid()
     End Sub
 
-
     Public Sub Update_Grid()
 
         Dim iSql As String = "select * from brs_cloudpbx_response"

@@ -57,192 +57,180 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\database\Database1.accdb")>  _
-        Public Property SetDatabase() As String
+        Public Property Database() As String
             Get
-                Return CType(Me("SetDatabase"),String)
+                Return CType(Me("Database"),String)
             End Get
             Set
-                Me("SetDatabase") = value
+                Me("Database") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("172.25.210.32")>  _
-        Public Property SetHost() As String
+        Public Property Host() As String
             Get
-                Return CType(Me("SetHost"),String)
+                Return CType(Me("Host"),String)
             End Get
             Set
-                Me("SetHost") = value
+                Me("Host") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
-        Public Property SetModeQuit() As Boolean
+        Public Property ModeQuit() As Boolean
             Get
-                Return CType(Me("SetModeQuit"),Boolean)
+                Return CType(Me("ModeQuit"),Boolean)
             End Get
             Set
-                Me("SetModeQuit") = value
+                Me("ModeQuit") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("2208")>  _
-        Public Property SetPort() As String
+        Public Property Port() As String
             Get
-                Return CType(Me("SetPort"),String)
+                Return CType(Me("Port"),String)
             End Get
             Set
-                Me("SetPort") = value
+                Me("Port") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("OCS")>  _
-        Public Property SetMode() As String
+        Public Property Mode() As String
             Get
-                Return CType(Me("SetMode"),String)
+                Return CType(Me("Mode"),String)
             End Get
             Set
-                Me("SetMode") = value
+                Me("Mode") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\tmp_cloud")>  _
-        Public Property SetPathTmpCloud() As String
+        Public Property PathTmpCloud() As String
             Get
-                Return CType(Me("SetPathTmpCloud"),String)
+                Return CType(Me("PathTmpCloud"),String)
             End Get
             Set
-                Me("SetPathTmpCloud") = value
+                Me("PathTmpCloud") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\log")>  _
-        Public Property SetPathLog() As String
+        Public Property PathLog() As String
             Get
-                Return CType(Me("SetPathLog"),String)
+                Return CType(Me("PathLog"),String)
             End Get
             Set
-                Me("SetPathLog") = value
+                Me("PathLog") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("\voxcom")>  _
-        Public Property SetPathAppl() As String
+        Public Property PathAppl() As String
             Get
-                Return CType(Me("SetPathAppl"),String)
+                Return CType(Me("PathAppl"),String)
             End Get
             Set
-                Me("SetPathAppl") = value
+                Me("PathAppl") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("voxcom02")>  _
-        Public Property SetUser() As String
+        Public Property User() As String
             Get
-                Return CType(Me("SetUser"),String)
+                Return CType(Me("User"),String)
             End Get
             Set
-                Me("SetUser") = value
+                Me("User") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("voxcom.02")>  _
-        Public Property SetPassword() As String
+        Public Property Password() As String
             Get
-                Return CType(Me("SetPassword"),String)
+                Return CType(Me("Password"),String)
             End Get
             Set
-                Me("SetPassword") = value
+                Me("Password") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\xml\input")>  _
-        Public Property SetPathIXML() As String
+        Public Property PathIXML() As String
             Get
-                Return CType(Me("SetPathIXML"),String)
+                Return CType(Me("PathIXML"),String)
             End Get
             Set
-                Me("SetPathIXML") = value
+                Me("PathIXML") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\xml\output")>  _
-        Public Property SetPathOXML() As String
+        Public Property PathOXML() As String
             Get
-                Return CType(Me("SetPathOXML"),String)
+                Return CType(Me("PathOXML"),String)
             End Get
             Set
-                Me("SetPathOXML") = value
-            End Set
-        End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("2")>  _
-        Public Property gblCMMIdCluster() As Integer
-            Get
-                Return CType(Me("gblCMMIdCluster"),Integer)
-            End Get
-            Set
-                Me("gblCMMIdCluster") = value
+                Me("PathOXML") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\tmp_proxy")>  _
-        Public Property SetPathTmpProxy() As String
+        Public Property PathTmpProxy() As String
             Get
-                Return CType(Me("SetPathTmpProxy"),String)
+                Return CType(Me("PathTmpProxy"),String)
             End Get
             Set
-                Me("SetPathTmpProxy") = value
+                Me("PathTmpProxy") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\tmp")>  _
-        Public Property SetPathTmp() As String
+        Public Property PathTmp() As String
             Get
-                Return CType(Me("SetPathTmp"),String)
+                Return CType(Me("PathTmp"),String)
             End Get
             Set
-                Me("SetPathTmp") = value
+                Me("PathTmp") = value
             End Set
         End Property
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\tmp_servicePack_user")>  _
-        Public Property SetPathTmpUserServicePack() As String
+         Global.System.Configuration.DefaultSettingValueAttribute("\voxcom\tmp_userLicense")>  _
+        Public Property PathTmpUserLicense() As String
             Get
-                Return CType(Me("SetPathTmpUserServicePack"),String)
+                Return CType(Me("PathTmpUserLicense"),String)
             End Get
             Set
-                Me("SetPathTmpUserServicePack") = value
+                Me("PathTmpUserLicense") = value
             End Set
         End Property
     End Class

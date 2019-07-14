@@ -2,53 +2,50 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="My" GeneratedClassName="MySettings" UseMySettingsClassName="true">
   <Profiles />
   <Settings>
-    <Setting Name="SetDatabase" Type="System.String" Scope="User">
+    <Setting Name="Database" Type="System.String" Scope="User">
       <Value Profile="(Default)">\voxcom\database\Database1.accdb</Value>
     </Setting>
-    <Setting Name="SetHost" Type="System.String" Scope="User">
+    <Setting Name="Host" Type="System.String" Scope="User">
       <Value Profile="(Default)">172.25.210.32</Value>
     </Setting>
-    <Setting Name="SetModeQuit" Type="System.Boolean" Scope="User">
+    <Setting Name="ModeQuit" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="SetPort" Type="System.String" Scope="User">
+    <Setting Name="Port" Type="System.String" Scope="User">
       <Value Profile="(Default)">2208</Value>
     </Setting>
-    <Setting Name="SetMode" Type="System.String" Scope="User">
+    <Setting Name="Mode" Type="System.String" Scope="User">
       <Value Profile="(Default)">OCS</Value>
     </Setting>
-    <Setting Name="SetPathTmpCloud" Type="System.String" Scope="User">
+    <Setting Name="PathTmpCloud" Type="System.String" Scope="User">
       <Value Profile="(Default)">\voxcom\tmp_cloud</Value>
     </Setting>
-    <Setting Name="SetPathLog" Type="System.String" Scope="User">
+    <Setting Name="PathLog" Type="System.String" Scope="User">
       <Value Profile="(Default)">\voxcom\log</Value>
     </Setting>
-    <Setting Name="SetPathAppl" Type="System.String" Scope="User">
+    <Setting Name="PathAppl" Type="System.String" Scope="User">
       <Value Profile="(Default)">\voxcom</Value>
     </Setting>
-    <Setting Name="SetUser" Type="System.String" Scope="User">
+    <Setting Name="User" Type="System.String" Scope="User">
       <Value Profile="(Default)">voxcom02</Value>
     </Setting>
-    <Setting Name="SetPassword" Type="System.String" Scope="User">
+    <Setting Name="Password" Type="System.String" Scope="User">
       <Value Profile="(Default)">voxcom.02</Value>
     </Setting>
-    <Setting Name="SetPathIXML" Type="System.String" Scope="User">
+    <Setting Name="PathIXML" Type="System.String" Scope="User">
       <Value Profile="(Default)">\voxcom\xml\input</Value>
     </Setting>
-    <Setting Name="SetPathOXML" Type="System.String" Scope="User">
+    <Setting Name="PathOXML" Type="System.String" Scope="User">
       <Value Profile="(Default)">\voxcom\xml\output</Value>
     </Setting>
-    <Setting Name="gblCMMIdCluster" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">2</Value>
-    </Setting>
-    <Setting Name="SetPathTmpProxy" Type="System.String" Scope="User">
+    <Setting Name="PathTmpProxy" Type="System.String" Scope="User">
       <Value Profile="(Default)">\voxcom\tmp_proxy</Value>
     </Setting>
-    <Setting Name="SetPathTmp" Type="System.String" Scope="User">
+    <Setting Name="PathTmp" Type="System.String" Scope="User">
       <Value Profile="(Default)">\voxcom\tmp</Value>
     </Setting>
-    <Setting Name="SetPathTmpUserServicePack" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\voxcom\tmp_servicePack_user</Value>
+    <Setting Name="PathTmpUserLicense" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\voxcom\tmp_userLicense</Value>
     </Setting>
   </Settings>
 </SettingsFile>

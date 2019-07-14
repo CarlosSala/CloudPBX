@@ -1,7 +1,7 @@
 ﻿Imports System.Data.OleDb ' manejo de BD Access
 Public Class Frm_Login
 
-    Dim conexion As New OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & My.Application.Info.DirectoryPath & My.Settings.SetDatabase)
+    Dim conexion As New OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & My.Application.Info.DirectoryPath & My.Settings.Database)
     Private Sub Frm_Login_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
             conexion.Open()

@@ -1,7 +1,7 @@
 ﻿Imports System.Data.OleDb
 Public Class Frm_Report_Cloudpbx
 
-    Dim ConexionString As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & My.Application.Info.DirectoryPath & My.Settings.SetDatabase
+    Dim ConexionString As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & My.Application.Info.DirectoryPath & My.Settings.Database
     Dim Conexion As New OleDbConnection(ConexionString)
 
     Private Sub Frm_Report_Load(sender As Object, e As EventArgs) Handles MyBase.Load

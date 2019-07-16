@@ -51,15 +51,15 @@ Partial Class Frm_Principal
         Me.lbl_groupId_proxy = New System.Windows.Forms.Label()
         Me.btn_search_proxy = New System.Windows.Forms.Button()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.DataGridView2 = New System.Windows.Forms.DataGridView()
+        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column2 = New System.Windows.Forms.DataGridViewButtonColumn()
+        Me.Column3 = New System.Windows.Forms.DataGridViewButtonColumn()
+        Me.Column4 = New System.Windows.Forms.DataGridViewButtonColumn()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.StatusStrip3 = New System.Windows.Forms.StatusStrip()
         Me.ProgressBar3 = New System.Windows.Forms.ToolStripProgressBar()
         Me.lbl_state_userLicense = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.CheckBox3 = New System.Windows.Forms.CheckBox()
-        Me.CheckBox4 = New System.Windows.Forms.CheckBox()
-        Me.Button3 = New System.Windows.Forms.Button()
-        Me.TextBox4 = New System.Windows.Forms.TextBox()
-        Me.Label4 = New System.Windows.Forms.Label()
         Me.ListBox2 = New System.Windows.Forms.ListBox()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.TextBox3 = New System.Windows.Forms.TextBox()
@@ -69,6 +69,7 @@ Partial Class Frm_Principal
         Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
+        Me.btn_validate_data = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -76,6 +77,7 @@ Partial Class Frm_Principal
         Me.TabPage2.SuspendLayout()
         Me.StatusStrip2.SuspendLayout()
         Me.TabPage3.SuspendLayout()
+        CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.StatusStrip3.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -99,6 +101,7 @@ Partial Class Frm_Principal
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.btn_validate_data)
         Me.TabPage1.Controls.Add(Me.StatusStrip1)
         Me.TabPage1.Controls.Add(Me.btn_report_cloudpbx)
         Me.TabPage1.Controls.Add(Me.lbl_wait)
@@ -137,7 +140,7 @@ Partial Class Frm_Principal
         'btn_report_cloudpbx
         '
         Me.btn_report_cloudpbx.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_report_cloudpbx.Location = New System.Drawing.Point(1050, 490)
+        Me.btn_report_cloudpbx.Location = New System.Drawing.Point(144, 490)
         Me.btn_report_cloudpbx.MaximumSize = New System.Drawing.Size(132, 75)
         Me.btn_report_cloudpbx.MinimumSize = New System.Drawing.Size(132, 75)
         Me.btn_report_cloudpbx.Name = "btn_report_cloudpbx"
@@ -168,10 +171,12 @@ Partial Class Frm_Principal
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
+        Me.DataGridView1.BackgroundColor = System.Drawing.Color.DarkGray
         Me.DataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView1.Cursor = System.Windows.Forms.Cursors.Default
-        Me.DataGridView1.GridColor = System.Drawing.SystemColors.GradientActiveCaption
+        Me.DataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
+        Me.DataGridView1.GridColor = System.Drawing.Color.DimGray
         Me.DataGridView1.Location = New System.Drawing.Point(6, 84)
         Me.DataGridView1.MaximumSize = New System.Drawing.Size(1313, 400)
         Me.DataGridView1.MinimumSize = New System.Drawing.Size(780, 400)
@@ -183,7 +188,7 @@ Partial Class Frm_Principal
         'btn_procesar
         '
         Me.btn_procesar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_procesar.Location = New System.Drawing.Point(1188, 490)
+        Me.btn_procesar.Location = New System.Drawing.Point(6, 490)
         Me.btn_procesar.MaximumSize = New System.Drawing.Size(132, 75)
         Me.btn_procesar.MinimumSize = New System.Drawing.Size(132, 75)
         Me.btn_procesar.Name = "btn_procesar"
@@ -362,13 +367,9 @@ Partial Class Frm_Principal
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.DataGridView2)
         Me.TabPage3.Controls.Add(Me.Label8)
         Me.TabPage3.Controls.Add(Me.StatusStrip3)
-        Me.TabPage3.Controls.Add(Me.CheckBox3)
-        Me.TabPage3.Controls.Add(Me.CheckBox4)
-        Me.TabPage3.Controls.Add(Me.Button3)
-        Me.TabPage3.Controls.Add(Me.TextBox4)
-        Me.TabPage3.Controls.Add(Me.Label4)
         Me.TabPage3.Controls.Add(Me.ListBox2)
         Me.TabPage3.Controls.Add(Me.Label6)
         Me.TabPage3.Controls.Add(Me.TextBox3)
@@ -381,6 +382,36 @@ Partial Class Frm_Principal
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Assign Service Pack"
         Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'DataGridView2
+        '
+        Me.DataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
+        Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4})
+        Me.DataGridView2.Location = New System.Drawing.Point(394, 136)
+        Me.DataGridView2.Name = "DataGridView2"
+        Me.DataGridView2.Size = New System.Drawing.Size(621, 248)
+        Me.DataGridView2.TabIndex = 25
+        '
+        'Column1
+        '
+        Me.Column1.HeaderText = "UserId"
+        Me.Column1.Name = "Column1"
+        '
+        'Column2
+        '
+        Me.Column2.HeaderText = "Basic"
+        Me.Column2.Name = "Column2"
+        '
+        'Column3
+        '
+        Me.Column3.HeaderText = "Standard"
+        Me.Column3.Name = "Column3"
+        '
+        'Column4
+        '
+        Me.Column4.HeaderText = "Advanced"
+        Me.Column4.Name = "Column4"
         '
         'Label8
         '
@@ -410,55 +441,10 @@ Partial Class Frm_Principal
         Me.lbl_state_userLicense.Size = New System.Drawing.Size(116, 17)
         Me.lbl_state_userLicense.Text = "lbl_state_userLicense"
         '
-        'CheckBox3
-        '
-        Me.CheckBox3.AutoSize = True
-        Me.CheckBox3.Location = New System.Drawing.Point(274, 399)
-        Me.CheckBox3.Name = "CheckBox3"
-        Me.CheckBox3.Size = New System.Drawing.Size(74, 17)
-        Me.CheckBox3.TabIndex = 21
-        Me.CheckBox3.Text = "Add Proxy"
-        Me.CheckBox3.UseVisualStyleBackColor = True
-        '
-        'CheckBox4
-        '
-        Me.CheckBox4.AutoSize = True
-        Me.CheckBox4.Location = New System.Drawing.Point(146, 399)
-        Me.CheckBox4.Name = "CheckBox4"
-        Me.CheckBox4.Size = New System.Drawing.Size(86, 17)
-        Me.CheckBox4.TabIndex = 20
-        Me.CheckBox4.Text = "Modify Proxy"
-        Me.CheckBox4.UseVisualStyleBackColor = True
-        '
-        'Button3
-        '
-        Me.Button3.Location = New System.Drawing.Point(146, 463)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(75, 23)
-        Me.Button3.TabIndex = 19
-        Me.Button3.Text = "Process"
-        Me.Button3.UseVisualStyleBackColor = True
-        '
-        'TextBox4
-        '
-        Me.TextBox4.Location = New System.Drawing.Point(146, 437)
-        Me.TextBox4.Name = "TextBox4"
-        Me.TextBox4.Size = New System.Drawing.Size(202, 20)
-        Me.TextBox4.TabIndex = 18
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(77, 440)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(33, 13)
-        Me.Label4.TabIndex = 17
-        Me.Label4.Text = "Proxy"
-        '
         'ListBox2
         '
         Me.ListBox2.FormattingEnabled = True
-        Me.ListBox2.Location = New System.Drawing.Point(146, 158)
+        Me.ListBox2.Location = New System.Drawing.Point(145, 159)
         Me.ListBox2.Name = "ListBox2"
         Me.ListBox2.Size = New System.Drawing.Size(202, 225)
         Me.ListBox2.TabIndex = 16
@@ -475,7 +461,7 @@ Partial Class Frm_Principal
         '
         'TextBox3
         '
-        Me.TextBox3.Location = New System.Drawing.Point(146, 71)
+        Me.TextBox3.Location = New System.Drawing.Point(145, 72)
         Me.TextBox3.Name = "TextBox3"
         Me.TextBox3.Size = New System.Drawing.Size(202, 20)
         Me.TextBox3.TabIndex = 14
@@ -483,7 +469,7 @@ Partial Class Frm_Principal
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(77, 74)
+        Me.Label7.Location = New System.Drawing.Point(76, 75)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(45, 13)
         Me.Label7.TabIndex = 13
@@ -491,7 +477,7 @@ Partial Class Frm_Principal
         '
         'Button4
         '
-        Me.Button4.Location = New System.Drawing.Point(146, 97)
+        Me.Button4.Location = New System.Drawing.Point(145, 98)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(75, 23)
         Me.Button4.TabIndex = 12
@@ -522,6 +508,16 @@ Partial Class Frm_Principal
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
         '
+        'btn_validate_data
+        '
+        Me.btn_validate_data.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_validate_data.Location = New System.Drawing.Point(1187, 490)
+        Me.btn_validate_data.Name = "btn_validate_data"
+        Me.btn_validate_data.Size = New System.Drawing.Size(132, 75)
+        Me.btn_validate_data.TabIndex = 53
+        Me.btn_validate_data.Text = "Validar data"
+        Me.btn_validate_data.UseVisualStyleBackColor = True
+        '
         'Frm_Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -547,6 +543,7 @@ Partial Class Frm_Principal
         Me.StatusStrip2.PerformLayout()
         Me.TabPage3.ResumeLayout(False)
         Me.TabPage3.PerformLayout()
+        CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.StatusStrip3.ResumeLayout(False)
         Me.StatusStrip3.PerformLayout()
         Me.ResumeLayout(False)
@@ -587,15 +584,16 @@ Partial Class Frm_Principal
     Friend WithEvents StatusStrip3 As StatusStrip
     Friend WithEvents ProgressBar3 As ToolStripProgressBar
     Friend WithEvents lbl_state_userLicense As ToolStripStatusLabel
-    Friend WithEvents CheckBox3 As CheckBox
-    Friend WithEvents CheckBox4 As CheckBox
-    Friend WithEvents Button3 As Button
-    Friend WithEvents TextBox4 As TextBox
-    Friend WithEvents Label4 As Label
     Friend WithEvents ListBox2 As ListBox
     Friend WithEvents Label6 As Label
     Friend WithEvents TextBox3 As TextBox
     Friend WithEvents Label7 As Label
     Friend WithEvents Button4 As Button
     Friend WithEvents Label8 As Label
+    Friend WithEvents DataGridView2 As DataGridView
+    Friend WithEvents Column1 As DataGridViewTextBoxColumn
+    Friend WithEvents Column2 As DataGridViewButtonColumn
+    Friend WithEvents Column3 As DataGridViewButtonColumn
+    Friend WithEvents Column4 As DataGridViewButtonColumn
+    Friend WithEvents btn_validate_data As Button
 End Class

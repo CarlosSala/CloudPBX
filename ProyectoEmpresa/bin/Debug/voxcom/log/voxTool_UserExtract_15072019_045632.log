@@ -1,0 +1,300 @@
+**** Version Voxcom --> 2019.07.15 16:57:08:473 CLT
+**** Start OCIClient initialization --> 2019.07.15 16:57:08:482 CLT
+**** Sending request at: 2019.07.15 16:57:08:521 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 31 ms)
+AuthenticationRequest command successful
+
+**** Sending request at: 2019.07.15 16:57:08:565 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 10 ms)
+LoginRequest command successful
+
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\1_CreateDomain_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\1_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\2_AssignDomain_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\2_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\3_CreateNumbers_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\3_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\4_CreateProfileGroup_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\4_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\5_ExtensionsLength_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\5_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\servicesFile_cloud\6_SelectServices_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\6_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\7_AssignServices_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\7_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\8_AssignNumber_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\8_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\9_CreateDevice_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\9_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\10_CreateDevice_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\10_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\11_CreateDevice_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\11_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\12_CreateUser_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\12_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\13_CreateUser_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\13_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\14_CreateUser_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\14_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\15_AssignUser_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\15_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\16_AssignUser_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\16_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\17_AssignUser_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\17_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\18_AssignServices_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\18_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\19_AssignServices_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\19_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\20_AssignServices_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\20_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\21_OCP_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\21_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\22_OCP_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\22_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\23_OCP_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\23_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\24_AssignPasswordSIP_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\24_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\25_AssignPasswordSIP_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\25_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\26_AssignPasswordSIP_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\26_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\27_ActivateNumber_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\27_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\28_ActivateNumber_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\28_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\29_ActivateNumber_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\29_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\30_GroupMusicOnHold_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\30_cloudpbx_response.xml
+********* Starting Run #: 1 in: 3 ms *********
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\1_CreateDomain_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\1_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\1_CreateDomain_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\1_cloudpbx_response.xml
+**** Sending request #: 1 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\1_CreateDomain_request.xml at: 2019.07.15 16:57:08:678 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 12 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\2_AssignDomain_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\2_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\2_AssignDomain_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\2_cloudpbx_response.xml
+**** Sending request #: 2 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\2_AssignDomain_request.xml at: 2019.07.15 16:57:08:725 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 16 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\3_CreateNumbers_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\3_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\3_CreateNumbers_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\3_cloudpbx_response.xml
+**** Sending request #: 3 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\3_CreateNumbers_request.xml at: 2019.07.15 16:57:08:818 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 16 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\4_CreateProfileGroup_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\4_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\4_CreateProfileGroup_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\4_cloudpbx_response.xml
+**** Sending request #: 4 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\4_CreateProfileGroup_request.xml at: 2019.07.15 16:57:08:877 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 13 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\5_ExtensionsLength_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\5_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\5_ExtensionsLength_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\5_cloudpbx_response.xml
+**** Sending request #: 5 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\5_ExtensionsLength_request.xml at: 2019.07.15 16:57:08:929 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 19 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\servicesFile_cloud\6_SelectServices_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\6_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\servicesFile_cloud\6_SelectServices_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\6_cloudpbx_response.xml
+**** Sending request #: 6 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\servicesFile_cloud\6_SelectServices_request.xml at: 2019.07.15 16:57:09:052 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 173 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\7_AssignServices_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\7_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\7_AssignServices_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\7_cloudpbx_response.xml
+**** Sending request #: 7 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\7_AssignServices_request.xml at: 2019.07.15 16:57:09:251 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 30 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\8_AssignNumber_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\8_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\8_AssignNumber_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\8_cloudpbx_response.xml
+**** Sending request #: 8 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\8_AssignNumber_request.xml at: 2019.07.15 16:57:09:320 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 22 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\9_CreateDevice_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\9_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\9_CreateDevice_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\9_cloudpbx_response.xml
+**** Sending request #: 9 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\9_CreateDevice_request.xml at: 2019.07.15 16:57:09:437 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 15 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\10_CreateDevice_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\10_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\10_CreateDevice_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\10_cloudpbx_response.xml
+**** Sending request #: 10 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\10_CreateDevice_request.xml at: 2019.07.15 16:57:09:496 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 11 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\11_CreateDevice_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\11_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\11_CreateDevice_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\11_cloudpbx_response.xml
+**** Sending request #: 11 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\11_CreateDevice_request.xml at: 2019.07.15 16:57:09:548 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 15 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\12_CreateUser_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\12_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\12_CreateUser_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\12_cloudpbx_response.xml
+**** Sending request #: 12 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\12_CreateUser_request.xml at: 2019.07.15 16:57:09:608 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 20 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\13_CreateUser_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\13_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\13_CreateUser_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\13_cloudpbx_response.xml
+**** Sending request #: 13 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\13_CreateUser_request.xml at: 2019.07.15 16:57:09:696 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 18 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\14_CreateUser_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\14_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\14_CreateUser_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\14_cloudpbx_response.xml
+**** Sending request #: 14 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\14_CreateUser_request.xml at: 2019.07.15 16:57:09:759 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 14 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\15_AssignUser_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\15_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\15_AssignUser_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\15_cloudpbx_response.xml
+**** Sending request #: 15 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\15_AssignUser_request.xml at: 2019.07.15 16:57:09:808 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 12 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\16_AssignUser_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\16_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\16_AssignUser_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\16_cloudpbx_response.xml
+**** Sending request #: 16 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\16_AssignUser_request.xml at: 2019.07.15 16:57:09:880 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 10 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\17_AssignUser_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\17_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\17_AssignUser_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\17_cloudpbx_response.xml
+**** Sending request #: 17 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\17_AssignUser_request.xml at: 2019.07.15 16:57:09:942 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 11 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\18_AssignServices_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\18_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\18_AssignServices_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\18_cloudpbx_response.xml
+**** Sending request #: 18 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\18_AssignServices_request.xml at: 2019.07.15 16:57:09:995 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 10 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\19_AssignServices_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\19_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\19_AssignServices_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\19_cloudpbx_response.xml
+**** Sending request #: 19 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\19_AssignServices_request.xml at: 2019.07.15 16:57:10:060 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 16 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\20_AssignServices_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\20_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\20_AssignServices_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\20_cloudpbx_response.xml
+**** Sending request #: 20 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\20_AssignServices_request.xml at: 2019.07.15 16:57:10:157 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 11 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\21_OCP_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\21_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\21_OCP_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\21_cloudpbx_response.xml
+**** Sending request #: 21 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\21_OCP_request.xml at: 2019.07.15 16:57:10:238 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 10 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\22_OCP_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\22_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\22_OCP_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\22_cloudpbx_response.xml
+**** Sending request #: 22 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\22_OCP_request.xml at: 2019.07.15 16:57:10:288 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 13 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\23_OCP_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\23_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\23_OCP_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\23_cloudpbx_response.xml
+**** Sending request #: 23 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\23_OCP_request.xml at: 2019.07.15 16:57:10:345 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 10 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\24_AssignPasswordSIP_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\24_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\24_AssignPasswordSIP_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\24_cloudpbx_response.xml
+**** Sending request #: 24 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\24_AssignPasswordSIP_request.xml at: 2019.07.15 16:57:10:378 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 10 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\25_AssignPasswordSIP_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\25_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\25_AssignPasswordSIP_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\25_cloudpbx_response.xml
+**** Sending request #: 25 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\25_AssignPasswordSIP_request.xml at: 2019.07.15 16:57:10:409 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 9 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\26_AssignPasswordSIP_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\26_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\26_AssignPasswordSIP_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\26_cloudpbx_response.xml
+**** Sending request #: 26 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\26_AssignPasswordSIP_request.xml at: 2019.07.15 16:57:10:449 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 10 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\27_ActivateNumber_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\27_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\27_ActivateNumber_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\27_cloudpbx_response.xml
+**** Sending request #: 27 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\27_ActivateNumber_request.xml at: 2019.07.15 16:57:10:513 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 13 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\28_ActivateNumber_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\28_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\28_ActivateNumber_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\28_cloudpbx_response.xml
+**** Sending request #: 28 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\28_ActivateNumber_request.xml at: 2019.07.15 16:57:10:642 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 9 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\29_ActivateNumber_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\29_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\29_ActivateNumber_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\29_cloudpbx_response.xml
+**** Sending request #: 29 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\29_ActivateNumber_request.xml at: 2019.07.15 16:57:10:693 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 8 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\30_GroupMusicOnHold_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\30_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\30_GroupMusicOnHold_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\30_cloudpbx_response.xml
+**** Sending request #: 30 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\30_GroupMusicOnHold_request.xml at: 2019.07.15 16:57:10:730 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 29 ms)
+
+Run #: 1 -- Statistics ========================>
+Total Requests: 30
+Total Time for all requests: 585 ms
+Average Time per request: 19 ms
+Smallest request time: 8 ms
+Longest request time: 173 ms, FileName: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\servicesFile_cloud\6_SelectServices_request.xml, Time: 2019.07.15 16:57:09:227 CLT
+<========================
+
+**** Sending request at: 2019.07.15 16:57:10:815 CLT
+**** Time Out:1
+
+**** Received response (Request process time: 1002 ms)
+LogoutRequest command successful (no response when OCS)
+

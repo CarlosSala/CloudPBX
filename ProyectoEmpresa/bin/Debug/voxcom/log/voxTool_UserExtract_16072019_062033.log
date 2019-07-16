@@ -1,0 +1,84 @@
+**** Version Voxcom --> 2019.07.16 18:20:34:269 CLT
+**** Start OCIClient initialization --> 2019.07.16 18:20:34:288 CLT
+**** Sending request at: 2019.07.16 18:20:34:580 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 217 ms)
+AuthenticationRequest command successful
+
+**** Sending request at: 2019.07.16 18:20:34:801 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 70 ms)
+LoginRequest command successful
+
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\1_CreateProxy_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\1_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\2_CreateProxy_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\2_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\3_CreateProxy_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\3_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\4_RebuildDevice_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\4_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\5_RebuildDevice_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\5_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\6_RebuildDevice_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\6_cloudpbx_response.xml
+********* Starting Run #: 1 in: 3 ms *********
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\1_CreateProxy_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\1_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\1_CreateProxy_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\1_cloudpbx_response.xml
+**** Sending request #: 1 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\1_CreateProxy_request.xml at: 2019.07.16 18:20:34:897 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 22 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\2_CreateProxy_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\2_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\2_CreateProxy_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\2_cloudpbx_response.xml
+**** Sending request #: 2 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\2_CreateProxy_request.xml at: 2019.07.16 18:20:34:946 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 22 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\3_CreateProxy_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\3_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\3_CreateProxy_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\3_cloudpbx_response.xml
+**** Sending request #: 3 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\3_CreateProxy_request.xml at: 2019.07.16 18:20:35:130 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 77 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\4_RebuildDevice_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\4_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\4_RebuildDevice_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\4_cloudpbx_response.xml
+**** Sending request #: 4 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\4_RebuildDevice_request.xml at: 2019.07.16 18:20:35:234 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 154 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\5_RebuildDevice_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\5_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\5_RebuildDevice_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\5_cloudpbx_response.xml
+**** Sending request #: 5 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\5_RebuildDevice_request.xml at: 2019.07.16 18:20:35:420 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 61 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\6_RebuildDevice_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\6_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\6_RebuildDevice_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\6_cloudpbx_response.xml
+**** Sending request #: 6 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\6_RebuildDevice_request.xml at: 2019.07.16 18:20:35:504 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 19 ms)
+
+Run #: 1 -- Statistics ========================>
+Total Requests: 6
+Total Time for all requests: 355 ms
+Average Time per request: 59 ms
+Smallest request time: 19 ms
+Longest request time: 154 ms, FileName: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\modifyProxy\4_RebuildDevice_request.xml, Time: 2019.07.16 18:20:35:392 CLT
+<========================
+
+**** Sending request at: 2019.07.16 18:20:35:549 CLT
+**** Time Out:1
+
+**** Received response (Request process time: 1003 ms)
+LogoutRequest command successful (no response when OCS)
+

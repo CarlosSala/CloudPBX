@@ -22,7 +22,47 @@ Public Class Frm_Principal
     Dim numFile As Integer = 1
     'Dim n_File As Integer = FreeFile()
 
+    Dim domain As String = ""
+    Dim phoneNumber As String = ""
+    Dim group_id As String = ""
+    Dim group_name As String = ""
+    Dim contact_name As String = ""
+    Dim contact_number As String = ""
+    Dim address As String = ""
+    Dim city As String = ""
+    Dim device_type As String = ""
+    Dim mac As String = ""
+    Dim serial_number As String = ""
+    Dim physical_location As String = ""
+    Dim department As String = ""
+    Dim first_name As String = ""
+    Dim last_name As String = ""
+    Dim user_email As String = ""
+    Dim user_address As String = ""
+    Dim user_city As String = ""
+    Dim proxy As String = ""
+    Dim extensions As String = ""
+    Dim ocp_local As String = ""
+    Dim ocp_tollFree As String = ""
+    Dim ocp_internacional As String = ""
+    Dim ocp_special1 As String = ""
+    Dim ocp_special2 As String = ""
+    Dim ocp_premium1 As String = ""
+
+    Dim filasValidas As Integer
+    Dim infoContact As Integer = 0
+    Dim arregloDeptos() As String
+    Dim proxyInfo As Integer = 0
+    Dim estadoCeldas As Integer = 0
+    Dim validarPlanilla As Integer
     Private Sub For1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        'Dim btn As New DataGridViewButtonColumn()
+        'DataGridView2.Columns.Add(btn)
+        'btn.HeaderText = "Click Data"
+        'btn.Text = "Click Here"
+        'btn.Name = "btn"
+        'btn.UseColumnTextForButtonValue = True
 
         First_Interface()
         Second_Interface()
@@ -46,6 +86,7 @@ Public Class Frm_Principal
         lbl_wait.Visible = False
         btn_report_cloudpbx.Enabled = False
         btn_procesar.Enabled = False
+        btn_validate_data.Enabled = False
         lbl_state_cloud.Text = ""
     End Sub
 
@@ -307,7 +348,6 @@ Public Class Frm_Principal
         Update_Grid()
     End Sub
 
-
     Public Sub Update_Grid()
 
         Dim iSQL As String = "select * from brs_cloudpbx"
@@ -340,20 +380,395 @@ Public Class Frm_Principal
             DataGridView1.Columns(j).SortMode = DataGridViewColumnSortMode.NotSortable
         Next
 
-        'Bloquear celdas no usadas
-        'For j = 0 To DataGridView1.RowCount - 1
-        '    DataGridView1.Rows(j).Cells(0).ReadOnly = True
-        '    DataGridView1.Rows(j).Cells(0).Style.BackColor = Color.FromArgb(121, 116, 117)
-        'Next
         'DataGridView1.CurrentCell = DataGridView1.Rows(0).Cells(0)
         'lblCMMUpdCurrentRow.Text = DataGridView1.CurrentCell.RowIndex + 1
         'lblCMMUpdTotalRows.Text = DataGridView1.RowCount
 
         lbl_wait.Visible = False
         Me.Cursor = Cursors.Default
-        btn_procesar.Enabled = True
+        btn_validate_data.Enabled = True
         My.Application.DoEvents()
+        'Validate_Data()
     End Sub
+
+    Public Function Validate_Data() As Integer
+
+        filasValidas = 0
+        'Esta variable se usa para controlar que la data supere las pruebas de validación
+        estadoCeldas = 0
+
+        'INFORMACION OBLIGATORIA. A CONTINUACION SE VALIDA QUE:
+
+        'domain sea mayor a un largo 3
+        'todos los phoneNumber tengan un largo mayor a 8
+        'group_id sea mayor a un largo 3
+        'group_name sea mayor a un largo 3
+        'address sea mayor a un largo 3
+        'city sea mayor a un largo 3
+        'device_type se mayor a un largo 11
+        'mac sea mayor a un largo 11
+        'serial_number sea mayor a un largo 15
+        'physical_location sea mayor a un largo 3
+        'first_name sea mayor a un largo 1
+        'last_name sea mayor a un largo 0
+        'user_address sea mayor a un largo 3
+        'user_city sea mayor a un largo 3
+        'first_name sea mayor a un largo 1
+        'extensions sea mayor a un largo 1
+        'ocp_local sea mayor a un largo 8
+        'ocp_tollFree sea mayor a un largo 8
+        'ocp_internacional sea mayor a un largo 8
+        'ocp_special1 sea mayor a un largo 8
+        'ocp_special2 sea mayor a un largo 8
+        'ocp_premium1 sea mayor a un largo 8
+
+        'validar dominio----------------------------------------------------------------------------------------------------
+        domain = DataGridView1.Rows(0).Cells(0).Value.ToString.ToLower 'domain = dt.Rows(0)(0).ToString.ToLower
+        If domain.Length > 3 Then
+            DataGridView1.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(92, 184, 92)
+        Else
+            DataGridView1.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(254, 84, 97)
+            estadoCeldas = 1
+        End If
+
+        'validar numeración-------------------------------------------------------------------------------------------------
+        For j = 0 To DataGridView1.Rows.Count - 2  'dt.Rows.Count - 1
+            phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+            If phoneNumber.Length > 8 Then
+                DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(92, 184, 92)
+            Else
+                DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
+            End If
+        Next
+
+        'validar información del grupo---------------------------------------------------------------------------------------
+        group_id = DataGridView1.Rows(0).Cells(2).Value.ToString
+        group_name = DataGridView1.Rows(0).Cells(3).Value.ToString
+        address = DataGridView1.Rows(0).Cells(6).Value.ToString
+        city = DataGridView1.Rows(0).Cells(7).Value.ToString
+
+        If group_id.Length > 3 Then
+            DataGridView1.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(92, 184, 92)
+        Else
+            DataGridView1.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(254, 84, 97)
+            estadoCeldas = 1
+        End If
+
+        If group_name.Length > 3 Then
+            DataGridView1.Rows(0).Cells(3).Style.BackColor = Color.FromArgb(92, 184, 92)
+        Else
+            DataGridView1.Rows(0).Cells(3).Style.BackColor = Color.FromArgb(254, 84, 97)
+            estadoCeldas = 1
+        End If
+
+        If address.Length > 3 Then
+            DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(92, 184, 92)
+        Else
+            DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(254, 84, 97)
+            estadoCeldas = 1
+        End If
+
+        If city.Length > 3 Then
+            DataGridView1.Rows(0).Cells(7).Style.BackColor = Color.FromArgb(92, 184, 92)
+        Else
+            DataGridView1.Rows(0).Cells(7).Style.BackColor = Color.FromArgb(254, 84, 97)
+            estadoCeldas = 1
+        End If
+
+        'validar información de los dispositivos-----------------------------------------------------------------------------------
+        'La columna 'device_type' es la referencia para las demas, por ello se valida lo sigte:
+        'No puede estar vacia la primera celda
+        'No puede haber celdas vacias entremedio
+
+        If DataGridView1.Rows(0).Cells(8).Value.ToString.Length > 11 Then
+            DataGridView1.Rows(0).Cells(8).Style.BackColor = Color.FromArgb(92, 184, 92)
+        Else
+            DataGridView1.Rows(0).Cells(8).Style.BackColor = Color.FromArgb(254, 84, 97)
+            estadoCeldas = 1
+        End If
+
+        'For para saber cantidad de filas no vacias de la columna device_type
+        For j = 0 To DataGridView1.Rows.Count - 2
+            If DataGridView1.Rows(j).Cells(8).Value.ToString.Length > 0 Then
+                filasValidas += 1
+            End If
+        Next
+
+        For j = 0 To filasValidas - 1
+            mac = DataGridView1.Rows(j).Cells(9).Value.ToString
+            device_type = DataGridView1.Rows(j).Cells(8).Value.ToString
+            serial_number = DataGridView1.Rows(j).Cells(10).Value.ToString
+            physical_location = DataGridView1.Rows(j).Cells(11).Value.ToString
+
+            If mac.Length > 11 Then
+                DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(92, 184, 92)
+            Else
+                DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
+            End If
+
+            'Si se compara con el signo = un string, no importaran las mayusculas o minusculas
+            If device_type.Equals("Yealink-T19xE2") Or device_type.Equals("Yealink-T21xE2") Or device_type.Equals("Yealink-T27G") Then
+                DataGridView1.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(92, 184, 92)
+            Else
+                DataGridView1.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
+            End If
+
+            If serial_number.Length > 15 Then
+                DataGridView1.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(92, 184, 92)
+            Else
+                DataGridView1.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
+            End If
+
+            If physical_location.Length > 3 Then
+                DataGridView1.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(92, 184, 92)
+            Else
+                DataGridView1.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
+            End If
+        Next
+
+        'validar información de los usuarios------------------------------------------------------------------------------------------
+        'validar creación de los departamentos
+        Dim varAcumulaDepto As String = ""
+        Dim arreglo() As String
+        ReDim arregloDeptos(DataGridView1.Rows.Count - 2)
+        Dim index As Integer
+        Dim numElementos As Integer = 0
+
+        For i = 0 To DataGridView1.RowCount - 2
+            varAcumulaDepto += DataGridView1.Rows(i).Cells(12).Value.ToString & ";"
+        Next
+
+        arreglo = Split(varAcumulaDepto, ";")
+
+            For k = 0 To arreglo.Length - 1
+                index = Array.IndexOf(arregloDeptos, arreglo(k))
+                'Se guarda en arregloDeptos todo aquello que no este repetido y que tenga un largo mayor a cero
+                If index = -1 And arreglo(k).Length > 0 Then
+                    arregloDeptos(numElementos) = arreglo(k)
+                    'MsgBox("Se guardó el elemento: " & arregloDeptos(numElementos) & " en arregloDeptos")
+                    numElementos += 1
+                Else
+                    'MsgBox("Elemento repetido no se guardó")
+                End If
+            Next
+
+            ReDim Preserve arregloDeptos(numElementos - 1)
+        'MsgBox("cantidad de departamentos a crear " & arregloDeptos.Length)
+        'For Each elemento As String In arregloDeptos
+        '    MsgBox(" arreglo final con los deptos " & vbCrLf & elemento)
+        'Next
+        For j = 0 To filasValidas - 1
+            department = DataGridView1.Rows(j).Cells(12).Value.ToString
+            If department.Length = 0 Then
+                DataGridView1.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(255, 255, 255)
+            ElseIf department.Length > 0 Then
+                DataGridView1.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(92, 184, 92)
+            End If
+        Next
+
+
+
+        For j = 0 To filasValidas - 1
+            first_name = DataGridView1.Rows(j).Cells(13).Value.ToString
+            last_name = DataGridView1.Rows(j).Cells(14).Value.ToString
+            user_address = DataGridView1.Rows(j).Cells(16).Value.ToString
+            user_city = DataGridView1.Rows(j).Cells(17).Value.ToString
+            extensions = DataGridView1.Rows(j).Cells(19).Value.ToString
+            ocp_local = DataGridView1.Rows(j).Cells(20).Value.ToString
+            ocp_tollFree = DataGridView1.Rows(j).Cells(21).Value.ToString
+            ocp_internacional = DataGridView1.Rows(j).Cells(22).Value.ToString
+            ocp_special1 = DataGridView1.Rows(j).Cells(23).Value.ToString
+            ocp_special2 = DataGridView1.Rows(j).Cells(24).Value.ToString
+            ocp_premium1 = DataGridView1.Rows(j).Cells(25).Value.ToString
+
+            If first_name.Length > 1 Then
+                DataGridView1.Rows(j).Cells(13).Style.BackColor = Color.FromArgb(92, 184, 92)
+            Else
+                DataGridView1.Rows(j).Cells(13).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
+            End If
+
+            If last_name.Length > 0 Then
+                DataGridView1.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(92, 184, 92)
+            Else
+                DataGridView1.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
+            End If
+
+            If user_address.Length > 3 Then
+                DataGridView1.Rows(j).Cells(16).Style.BackColor = Color.FromArgb(92, 184, 92)
+            Else
+                DataGridView1.Rows(j).Cells(16).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
+            End If
+
+            If user_city.Length > 3 Then
+                DataGridView1.Rows(j).Cells(17).Style.BackColor = Color.FromArgb(92, 184, 92)
+            Else
+                DataGridView1.Rows(j).Cells(17).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
+            End If
+
+            If extensions.Length > 2 Then
+                DataGridView1.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(92, 184, 92)
+            Else
+                DataGridView1.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
+            End If
+
+            If ocp_local.Equals("bloqueado") Or ocp_local.Equals("Bloqueado") Or ocp_local.Equals("BLOQUEADO") Or ocp_local.Equals("desbloqueado") Or ocp_local.Equals("Desbloqueado") Or ocp_local.Equals("DESBLOQUEADO") Then
+                DataGridView1.Rows(j).Cells(20).Style.BackColor = Color.FromArgb(92, 184, 92)
+            Else
+                DataGridView1.Rows(j).Cells(20).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
+            End If
+
+            If ocp_tollFree.Equals("bloqueado") Or ocp_tollFree.Equals("Bloqueado") Or ocp_tollFree.Equals("BLOQUEADO") Or ocp_tollFree.Equals("desbloqueado") Or ocp_tollFree.Equals("Desbloqueado") Or ocp_tollFree.Equals("DESBLOQUEADO") Then
+                DataGridView1.Rows(j).Cells(21).Style.BackColor = Color.FromArgb(92, 184, 92)
+            Else
+                DataGridView1.Rows(j).Cells(21).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
+            End If
+
+            If ocp_internacional.Equals("bloqueado") Or ocp_internacional.Equals("Bloqueado") Or ocp_internacional.Equals("BLOQUEADO") Or ocp_internacional.Equals("desbloqueado") Or ocp_internacional.Equals("Desbloqueado") Or ocp_internacional.Equals("DESBLOQUEADO") Then
+                DataGridView1.Rows(j).Cells(22).Style.BackColor = Color.FromArgb(92, 184, 92)
+            Else
+                DataGridView1.Rows(j).Cells(22).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
+            End If
+
+            If ocp_special1.Equals("bloqueado") Or ocp_special1.Equals("Bloqueado") Or ocp_special1.Equals("BLOQUEADO") Or ocp_special1.Equals("desbloqueado") Or ocp_special1.Equals("Desbloqueado") Or ocp_special1.Equals("DESBLOQUEADO") Then
+                DataGridView1.Rows(j).Cells(23).Style.BackColor = Color.FromArgb(92, 184, 92)
+            Else
+                DataGridView1.Rows(j).Cells(23).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
+            End If
+
+            If ocp_special2.Equals("bloqueado") Or ocp_special2.Equals("Bloqueado") Or ocp_special2.Equals("BLOQUEADO") Or ocp_special2.Equals("desbloqueado") Or ocp_special2.Equals("Desbloqueado") Or ocp_special2.Equals("DESBLOQUEADO") Then
+                DataGridView1.Rows(j).Cells(24).Style.BackColor = Color.FromArgb(92, 184, 92)
+            Else
+                DataGridView1.Rows(j).Cells(24).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
+            End If
+
+            If ocp_premium1.Equals("bloqueado") Or ocp_premium1.Equals("Bloqueado") Or ocp_premium1.Equals("BLOQUEADO") Or ocp_premium1.Equals("desbloqueado") Or ocp_premium1.Equals("Desbloqueado") Or ocp_premium1.Equals("DESBLOQUEADO") Then
+                DataGridView1.Rows(j).Cells(25).Style.BackColor = Color.FromArgb(92, 184, 92)
+            Else
+                DataGridView1.Rows(j).Cells(25).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
+            End If
+        Next
+
+
+        'INFORMACION OPCIONAL. A CONTINUACION SE VALIDA QUE:
+
+        'Para añadir contact_name y conctact_number al archivo xml correspondiente:
+        'contact_name debe ser mayor a un largo 3 y
+        'contact_number deber ser mayor a un largo 8
+        'user_email  debe ser mayor a un largo 10
+        'proxy sea mayor a un largo 7
+
+        contact_name = DataGridView1.Rows(0).Cells(4).Value.ToString
+        contact_number = DataGridView1.Rows(0).Cells(5).Value.ToString
+
+        'Intento fallido
+        If contact_name.Length <= 3 And contact_name.Length > 0 And contact_number.Length <= 8 And contact_number.Length > 0 Then
+            DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(254, 84, 97)
+            infoContact = 0
+
+            'Ambos cumplen
+        ElseIf contact_name.Length > 3 And contact_number.Length > 8 Then
+            DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(92, 184, 92)
+            DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(92, 184, 92)
+            infoContact = 1
+
+            'Ninguno cumple (apropósito)
+        ElseIf contact_name.Length = 0 And contact_number.Length = 0 Then
+            DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(255, 255, 255)
+            DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(255, 255, 255)
+            infoContact = 1
+
+            'Solo el primero cumple
+        ElseIf contact_name.Length > 3 And contact_number.Length <= 8 Then
+            DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(92, 184, 92)
+            DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(254, 84, 97)
+            infoContact = 0
+            estadoCeldas = 1
+
+            'Solo el segundo cumple
+        ElseIf contact_name.Length <= 3 And contact_number.Length > 8 Then
+            DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(92, 184, 92)
+            infoContact = 0
+            estadoCeldas = 1
+        End If
+
+        For j = 0 To filasValidas - 1
+            user_email = DataGridView1.Rows(j).Cells(15).Value.ToString
+            If user_email.Length = 0 Then
+                DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(255, 255, 255)
+            ElseIf user_email.Length > 10 Then
+                DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(92, 184, 92)
+            ElseIf user_email.Length <= 10 And user_email.Length > 0 Then
+                DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
+            End If
+        Next
+
+        proxy = DataGridView1.Rows(0).Cells(18).Value.ToString
+        If proxy.Length = 0 Then
+            DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(255, 255, 255)
+            proxyInfo = 0
+        ElseIf proxy.Length > 0 And proxy.Length < 7 Then
+            DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(254, 84, 97)
+            proxyInfo = 0
+            estadoCeldas = 1
+        ElseIf proxy.Length > 7 Then
+            DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(92, 184, 92)
+            proxyInfo = 1
+        End If
+
+
+        For fila As Integer = 0 To DataGridView1.RowCount - 1
+            For columna As Integer = 0 To DataGridView1.ColumnCount - 1
+
+                'Se bloquean todas las filas superiores a la posicion 0, en las columnas 0,2,3,4,5,6,7 y 18
+                If columna = 0 Or columna > 1 And columna < 8 Or columna = 18 Then
+                    If fila > 0 Then
+                        DataGridView1.Rows(fila).Cells(columna).ReadOnly = True
+                        DataGridView1.Rows(fila).Cells(columna).Style.BackColor = Color.FromArgb(232, 232, 232)
+                    End If
+                Else
+                    'filasValidas - 1 se iguala con fila, ya que esta parte en 0
+                    If fila > filasValidas - 1 And columna <> 1 And columna <> 8 Then
+                        DataGridView1.Rows(fila).Cells(columna).ReadOnly = True
+                        DataGridView1.Rows(fila).Cells(columna).Style.BackColor = Color.FromArgb(232, 232, 232)
+                    Else
+                        DataGridView1.Rows(fila).Cells(columna).ReadOnly = False
+                    End If
+                End If
+                'MsgBox(Me.DataGridView1.Item(Columnas, filas).Value)
+            Next
+        Next
+
+        'validar que la columna de los numeros sea igual o mayor a la de los dispositivos
+
+        If estadoCeldas = 0 Then
+            btn_procesar.Enabled = True
+            Return 0
+        Else
+            btn_procesar.Enabled = False
+            'MsgBox("revise las celdas")
+            Return 1
+        End If
+    End Function
+
 
     Private Sub Error_File()
         FileClose(numFile)
@@ -365,10 +780,21 @@ Public Class Frm_Principal
 
     Private Sub Btn_procesar_Click(sender As Object, e As EventArgs) Handles btn_procesar.Click
 
-        If My.Computer.Network.Ping(My.Settings.Host, gblTimePing) Then
-            'MsgBox("Server pinged successfully.")
+        'If My.Computer.Network.Ping(My.Settings.Host, gblTimePing) Then
+        '    MsgBox("Server pinged successfully.")
+        'Else
+        '    MsgBox("Servidor fuera de Linea, favor verifique la conexion", MsgBoxStyle.Exclamation, "Error de Comunicación")
+        '    Exit Sub
+        'End If
+
+        Validate_Data()
+        Dim estado = Validate_Data()
+        If estado = 0 Then
+
         Else
-            MsgBox("Servidor fuera de Linea, favor verifique la conexion", MsgBoxStyle.Exclamation, "Error de Comunicación")
+            Me.Cursor = Cursors.Default
+            btn_procesar.Enabled = False
+            'MsgBox("revise las celdas")
             Exit Sub
         End If
 
@@ -605,372 +1031,6 @@ Public Class Frm_Principal
         ProgressBar1.Minimum = 0
         ProgressBar1.Value = 0
         ProgressBar1.Maximum = 100
-
-        Dim domain As String = ""
-        Dim phoneNumber As String = ""
-        Dim group_id As String = ""
-        Dim group_name As String = ""
-        Dim contact_name As String = ""
-        Dim contact_number As String = ""
-        Dim address As String = ""
-        Dim city As String = ""
-        Dim device_type As String = ""
-        Dim mac As String = ""
-        Dim serial_number As String = ""
-        Dim physical_location As String = ""
-        Dim department As String = ""
-        Dim first_name As String = ""
-        Dim last_name As String = ""
-        Dim user_email As String = ""
-        Dim user_address As String = ""
-        Dim user_city As String = ""
-        Dim proxy As String = ""
-        Dim extensions As String = ""
-        Dim ocp_local As String = ""
-        Dim ocp_tollFree As String = ""
-        Dim ocp_internacional As String = ""
-        Dim ocp_special1 As String = ""
-        Dim ocp_special2 As String = ""
-        Dim ocp_premium1 As String = ""
-
-        'Esta variable se usa para controlar que la data supere las pruebas de validación
-        Dim estadoCeldas As Integer = 0
-
-        'INFORMACION OBLIGATORIA. A CONTINUACION SE VALIDA QUE:
-
-        'domain sea mayor a un largo 3
-        'todos los phoneNumber tengan un largo mayor a 8
-        'group_id sea mayor a un largo 3
-        'group_name sea mayor a un largo 3
-        'address sea mayor a un largo 3
-        'city sea mayor a un largo 3
-        'device_type se mayor a un largo 11
-        'mac sea mayor a un largo 11
-        'serial_number sea mayor a un largo 15
-        'physical_location sea mayor a un largo 3
-        'first_name sea mayor a un largo 1
-        'last_name sea mayor a un largo 0
-        'user_address sea mayor a un largo 3
-        'user_city sea mayor a un largo 3
-        'first_name sea mayor a un largo 1
-        'extensions sea mayor a un largo 1
-        'ocp_local sea mayor a un largo 8
-        'ocp_tollFree sea mayor a un largo 8
-        'ocp_internacional sea mayor a un largo 8
-        'ocp_special1 sea mayor a un largo 8
-        'ocp_special2 sea mayor a un largo 8
-        'ocp_premium1 sea mayor a un largo 8
-
-
-        'validar dominio----------------------------------------------------------------------------------------------------
-        domain = DataGridView1.Rows(0).Cells(0).Value.ToString.ToLower 'domain = dt.Rows(0)(0).ToString.ToLower
-        If domain.Length <= 3 Then
-            DataGridView1.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(254, 84, 97)
-            estadoCeldas += 1
-        Else
-            DataGridView1.Rows(0).Cells(0).Style.BackColor = Nothing
-        End If
-
-        'validar numeración-------------------------------------------------------------------------------------------------
-        For j = 0 To DataGridView1.Rows.Count - 2  'dt.Rows.Count - 1
-            phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
-            If phoneNumber.Length <= 8 Then
-                DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas += 1
-            Else
-                DataGridView1.Rows(j).Cells(1).Style.BackColor = Nothing
-            End If
-        Next
-
-        'validar información del grupo---------------------------------------------------------------------------------------
-        group_id = DataGridView1.Rows(0).Cells(2).Value.ToString
-        group_name = DataGridView1.Rows(0).Cells(3).Value.ToString
-        address = DataGridView1.Rows(0).Cells(6).Value.ToString
-        city = DataGridView1.Rows(0).Cells(7).Value.ToString
-
-        If group_id.Length <= 3 Then
-            DataGridView1.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(254, 84, 97)
-            estadoCeldas += 1
-        Else
-            DataGridView1.Rows(0).Cells(2).Style.BackColor = Nothing
-        End If
-
-        If group_name.Length <= 3 Then
-            DataGridView1.Rows(0).Cells(3).Style.BackColor = Color.FromArgb(254, 84, 97)
-            estadoCeldas += 1
-        Else
-            DataGridView1.Rows(0).Cells(3).Style.BackColor = Nothing
-        End If
-
-        If address.Length <= 3 Then
-            DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(254, 84, 97)
-            estadoCeldas += 1
-        Else
-            DataGridView1.Rows(0).Cells(6).Style.BackColor = Nothing
-        End If
-
-        If city.Length <= 3 Then
-            DataGridView1.Rows(0).Cells(7).Style.BackColor = Color.FromArgb(254, 84, 97)
-            estadoCeldas += 1
-        Else
-            DataGridView1.Rows(0).Cells(7).Style.BackColor = Nothing
-        End If
-
-        'validar información de los dispositivos-----------------------------------------------------------------------------------
-        'La columna 'device_type' es la referencia para las demas, por ello se valida lo sigte:
-        'No puede estar vacia la primera celda
-        'No puede haber celdas vacias entremedio
-
-        If DataGridView1.Rows(0).Cells(8).Value.ToString.Length <= 11 Then
-            DataGridView1.Rows(0).Cells(8).Style.BackColor = Color.FromArgb(254, 84, 97)
-            estadoCeldas += 1
-        Else
-            DataGridView1.Rows(0).Cells(8).Style.BackColor = Nothing
-        End If
-
-        Dim filasValidas As Integer = 0
-        'For para saber cantidad de filas no vacias de la columna device_type
-        For j = 0 To DataGridView1.Rows.Count - 2
-            If DataGridView1.Rows(j).Cells(8).Value.ToString.Length > 0 Then
-                filasValidas += 1
-            End If
-        Next
-
-        For j = 0 To filasValidas - 1
-            mac = DataGridView1.Rows(j).Cells(9).Value.ToString
-            device_type = DataGridView1.Rows(j).Cells(8).Value.ToString
-            serial_number = DataGridView1.Rows(j).Cells(10).Value.ToString
-            physical_location = DataGridView1.Rows(j).Cells(11).Value.ToString
-
-            If mac.Length <= 11 Then
-                DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas += 1
-            Else
-                DataGridView1.Rows(j).Cells(9).Style.BackColor = Nothing
-            End If
-
-            If device_type = "Yealink-T19xE2" Or device_type = "Yealink-T21xE2" Or device_type = "Yealink-T27G" Then
-
-            Else
-                DataGridView1.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas += 1
-            End If
-
-            If serial_number.Length <= 15 Then
-                DataGridView1.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas += 1
-            Else
-                DataGridView1.Rows(j).Cells(10).Style.BackColor = Nothing
-            End If
-
-            If physical_location.Length <= 3 Then
-                DataGridView1.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas += 1
-            Else
-                DataGridView1.Rows(j).Cells(11).Style.BackColor = Nothing
-            End If
-        Next
-
-        'validar información de los usuarios------------------------------------------------------------------------------------------
-        'validar creación de los departamentos
-        Dim varAcumulaDepto As String = ""
-        Dim arreglo() As String
-        Dim arregloDeptos(DataGridView1.Rows.Count - 2) As String
-        Dim index As Integer
-        Dim numElementos As Integer = 0
-        Try
-            For i = 0 To DataGridView1.RowCount - 2
-                varAcumulaDepto += DataGridView1.Rows(i).Cells(12).Value.ToString & ";"
-            Next
-
-            arreglo = Split(varAcumulaDepto, ";")
-
-            For k = 0 To arreglo.Length - 1
-                index = Array.IndexOf(arregloDeptos, arreglo(k))
-                'Se guarda en arregloDeptos todo aquello que no este repetido y que tenga un largo mayor a cero
-                If index = -1 And arreglo(k).Length > 0 Then
-                    arregloDeptos(numElementos) = arreglo(k)
-                    'MsgBox("Se guardó el elemento: " & arregloDeptos(numElementos) & " en arregloDeptos")
-                    numElementos += 1
-                Else
-                    'MsgBox("Elemento repetido no se guardó")
-                End If
-            Next
-
-            ReDim Preserve arregloDeptos(numElementos - 1)
-            'MsgBox("cantidad de departamentos a crear " & arregloDeptos.Length)
-            'For Each elemento As String In arregloDeptos
-            '    MsgBox(" arreglo final con los deptos " & vbCrLf & elemento)
-            'Next
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-            MsgBox("Error en el procedimiento de creación de los depatamentos", MsgBoxStyle.Exclamation, "Error de validación")
-            Me.Cursor = Cursors.Default
-            btn_procesar.Enabled = True
-            btn_browse_CSV.Enabled = True
-            Exit Sub
-        End Try
-
-        For j = 0 To filasValidas - 1
-            first_name = DataGridView1.Rows(j).Cells(13).Value.ToString
-            last_name = DataGridView1.Rows(j).Cells(14).Value.ToString
-            user_address = DataGridView1.Rows(j).Cells(16).Value.ToString
-            user_city = DataGridView1.Rows(j).Cells(17).Value.ToString
-            extensions = DataGridView1.Rows(j).Cells(19).Value.ToString
-            ocp_local = DataGridView1.Rows(j).Cells(20).Value.ToString
-            ocp_tollFree = DataGridView1.Rows(j).Cells(21).Value.ToString
-            ocp_internacional = DataGridView1.Rows(j).Cells(22).Value.ToString
-            ocp_special1 = DataGridView1.Rows(j).Cells(23).Value.ToString
-            ocp_special2 = DataGridView1.Rows(j).Cells(24).Value.ToString
-            ocp_premium1 = DataGridView1.Rows(j).Cells(25).Value.ToString
-
-            If first_name.Length <= 1 Then
-                DataGridView1.Rows(j).Cells(13).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas += 1
-            Else
-                DataGridView1.Rows(j).Cells(13).Style.BackColor = Nothing
-            End If
-
-            If last_name.Length < 1 Then
-                DataGridView1.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas += 1
-            Else
-                DataGridView1.Rows(j).Cells(14).Style.BackColor = Nothing
-            End If
-
-            If user_address.Length <= 3 Then
-                DataGridView1.Rows(j).Cells(16).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas += 1
-            Else
-                DataGridView1.Rows(j).Cells(16).Style.BackColor = Nothing
-            End If
-
-            If user_city.Length <= 3 Then
-                DataGridView1.Rows(j).Cells(17).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas += 1
-            Else
-                DataGridView1.Rows(j).Cells(17).Style.BackColor = Nothing
-            End If
-
-            If extensions.Length <= 1 Then
-                DataGridView1.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas += 1
-            Else
-                DataGridView1.Rows(j).Cells(19).Style.BackColor = Nothing
-            End If
-
-            If ocp_local = "bloqueado" Or ocp_local = "Bloqueado" Or ocp_local = "BLOQUEADO" Or ocp_local = "desbloqueado" Or ocp_local = "Desbloqueado" Or ocp_local = "DESBLOQUEADO" Then
-                DataGridView1.Rows(j).Cells(20).Style.BackColor = Nothing
-            Else
-                DataGridView1.Rows(j).Cells(20).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas += 1
-            End If
-
-            If ocp_tollFree = "bloqueado" Or ocp_tollFree = "Bloqueado" Or ocp_tollFree = "BLOQUEADO" Or ocp_tollFree = "desbloqueado" Or ocp_tollFree = "Desbloqueado" Or ocp_tollFree = "DESBLOQUEADO" Then
-                DataGridView1.Rows(j).Cells(21).Style.BackColor = Nothing
-            Else
-                DataGridView1.Rows(j).Cells(21).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas += 1
-            End If
-
-            If ocp_internacional = "bloqueado" Or ocp_internacional = "Bloqueado" Or ocp_internacional = "BLOQUEADO" Or ocp_internacional = "desbloqueado" Or ocp_internacional = "Desbloqueado" Or ocp_internacional = "DESBLOQUEADO" Then
-                DataGridView1.Rows(j).Cells(22).Style.BackColor = Nothing
-            Else
-                DataGridView1.Rows(j).Cells(22).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas += 1
-            End If
-
-            If ocp_special1 = "bloqueado" Or ocp_special1 = "Bloqueado" Or ocp_special1 = "BLOQUEADO" Or ocp_special1 = "desbloqueado" Or ocp_special1 = "Desbloqueado" Or ocp_special1 = "DESBLOQUEADO" Then
-                DataGridView1.Rows(j).Cells(23).Style.BackColor = Nothing
-            Else
-                DataGridView1.Rows(j).Cells(23).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas += 1
-            End If
-
-            If ocp_special2 = "bloqueado" Or ocp_special2 = "Bloqueado" Or ocp_special2 = "BLOQUEADO" Or ocp_special2 = "desbloqueado" Or ocp_special2 = "Desbloqueado" Or ocp_special2 = "DESBLOQUEADO" Then
-                DataGridView1.Rows(j).Cells(24).Style.BackColor = Nothing
-            Else
-                DataGridView1.Rows(j).Cells(24).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas += 1
-            End If
-
-            If ocp_premium1 = "bloqueado" Or ocp_premium1 = "Bloqueado" Or ocp_premium1 = "BLOQUEADO" Or ocp_premium1 = "desbloqueado" Or ocp_premium1 = "Desbloqueado" Or ocp_premium1 = "DESBLOQUEADO" Then
-                DataGridView1.Rows(j).Cells(25).Style.BackColor = Nothing
-            Else
-                DataGridView1.Rows(j).Cells(25).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas += 1
-            End If
-        Next
-
-
-        'INFORMACION OPCIONAL. A CONTINUACION SE VALIDA QUE:
-
-        'Para añadir contact_name y conctact_number al archivo xml correspondiente:
-        'contact_name debe ser mayor a un largo 3 y
-        'contact_number deber ser mayor a un largo 8
-        'user_email  debe ser mayor a un largo 10
-        'proxy sea mayor a un largo 7
-
-        Dim infoContact As Integer = 0
-        contact_name = DataGridView1.Rows(0).Cells(4).Value.ToString
-        contact_number = DataGridView1.Rows(0).Cells(5).Value.ToString
-
-        If contact_name.Length <= 3 And contact_number.Length <= 8 Then
-            DataGridView1.Rows(0).Cells(4).Style.BackColor = Nothing
-            DataGridView1.Rows(0).Cells(5).Style.BackColor = Nothing
-            infoContact = 0
-
-        ElseIf contact_name.Length > 3 And contact_number.Length > 8 Then
-            DataGridView1.Rows(0).Cells(4).Style.BackColor = Nothing
-            DataGridView1.Rows(0).Cells(5).Style.BackColor = Nothing
-            infoContact = 1
-
-        ElseIf contact_name.Length > 3 And contact_number.Length <= 8 Then
-            DataGridView1.Rows(0).Cells(4).Style.BackColor = Nothing
-            DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(254, 84, 97)
-            infoContact = 0
-            estadoCeldas += 1
-
-        ElseIf contact_name.Length <= 3 And contact_number.Length > 8 Then
-            DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(254, 84, 97)
-            DataGridView1.Rows(0).Cells(5).Style.BackColor = Nothing
-            infoContact = 0
-            estadoCeldas += 1
-        End If
-
-        For j = 0 To filasValidas - 1
-            user_email = DataGridView1.Rows(j).Cells(15).Value.ToString
-            If user_email.Length = 0 Then
-                DataGridView1.Rows(j).Cells(15).Style.BackColor = Nothing
-            ElseIf user_email.Length > 10 Then
-                DataGridView1.Rows(j).Cells(15).Style.BackColor = Nothing
-            ElseIf user_email.Length <= 10 And user_email.Length > 0 Then
-                DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas += 1
-            End If
-        Next
-
-        Dim proxyInfo As Integer = 0
-        proxy = DataGridView1.Rows(0).Cells(18).Value.ToString
-        If proxy.Length = 0 Then
-            DataGridView1.Rows(0).Cells(18).Style.BackColor = Nothing
-            proxyInfo = 0
-        ElseIf proxy.Length > 0 And proxy.Length < 7 Then
-            DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(254, 84, 97)
-            proxyInfo = 0
-            estadoCeldas += 1
-        ElseIf proxy.Length > 7 Then
-            DataGridView1.Rows(0).Cells(18).Style.BackColor = Nothing
-            proxyInfo = 1
-        End If
-
-        If estadoCeldas <> 0 Then
-            Me.Cursor = Cursors.Default
-            btn_procesar.Enabled = True
-            btn_browse_CSV.Enabled = True
-            'MsgBox("revise las celdas")
-            Exit Sub
-        End If
 
         'SearchAllSubDirectories
         Try
@@ -1781,8 +1841,8 @@ Public Class Frm_Principal
         'parseXML_update_CMM(codError, msgError)
 
         ExecuteShellBulk(multipleInputFile, 1)
-        If codError = 0 Then
-            parseXML_cloudPBX()
+        If codError <> 1 Then
+            ParseXML_cloudPBX()
         End If
     End Sub
 
@@ -1807,7 +1867,7 @@ Public Class Frm_Principal
             WriteLine(numFile, linregConfig.ToCharArray)
             linregConfig = "connectionMode = " & My.Settings.Mode
             WriteLine(numFile, linregConfig.ToCharArray)
-            linregConfig = "runMode =  Multiple"
+            linregConfig = "runMode = Multiple"
             WriteLine(numFile, linregConfig.ToCharArray)
             linregConfig = "multipleInputFile = " & fileMIF
             WriteLine(numFile, linregConfig.ToCharArray)
@@ -1827,19 +1887,21 @@ Public Class Frm_Principal
             MsgBox(ex.ToString)
             MsgBox("Se produjo un error al crear el archivo" & gblPathAppl & "\ociclient.config" & " y los archivos XML no fueron enviados", MsgBoxStyle.Exclamation, "Error al crear archivo")
             FileClose(numFile)
-            codError = 1
             Me.Cursor = Cursors.Default
             If numberSubroutine = 1 Then
+                codError = 1
                 btn_browse_CSV.Enabled = True
                 btn_procesar.Enabled = True
                 lbl_state_cloud.Text = "Error en archivo ociclient.config"
                 ProgressBar1.Value = ProgressBar1.Maximum
                 My.Application.DoEvents()
             ElseIf numberSubroutine = 2 Then
+                codError = 2
                 lbl_state_proxy.Text = "Error en archivo ociclient.config"
                 ProgressBar2.Value = ProgressBar2.Maximum
                 My.Application.DoEvents()
             ElseIf numberSubroutine = 3 Then
+                codError = 3
                 lbl_state_userLicense.Text = "Error en archivo ociclient.config"
                 ProgressBar3.Value = ProgressBar3.Maximum
                 My.Application.DoEvents()
@@ -1874,19 +1936,21 @@ Public Class Frm_Principal
         Catch ex As Exception
             MsgBox(ex.ToString)
             'grabaLog(1, 3, "Error al ejecutar Shell>" & strArguments)
-            codError = 1
             Me.Cursor = Cursors.Default
             If numberSubroutine = 1 Then
+                codError = 1
                 btn_browse_CSV.Enabled = True
                 btn_procesar.Enabled = True
                 lbl_state_cloud.Text = "Error al ejecutar startASOCIClient.bat"
                 ProgressBar1.Value = ProgressBar1.Maximum
                 My.Application.DoEvents()
             ElseIf numberSubroutine = 2 Then
+                codError = 2
                 lbl_state_proxy.Text = "Error al ejecutar startASOCIClient.bat"
                 ProgressBar2.Value = ProgressBar2.Maximum
                 My.Application.DoEvents()
             ElseIf numberSubroutine = 3 Then
+                codError = 3
                 lbl_state_userLicense.Text = "Error al ejecutar startASOCIClient.bat"
                 ProgressBar3.Value = ProgressBar3.Maximum
                 My.Application.DoEvents()
@@ -2107,7 +2171,6 @@ Public Class Frm_Principal
 
         Dim fileIXML As String = ""
         Dim fileOXML As String = ""
-        Dim codError As Integer
         Dim multipleInputFile As String = gblPathTmpProxy & "\getDeviceName\multipleInputFileProxy.txt"
         Dim lineConfigFile As String = ""
 
@@ -2155,7 +2218,7 @@ Public Class Frm_Principal
         End Try
 
         ExecuteShellBulk(multipleInputFile, 2)
-        If codError = 0 Then
+        If codError <> 2 Then
             parseXML_DVmac()
         End If
     End Sub
@@ -2238,7 +2301,6 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error file response")
                 'grabaLog1(1, 2, "Error al leer archivo XML>" & gblPathTmpProxy & "\getDeviceName\" & num & "_cloudpbx_response.xml")
-                'codError = 1
                 'msgError = "Respuesta No Generada"
                 Me.Cursor = Cursors.Default
                 lbl_state_proxy.Text = "Error file response"
@@ -2310,9 +2372,9 @@ Public Class Frm_Principal
         End If
 
         indexXML_Proxy = 0
-        'lbl_state_proxy.Text = ""
-        'ProgressBar2.Value = 0
-        'My.Application.DoEvents()
+        lbl_state_proxy.Text = ""
+        ProgressBar2.Value = 0
+        My.Application.DoEvents()
 
         'Se eliminan los archivos antiguos del directorio correspondiente
         Try
@@ -2326,6 +2388,8 @@ Public Class Frm_Principal
             Me.Cursor = Cursors.Default
             Exit Sub
         End Try
+
+
 
         Dim line1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim line2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
@@ -2447,7 +2511,7 @@ Public Class Frm_Principal
         FileClose(numFileProxy)
 
         ExecuteShellBulk(multipleInputFile, 2)
-        If codError = 0 Then
+        If codError <> 2 Then
             ParseXML_proxy()
         End If
     End Sub
@@ -2572,18 +2636,6 @@ Public Class Frm_Principal
     End Sub
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     'TERCERA INTERFAZ---------------------------------------------------------------------------------------------------------------------------------------------------------
     Public Sub UserGetListInGroup()
 
@@ -2603,8 +2655,10 @@ Public Class Frm_Principal
             Exit Sub
         End If
 
-        lbl_state_userLicense.Text = ""
         indexXML_UsersLincense_Group = 0
+        lbl_state_userLicense.Text = ""
+        ProgressBar3.Value = 0
+        My.Application.DoEvents()
 
         'Se eliminan los archivos antiguos del directorio correspondiente
         Try
@@ -2619,35 +2673,33 @@ Public Class Frm_Principal
             Exit Sub
         End Try
 
-        'XML PARA OBTENER LAS MAC DE LOS DISPOSITIVOS DE UN GRUPO
+
+        'XML PARA OBTENER LA LISTA DE USUARIOS DE UN GRUPO------------------------------------------------------------------------------------------------------
         Dim t_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
-        Dim t_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim t_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & " OCI" & Chr(34) & " xmlns=" & Chr(34) & " C" & Chr(34) & ">"
         Dim t_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
-        Dim t_4 As String = "<command xsi:type=" & Chr(34) & "UserGetListInGroupRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim t_4 As String = "<command xsi:type=" & Chr(34) & " UserGetListInGroupRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & " http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
         Dim t_5 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
         Dim t_6 As String = "<GroupId>AGPRO_cloudpbx</GroupId>"
         Dim t_7 As String = "<responseSizeLimit>1000</responseSizeLimit>"
         Dim t_8 As String = "</command>"
 
-
         Dim finalLine As String = "</BroadsoftDocument>"
 
         Dim fileIXML As String = ""
         Dim fileOXML As String = ""
-        Dim codError As Integer
-        Dim msgError As String = ""
         Dim multipleInputFile As String = gblPathTmpUserLicense & "\userGetListInGroup\multipleInputFileProxy.txt"
         Dim lineConfigFile As String = ""
 
         numFile += 1
-        Dim numeroArchivo = numFile
+        Dim numFileUserGetList = numFile
 
         Try
-            FileOpen(numeroArchivo, multipleInputFile, OpenMode.Output, OpenAccess.Write)
+            FileOpen(numFileUserGetList, multipleInputFile, OpenMode.Output, OpenAccess.Write)
         Catch ex As Exception
             MsgBox(ex.ToString)
             MsgBox("Asegurese de que el archivo" & multipleInputFile & " no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
-            FileClose(numeroArchivo)
+            FileClose(numFileUserGetList)
             Me.Cursor = Cursors.Default
             Exit Sub
         End Try
@@ -2671,23 +2723,21 @@ Public Class Frm_Principal
             WriteLine(numFile, finalLine.ToCharArray)
             FileClose(numFile)
             lineConfigFile = fileIXML & ";" & fileOXML
-            WriteLine(numeroArchivo, lineConfigFile.ToCharArray)
-            FileClose(numeroArchivo)
+            WriteLine(numFileUserGetList, lineConfigFile.ToCharArray)
+            FileClose(numFileUserGetList)
         Catch ex As Exception
             MsgBox(ex.ToString)
             MsgBox("Error al crear el archivo " & My.Application.Info.DirectoryPath & gblPathTmpUserLicense & "\getDeviceName\" & indexXML_UsersLincense_Group & "_UserGetList_request.xml", MsgBoxStyle.Exclamation, "Error al crear el archivo")
             FileClose(numFile)
-            FileClose(numeroArchivo)
+            FileClose(numFileUserGetList)
             Me.Cursor = Cursors.Default
             Exit Sub
         End Try
 
         ExecuteShellBulk(multipleInputFile, 3)
-        If codError = 0 Then
+        If codError <> 3 Then
             parseXML_UserGetList()
-            'My.Application.DoEvents()
         End If
-
     End Sub
 
     Private Sub parseXML_UserGetList()
@@ -2782,7 +2832,6 @@ Public Class Frm_Principal
                 'MsgBox("Archivo de Respuesta no ha sido encontrado!", vbExclamation, "Error")
                 MsgBox(ex.ToString)
                 'grabaLog1(1, 2, "Error al leer archivo XML>" & gblPathTmpUserLicense & "\userGetListInGroup\" & num & "_cloudpbx_response.xml")
-                codError = 1
                 'msgError = "Respuesta No Generada"
             End Try
         Next
@@ -2796,44 +2845,7 @@ Public Class Frm_Principal
         Update_ListBox2()
     End Sub
 
-    'Public Sub grabaLog1(ByVal tipo As Integer, ByVal subtipo As Integer, ByVal mensaje As String)
-    '    Dim fileLog As String = ""
-    '    Dim linerr As String = ""
 
-    '    linerr = DateAndTime.Now & ">"
-    '    'tipo -> 1=ERRO,2=INFO,3=WARN
-    '    'subtipo -> 1=DB,2=XML,3=CNX
-    '    If tipo = 1 Then
-    '        linerr = linerr & "ERROR>"
-    '    End If
-    '    If tipo = 2 Then
-    '        linerr = linerr & "INFO>"
-    '    End If
-    '    If tipo = 3 Then
-    '        linerr = linerr & "WARNING>"
-    '    End If
-    '    If subtipo = 1 Then
-    '        linerr = linerr & "DB>"
-    '    End If
-    '    If subtipo = 2 Then
-    '        linerr = linerr & "XML>"
-    '    End If
-    '    If subtipo = 2 Then
-    '        linerr = linerr & "CNX>"
-    '    End If
-    '    linerr = linerr & mensaje
-    '    fileLog = gblPathLog & "\LOG_" & DateAndTime.DateString & ".log"
-
-
-    '    'MsgBox(fileLog.ToString)
-    '    Lbl_state.Text = "Guardando log"
-    '    My.Application.DoEvents()
-    '    numFile += 1
-    '    Dim numFileLog2 As Integer = numFile
-    '    FileOpen(numFileLog2, fileLog, OpenMode.Append, OpenAccess.Write)
-    '    WriteLine(numFileLog2, linerr.ToCharArray)
-    '    FileClose(numFileLog2)
-    'End Sub
 
     'DataTable utilizada para el rebuild de archivos
     Dim dt2 As New DataTable
@@ -2853,20 +2865,39 @@ Public Class Frm_Principal
             'cmd.CommandType = CommandType.TableDirect
             da.SelectCommand = cmd
             da.Fill(dtproxy)
-
-            'ListBox1.DataSource = Nothing
-            Me.ListBox2.Items.Clear()
-
-            For j = 0 To dtproxy.Rows.Count - 1
-                ListBox2.Items.Add(dtproxy.Rows.Item(j)(0).ToString)
-            Next
-
-            ListBox2.Refresh()
         Catch ex As Exception
             MsgBox("Can not open connection ! , " & ex.Message)
             Conexion.Close()
         End Try
         Conexion.Close()
+
+
+        'Se muestran los datos en el datagridview2
+        DataGridView2.DataSource = dtproxy
+        DataGridView2.Refresh()
+
+        Dim btn As New DataGridViewButtonColumn()
+        DataGridView2.Columns.Add(btn)
+        btn.HeaderText = "Click Data"
+        btn.Text = "Click Here"
+        btn.Name = "btn"
+        btn.UseColumnTextForButtonValue = True
+
+        'Se evita que el usuario pueda reordenar la grilla
+        'For j = 0 To DataGridView1.ColumnCount - 1
+        '    DataGridView1.Columns(j).SortMode = DataGridViewColumnSortMode.NotSortable
+        'Next
+
+
+        'para mostrar el listado de usuarios en el listbox
+
+        'Me.ListBox2.Items.Clear()
+
+        'For j = 0 To dtproxy.Rows.Count - 1
+        '    ListBox2.Items.Add(dtproxy.Rows.Item(j)(0).ToString)
+        'Next
+
+        'ListBox2.Refresh()
 
         Label8.Text = "Se encontraron " + dtproxy.Rows.Count.ToString() + " usuarios" + " en el grupo " + tb_groupId_proxy.Text
 
@@ -2901,9 +2932,9 @@ Public Class Frm_Principal
 
         'XML PARA MODIFICAR PROXY
         Dim u_1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
-        Dim u_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim u_2 As String = "<BroadsoftDocument protocol=" & Chr(34) & " OCI" & Chr(34) & " xmlns=" & Chr(34) & " C" & Chr(34) & ">"
         Dim u_3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
-        Dim u_4 As String = "<command xsi:type=" & Chr(34) & "UserServiceGetAssignmentListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim u_4 As String = "<command xsi:type=" & Chr(34) & " UserServiceGetAssignmentListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & " http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
         Dim u_5 As String = "<userId>232780191@telefonicachile.cl</userId>"
         Dim u_6 As String = "</command>"
 
@@ -2917,10 +2948,10 @@ Public Class Frm_Principal
         Dim userId As String = ""
 
         numFile += 1
-        Dim numeroArchivo As Integer = numFile
+        Dim numFileUserLicense As Integer = numFile
 
         Try
-            FileOpen(numeroArchivo, multipleInputFile, OpenMode.Output, OpenAccess.Write)
+            FileOpen(numFileUserLicense, multipleInputFile, OpenMode.Output, OpenAccess.Write)
         Catch ex As Exception
             MsgBox(ex.ToString)
             MsgBox("Asegurese de que el archivo " & multipleInputFile & " no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
@@ -2947,22 +2978,21 @@ Public Class Frm_Principal
                 WriteLine(numFile, finalLine.ToCharArray)
                 FileClose(numFile)
                 lineConfigFile = fileIXML & ";" & fileOXML
-                WriteLine(numeroArchivo, lineConfigFile.ToCharArray)
+                WriteLine(numFileUserLicense, lineConfigFile.ToCharArray)
             Next
         Catch ex As Exception
             MsgBox(ex.ToString)
             MsgBox("Error al crear el archivo " & indexXML_Proxy & "_CreateProxy_request.xml", MsgBoxStyle.Exclamation)
             FileClose(numFile)
-            FileClose(numeroArchivo)
+            FileClose(numFileUserLicense)
             Exit Sub
         End Try
 
-        FileClose(numeroArchivo)
+        FileClose(numFileUserLicense)
 
         ExecuteShellBulk(multipleInputFile, 3)
-        If codError = 0 Then
+        If codError <> 3 Then
             'parseXML_proxy()
-            'My.Application.DoEvents()
         End If
 
     End Sub
@@ -3036,5 +3066,13 @@ Public Class Frm_Principal
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
         UserGetListInGroup()
+    End Sub
+
+    Private Sub DataGridView2_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellContentClick
+
+    End Sub
+
+    Private Sub Btn_validate_data_Click(sender As Object, e As EventArgs) Handles btn_validate_data.Click
+        Validate_Data()
     End Sub
 End Class

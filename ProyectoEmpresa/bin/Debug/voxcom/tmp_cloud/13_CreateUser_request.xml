@@ -5,10 +5,10 @@
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
 <groupId>miguel_grupo</groupId>
 <userId>232781882@felipe.cl</userId>
-<lastName>Mario</lastName>
-<firstName>Tapia</firstName>
-<callingLineIdLastName>Mario</callingLineIdLastName>
-<callingLineIdFirstName>Tapia</callingLineIdFirstName>
+<lastName>Tapia</lastName>
+<firstName>Mario</firstName>
+<callingLineIdLastName>Tapia</callingLineIdLastName>
+<callingLineIdFirstName>Mario</callingLineIdFirstName>
 <password>a1234567</password>
 <language>Spanish</language>
 <timeZone>Chile/Continental</timeZone>

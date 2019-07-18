@@ -26,6 +26,7 @@ Partial Class Frm_Principal
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Frm_Principal))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.btn_validate_data = New System.Windows.Forms.Button()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ProgressBar1 = New System.Windows.Forms.ToolStripProgressBar()
         Me.lbl_state_cloud = New System.Windows.Forms.ToolStripStatusLabel()
@@ -56,20 +57,18 @@ Partial Class Frm_Principal
         Me.Column2 = New System.Windows.Forms.DataGridViewButtonColumn()
         Me.Column3 = New System.Windows.Forms.DataGridViewButtonColumn()
         Me.Column4 = New System.Windows.Forms.DataGridViewButtonColumn()
-        Me.Label8 = New System.Windows.Forms.Label()
+        Me.lbl_numUser = New System.Windows.Forms.Label()
         Me.StatusStrip3 = New System.Windows.Forms.StatusStrip()
         Me.ProgressBar3 = New System.Windows.Forms.ToolStripProgressBar()
         Me.lbl_state_userLicense = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.ListBox2 = New System.Windows.Forms.ListBox()
         Me.Label6 = New System.Windows.Forms.Label()
-        Me.TextBox3 = New System.Windows.Forms.TextBox()
+        Me.tb_groupId_UserGetList = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Button4 = New System.Windows.Forms.Button()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
         Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
-        Me.btn_validate_data = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -116,6 +115,16 @@ Partial Class Frm_Principal
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Create CloudPBX"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'btn_validate_data
+        '
+        Me.btn_validate_data.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_validate_data.Location = New System.Drawing.Point(1187, 490)
+        Me.btn_validate_data.Name = "btn_validate_data"
+        Me.btn_validate_data.Size = New System.Drawing.Size(132, 75)
+        Me.btn_validate_data.TabIndex = 53
+        Me.btn_validate_data.Text = "Validar data"
+        Me.btn_validate_data.UseVisualStyleBackColor = True
         '
         'StatusStrip1
         '
@@ -368,11 +377,10 @@ Partial Class Frm_Principal
         'TabPage3
         '
         Me.TabPage3.Controls.Add(Me.DataGridView2)
-        Me.TabPage3.Controls.Add(Me.Label8)
+        Me.TabPage3.Controls.Add(Me.lbl_numUser)
         Me.TabPage3.Controls.Add(Me.StatusStrip3)
-        Me.TabPage3.Controls.Add(Me.ListBox2)
         Me.TabPage3.Controls.Add(Me.Label6)
-        Me.TabPage3.Controls.Add(Me.TextBox3)
+        Me.TabPage3.Controls.Add(Me.tb_groupId_UserGetList)
         Me.TabPage3.Controls.Add(Me.Label7)
         Me.TabPage3.Controls.Add(Me.Button4)
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
@@ -388,7 +396,7 @@ Partial Class Frm_Principal
         Me.DataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4})
-        Me.DataGridView2.Location = New System.Drawing.Point(394, 136)
+        Me.DataGridView2.Location = New System.Drawing.Point(79, 184)
         Me.DataGridView2.Name = "DataGridView2"
         Me.DataGridView2.Size = New System.Drawing.Size(621, 248)
         Me.DataGridView2.TabIndex = 25
@@ -413,13 +421,13 @@ Partial Class Frm_Principal
         Me.Column4.HeaderText = "Advanced"
         Me.Column4.Name = "Column4"
         '
-        'Label8
+        'lbl_numUser
         '
-        Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(80, 136)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(0, 13)
-        Me.Label8.TabIndex = 24
+        Me.lbl_numUser.AutoSize = True
+        Me.lbl_numUser.Location = New System.Drawing.Point(80, 136)
+        Me.lbl_numUser.Name = "lbl_numUser"
+        Me.lbl_numUser.Size = New System.Drawing.Size(0, 13)
+        Me.lbl_numUser.TabIndex = 24
         '
         'StatusStrip3
         '
@@ -441,14 +449,6 @@ Partial Class Frm_Principal
         Me.lbl_state_userLicense.Size = New System.Drawing.Size(116, 17)
         Me.lbl_state_userLicense.Text = "lbl_state_userLicense"
         '
-        'ListBox2
-        '
-        Me.ListBox2.FormattingEnabled = True
-        Me.ListBox2.Location = New System.Drawing.Point(145, 159)
-        Me.ListBox2.Name = "ListBox2"
-        Me.ListBox2.Size = New System.Drawing.Size(202, 225)
-        Me.ListBox2.TabIndex = 16
-        '
         'Label6
         '
         Me.Label6.AutoSize = True
@@ -459,12 +459,12 @@ Partial Class Frm_Principal
         Me.Label6.TabIndex = 15
         Me.Label6.Text = "_cloudpbx"
         '
-        'TextBox3
+        'tb_groupId_UserGetList
         '
-        Me.TextBox3.Location = New System.Drawing.Point(145, 72)
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(202, 20)
-        Me.TextBox3.TabIndex = 14
+        Me.tb_groupId_UserGetList.Location = New System.Drawing.Point(145, 72)
+        Me.tb_groupId_UserGetList.Name = "tb_groupId_UserGetList"
+        Me.tb_groupId_UserGetList.Size = New System.Drawing.Size(202, 20)
+        Me.tb_groupId_UserGetList.TabIndex = 14
         '
         'Label7
         '
@@ -507,16 +507,6 @@ Partial Class Frm_Principal
         'openFileDialogCSV
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
-        '
-        'btn_validate_data
-        '
-        Me.btn_validate_data.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_validate_data.Location = New System.Drawing.Point(1187, 490)
-        Me.btn_validate_data.Name = "btn_validate_data"
-        Me.btn_validate_data.Size = New System.Drawing.Size(132, 75)
-        Me.btn_validate_data.TabIndex = 53
-        Me.btn_validate_data.Text = "Validar data"
-        Me.btn_validate_data.UseVisualStyleBackColor = True
         '
         'Frm_Principal
         '
@@ -584,12 +574,11 @@ Partial Class Frm_Principal
     Friend WithEvents StatusStrip3 As StatusStrip
     Friend WithEvents ProgressBar3 As ToolStripProgressBar
     Friend WithEvents lbl_state_userLicense As ToolStripStatusLabel
-    Friend WithEvents ListBox2 As ListBox
     Friend WithEvents Label6 As Label
-    Friend WithEvents TextBox3 As TextBox
+    Friend WithEvents tb_groupId_UserGetList As TextBox
     Friend WithEvents Label7 As Label
     Friend WithEvents Button4 As Button
-    Friend WithEvents Label8 As Label
+    Friend WithEvents lbl_numUser As Label
     Friend WithEvents DataGridView2 As DataGridView
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewButtonColumn

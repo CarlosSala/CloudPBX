@@ -55,6 +55,7 @@ Public Class Frm_Principal
     Dim arregloDeptos() As String
     Dim proxyInfo As Integer = 0
     Dim estadoCeldas As Integer = 0
+    Dim ArrayUserGetList() As String
 
     Private Sub For1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -1063,7 +1064,7 @@ Public Class Frm_Principal
 
         'XML PARA CREAR UN DOMINIO-----------------------------------------------------------------------------------------------------------
         Try
-            numFile += 1
+            numFile = 2
             indexXML_Cloud += 1
             fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateDomain_request.xml"
             fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
@@ -1090,7 +1091,7 @@ Public Class Frm_Principal
         'XML PARA ASIGNAR EL DOMINIO CREADO----------------------------------------------------------------------
         If estadoArchivo = 1 Then
             Try
-                numFile += 1
+                numFile = 2
                 indexXML_Cloud += 1
                 fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignDomain_request.xml"
                 fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
@@ -1119,7 +1120,7 @@ Public Class Frm_Principal
         'XML PARA CREAR NUMERACIÓN------------------------------------------------------------------------------
         If estadoArchivo = 2 Then
             Try
-                numFile += 1
+                numFile = 2
                 indexXML_Cloud += 1
                 fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateNumbers_request.xml"
                 fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
@@ -1151,7 +1152,7 @@ Public Class Frm_Principal
         'XML PARA CREAR PERFIL DE GRUPO-------------------------------------------------------------------------
         If estadoArchivo = 3 Then
             Try
-                numFile += 1
+                numFile = 2
                 indexXML_Cloud += 1
                 fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateProfileGroup_request.xml"
                 fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
@@ -1202,7 +1203,7 @@ Public Class Frm_Principal
         'XML PARA MODIFICAR EL LARGO DE LAS EXTENSIONES DE GRUPO--------------------------------------------------------------
         If estadoArchivo = 4 Then
             Try
-                numFile += 1
+                numFile = 2
                 indexXML_Cloud += 1
                 fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_ExtensionsLength_request.xml"
                 fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
@@ -1261,7 +1262,7 @@ Public Class Frm_Principal
         'XML PARA ASIGNAR LOS SERVICIOS---------------------------------------------------------------------------------
         If estadoArchivo = 6 Then
             Try
-                numFile += 1
+                numFile = 2
                 indexXML_Cloud += 1
                 fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignServices_request.xml"
                 fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
@@ -1312,7 +1313,7 @@ Public Class Frm_Principal
         'XML PARA ASIGNAR LA NUMERACIÓN----------------------------------------------------------------------------------------
         If estadoArchivo = 7 Then
             Try
-                numFile += 1
+                numFile = 2
                 indexXML_Cloud += 1
                 fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignNumber_request.xml"
                 fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
@@ -1347,7 +1348,7 @@ Public Class Frm_Principal
         If estadoArchivo = 8 Then
             Try
                 For j = 0 To filasValidas - 1
-                    numFile += 1
+                    numFile = 2
                     indexXML_Cloud += 1
                     fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateDevice_request.xml"
                     fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
@@ -1394,7 +1395,7 @@ Public Class Frm_Principal
         If estadoArchivo = 9 Then
             Try
                 For j = 0 To arregloDeptos.Length - 1
-                    numFile += 1
+                    numFile = 2
                     indexXML_Cloud += 1
                     fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateDepartment_request.xml"
                     fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
@@ -1428,7 +1429,7 @@ Public Class Frm_Principal
         If estadoArchivo = 10 Then
             Try
                 For j = 0 To filasValidas - 1
-                    numFile += 1
+                    numFile = 2
                     indexXML_Cloud += 1
                     fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateUser_request.xml"
                     fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
@@ -1499,7 +1500,7 @@ Public Class Frm_Principal
             Try
                 If proxyInfo = 1 Then
                     For j = 0 To filasValidas - 1
-                        numFile += 1
+                        numFile = 2
                         indexXML_Cloud += 1
                         fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateProxy_request.xml"
                         fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
@@ -1537,7 +1538,7 @@ Public Class Frm_Principal
         If estadoArchivo = 12 Then
             Try
                 For j = 0 To filasValidas - 1
-                    numFile += 1
+                    numFile = 2
                     indexXML_Cloud += 1
                     fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignUser_request.xml"
                     fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
@@ -1587,7 +1588,7 @@ Public Class Frm_Principal
         If estadoArchivo = 13 Then
             Try
                 For j = 0 To filasValidas - 1
-                    numFile += 1
+                    numFile = 2
                     indexXML_Cloud += 1
                     fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignServices_request.xml"
                     fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
@@ -1627,7 +1628,7 @@ Public Class Frm_Principal
         If estadoArchivo = 14 Then
             Try
                 For j = 0 To filasValidas - 1
-                    numFile += 1
+                    numFile = 2
                     indexXML_Cloud += 1
                     fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_OCP_request.xml"
                     fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
@@ -1717,7 +1718,7 @@ Public Class Frm_Principal
         If estadoArchivo = 15 Then
             Try
                 For j = 0 To filasValidas - 1
-                    numFile += 1
+                    numFile = 2
                     indexXML_Cloud += 1
                     fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignPasswordSIP_request.xml"
                     fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
@@ -1754,7 +1755,7 @@ Public Class Frm_Principal
         If estadoArchivo = 16 Then
             Try
                 For j = 0 To filasValidas - 1
-                    numFile += 1
+                    numFile = 2
                     indexXML_Cloud += 1
                     fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_ActivateNumber_request.xml"
                     fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
@@ -1787,7 +1788,7 @@ Public Class Frm_Principal
         'XML PARA ACTIVAR LA MUSICA EN ESPERA DEL GRUPO--------------------------------------------------------------
         If estadoArchivo = 17 Then
             Try
-                numFile += 1
+                numFile = 2
                 indexXML_Cloud += 1
                 fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_GroupMusicOnHold_request.xml"
                 fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
@@ -2744,8 +2745,13 @@ Public Class Frm_Principal
         ProgressBar3.Value = 75
         My.Application.DoEvents()
 
-        Dim reader As XmlTextReader
-        Dim parseXMl As String
+
+        Dim xmldoc As New XmlDocument()
+        Dim xmlnode As XmlNodeList
+        Dim i As Integer
+
+
+
         Dim response As String = ""
         Dim comando As New OleDbCommand()
         comando.Connection = Conexion
@@ -2768,81 +2774,68 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
-        For num = 1 To indexXML_UsersLincense_Group
-            Try
-                parseXMl = gblPathTmpUserLicense & "\userGetListInGroup\" & num & "_cloudpbx_response.xml"
-                reader = New XmlTextReader(parseXMl)
-                Do While (reader.Read())
-                    Select Case reader.NodeType
-                        Case XmlNodeType.Element
-                            If reader.Name = "col" Then
-                                firstColumn += 1
-                                If reader.Name = "col" And (firstColumn Mod 11 = 0) Then
-                                    response = reader.ReadString
-                                End If
-                            End If
+        Dim fs As New FileStream(gblPathTmpUserLicense & "\userGetLicense\1_cloudpbx_response.xml", FileMode.Open, FileAccess.Read)
+        Try
+            xmldoc.Load(fs)
+            xmlnode = xmldoc.GetElementsByTagName("col")
 
-                            'Si no se encuentra el grupo buscado
-                            If reader.Name = "summary" Then
-                                response = reader.ReadString
-                                MsgBox(response.ToString, MsgBoxStyle.Exclamation)
-                                lbl_state_userLicense.Text = "Error al acceder a la base de datos"
-                                ProgressBar3.Value = ProgressBar3.Maximum
-                                Me.Cursor = Cursors.Default
-                                reader.Close()
-                                Exit Sub
-                            End If
+            ReDim ArrayUserGetList((xmlnode.Count / 11) - 1)
 
-                            If response.Length > 0 Then
+            For i = 0 To xmlnode.Count - 1
 
-                                Dim cadena As String = "insert into brs_user_get_license (user_id) VALUES ( '" & response & "')"
-                                Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
-                                Comando1.CommandText = cadena
-                                Try
-                                    Conexion.Open()
-                                    Comando1.ExecuteNonQuery()
-                                Catch ex As Exception
-                                    MsgBox(ex.ToString)
-                                    MsgBox("Error al acceder a la base de datos e intentar insertar nuevos elementos en la tabla 'brs_user_get_license'", MsgBoxStyle.Exclamation, "Error al generar reporte")
-                                    lbl_state_userLicense.Text = "Error al acceder a la base de datos"
-                                    ProgressBar3.Value = ProgressBar3.Maximum
-                                    Me.Cursor = Cursors.Default
-                                    reader.Close()
-                                    Conexion.Close()
-                                    Exit Sub
-                                End Try
-                                Conexion.Close()
-                            End If
-                            response = ""
-                            'Case XmlNodeType.XmlDeclaration
-                    End Select
-                Loop
-                reader.Close()
-            Catch ex As Exception
-                MsgBox(ex.ToString)
-                MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
-                'grabaLog(1, 2, "Error al leer archivo XML>" & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml")
-                lbl_state_userLicense.Text = "Error al generar reporte"
-                ProgressBar3.Value = ProgressBar3.Maximum
-                Me.Cursor = Cursors.Default
-                Exit Sub
-            End Try
-        Next
+                If i Mod 11 = 0 Then
+                    response = xmlnode(i).InnerText.ToString
+                    ArrayUserGetList((i / 11) - 1) = response.ToString
+                    MsgBox(ArrayUserGetList((i / 11) - 1).ToString)
+                End If
+            Next
+            fs.Close()
 
-        Update_Grid2()
+
+            If response.Length > 0 Then
+
+                Dim cadena As String = "insert into brs_user_get_license (user_id) values ( '" & response & "')"
+                Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
+                Comando1.CommandText = cadena
+                Try
+                    Conexion.Open()
+                    Comando1.ExecuteNonQuery()
+                Catch ex As Exception
+                    MsgBox(ex.ToString)
+                    MsgBox("Error al acceder a la base de datos e intentar insertar nuevos elementos en la tabla 'brs_user_get_license'", MsgBoxStyle.Exclamation, "Error al generar reporte")
+                    lbl_state_userLicense.Text = "Error al acceder a la base de datos"
+                    ProgressBar3.Value = ProgressBar3.Maximum
+                    Me.Cursor = Cursors.Default
+                    Conexion.Close()
+                    Exit Sub
+                End Try
+                Conexion.Close()
+            End If
+            response = ""
+            'Case XmlNodeType.XmlDeclaratio
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
+            'grabaLog(1, 2, "Error al leer archivo XML>" & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml")
+            lbl_state_userLicense.Text = "Error al generar reporte"
+            ProgressBar3.Value = ProgressBar3.Maximum
+            Me.Cursor = Cursors.Default
+            Exit Sub
+        End Try
+
+        UserGetListServiPack()
     End Sub
 
-
     'DataTable utilizada para el rebuild de archivos
-    Dim dt2 As New DataTable
-    Public Sub Update_Grid2()
+
+    Public Sub UserGetListServiPack()
 
         Dim iSql As String = "select user_id from brs_user_get_license"
         Dim cmd As New OleDbCommand
 
         Dim da As New OleDbDataAdapter
         Dim dtproxy As New DataTable
-        dt2 = dtproxy
+
 
         Try
             Conexion.Open()
@@ -2858,55 +2851,7 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
-        Dim filass As DataRowCollection
-        Dim filasss As DataRow
-        filass = dt2.Rows
-
-
-        'Se muestran los datos en el datagridview2
-        For Each filasss In filass
-            DataGridView2.Rows.Add(filasss.ItemArray)
-        Next
-
-
-        'For j = 0 To DataGridView2.Rows.Count - 2
-        '    MsgBox(DataGridView2.Rows(j).Cells(0).Value.ToString)
-        'Next
-
-
-        'DataGridView2.DataSource = dtproxy
-        DataGridView2.Refresh()
-
-        'Dim btn As New DataGridViewButtonColumn()
-        'DataGridView2.Columns.Add(btn)
-        'btn.HeaderText = "Click Data"
-        'btn.Text = "Click Here"
-        'btn.Name = "btn"
-        'btn.UseColumnTextForButtonValue = True
-
-        'Se evita que el usuario pueda reordenar la grilla
-        For j = 0 To DataGridView2.ColumnCount - 1
-            DataGridView2.Columns(j).SortMode = DataGridViewColumnSortMode.NotSortable
-        Next
-
-        'para mostrar el listado de usuarios en el listbox
-        'Me.ListBox2.Items.Clear()
-        'For j = 0 To dtproxy.Rows.Count - 1
-        '    ListBox2.Items.Add(dtproxy.Rows.Item(j)(0).ToString)
-        'Next
-        'ListBox2.Refresh()
-
-        lbl_numUser.Text = "Se encontraron " + dtproxy.Rows.Count.ToString() + " usuarios" + " en el grupo " + tb_groupId_UserGetList.Text
-
-        lbl_state_userLicense.Text = "Finalizado"
-        ProgressBar3.Value = ProgressBar3.Maximum
-        My.Application.DoEvents()
-
-        UserGetListServiPack()
-    End Sub
-
-
-    Public Sub UserGetListServiPack()
+        indexXML_UsersLincense = 0
 
         'Se eliminan los archivos antiguos del directorio correspondiente
         Try
@@ -2952,7 +2897,7 @@ Public Class Frm_Principal
         End Try
 
         Try
-            For j = 0 To dt2.Rows.Count - 1
+            For j = 0 To dtproxy.Rows.Count - 1
                 numFile += 1
                 indexXML_UsersLincense += 1
                 fileIXML = gblPathTmpUserLicense & "\userGetLicense\" & indexXML_UsersLincense & "_UserGetLicense_request.xml"
@@ -2962,7 +2907,7 @@ Public Class Frm_Principal
                 WriteLine(numFile, u_2.ToCharArray)
                 WriteLine(numFile, u_3.ToCharArray)
                 WriteLine(numFile, u_4.ToCharArray)
-                userId = dt2.Rows(j)(0).ToString
+                userId = dtproxy.Rows(j)(0).ToString
                 u_5 = "<userId>" & userId & "</userId>"
                 WriteLine(numFile, u_5.ToCharArray)
                 WriteLine(numFile, u_6.ToCharArray)
@@ -2990,19 +2935,22 @@ Public Class Frm_Principal
 
     Private Sub ParseXML_UserGetLicense()
 
-        lbl_state_userLicense.Text = "Generando reporte"
-        ProgressBar3.Value = 75
-        My.Application.DoEvents()
+        'lbl_state_userLicense.Text = "Generando reporte"
+        'ProgressBar3.Value = 75
+        'My.Application.DoEvents()
 
         'Dim reader As XmlTextReader
         'Dim parseXMl As String
         Dim response As String = ""
         Dim response1 As String = ""
         Dim response2 As String = ""
-        Dim firstColumn As Integer = 1
+        Dim response3 As String = ""
+        'Dim firstColumn As Integer = 1
         Dim comando As New OleDbCommand()
         comando.Connection = Conexion
-        Dim instruction As String = "delete * from brs_user_get_license where standard"
+        Dim instruction As String = "delete * from brs_user_get_license"
+
+        'Dim instruction As String = "DELETE * FROM brs_user_get_license WHERE user_id Is Null AND basic Is Null AND standard Is Null AND advanced is Null"
         comando.CommandText = instruction
 
         Try
@@ -3020,6 +2968,82 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
+
+
+        Dim xmldoc As New XmlDocument()
+        Dim xmlnode As XmlNodeList
+        Dim i As Integer
+        'Dim str As String
+
+
+        For num = 1 To indexXML_UsersLincense
+            Try
+                Dim fs As New FileStream(gblPathTmpUserLicense & "\userGetLicense\" & num & "_cloudpbx_response.xml", FileMode.Open, FileAccess.Read)
+                xmldoc.Load(fs)
+                xmlnode = xmldoc.GetElementsByTagName("col")
+                For i = 0 To xmlnode.Count - 1
+
+                    If xmlnode(i).InnerText.Equals("Pack_Basico") Then
+                        response1 = xmlnode(i + 1).InnerText.ToString
+                    End If
+                    If xmlnode(i).InnerText.Equals("Pack_Estandar") Then
+                        response2 = xmlnode(i + 1).InnerText.ToString
+                    End If
+                    If xmlnode(i).InnerText.Equals("Pack_Avanzado") Then
+                        response3 = xmlnode(i + 1).InnerText.ToString
+                    End If
+                Next
+                fs.Close()
+
+                response = ArrayUserGetList(num - 1)
+
+                If (response1.Length Or response2.Length Or response3.Length) > 0 Then
+
+                    Dim cadena As String = "insert into brs_user_get_license (user_id, basic, standard, advanced)  values (@value,  @value1, @value2, @value3)"
+                    'Dim cadena As String = "insert into brs_user_get_license (basic, standard, advanced)  values (@value,  @value1, @value2)"
+                    'Dim cadena As String = "update brs_user_get_license set basic = @value, standard = @value1, advanced = @value2"
+                    'insert into brs_user_get_license (basic, standard, advanced) values (@value, @value1, @value2)"
+
+                    Dim Comando1 As New OleDbCommand(cadena, Conexion)
+                    'Comando1.CommandText = cadena
+                    Comando1.Parameters.AddWithValue("@value", response)
+                    Comando1.Parameters.AddWithValue("@value1", response1)
+                    Comando1.Parameters.AddWithValue("@value2", response2)
+                    Comando1.Parameters.AddWithValue("@value3", response3)
+
+                    Try
+                        Conexion.Open()
+                        Comando1.ExecuteNonQuery()
+                    Catch ex As Exception
+                        MsgBox(ex.ToString)
+                        MsgBox("Error al acceder a la base de datos e intentar insertar nuevos elementos en la tabla 'brs_user_get_license'", MsgBoxStyle.Exclamation, "Error al generar reporte")
+                        lbl_state_userLicense.Text = "Error al acceder a la base de datos"
+                        ProgressBar3.Value = ProgressBar3.Maximum
+                        Me.Cursor = Cursors.Default
+                        'reader.Close()
+                        Conexion.Close()
+                        Exit Sub
+                    End Try
+                    Conexion.Close()
+                End If
+
+                response = ""
+                response1 = ""
+                response2 = ""
+                response3 = ""
+
+
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+                MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
+                'grabaLog(1, 2, "Error al leer archivo XML>" & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml")
+                lbl_state_userLicense.Text = "Error al generar reporte"
+                ProgressBar3.Value = ProgressBar3.Maximum
+                Me.Cursor = Cursors.Default
+                Exit Sub
+            End Try
+        Next
+
         'For num = 1 To indexXML_UsersLincense
         '    Try
         '        parseXMl = gblPathTmpUserLicense & "\userGetLicense\" & num & "_cloudpbx_response.xml"
@@ -3027,45 +3051,6 @@ Public Class Frm_Principal
         '        Do While (reader.Read())
         '            Select Case reader.NodeType
         '                Case XmlNodeType.Element
-
-
-        '                    If reader.Name = "col" Then
-        '                        If reader.ReadString = "Pack_Estandar" Then
-        '                            response = reader.ReadString.ToString
-        '                            reader.MoveToElement()
-        '                            'reader.
-        '                            '    'GetElementsByTagName
-        '                            'XmlNodeType.Element && reader.Name == "price"
-        '                        End If
-
-
-        Dim xmldoc As New XmlDocument()
-        Dim xmlnode As XmlNodeList
-                                Dim i As Integer
-                                Dim str As String
-                                Dim fs As New FileStream(gblPathTmpUserLicense & "\userGetLicense\" & "1_cloudpbx_response.xml", FileMode.Open, FileAccess.Read)
-                                xmldoc.Load(fs)
-                                xmlnode = xmldoc.GetElementsByTagName("col")
-        For i = 0 To xmlnode.Count - 1
-
-            MsgBox(xmlnode(i).Name)
-            'xmlnode(i).ChildNodes.Item(0).InnerText.Trim()
-            'str = xmlnode(i).ChildNodes.Item(0).InnerText.Trim() & "  " & xmlnode(i).ChildNodes.Item(1).InnerText.Trim() & "  " & xmlnode(i).ChildNodes.Item(2).InnerText.Trim()
-            'MsgBox(str)
-        Next
-
-
-
-
-        'firstColumn += 1
-        'If reader.Name = "col" And firstColumn = 3 Then
-        '    response = reader.ReadString
-        'ElseIf reader.Name = "col" And firstColumn = 6 Then
-        '    response1 = reader.ReadString
-        'ElseIf reader.Name = "col" And firstColumn = 9 Then
-        '    response2 = reader.ReadString
-        'End If
-        '                    End If
 
         '                    'Si no se encuentra el grupo buscado
         '                    If reader.Name = "summary" Then
@@ -3077,8 +3062,6 @@ Public Class Frm_Principal
         '                        reader.Close()
         '                        Exit Sub
         '                    End If
-
-
 
         '                    'Case XmlNodeType.XmlDeclaration
         '            End Select
@@ -3121,6 +3104,91 @@ Public Class Frm_Principal
         '    End Try
         'Next
 
+
+
+
+        'xmlnode(i).ChildNodes.Item(0).InnerText.Trim()
+        'str = xmlnode(i).ChildNodes.Item(0).InnerText.Trim() & "  " & xmlnode(i).ChildNodes.Item(1).InnerText.Trim() & "  " & xmlnode(i).ChildNodes.Item(2).InnerText.Trim()
+        'MsgBox(str)
+        Update_Grid2()
+    End Sub
+
+
+
+    ''DataTable utilizada para el rebuild de archivos
+    'Dim dt2 As New DataTable
+    Public Sub Update_Grid2()
+
+        Dim iSql As String = "select * from brs_user_get_license"
+        Dim cmd As New OleDbCommand
+
+        Dim da As New OleDbDataAdapter
+        Dim dtproxy As New DataTable
+
+        Try
+            Conexion.Open()
+            cmd.Connection = Conexion
+            cmd.CommandText = iSql
+            da.SelectCommand = cmd
+            da.Fill(dtproxy)
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("No se pudo traer la información desde la tabla brs_user_get_license", MsgBoxStyle.Exclamation, "Error con base de datos")
+            Conexion.Close()
+            Exit Sub
+        End Try
+        Conexion.Close()
+
+        'Dim filass As DataRowCollection
+        'Dim filasss As DataRow
+        'filass = dt2.Rows
+
+        DataGridView2.DataSource = dtproxy
+
+        'DataGridView2.Rows.Clear()
+        'DataGridView2.Columns.Clear()
+
+        'DataGridView2.Refresh()
+        'Se muestran los datos en el datagridview2
+        'For Each filasss In filass
+        '    DataGridView2.Rows.Add(filasss.ItemArray)
+        'Next
+
+
+        'For j = 0 To DataGridView2.Rows.Count - 2
+        '    MsgBox(DataGridView2.Rows(j).Cells(0).Value.ToString)
+        'Next
+        DataGridView2.Refresh()
+
+        'DataGridView2.DataSource = dtproxy
+
+
+        'Dim btn As New DataGridViewButtonColumn()
+        'DataGridView2.Columns.Add(btn)
+        'btn.HeaderText = "Click Data"
+        'btn.Text = "Click Here"
+        'btn.Name = "btn"
+        'btn.UseColumnTextForButtonValue = True
+
+        'Se evita que el usuario pueda reordenar la grilla
+        'For j = 0 To DataGridView2.ColumnCount - 1
+        '    DataGridView2.Columns(j).SortMode = DataGridViewColumnSortMode.NotSortable
+        'Next
+
+        'para mostrar el listado de usuarios en el listbox
+        'Me.ListBox2.Items.Clear()
+        'For j = 0 To dtproxy.Rows.Count - 1
+        '    ListBox2.Items.Add(dtproxy.Rows.Item(j)(0).ToString)
+        'Next
+        'ListBox2.Refresh()
+
+        lbl_numUser.Text = "Se encontraron " + dtproxy.Rows.Count.ToString() + " usuarios" + " en el grupo " + tb_groupId_UserGetList.Text
+
+        lbl_state_userLicense.Text = "Finalizado"
+        ProgressBar3.Value = ProgressBar3.Maximum
+        My.Application.DoEvents()
+
+        'UserGetListServiPack()
     End Sub
 
     Private Sub TabPage1_Click(sender As Object, e As EventArgs) Handles TabPage1.Click

@@ -2745,19 +2745,14 @@ Public Class Frm_Principal
         ProgressBar3.Value = 75
         My.Application.DoEvents()
 
-
         Dim xmldoc As New XmlDocument()
         Dim xmlnode As XmlNodeList
-        Dim i As Integer
-
-
-
         Dim response As String = ""
+
         Dim comando As New OleDbCommand()
         comando.Connection = Conexion
         Dim instruction As String = "delete * from brs_user_get_license"
         comando.CommandText = instruction
-        Dim firstColumn As Integer = 10
 
         Try
             Conexion.Open()
@@ -2774,45 +2769,25 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
-        Dim fs As New FileStream(gblPathTmpUserLicense & "\userGetLicense\1_cloudpbx_response.xml", FileMode.Open, FileAccess.Read)
+        Dim fs As New FileStream(gblPathTmpUserLicense & "\userGetListInGroup\1_cloudpbx_response.xml", FileMode.Open, FileAccess.Read)
         Try
             xmldoc.Load(fs)
             xmlnode = xmldoc.GetElementsByTagName("col")
 
+            'xmlnode contiene todos los nodos "col" del unico archivo response posible y puede puede tener un valor minimo de 11 elementos
             ReDim ArrayUserGetList((xmlnode.Count / 11) - 1)
+            Dim contador As Integer = 0
 
             For i = 0 To xmlnode.Count - 1
-
-                If i Mod 11 = 0 Then
+                If i = 0 Or (i Mod 11) = 0 Then
                     response = xmlnode(i).InnerText.ToString
-                    ArrayUserGetList((i / 11) - 1) = response.ToString
-                    MsgBox(ArrayUserGetList((i / 11) - 1).ToString)
+                    ArrayUserGetList(contador) = response.ToString
+                    'MsgBox(ArrayUserGetList(contador).ToString)
+                    contador += 1
                 End If
             Next
             fs.Close()
-
-
-            If response.Length > 0 Then
-
-                Dim cadena As String = "insert into brs_user_get_license (user_id) values ( '" & response & "')"
-                Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
-                Comando1.CommandText = cadena
-                Try
-                    Conexion.Open()
-                    Comando1.ExecuteNonQuery()
-                Catch ex As Exception
-                    MsgBox(ex.ToString)
-                    MsgBox("Error al acceder a la base de datos e intentar insertar nuevos elementos en la tabla 'brs_user_get_license'", MsgBoxStyle.Exclamation, "Error al generar reporte")
-                    lbl_state_userLicense.Text = "Error al acceder a la base de datos"
-                    ProgressBar3.Value = ProgressBar3.Maximum
-                    Me.Cursor = Cursors.Default
-                    Conexion.Close()
-                    Exit Sub
-                End Try
-                Conexion.Close()
-            End If
-            response = ""
-            'Case XmlNodeType.XmlDeclaratio
+            'Case XmlNodeType.XmlDeclaration
         Catch ex As Exception
             MsgBox(ex.ToString)
             MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
@@ -2830,27 +2805,6 @@ Public Class Frm_Principal
 
     Public Sub UserGetListServiPack()
 
-        Dim iSql As String = "select user_id from brs_user_get_license"
-        Dim cmd As New OleDbCommand
-
-        Dim da As New OleDbDataAdapter
-        Dim dtproxy As New DataTable
-
-
-        Try
-            Conexion.Open()
-            cmd.Connection = Conexion
-            cmd.CommandText = iSql
-            da.SelectCommand = cmd
-            da.Fill(dtproxy)
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-            MsgBox("No se pudo traer la información desde la tabla brs_user_get_license", MsgBoxStyle.Exclamation, "Error con base de datos")
-            Conexion.Close()
-            Exit Sub
-        End Try
-        Conexion.Close()
-
         indexXML_UsersLincense = 0
 
         'Se eliminan los archivos antiguos del directorio correspondiente
@@ -2860,7 +2814,7 @@ Public Class Frm_Principal
             Next
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & gblPathTmpUserLicense & "\userGetListServicePack" &
+            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & gblPathTmpUserLicense & "\userGetLicense" &
                    ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
             Me.Cursor = Cursors.Default
             Exit Sub
@@ -2878,7 +2832,6 @@ Public Class Frm_Principal
 
         Dim fileIXML As String = ""
         Dim fileOXML As String = ""
-        Dim estadoArchivo As Integer = 0
         Dim multipleInputFile As String = gblPathTmpUserLicense & "\userGetLicense\multipleInputFile.txt"
         Dim lineConfigFile As String = ""
         Dim userId As String = ""
@@ -2891,13 +2844,13 @@ Public Class Frm_Principal
         Catch ex As Exception
             MsgBox(ex.ToString)
             MsgBox("Asegurese de que el archivo " & multipleInputFile & " no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
-            FileClose(1)
+            FileClose(numFileUserLicense)
             Me.Cursor = Cursors.Default
             Exit Sub
         End Try
 
         Try
-            For j = 0 To dtproxy.Rows.Count - 1
+            For j = 0 To ArrayUserGetList.Length - 1
                 numFile += 1
                 indexXML_UsersLincense += 1
                 fileIXML = gblPathTmpUserLicense & "\userGetLicense\" & indexXML_UsersLincense & "_UserGetLicense_request.xml"
@@ -2907,7 +2860,8 @@ Public Class Frm_Principal
                 WriteLine(numFile, u_2.ToCharArray)
                 WriteLine(numFile, u_3.ToCharArray)
                 WriteLine(numFile, u_4.ToCharArray)
-                userId = dtproxy.Rows(j)(0).ToString
+                'userId = dtproxy.Rows(j)(0).ToString
+                userId = ArrayUserGetList(j).ToString
                 u_5 = "<userId>" & userId & "</userId>"
                 WriteLine(numFile, u_5.ToCharArray)
                 WriteLine(numFile, u_6.ToCharArray)
@@ -2939,13 +2893,12 @@ Public Class Frm_Principal
         'ProgressBar3.Value = 75
         'My.Application.DoEvents()
 
-        'Dim reader As XmlTextReader
-        'Dim parseXMl As String
+
         Dim response As String = ""
         Dim response1 As String = ""
         Dim response2 As String = ""
         Dim response3 As String = ""
-        'Dim firstColumn As Integer = 1
+
         Dim comando As New OleDbCommand()
         comando.Connection = Conexion
         Dim instruction As String = "delete * from brs_user_get_license"
@@ -2969,20 +2922,17 @@ Public Class Frm_Principal
         Conexion.Close()
 
 
-
         Dim xmldoc As New XmlDocument()
         Dim xmlnode As XmlNodeList
-        Dim i As Integer
-        'Dim str As String
-
 
         For num = 1 To indexXML_UsersLincense
             Try
                 Dim fs As New FileStream(gblPathTmpUserLicense & "\userGetLicense\" & num & "_cloudpbx_response.xml", FileMode.Open, FileAccess.Read)
                 xmldoc.Load(fs)
-                xmlnode = xmldoc.GetElementsByTagName("col")
-                For i = 0 To xmlnode.Count - 1
 
+                xmlnode = xmldoc.GetElementsByTagName("col")
+
+                For i = 0 To xmlnode.Count - 1
                     If xmlnode(i).InnerText.Equals("Pack_Basico") Then
                         response1 = xmlnode(i + 1).InnerText.ToString
                     End If
@@ -2995,6 +2945,7 @@ Public Class Frm_Principal
                 Next
                 fs.Close()
 
+                'Se obtiene el valor que se guarda en el campo user_id
                 response = ArrayUserGetList(num - 1)
 
                 If (response1.Length Or response2.Length Or response3.Length) > 0 Then
@@ -3002,10 +2953,9 @@ Public Class Frm_Principal
                     Dim cadena As String = "insert into brs_user_get_license (user_id, basic, standard, advanced)  values (@value,  @value1, @value2, @value3)"
                     'Dim cadena As String = "insert into brs_user_get_license (basic, standard, advanced)  values (@value,  @value1, @value2)"
                     'Dim cadena As String = "update brs_user_get_license set basic = @value, standard = @value1, advanced = @value2"
-                    'insert into brs_user_get_license (basic, standard, advanced) values (@value, @value1, @value2)"
 
                     Dim Comando1 As New OleDbCommand(cadena, Conexion)
-                    'Comando1.CommandText = cadena
+
                     Comando1.Parameters.AddWithValue("@value", response)
                     Comando1.Parameters.AddWithValue("@value1", response1)
                     Comando1.Parameters.AddWithValue("@value2", response2)
@@ -3025,13 +2975,16 @@ Public Class Frm_Principal
                         Exit Sub
                     End Try
                     Conexion.Close()
+
+
+                    response = ""
+                    response1 = ""
+                    response2 = ""
+                    response3 = ""
+                Else
+                    'En caso de que un usuario no posea ninguna licencia
+
                 End If
-
-                response = ""
-                response1 = ""
-                response2 = ""
-                response3 = ""
-
 
             Catch ex As Exception
                 MsgBox(ex.ToString)
@@ -3044,79 +2997,15 @@ Public Class Frm_Principal
             End Try
         Next
 
-        'For num = 1 To indexXML_UsersLincense
-        '    Try
-        '        parseXMl = gblPathTmpUserLicense & "\userGetLicense\" & num & "_cloudpbx_response.xml"
-        '        reader = New XmlTextReader(parseXMl)
-        '        Do While (reader.Read())
-        '            Select Case reader.NodeType
-        '                Case XmlNodeType.Element
-
-        '                    'Si no se encuentra el grupo buscado
-        '                    If reader.Name = "summary" Then
-        '                        response = reader.ReadString
-        '                        MsgBox(response.ToString, MsgBoxStyle.Exclamation)
-        '                        lbl_state_userLicense.Text = "Error al acceder a la base de datos"
-        '                        ProgressBar3.Value = ProgressBar3.Maximum
-        '                        Me.Cursor = Cursors.Default
-        '                        reader.Close()
-        '                        Exit Sub
-        '                    End If
-
-        '                    'Case XmlNodeType.XmlDeclaration
-        '            End Select
-        '        Loop
-        '        reader.Close()
-
-        '        If (response.Length And response1.Length And response2.Length) > 0 Then
-        '            Dim cadena As String = "insert into brs_user_get_license (standard, basic, advanced) "
-        '            cadena += " VALUES ( '" & response & "',"
-        '            cadena += "          '" & response1 & "',"
-        '            cadena += "          '" & response2 & "')"
-
-        '            Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
-        '            Comando1.CommandText = cadena
-        '            Try
-        '                Conexion.Open()
-        '                Comando1.ExecuteNonQuery()
-        '            Catch ex As Exception
-        '                MsgBox(ex.ToString)
-        '                MsgBox("Error al acceder a la base de datos e intentar insertar nuevos elementos en la tabla 'brs_user_get_license'", MsgBoxStyle.Exclamation, "Error al generar reporte")
-        '                lbl_state_userLicense.Text = "Error al acceder a la base de datos"
-        '                ProgressBar3.Value = ProgressBar3.Maximum
-        '                Me.Cursor = Cursors.Default
-        '                reader.Close()
-        '                Conexion.Close()
-        '                Exit Sub
-        '            End Try
-        '            Conexion.Close()
-        '        End If
-        '        firstColumn = 1
-
-        '    Catch ex As Exception
-        '        MsgBox(ex.ToString)
-        '        MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
-        '        'grabaLog(1, 2, "Error al leer archivo XML>" & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml")
-        '        lbl_state_userLicense.Text = "Error al generar reporte"
-        '        ProgressBar3.Value = ProgressBar3.Maximum
-        '        Me.Cursor = Cursors.Default
-        '        Exit Sub
-        '    End Try
-        'Next
-
-
-
-
         'xmlnode(i).ChildNodes.Item(0).InnerText.Trim()
         'str = xmlnode(i).ChildNodes.Item(0).InnerText.Trim() & "  " & xmlnode(i).ChildNodes.Item(1).InnerText.Trim() & "  " & xmlnode(i).ChildNodes.Item(2).InnerText.Trim()
-        'MsgBox(str)
         Update_Grid2()
     End Sub
 
 
 
-    ''DataTable utilizada para el rebuild de archivos
-    'Dim dt2 As New DataTable
+    'DataTable utilizada para el rebuild de archivos
+    Dim dt2 As New DataTable
     Public Sub Update_Grid2()
 
         Dim iSql As String = "select * from brs_user_get_license"
@@ -3139,20 +3028,20 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
-        'Dim filass As DataRowCollection
-        'Dim filasss As DataRow
-        'filass = dt2.Rows
+        Dim filass As DataRowCollection
+        Dim filasss As DataRow
+        filass = dtproxy.Rows
 
-        DataGridView2.DataSource = dtproxy
+        'DataGridView2.DataSource = dtproxy
 
         'DataGridView2.Rows.Clear()
         'DataGridView2.Columns.Clear()
 
-        'DataGridView2.Refresh()
+        DataGridView2.Refresh()
         'Se muestran los datos en el datagridview2
-        'For Each filasss In filass
-        '    DataGridView2.Rows.Add(filasss.ItemArray)
-        'Next
+        For Each filasss In filass
+            DataGridView2.Rows.Add(filasss.ItemArray)
+        Next
 
 
         'For j = 0 To DataGridView2.Rows.Count - 2
@@ -3160,15 +3049,13 @@ Public Class Frm_Principal
         'Next
         DataGridView2.Refresh()
 
-        'DataGridView2.DataSource = dtproxy
 
-
-        'Dim btn As New DataGridViewButtonColumn()
-        'DataGridView2.Columns.Add(btn)
-        'btn.HeaderText = "Click Data"
-        'btn.Text = "Click Here"
-        'btn.Name = "btn"
-        'btn.UseColumnTextForButtonValue = True
+        Dim btn As New DataGridViewButtonColumn()
+        DataGridView2.Columns.Add(btn)
+        btn.HeaderText = "Click Data"
+        btn.Text = "Click Here"
+        btn.Name = "btn"
+        btn.UseColumnTextForButtonValue = True
 
         'Se evita que el usuario pueda reordenar la grilla
         'For j = 0 To DataGridView2.ColumnCount - 1
@@ -3188,7 +3075,6 @@ Public Class Frm_Principal
         ProgressBar3.Value = ProgressBar3.Maximum
         My.Application.DoEvents()
 
-        'UserGetListServiPack()
     End Sub
 
     Private Sub TabPage1_Click(sender As Object, e As EventArgs) Handles TabPage1.Click

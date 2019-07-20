@@ -398,7 +398,7 @@ Partial Class Frm_Principal
         Me.DataGridView2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4})
         Me.DataGridView2.Location = New System.Drawing.Point(79, 184)
         Me.DataGridView2.Name = "DataGridView2"
-        Me.DataGridView2.Size = New System.Drawing.Size(621, 248)
+        Me.DataGridView2.Size = New System.Drawing.Size(1072, 321)
         Me.DataGridView2.TabIndex = 25
         '
         'Column1

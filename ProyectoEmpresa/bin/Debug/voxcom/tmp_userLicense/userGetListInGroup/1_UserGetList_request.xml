@@ -3,7 +3,7 @@
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
 <command xsi:type="UserGetListInGroupRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
-<GroupId>FINANCIERA_cloudpbx</GroupId>
+<GroupId>ABUSADA_cloudpbx</GroupId>
 <responseSizeLimit>1000</responseSizeLimit>
 </command>
 </BroadsoftDocument>

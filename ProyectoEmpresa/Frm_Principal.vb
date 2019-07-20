@@ -2747,6 +2747,7 @@ Public Class Frm_Principal
 
         Dim xmldoc As New XmlDocument()
         Dim xmlnode As XmlNodeList
+        Dim xmlnodeSummary As XmlNodeList
         Dim response As String = ""
 
         Dim comando As New OleDbCommand()
@@ -2773,21 +2774,32 @@ Public Class Frm_Principal
         Try
             xmldoc.Load(fs)
             xmlnode = xmldoc.GetElementsByTagName("col")
+            xmlnodeSummary = xmldoc.GetElementsByTagName("summary")
 
-            'xmlnode contiene todos los nodos "col" del unico archivo response posible y puede puede tener un valor minimo de 11 elementos
-            ReDim ArrayUserGetList((xmlnode.Count / 11) - 1)
-            Dim contador As Integer = 0
+            If xmlnodeSummary.Count = 1 Then
+                MsgBox(xmlnodeSummary(0).InnerText.ToString, MsgBoxStyle.Exclamation, "Broadsoft Response")
+                lbl_state_userLicense.Text = "Error de Consulta"
+                ProgressBar3.Value = ProgressBar3.Maximum
+                Me.Cursor = Cursors.Default
+                Exit Sub
+            Else
+                xmlnode = xmldoc.GetElementsByTagName("col")
 
-            For i = 0 To xmlnode.Count - 1
-                If i = 0 Or (i Mod 11) = 0 Then
-                    response = xmlnode(i).InnerText.ToString
-                    ArrayUserGetList(contador) = response.ToString
-                    'MsgBox(ArrayUserGetList(contador).ToString)
-                    contador += 1
-                End If
-            Next
-            fs.Close()
-            'Case XmlNodeType.XmlDeclaration
+                'xmlnode contiene todos los nodos "col" del unico archivo response posible y puede puede tener un valor minimo de 11 elementos
+                ReDim ArrayUserGetList((xmlnode.Count / 11) - 1)
+                Dim contador As Integer = 0
+
+                For i = 0 To xmlnode.Count - 1
+                    If i = 0 Or (i Mod 11) = 0 Then
+                        response = xmlnode(i).InnerText.ToString
+                        ArrayUserGetList(contador) = response.ToString
+                        'MsgBox(ArrayUserGetList(contador).ToString)
+                        contador += 1
+                    End If
+                Next
+                fs.Close()
+            End If
+
         Catch ex As Exception
             MsgBox(ex.ToString)
             MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
@@ -2797,6 +2809,8 @@ Public Class Frm_Principal
             Me.Cursor = Cursors.Default
             Exit Sub
         End Try
+
+
 
         UserGetListServiPack()
     End Sub
@@ -3034,7 +3048,7 @@ Public Class Frm_Principal
 
         'DataGridView2.DataSource = dtproxy
 
-        'DataGridView2.Rows.Clear()
+        DataGridView2.Rows.Clear()
         'DataGridView2.Columns.Clear()
 
         DataGridView2.Refresh()
@@ -3050,12 +3064,12 @@ Public Class Frm_Principal
         DataGridView2.Refresh()
 
 
-        Dim btn As New DataGridViewButtonColumn()
-        DataGridView2.Columns.Add(btn)
-        btn.HeaderText = "Click Data"
-        btn.Text = "Click Here"
-        btn.Name = "btn"
-        btn.UseColumnTextForButtonValue = True
+        'Dim btn As New DataGridViewButtonColumn()
+        'DataGridView2.Columns.Add(btn)
+        'btn.HeaderText = "Click Data"
+        'btn.Text = "Click Here"
+        'btn.Name = "btn"
+        'btn.UseColumnTextForButtonValue = True
 
         'Se evita que el usuario pueda reordenar la grilla
         'For j = 0 To DataGridView2.ColumnCount - 1
@@ -3074,6 +3088,12 @@ Public Class Frm_Principal
         lbl_state_userLicense.Text = "Finalizado"
         ProgressBar3.Value = ProgressBar3.Maximum
         My.Application.DoEvents()
+
+    End Sub
+
+    Private Sub eventos()
+
+        'DataGridView2.
 
     End Sub
 
@@ -3153,5 +3173,16 @@ Public Class Frm_Principal
 
     Private Sub Btn_validate_data_Click(sender As Object, e As EventArgs) Handles btn_validate_data.Click
         Validate_Data()
+    End Sub
+
+    Private Sub DataGridView2_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellClick
+
+        Dim currentCell As String = DataGridView2.CurrentCell.Value.ToString
+        If currentCell.Equals("true") Then
+            DataGridView2.CurrentCell.Value = "false"
+        ElseIf currentCell.Equals("") Or currentCell.Equals("false") Then
+            DataGridView2.CurrentCell.Value = "true"
+        End If
+        'MsgBox(currentCell & "hola")
     End Sub
 End Class

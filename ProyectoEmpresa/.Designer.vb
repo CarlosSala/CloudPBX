@@ -393,13 +393,17 @@ Partial Class Frm_Principal
         '
         'DataGridView2
         '
+        Me.DataGridView2.AllowUserToAddRows = False
+        Me.DataGridView2.AllowUserToDeleteRows = False
+        Me.DataGridView2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4})
         Me.DataGridView2.Location = New System.Drawing.Point(79, 184)
         Me.DataGridView2.Name = "DataGridView2"
-        Me.DataGridView2.Size = New System.Drawing.Size(1072, 321)
-        Me.DataGridView2.TabIndex = 25
+        Me.DataGridView2.Size = New System.Drawing.Size(1151, 321)
+        Me.DataGridView2.TabIndex = 3
         '
         'Column1
         '
@@ -410,6 +414,7 @@ Partial Class Frm_Principal
         '
         Me.Column2.HeaderText = "Basic"
         Me.Column2.Name = "Column2"
+        Me.Column2.Text = ""
         '
         'Column3
         '
@@ -464,7 +469,7 @@ Partial Class Frm_Principal
         Me.tb_groupId_UserGetList.Location = New System.Drawing.Point(145, 72)
         Me.tb_groupId_UserGetList.Name = "tb_groupId_UserGetList"
         Me.tb_groupId_UserGetList.Size = New System.Drawing.Size(202, 20)
-        Me.tb_groupId_UserGetList.TabIndex = 14
+        Me.tb_groupId_UserGetList.TabIndex = 1
         '
         'Label7
         '
@@ -480,7 +485,7 @@ Partial Class Frm_Principal
         Me.Button4.Location = New System.Drawing.Point(145, 98)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(75, 23)
-        Me.Button4.TabIndex = 12
+        Me.Button4.TabIndex = 2
         Me.Button4.Text = "Search"
         Me.Button4.UseVisualStyleBackColor = True
         '
@@ -580,9 +585,9 @@ Partial Class Frm_Principal
     Friend WithEvents Button4 As Button
     Friend WithEvents lbl_numUser As Label
     Friend WithEvents DataGridView2 As DataGridView
+    Friend WithEvents btn_validate_data As Button
     Friend WithEvents Column1 As DataGridViewTextBoxColumn
     Friend WithEvents Column2 As DataGridViewButtonColumn
     Friend WithEvents Column3 As DataGridViewButtonColumn
     Friend WithEvents Column4 As DataGridViewButtonColumn
-    Friend WithEvents btn_validate_data As Button
 End Class

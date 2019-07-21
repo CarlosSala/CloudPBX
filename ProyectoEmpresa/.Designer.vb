@@ -53,10 +53,6 @@ Partial Class Frm_Principal
         Me.btn_search_proxy = New System.Windows.Forms.Button()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.DataGridView2 = New System.Windows.Forms.DataGridView()
-        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column2 = New System.Windows.Forms.DataGridViewButtonColumn()
-        Me.Column3 = New System.Windows.Forms.DataGridViewButtonColumn()
-        Me.Column4 = New System.Windows.Forms.DataGridViewButtonColumn()
         Me.lbl_numUser = New System.Windows.Forms.Label()
         Me.StatusStrip3 = New System.Windows.Forms.StatusStrip()
         Me.ProgressBar3 = New System.Windows.Forms.ToolStripProgressBar()
@@ -69,6 +65,10 @@ Partial Class Frm_Principal
         Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
+        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column2 = New System.Windows.Forms.DataGridViewButtonColumn()
+        Me.Column3 = New System.Windows.Forms.DataGridViewButtonColumn()
+        Me.Column4 = New System.Windows.Forms.DataGridViewButtonColumn()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -395,6 +395,8 @@ Partial Class Frm_Principal
         '
         Me.DataGridView2.AllowUserToAddRows = False
         Me.DataGridView2.AllowUserToDeleteRows = False
+        Me.DataGridView2.AllowUserToResizeColumns = False
+        Me.DataGridView2.AllowUserToResizeRows = False
         Me.DataGridView2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
@@ -402,34 +404,14 @@ Partial Class Frm_Principal
         Me.DataGridView2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4})
         Me.DataGridView2.Location = New System.Drawing.Point(79, 184)
         Me.DataGridView2.Name = "DataGridView2"
+        Me.DataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.DataGridView2.Size = New System.Drawing.Size(1151, 321)
         Me.DataGridView2.TabIndex = 3
-        '
-        'Column1
-        '
-        Me.Column1.HeaderText = "UserId"
-        Me.Column1.Name = "Column1"
-        '
-        'Column2
-        '
-        Me.Column2.HeaderText = "Basic"
-        Me.Column2.Name = "Column2"
-        Me.Column2.Text = ""
-        '
-        'Column3
-        '
-        Me.Column3.HeaderText = "Standard"
-        Me.Column3.Name = "Column3"
-        '
-        'Column4
-        '
-        Me.Column4.HeaderText = "Advanced"
-        Me.Column4.Name = "Column4"
         '
         'lbl_numUser
         '
         Me.lbl_numUser.AutoSize = True
-        Me.lbl_numUser.Location = New System.Drawing.Point(80, 136)
+        Me.lbl_numUser.Location = New System.Drawing.Point(76, 151)
         Me.lbl_numUser.Name = "lbl_numUser"
         Me.lbl_numUser.Size = New System.Drawing.Size(0, 13)
         Me.lbl_numUser.TabIndex = 24
@@ -512,6 +494,31 @@ Partial Class Frm_Principal
         'openFileDialogCSV
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
+        '
+        'Column1
+        '
+        Me.Column1.HeaderText = "UserId"
+        Me.Column1.Name = "Column1"
+        Me.Column1.ReadOnly = True
+        '
+        'Column2
+        '
+        Me.Column2.HeaderText = "Basic"
+        Me.Column2.Name = "Column2"
+        Me.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.Column2.Text = ""
+        '
+        'Column3
+        '
+        Me.Column3.HeaderText = "Standard"
+        Me.Column3.Name = "Column3"
+        Me.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        '
+        'Column4
+        '
+        Me.Column4.HeaderText = "Advanced"
+        Me.Column4.Name = "Column4"
+        Me.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
         '
         'Frm_Principal
         '

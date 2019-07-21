@@ -99,6 +99,7 @@ Public Class Frm_Principal
     Private Sub Third_Interface()
 
         lbl_state_userLicense.Text = ""
+        DataGridView2.Enabled = False
     End Sub
 
     Public Sub Tooltip_Help_Buttons(ByVal TooltipAyuda As ToolTip, ByVal Boton As Button, ByVal mensaje As String)
@@ -1847,7 +1848,7 @@ Public Class Frm_Principal
         Dim strArguments As String = ""
 
         Try
-            numFile += 1
+            numFile = 3
             fileConfig = gblPathAppl & "\ociclient.config"
             FileOpen(numFile, fileConfig, OpenMode.Output, OpenAccess.Write)
             linregConfig = "userId = " & My.Settings.User
@@ -2106,7 +2107,7 @@ Public Class Frm_Principal
     '    lbl_state_cloud.Text = "Guardando log"
     '    ProgressBar1.Value = ProgressBar1.Maximum
     '    My.Application.DoEvents()
-    '    numFile += 1
+    '    numFile = 4
 
     '    FileOpen(numFile, fileLog, OpenMode.Append, OpenAccess.Write)
     '    WriteLine(numFile, linerr.ToCharArray)
@@ -2171,7 +2172,7 @@ Public Class Frm_Principal
         Dim multipleInputFile As String = gblPathTmpProxy & "\getDeviceName\multipleInputFileProxy.txt"
         Dim lineConfigFile As String = ""
 
-        numFile += 1
+        numFile = 5
         Dim numFileDVmac = numFile
 
         Try
@@ -2186,7 +2187,7 @@ Public Class Frm_Principal
 
         'XML PARA OBTENER LA MAC DE LOS DISPOSITIVOS--------------------------------------------------------------
         Try
-            numFile += 1
+            numFile = 6
             indexXML_Proxy_DVmac += 1
             fileIXML = gblPathTmpProxy & "\getDeviceName\" & indexXML_Proxy_DVmac & "_DeviceGetList_request.xml"
             fileOXML = gblPathTmpProxy & "\getDeviceName\" & indexXML_Proxy_DVmac & "_cloudpbx_response.xml"
@@ -2424,7 +2425,7 @@ Public Class Frm_Principal
         Dim group_id As String = ""
         Dim dv_mac As String = ""
 
-        numFile += 1
+        numFile = 7
         Dim numFileProxy As Integer = numFile
 
         Try
@@ -2439,7 +2440,7 @@ Public Class Frm_Principal
 
         Try
             For j = 0 To dt1.Rows.Count - 1
-                numFile += 1
+                numFile = 8
                 indexXML_Proxy += 1
                 fileIXML = gblPathTmpProxy & "\modifyProxy\" & indexXML_Proxy & "_CreateProxy_request.xml"
                 fileOXML = gblPathTmpProxy & "\modifyProxy\" & indexXML_Proxy & "_cloudpbx_response.xml"
@@ -2475,7 +2476,7 @@ Public Class Frm_Principal
 
         Try
             For j = 0 To dt1.Rows.Count - 1
-                numFile += 1
+                numFile = 9
                 indexXML_Proxy += 1
                 fileIXML = gblPathTmpProxy & "\modifyProxy\" & indexXML_Proxy & "_RebuildDevice_request.xml"
                 fileOXML = gblPathTmpProxy & "\modifyProxy\" & indexXML_Proxy & "_cloudpbx_response.xml"
@@ -2690,7 +2691,7 @@ Public Class Frm_Principal
         Dim multipleInputFile As String = gblPathTmpUserLicense & "\userGetListInGroup\multipleInputFile.txt"
         Dim lineConfigFile As String = ""
 
-        numFile += 1
+        numFile = 10
         Dim numFileUserGetList = numFile
 
         Try
@@ -2705,7 +2706,7 @@ Public Class Frm_Principal
 
         'XML PARA OBTENER LA LISTA DE USUARIOS DE UN GRUPO-----------------------------------------------------------------------------------------------------
         Try
-            numFile += 1
+            numFile = 11
             indexXML_UsersLincense_Group += 1
             fileIXML = gblPathTmpUserLicense & "\userGetListInGroup\" & indexXML_UsersLincense_Group & "_UserGetList_request.xml"
             fileOXML = gblPathTmpUserLicense & "\userGetListInGroup\" & indexXML_UsersLincense_Group & "_cloudpbx_response.xml"
@@ -2741,8 +2742,8 @@ Public Class Frm_Principal
 
     Private Sub ParseXML_UserGetList()
 
-        lbl_state_userLicense.Text = "Generando reporte"
-        ProgressBar3.Value = 75
+        lbl_state_userLicense.Text = "Obteniendo los usuarios"
+        ProgressBar3.Value = 50
         My.Application.DoEvents()
 
         Dim xmldoc As New XmlDocument()
@@ -2781,6 +2782,7 @@ Public Class Frm_Principal
                 lbl_state_userLicense.Text = "Error de Consulta"
                 ProgressBar3.Value = ProgressBar3.Maximum
                 Me.Cursor = Cursors.Default
+                fs.Close()
                 Exit Sub
             Else
                 xmlnode = xmldoc.GetElementsByTagName("col")
@@ -2809,8 +2811,6 @@ Public Class Frm_Principal
             Me.Cursor = Cursors.Default
             Exit Sub
         End Try
-
-
 
         UserGetListServiPack()
     End Sub
@@ -2850,7 +2850,7 @@ Public Class Frm_Principal
         Dim lineConfigFile As String = ""
         Dim userId As String = ""
 
-        numFile += 1
+        numFile = 12
         Dim numFileUserLicense As Integer = numFile
 
         Try
@@ -2865,7 +2865,7 @@ Public Class Frm_Principal
 
         Try
             For j = 0 To ArrayUserGetList.Length - 1
-                numFile += 1
+                numFile = 13
                 indexXML_UsersLincense += 1
                 fileIXML = gblPathTmpUserLicense & "\userGetLicense\" & indexXML_UsersLincense & "_UserGetLicense_request.xml"
                 fileOXML = gblPathTmpUserLicense & "\userGetLicense\" & indexXML_UsersLincense & "_cloudpbx_response.xml"
@@ -2903,10 +2903,9 @@ Public Class Frm_Principal
 
     Private Sub ParseXML_UserGetLicense()
 
-        'lbl_state_userLicense.Text = "Generando reporte"
-        'ProgressBar3.Value = 75
-        'My.Application.DoEvents()
-
+        lbl_state_userLicense.Text = "Obteniendo las licencias de los usuarios"
+        ProgressBar3.Value = 75
+        My.Application.DoEvents()
 
         Dim response As String = ""
         Dim response1 As String = ""
@@ -2964,6 +2963,16 @@ Public Class Frm_Principal
 
                 If (response1.Length Or response2.Length Or response3.Length) > 0 Then
 
+                    If response1 = "" Then
+                        response1 = "false"
+                    End If
+                    If response2 = "" Then
+                        response2 = "false"
+                    End If
+                    If response3 = "" Then
+                        response3 = "false"
+                    End If
+
                     Dim cadena As String = "insert into brs_user_get_license (user_id, basic, standard, advanced)  values (@value,  @value1, @value2, @value3)"
                     'Dim cadena As String = "insert into brs_user_get_license (basic, standard, advanced)  values (@value,  @value1, @value2)"
                     'Dim cadena As String = "update brs_user_get_license set basic = @value, standard = @value1, advanced = @value2"
@@ -2984,7 +2993,6 @@ Public Class Frm_Principal
                         lbl_state_userLicense.Text = "Error al acceder a la base de datos"
                         ProgressBar3.Value = ProgressBar3.Maximum
                         Me.Cursor = Cursors.Default
-                        'reader.Close()
                         Conexion.Close()
                         Exit Sub
                     End Try
@@ -3037,6 +3045,9 @@ Public Class Frm_Principal
         Catch ex As Exception
             MsgBox(ex.ToString)
             MsgBox("No se pudo traer la información desde la tabla brs_user_get_license", MsgBoxStyle.Exclamation, "Error con base de datos")
+            lbl_state_userLicense.Text = "Error al acceder a la base de datos"
+            ProgressBar3.Value = ProgressBar3.Maximum
+            Me.Cursor = Cursors.Default
             Conexion.Close()
             Exit Sub
         End Try
@@ -3063,7 +3074,7 @@ Public Class Frm_Principal
         'Next
         DataGridView2.Refresh()
 
-
+        DataGridView2.Enabled = True
         'Dim btn As New DataGridViewButtonColumn()
         'DataGridView2.Columns.Add(btn)
         'btn.HeaderText = "Click Data"
@@ -3087,6 +3098,7 @@ Public Class Frm_Principal
 
         lbl_state_userLicense.Text = "Finalizado"
         ProgressBar3.Value = ProgressBar3.Maximum
+        Me.Cursor = Cursors.Default
         My.Application.DoEvents()
 
     End Sub
@@ -3179,10 +3191,16 @@ Public Class Frm_Principal
 
         Dim currentCell As String = DataGridView2.CurrentCell.Value.ToString
         If currentCell.Equals("true") Then
-            DataGridView2.CurrentCell.Value = "false"
-        ElseIf currentCell.Equals("") Or currentCell.Equals("false") Then
+            DataGridView2.CurrentCell.Value = "FALSE"
+        ElseIf currentCell.Equals("FALSE") Then
             DataGridView2.CurrentCell.Value = "true"
+
+        ElseIf currentCell.Equals("false") Then
+            DataGridView2.CurrentCell.Value = "TRUE"
+        ElseIf currentCell.Equals("TRUE") Then
+            DataGridView2.CurrentCell.Value = "false"
         End If
         'MsgBox(currentCell & "hola")
+        'MsgBox(DataGridView2.CurrentCell.Clone().ToString)
     End Sub
 End Class

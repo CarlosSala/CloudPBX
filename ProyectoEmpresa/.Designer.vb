@@ -52,7 +52,12 @@ Partial Class Frm_Principal
         Me.lbl_groupId_proxy = New System.Windows.Forms.Label()
         Me.btn_search_proxy = New System.Windows.Forms.Button()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.btn_process_userLicense = New System.Windows.Forms.Button()
         Me.DataGridView2 = New System.Windows.Forms.DataGridView()
+        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Column2 = New System.Windows.Forms.DataGridViewButtonColumn()
+        Me.Column3 = New System.Windows.Forms.DataGridViewButtonColumn()
+        Me.Column4 = New System.Windows.Forms.DataGridViewButtonColumn()
         Me.lbl_numUser = New System.Windows.Forms.Label()
         Me.StatusStrip3 = New System.Windows.Forms.StatusStrip()
         Me.ProgressBar3 = New System.Windows.Forms.ToolStripProgressBar()
@@ -65,10 +70,6 @@ Partial Class Frm_Principal
         Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
-        Me.Column1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Column2 = New System.Windows.Forms.DataGridViewButtonColumn()
-        Me.Column3 = New System.Windows.Forms.DataGridViewButtonColumn()
-        Me.Column4 = New System.Windows.Forms.DataGridViewButtonColumn()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -376,6 +377,7 @@ Partial Class Frm_Principal
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.btn_process_userLicense)
         Me.TabPage3.Controls.Add(Me.DataGridView2)
         Me.TabPage3.Controls.Add(Me.lbl_numUser)
         Me.TabPage3.Controls.Add(Me.StatusStrip3)
@@ -390,6 +392,15 @@ Partial Class Frm_Principal
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Assign Service Pack"
         Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'btn_process_userLicense
+        '
+        Me.btn_process_userLicense.Location = New System.Drawing.Point(79, 511)
+        Me.btn_process_userLicense.Name = "btn_process_userLicense"
+        Me.btn_process_userLicense.Size = New System.Drawing.Size(75, 23)
+        Me.btn_process_userLicense.TabIndex = 25
+        Me.btn_process_userLicense.Text = "Process"
+        Me.btn_process_userLicense.UseVisualStyleBackColor = True
         '
         'DataGridView2
         '
@@ -407,6 +418,31 @@ Partial Class Frm_Principal
         Me.DataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.DataGridView2.Size = New System.Drawing.Size(1151, 321)
         Me.DataGridView2.TabIndex = 3
+        '
+        'Column1
+        '
+        Me.Column1.HeaderText = "UserId"
+        Me.Column1.Name = "Column1"
+        Me.Column1.ReadOnly = True
+        '
+        'Column2
+        '
+        Me.Column2.HeaderText = "Basic"
+        Me.Column2.Name = "Column2"
+        Me.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        Me.Column2.Text = ""
+        '
+        'Column3
+        '
+        Me.Column3.HeaderText = "Standard"
+        Me.Column3.Name = "Column3"
+        Me.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
+        '
+        'Column4
+        '
+        Me.Column4.HeaderText = "Advanced"
+        Me.Column4.Name = "Column4"
+        Me.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
         '
         'lbl_numUser
         '
@@ -495,31 +531,6 @@ Partial Class Frm_Principal
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
         '
-        'Column1
-        '
-        Me.Column1.HeaderText = "UserId"
-        Me.Column1.Name = "Column1"
-        Me.Column1.ReadOnly = True
-        '
-        'Column2
-        '
-        Me.Column2.HeaderText = "Basic"
-        Me.Column2.Name = "Column2"
-        Me.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        Me.Column2.Text = ""
-        '
-        'Column3
-        '
-        Me.Column3.HeaderText = "Standard"
-        Me.Column3.Name = "Column3"
-        Me.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        '
-        'Column4
-        '
-        Me.Column4.HeaderText = "Advanced"
-        Me.Column4.Name = "Column4"
-        Me.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic
-        '
         'Frm_Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -597,4 +608,5 @@ Partial Class Frm_Principal
     Friend WithEvents Column2 As DataGridViewButtonColumn
     Friend WithEvents Column3 As DataGridViewButtonColumn
     Friend WithEvents Column4 As DataGridViewButtonColumn
+    Friend WithEvents btn_process_userLicense As Button
 End Class

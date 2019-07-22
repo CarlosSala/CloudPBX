@@ -1,1 +1,0 @@
-C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\userGetListInGroup\1_UserGetList_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\userGetListInGroup\1_cloudpbx_response.xml

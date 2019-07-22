@@ -3,7 +3,7 @@
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
 <command xsi:type="GroupAccessDeviceCustomTagAddRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
-<groupId>miguel_grupo</groupId>
+<groupId>MIGUEL_cloudpbx</groupId>
 <deviceName>DV_805EC0568BEA</deviceName>
 <tagName>%SBC_ADDRESS%</tagName>
 <tagValue>192.168.1.1</tagValue>

@@ -1,0 +1,57 @@
+**** Version Voxcom --> 2019.07.21 19:27:27:330 CLT
+**** Start OCIClient initialization --> 2019.07.21 19:27:27:338 CLT
+**** Sending request at: 2019.07.21 19:27:27:471 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 37 ms)
+AuthenticationRequest command successful
+
+**** Sending request at: 2019.07.21 19:27:27:511 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 153 ms)
+LoginRequest command successful
+
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\1_GetUserLicense_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\1_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\2_GetUserLicense_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\2_cloudpbx_response.xml
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\3_GetUserLicense_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\3_cloudpbx_response.xml
+********* Starting Run #: 1 in: 3 ms *********
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\1_GetUserLicense_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\1_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\1_GetUserLicense_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\1_cloudpbx_response.xml
+**** Sending request #: 1 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\1_GetUserLicense_request.xml at: 2019.07.21 19:27:27:684 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 67 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\2_GetUserLicense_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\2_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\2_GetUserLicense_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\2_cloudpbx_response.xml
+**** Sending request #: 2 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\2_GetUserLicense_request.xml at: 2019.07.21 19:27:27:892 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 180 ms)
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\3_GetUserLicense_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\3_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\3_GetUserLicense_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\3_cloudpbx_response.xml
+**** Sending request #: 3 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\3_GetUserLicense_request.xml at: 2019.07.21 19:27:28:117 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 157 ms)
+
+Run #: 1 -- Statistics ========================>
+Total Requests: 3
+Total Time for all requests: 404 ms
+Average Time per request: 134 ms
+Smallest request time: 67 ms
+Longest request time: 180 ms, FileName: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserLicense\2_GetUserLicense_request.xml, Time: 2019.07.21 19:27:28:074 CLT
+<========================
+
+**** Sending request at: 2019.07.21 19:27:28:296 CLT
+**** Time Out:1
+
+**** Received response (Request process time: 1000 ms)
+LogoutRequest command successful (no response when OCS)
+

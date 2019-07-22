@@ -3,7 +3,7 @@
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
 <command xsi:type="GroupMusicOnHoldModifyInstanceRequest20" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <serviceProviderId>CloudPBX_SMB</serviceProviderId>
-<groupId>miguel_grupo</groupId>
+<groupId>MIGUEL_cloudpbx</groupId>
 <isActiveDuringCallHold>true</isActiveDuringCallHold>
 <isActiveDuringCallPark>true</isActiveDuringCallPark>
 <isActiveDuringBusyCampOn>true</isActiveDuringBusyCampOn>

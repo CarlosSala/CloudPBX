@@ -19,6 +19,7 @@ Public Class Frm_Principal
     Dim indexXML_Proxy As Integer = 0
     Dim indexXML_UsersLincense_Group As Integer = 0
     Dim indexXML_UsersLincense = 0
+    Dim indexXML_UsersLicense_Assign As Integer = 0
     Dim codError As Integer = 0
     Dim numFile As Integer = 1
     'Dim n_File As Integer = FreeFile()
@@ -100,6 +101,7 @@ Public Class Frm_Principal
 
         lbl_state_userLicense.Text = ""
         DataGridView2.Enabled = False
+        btn_process_userLicense.Enabled = False
     End Sub
 
     Public Sub Tooltip_Help_Buttons(ByVal TooltipAyuda As ToolTip, ByVal Boton As Button, ByVal mensaje As String)
@@ -2637,7 +2639,7 @@ Public Class Frm_Principal
     '///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     'TERCERA INTERFAZ-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/
     '/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    Public Sub UserGetListInGroup()
+    Public Sub GetUserListInGroup()
 
         Me.Cursor = Cursors.WaitCursor
 
@@ -2662,12 +2664,12 @@ Public Class Frm_Principal
 
         'Se eliminan los archivos antiguos del directorio correspondiente
         Try
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblPathTmpUserLicense & "\userGetListInGroup", FileIO.SearchOption.SearchAllSubDirectories, "*.*")
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblPathTmpUserLicense & "\GetUserListInGroup", FileIO.SearchOption.SearchAllSubDirectories, "*.*")
                 My.Computer.FileSystem.DeleteFile(foundFile)
             Next
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & gblPathTmpUserLicense & "\userGetListInGroup" &
+            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & gblPathTmpUserLicense & "\GetUserListInGroup" &
                    ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
             Me.Cursor = Cursors.Default
             Exit Sub
@@ -2688,7 +2690,7 @@ Public Class Frm_Principal
 
         Dim fileIXML As String = ""
         Dim fileOXML As String = ""
-        Dim multipleInputFile As String = gblPathTmpUserLicense & "\userGetListInGroup\multipleInputFile.txt"
+        Dim multipleInputFile As String = gblPathTmpUserLicense & "\GetUserListInGroup\multipleInputFile.txt"
         Dim lineConfigFile As String = ""
 
         numFile = 10
@@ -2708,8 +2710,8 @@ Public Class Frm_Principal
         Try
             numFile = 11
             indexXML_UsersLincense_Group += 1
-            fileIXML = gblPathTmpUserLicense & "\userGetListInGroup\" & indexXML_UsersLincense_Group & "_UserGetList_request.xml"
-            fileOXML = gblPathTmpUserLicense & "\userGetListInGroup\" & indexXML_UsersLincense_Group & "_cloudpbx_response.xml"
+            fileIXML = gblPathTmpUserLicense & "\GetUserListInGroup\" & indexXML_UsersLincense_Group & "_GetUserList_request.xml"
+            fileOXML = gblPathTmpUserLicense & "\GetUserListInGroup\" & indexXML_UsersLincense_Group & "_cloudpbx_response.xml"
             FileOpen(numFile, fileIXML, OpenMode.Output)
             WriteLine(numFile, t_1.ToCharArray)
             WriteLine(numFile, t_2.ToCharArray)
@@ -2727,7 +2729,7 @@ Public Class Frm_Principal
             FileClose(numFileUserGetList)
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Error al crear el archivo " & gblPathTmpUserLicense & "\userGetListInGroup\" & indexXML_UsersLincense_Group & "_UserGetList_request.xml", MsgBoxStyle.Exclamation, "Error al crear el archivo")
+            MsgBox("Error al crear el archivo " & gblPathTmpUserLicense & "\GetUserListInGroup\" & indexXML_UsersLincense_Group & "_GetUserList_request.xml", MsgBoxStyle.Exclamation, "Error al crear el archivo")
             FileClose(numFile)
             FileClose(numFileUserGetList)
             Me.Cursor = Cursors.Default
@@ -2771,7 +2773,7 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
-        Dim fs As New FileStream(gblPathTmpUserLicense & "\userGetListInGroup\1_cloudpbx_response.xml", FileMode.Open, FileAccess.Read)
+        Dim fs As New FileStream(gblPathTmpUserLicense & "\GetUserListInGroup\1_cloudpbx_response.xml", FileMode.Open, FileAccess.Read)
         Try
             xmldoc.Load(fs)
             xmlnode = xmldoc.GetElementsByTagName("col")
@@ -2823,12 +2825,12 @@ Public Class Frm_Principal
 
         'Se eliminan los archivos antiguos del directorio correspondiente
         Try
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblPathTmpUserLicense & "\userGetLicense", FileIO.SearchOption.SearchAllSubDirectories, "*.*")
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblPathTmpUserLicense & "\GetUserLicense", FileIO.SearchOption.SearchAllSubDirectories, "*.*")
                 My.Computer.FileSystem.DeleteFile(foundFile)
             Next
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & gblPathTmpUserLicense & "\userGetLicense" &
+            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & gblPathTmpUserLicense & "\GetUserLicense" &
                    ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
             Me.Cursor = Cursors.Default
             Exit Sub
@@ -2846,7 +2848,7 @@ Public Class Frm_Principal
 
         Dim fileIXML As String = ""
         Dim fileOXML As String = ""
-        Dim multipleInputFile As String = gblPathTmpUserLicense & "\userGetLicense\multipleInputFile.txt"
+        Dim multipleInputFile As String = gblPathTmpUserLicense & "\GetUserLicense\multipleInputFile.txt"
         Dim lineConfigFile As String = ""
         Dim userId As String = ""
 
@@ -2867,8 +2869,8 @@ Public Class Frm_Principal
             For j = 0 To ArrayUserGetList.Length - 1
                 numFile = 13
                 indexXML_UsersLincense += 1
-                fileIXML = gblPathTmpUserLicense & "\userGetLicense\" & indexXML_UsersLincense & "_UserGetLicense_request.xml"
-                fileOXML = gblPathTmpUserLicense & "\userGetLicense\" & indexXML_UsersLincense & "_cloudpbx_response.xml"
+                fileIXML = gblPathTmpUserLicense & "\GetUserLicense\" & indexXML_UsersLincense & "_GetUserLicense_request.xml"
+                fileOXML = gblPathTmpUserLicense & "\GetUserLicense\" & indexXML_UsersLincense & "_cloudpbx_response.xml"
                 FileOpen(numFile, fileIXML, OpenMode.Output)
                 WriteLine(numFile, u_1.ToCharArray)
                 WriteLine(numFile, u_2.ToCharArray)
@@ -2886,7 +2888,7 @@ Public Class Frm_Principal
             Next
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Error al crear el archivo " & indexXML_UsersLincense & "_UserGetLicense_request.xml", MsgBoxStyle.Exclamation)
+            MsgBox("Error al crear el archivo " & indexXML_UsersLincense & "_GetUserLicense_request.xml", MsgBoxStyle.Exclamation)
             FileClose(numFile)
             FileClose(numFileUserLicense)
             Exit Sub
@@ -2940,7 +2942,7 @@ Public Class Frm_Principal
 
         For num = 1 To indexXML_UsersLincense
             Try
-                Dim fs As New FileStream(gblPathTmpUserLicense & "\userGetLicense\" & num & "_cloudpbx_response.xml", FileMode.Open, FileAccess.Read)
+                Dim fs As New FileStream(gblPathTmpUserLicense & "\GetUserLicense\" & num & "_cloudpbx_response.xml", FileMode.Open, FileAccess.Read)
                 xmldoc.Load(fs)
 
                 xmlnode = xmldoc.GetElementsByTagName("col")
@@ -2998,16 +3000,13 @@ Public Class Frm_Principal
                     End Try
                     Conexion.Close()
 
-
                     response = ""
                     response1 = ""
                     response2 = ""
                     response3 = ""
                 Else
                     'En caso de que un usuario no posea ninguna licencia
-
                 End If
-
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
@@ -3025,21 +3024,18 @@ Public Class Frm_Principal
     End Sub
 
 
-
-    'DataTable utilizada para el rebuild de archivos
-    Dim dt2 As New DataTable
     Public Sub Update_Grid2()
 
-        Dim iSql As String = "select * from brs_user_get_license"
-        Dim cmd As New OleDbCommand
 
+        Dim cmd As New OleDbCommand
         Dim da As New OleDbDataAdapter
         Dim dtproxy As New DataTable
+        Dim instruction As String = "select * from brs_user_get_license"
 
         Try
             Conexion.Open()
             cmd.Connection = Conexion
-            cmd.CommandText = iSql
+            cmd.CommandText = instruction
             da.SelectCommand = cmd
             da.Fill(dtproxy)
         Catch ex As Exception
@@ -3058,34 +3054,23 @@ Public Class Frm_Principal
         filass = dtproxy.Rows
 
         'DataGridView2.DataSource = dtproxy
-
-        DataGridView2.Rows.Clear()
         'DataGridView2.Columns.Clear()
-
+        DataGridView2.Rows.Clear()
         DataGridView2.Refresh()
+
         'Se muestran los datos en el datagridview2
         For Each filasss In filass
             DataGridView2.Rows.Add(filasss.ItemArray)
         Next
 
-
-        'For j = 0 To DataGridView2.Rows.Count - 2
-        '    MsgBox(DataGridView2.Rows(j).Cells(0).Value.ToString)
-        'Next
-        DataGridView2.Refresh()
-
         DataGridView2.Enabled = True
+
         'Dim btn As New DataGridViewButtonColumn()
         'DataGridView2.Columns.Add(btn)
         'btn.HeaderText = "Click Data"
         'btn.Text = "Click Here"
         'btn.Name = "btn"
         'btn.UseColumnTextForButtonValue = True
-
-        'Se evita que el usuario pueda reordenar la grilla
-        'For j = 0 To DataGridView2.ColumnCount - 1
-        '    DataGridView2.Columns(j).SortMode = DataGridViewColumnSortMode.NotSortable
-        'Next
 
         'para mostrar el listado de usuarios en el listbox
         'Me.ListBox2.Items.Clear()
@@ -3099,18 +3084,155 @@ Public Class Frm_Principal
         lbl_state_userLicense.Text = "Finalizado"
         ProgressBar3.Value = ProgressBar3.Maximum
         Me.Cursor = Cursors.Default
+        btn_process_userLicense.Enabled = True
+        My.Application.DoEvents()
+        'Assignment_UserLicensse()
+    End Sub
+
+    Private Sub Assignment_UserLicensse()
+
+        Me.Cursor = Cursors.WaitCursor
+        DataGridView2.Enabled = False
+
+        If My.Computer.Network.Ping(My.Settings.Host, gblTimePing) Then
+            'MsgBox("Server pinged successfully.")
+        Else
+            MsgBox("Servidor fuera de Linea, favor verifique la conexion", MsgBoxStyle.Exclamation, "Error de Comunicación")
+            Me.Cursor = Cursors.Default
+            DataGridView2.Enabled = True
+            Exit Sub
+        End If
+
+        indexXML_UsersLicense_Assign = 0
+        lbl_state_userLicense.Text = ""
+        ProgressBar3.Value = 0
         My.Application.DoEvents()
 
-    End Sub
+        'Se eliminan los archivos antiguos del directorio correspondiente
+        Try
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblPathTmpUserLicense & "\AssigmentUserLicense", FileIO.SearchOption.SearchAllSubDirectories, "*.*")
+                My.Computer.FileSystem.DeleteFile(foundFile)
+            Next
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & gblPathTmpUserLicense & "\AssigmentUserLicense" &
+                   ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
+            Me.Cursor = Cursors.Default
+            DataGridView2.Enabled = True
+            Exit Sub
+        End Try
 
-    Private Sub eventos()
+        'XML PARA ASIGNAR PACK DE SERVICIOS---------------------------------------------------------------------
+        Dim line1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim line2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim line3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
 
-        'DataGridView2.
+        Dim l_4 As String = "<command xsi:type=" & Chr(34) & "UserServiceAssignListRequest" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim l_5 As String = "<userId>226337160@autopro.cl</userId>"
+        Dim l_6 As String = "<servicePackName>Pack_Basico</servicePackName>"
+        Dim l_7 As String = "</command>"
 
-    End Sub
+        Dim finalLine As String = "</BroadsoftDocument>"
 
-    Private Sub TabPage1_Click(sender As Object, e As EventArgs) Handles TabPage1.Click
+        Dim fileIXML As String = ""
+        Dim fileOXML As String = ""
+        Dim multipleInputFile As String = gblPathTmpUserLicense & "\AssigmentUserLicense\multipleInputFile.txt"
+        Dim lineConfigFile As String = ""
+        Dim userId As String = ""
+        Dim packBasic As String = ""
+        Dim packStandard As String = ""
+        Dim packAdvanced As String = ""
+        Dim AssignState As Integer = 0
 
+        numFile = 14
+        Dim numFileUserLicense As Integer = numFile
+
+        Try
+            FileOpen(numFileUserLicense, multipleInputFile, OpenMode.Output, OpenAccess.Write)
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("Asegurese de que el archivo " & multipleInputFile & " no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
+            FileClose(numFileUserLicense)
+            Me.Cursor = Cursors.Default
+            DataGridView2.Enabled = True
+            Exit Sub
+        End Try
+
+
+
+
+
+
+        'XML PARA ASIGNAR PACK DE SERVICIOS---------------------------------------------------------------------
+        For j = 0 To DataGridView2.RowCount - 1
+            Try
+                packBasic = DataGridView2.Rows(j).Cells(1).Value.ToString
+                packStandard = DataGridView2.Rows(j).Cells(2).Value.ToString
+                packAdvanced = DataGridView2.Rows(j).Cells(3).Value.ToString
+
+                If packBasic.Equals("TRUE") Or packStandard.Equals("TRUE") Or packAdvanced.Equals("TRUE") Then
+
+                    AssignState = 1
+
+                    numFile = 15
+                    indexXML_UsersLicense_Assign += 1
+                    fileIXML = gblPathTmpUserLicense & "\AssigmentUserLicense\" & indexXML_UsersLicense_Assign & "_AssignServices_request.xml"
+                    fileOXML = gblPathTmpUserLicense & "\AssigmentUserLicense\" & indexXML_UsersLicense_Assign & "_cloudpbx_response.xml"
+                    FileOpen(numFile, fileIXML, OpenMode.Output)
+                    WriteLine(numFile, line1.ToCharArray)
+                    WriteLine(numFile, line2.ToCharArray)
+                    WriteLine(numFile, line3.ToCharArray)
+                    WriteLine(numFile, l_4.ToCharArray)
+
+                    userId = DataGridView2.Rows(j).Cells(0).Value.ToString
+                    l_5 = "<userId>" & userId & "</userId>"
+                    WriteLine(numFile, l_5.ToCharArray)
+
+                    'Realizar prueba de asignar mas de una licencia al usuario
+
+                    If packBasic.Equals("TRUE") Then
+                        l_6 = "<servicePackName>Pack_Basico</servicePackName>"
+                        WriteLine(numFile, l_6.ToCharArray)
+                    End If
+                    If packStandard.Equals("TRUE") Then
+                        l_6 = "<servicePackName>Pack_Estandar</servicePackName>"
+                        WriteLine(numFile, l_6.ToCharArray)
+                    End If
+                    If packAdvanced.Equals("TRUE") Then
+                        l_6 = "<servicePackName>Pack_Avanzado</servicePackName>"
+                        WriteLine(numFile, l_6.ToCharArray)
+                    End If
+
+                    WriteLine(numFile, l_7.ToCharArray)
+                    WriteLine(numFile, finalLine.ToCharArray)
+                    FileClose(numFile)
+                    lineConfigFile = fileIXML & ";" & fileOXML
+                    WriteLine(numFileUserLicense, lineConfigFile.ToCharArray)
+                End If
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+                MsgBox("Error al crear el archivo " & gblPathTmpUserLicense & "\AssigmentUserLicense\" & indexXML_UsersLicense_Assign & "_AssignServices_request.xml", MsgBoxStyle.Exclamation)
+                Me.Cursor = Cursors.Default
+                DataGridView2.Enabled = True
+                FileClose(numFileUserLicense)
+                Exit Sub
+            End Try
+        Next
+
+        If AssignState = 0 Then
+            MsgBox("No se establecieron cambios en el asignamiento de licencias de usuarios", MsgBoxStyle.Exclamation, "Revise los campos 'TRUE'")
+            Me.Cursor = Cursors.Default
+            DataGridView2.Enabled = True
+            FileClose(numFileUserLicense)
+            Exit Sub
+        End If
+
+        FileClose(numFileUserLicense)
+
+        ExecuteShellBulk(multipleInputFile, 3)
+        If codError <> 3 Then
+            'ParseXML_UserGetLicense()
+        End If
     End Sub
 
     Private Sub Btn_BrowseCSV_MouseEnter(sender As Object, e As EventArgs) Handles btn_browse_CSV.MouseEnter
@@ -3129,24 +3251,8 @@ Public Class Frm_Principal
         getDeviceName()
     End Sub
 
-    Private Sub ListBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles listbox_proxy.SelectedIndexChanged
-
-    End Sub
-
-    Private Sub Label2_Click(sender As Object, e As EventArgs) Handles Label2.Click
-
-    End Sub
-
-    Private Sub Label5_Click(sender As Object, e As EventArgs) Handles lbl_proxy.Click
-
-    End Sub
-
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles btn_process_proxy.Click
         ModifyProxy()
-    End Sub
-
-    Private Sub TabPage2_Click(sender As Object, e As EventArgs) Handles TabPage2.Click
-
     End Sub
 
     Private Sub Btn_report_cloudpbx_Click(sender As Object, e As EventArgs) Handles btn_report_cloudpbx.Click
@@ -3167,28 +3273,19 @@ Public Class Frm_Principal
         End If
     End Sub
 
-    Private Sub TabPage3_Click(sender As Object, e As EventArgs) Handles TabPage3.Click
-
-    End Sub
-
-    Private Sub ProgressBar2_Click(sender As Object, e As EventArgs)
-
-    End Sub
-
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        UserGetListInGroup()
-    End Sub
-
-    Private Sub DataGridView2_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellContentClick
-
+        GetUserListInGroup()
     End Sub
 
     Private Sub Btn_validate_data_Click(sender As Object, e As EventArgs) Handles btn_validate_data.Click
         Validate_Data()
     End Sub
 
-    Private Sub DataGridView2_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellClick
+    Private Sub Btn_process_userLicense_Click(sender As Object, e As EventArgs) Handles btn_process_userLicense.Click
+        Assignment_UserLicensse()
+    End Sub
 
+    Private Sub DataGridView2_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView2.CellContentClick
         Dim currentCell As String = DataGridView2.CurrentCell.Value.ToString
         If currentCell.Equals("true") Then
             DataGridView2.CurrentCell.Value = "FALSE"

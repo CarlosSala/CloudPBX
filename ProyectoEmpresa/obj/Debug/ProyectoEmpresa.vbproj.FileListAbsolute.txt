@@ -31,3 +31,4 @@ C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Debug\Proy
 C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Debug\ProyectoEmpresa.pdb
 C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Debug\ProyectoEmpresa.Frm_Report_Cloudpbx.resources
 C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Debug\ProyectoEmpresa.Frm_Report_Proxy.resources
+C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\obj\Debug\ProyectoEmpresa.vbprojAssemblyReference.cache

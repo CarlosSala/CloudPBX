@@ -3,7 +3,7 @@
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
 <command xsi:type="GroupCPEConfigRebuildDeviceConfigFileRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
-<groupId>FINANCIERA_cloudpbx</groupId>
-<deviceName>DV_805ec0479921</deviceName>
+<groupId>MAMINA_cloudpbx</groupId>
+<deviceName>DV_805ec0568e70</deviceName>
 </command>
 </BroadsoftDocument>

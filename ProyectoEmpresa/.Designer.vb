@@ -66,8 +66,6 @@ Partial Class Frm_Principal
         Me.tb_groupId_UserGetList = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Button4 = New System.Windows.Forms.Button()
-        Me.TabPage4 = New System.Windows.Forms.TabPage()
-        Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
         Me.TabControl1.SuspendLayout()
@@ -89,13 +87,12 @@ Partial Class Frm_Principal
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Controls.Add(Me.TabPage3)
-        Me.TabControl1.Controls.Add(Me.TabPage4)
-        Me.TabControl1.Controls.Add(Me.TabPage5)
         Me.TabControl1.Location = New System.Drawing.Point(12, 12)
-        Me.TabControl1.MinimumSize = New System.Drawing.Size(800, 625)
+        Me.TabControl1.MaximumSize = New System.Drawing.Size(1325, 690)
+        Me.TabControl1.MinimumSize = New System.Drawing.Size(750, 540)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1334, 625)
+        Me.TabControl1.Size = New System.Drawing.Size(759, 540)
         Me.TabControl1.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight
         Me.TabControl1.TabIndex = 0
         '
@@ -112,27 +109,27 @@ Partial Class Frm_Principal
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(1326, 599)
+        Me.TabPage1.Size = New System.Drawing.Size(751, 514)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Create CloudPBX"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
         'btn_validate_data
         '
-        Me.btn_validate_data.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_validate_data.Location = New System.Drawing.Point(1187, 490)
+        Me.btn_validate_data.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_validate_data.Location = New System.Drawing.Point(610, 390)
         Me.btn_validate_data.Name = "btn_validate_data"
         Me.btn_validate_data.Size = New System.Drawing.Size(132, 75)
         Me.btn_validate_data.TabIndex = 53
-        Me.btn_validate_data.Text = "Validar data"
+        Me.btn_validate_data.Text = "Validate Data"
         Me.btn_validate_data.UseVisualStyleBackColor = True
         '
         'StatusStrip1
         '
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar1, Me.lbl_state_cloud})
-        Me.StatusStrip1.Location = New System.Drawing.Point(3, 574)
+        Me.StatusStrip1.Location = New System.Drawing.Point(3, 489)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(1320, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(745, 22)
         Me.StatusStrip1.TabIndex = 52
         Me.StatusStrip1.Text = "StatusStrip1"
         '
@@ -149,14 +146,14 @@ Partial Class Frm_Principal
         '
         'btn_report_cloudpbx
         '
-        Me.btn_report_cloudpbx.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_report_cloudpbx.Location = New System.Drawing.Point(144, 490)
+        Me.btn_report_cloudpbx.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_report_cloudpbx.Location = New System.Drawing.Point(144, 390)
         Me.btn_report_cloudpbx.MaximumSize = New System.Drawing.Size(132, 75)
         Me.btn_report_cloudpbx.MinimumSize = New System.Drawing.Size(132, 75)
         Me.btn_report_cloudpbx.Name = "btn_report_cloudpbx"
         Me.btn_report_cloudpbx.Size = New System.Drawing.Size(132, 75)
         Me.btn_report_cloudpbx.TabIndex = 4
-        Me.btn_report_cloudpbx.Text = "Ver informe"
+        Me.btn_report_cloudpbx.Text = "Show Report"
         Me.btn_report_cloudpbx.UseVisualStyleBackColor = True
         '
         'lbl_wait
@@ -166,11 +163,11 @@ Partial Class Frm_Principal
         Me.lbl_wait.BackColor = System.Drawing.Color.White
         Me.lbl_wait.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbl_wait.ForeColor = System.Drawing.Color.Black
-        Me.lbl_wait.Location = New System.Drawing.Point(522, 288)
+        Me.lbl_wait.Location = New System.Drawing.Point(250, 233)
         Me.lbl_wait.Name = "lbl_wait"
-        Me.lbl_wait.Size = New System.Drawing.Size(300, 31)
+        Me.lbl_wait.Size = New System.Drawing.Size(267, 31)
         Me.lbl_wait.TabIndex = 0
-        Me.lbl_wait.Text = "Espere un momento..."
+        Me.lbl_wait.Text = "Hold on a second..."
         Me.lbl_wait.Visible = False
         '
         'DataGridView1
@@ -188,23 +185,23 @@ Partial Class Frm_Principal
         Me.DataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
         Me.DataGridView1.GridColor = System.Drawing.Color.DimGray
         Me.DataGridView1.Location = New System.Drawing.Point(6, 84)
-        Me.DataGridView1.MaximumSize = New System.Drawing.Size(1313, 400)
-        Me.DataGridView1.MinimumSize = New System.Drawing.Size(780, 400)
+        Me.DataGridView1.MaximumSize = New System.Drawing.Size(1300, 440)
+        Me.DataGridView1.MinimumSize = New System.Drawing.Size(727, 300)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
-        Me.DataGridView1.Size = New System.Drawing.Size(1313, 400)
+        Me.DataGridView1.Size = New System.Drawing.Size(734, 300)
         Me.DataGridView1.TabIndex = 51
         '
         'btn_procesar
         '
-        Me.btn_procesar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_procesar.Location = New System.Drawing.Point(6, 490)
+        Me.btn_procesar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_procesar.Location = New System.Drawing.Point(6, 390)
         Me.btn_procesar.MaximumSize = New System.Drawing.Size(132, 75)
         Me.btn_procesar.MinimumSize = New System.Drawing.Size(132, 75)
         Me.btn_procesar.Name = "btn_procesar"
         Me.btn_procesar.Size = New System.Drawing.Size(132, 75)
         Me.btn_procesar.TabIndex = 3
-        Me.btn_procesar.Text = "Procesar"
+        Me.btn_procesar.Text = "Process"
         Me.btn_procesar.UseVisualStyleBackColor = True
         '
         'tb_file_name
@@ -213,10 +210,10 @@ Partial Class Frm_Principal
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tb_file_name.Location = New System.Drawing.Point(6, 57)
-        Me.tb_file_name.MaximumSize = New System.Drawing.Size(1236, 20)
-        Me.tb_file_name.MinimumSize = New System.Drawing.Size(700, 20)
+        Me.tb_file_name.MaximumSize = New System.Drawing.Size(1225, 20)
+        Me.tb_file_name.MinimumSize = New System.Drawing.Size(650, 20)
         Me.tb_file_name.Name = "tb_file_name"
-        Me.tb_file_name.Size = New System.Drawing.Size(1236, 20)
+        Me.tb_file_name.Size = New System.Drawing.Size(659, 20)
         Me.tb_file_name.TabIndex = 2
         '
         'btn_browse_CSV
@@ -228,7 +225,7 @@ Partial Class Frm_Principal
         Me.btn_browse_CSV.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
         Me.btn_browse_CSV.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_browse_CSV.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_browse_CSV.Location = New System.Drawing.Point(1249, 7)
+        Me.btn_browse_CSV.Location = New System.Drawing.Point(672, 7)
         Me.btn_browse_CSV.Margin = New System.Windows.Forms.Padding(4)
         Me.btn_browse_CSV.MaximumSize = New System.Drawing.Size(70, 70)
         Me.btn_browse_CSV.MinimumSize = New System.Drawing.Size(70, 70)
@@ -254,7 +251,7 @@ Partial Class Frm_Principal
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(1326, 599)
+        Me.TabPage2.Size = New System.Drawing.Size(792, 519)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Rebuild the Proxy File"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -262,9 +259,9 @@ Partial Class Frm_Principal
         'StatusStrip2
         '
         Me.StatusStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar2, Me.lbl_state_proxy})
-        Me.StatusStrip2.Location = New System.Drawing.Point(3, 574)
+        Me.StatusStrip2.Location = New System.Drawing.Point(3, 494)
         Me.StatusStrip2.Name = "StatusStrip2"
-        Me.StatusStrip2.Size = New System.Drawing.Size(1320, 22)
+        Me.StatusStrip2.Size = New System.Drawing.Size(786, 22)
         Me.StatusStrip2.TabIndex = 12
         Me.StatusStrip2.Text = "StatusStrip2"
         '
@@ -282,7 +279,7 @@ Partial Class Frm_Principal
         'cb_add_proxy
         '
         Me.cb_add_proxy.AutoSize = True
-        Me.cb_add_proxy.Location = New System.Drawing.Point(273, 400)
+        Me.cb_add_proxy.Location = New System.Drawing.Point(258, 368)
         Me.cb_add_proxy.Name = "cb_add_proxy"
         Me.cb_add_proxy.Size = New System.Drawing.Size(74, 17)
         Me.cb_add_proxy.TabIndex = 5
@@ -292,7 +289,7 @@ Partial Class Frm_Principal
         'cb_modify_proxy
         '
         Me.cb_modify_proxy.AutoSize = True
-        Me.cb_modify_proxy.Location = New System.Drawing.Point(145, 400)
+        Me.cb_modify_proxy.Location = New System.Drawing.Point(130, 368)
         Me.cb_modify_proxy.Name = "cb_modify_proxy"
         Me.cb_modify_proxy.Size = New System.Drawing.Size(86, 17)
         Me.cb_modify_proxy.TabIndex = 4
@@ -301,7 +298,7 @@ Partial Class Frm_Principal
         '
         'btn_process_proxy
         '
-        Me.btn_process_proxy.Location = New System.Drawing.Point(145, 464)
+        Me.btn_process_proxy.Location = New System.Drawing.Point(130, 432)
         Me.btn_process_proxy.Name = "btn_process_proxy"
         Me.btn_process_proxy.Size = New System.Drawing.Size(75, 23)
         Me.btn_process_proxy.TabIndex = 7
@@ -310,7 +307,7 @@ Partial Class Frm_Principal
         '
         'tb_write_proxy
         '
-        Me.tb_write_proxy.Location = New System.Drawing.Point(145, 438)
+        Me.tb_write_proxy.Location = New System.Drawing.Point(130, 406)
         Me.tb_write_proxy.Name = "tb_write_proxy"
         Me.tb_write_proxy.Size = New System.Drawing.Size(202, 20)
         Me.tb_write_proxy.TabIndex = 6
@@ -318,7 +315,7 @@ Partial Class Frm_Principal
         'lbl_proxy
         '
         Me.lbl_proxy.AutoSize = True
-        Me.lbl_proxy.Location = New System.Drawing.Point(76, 441)
+        Me.lbl_proxy.Location = New System.Drawing.Point(61, 409)
         Me.lbl_proxy.Name = "lbl_proxy"
         Me.lbl_proxy.Size = New System.Drawing.Size(33, 13)
         Me.lbl_proxy.TabIndex = 7
@@ -327,7 +324,7 @@ Partial Class Frm_Principal
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(53, 135)
+        Me.Label2.Location = New System.Drawing.Point(38, 103)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(0, 13)
         Me.Label2.TabIndex = 6
@@ -335,7 +332,7 @@ Partial Class Frm_Principal
         'listbox_proxy
         '
         Me.listbox_proxy.FormattingEnabled = True
-        Me.listbox_proxy.Location = New System.Drawing.Point(145, 159)
+        Me.listbox_proxy.Location = New System.Drawing.Point(130, 127)
         Me.listbox_proxy.Name = "listbox_proxy"
         Me.listbox_proxy.Size = New System.Drawing.Size(202, 225)
         Me.listbox_proxy.TabIndex = 3
@@ -344,7 +341,7 @@ Partial Class Frm_Principal
         '
         Me.lbl_cloudpbx_proxy.AutoSize = True
         Me.lbl_cloudpbx_proxy.Enabled = False
-        Me.lbl_cloudpbx_proxy.Location = New System.Drawing.Point(353, 75)
+        Me.lbl_cloudpbx_proxy.Location = New System.Drawing.Point(338, 43)
         Me.lbl_cloudpbx_proxy.Name = "lbl_cloudpbx_proxy"
         Me.lbl_cloudpbx_proxy.Size = New System.Drawing.Size(56, 13)
         Me.lbl_cloudpbx_proxy.TabIndex = 4
@@ -352,7 +349,7 @@ Partial Class Frm_Principal
         '
         'tb_groupId_proxy
         '
-        Me.tb_groupId_proxy.Location = New System.Drawing.Point(145, 72)
+        Me.tb_groupId_proxy.Location = New System.Drawing.Point(130, 40)
         Me.tb_groupId_proxy.Name = "tb_groupId_proxy"
         Me.tb_groupId_proxy.Size = New System.Drawing.Size(202, 20)
         Me.tb_groupId_proxy.TabIndex = 1
@@ -360,7 +357,7 @@ Partial Class Frm_Principal
         'lbl_groupId_proxy
         '
         Me.lbl_groupId_proxy.AutoSize = True
-        Me.lbl_groupId_proxy.Location = New System.Drawing.Point(76, 75)
+        Me.lbl_groupId_proxy.Location = New System.Drawing.Point(61, 43)
         Me.lbl_groupId_proxy.Name = "lbl_groupId_proxy"
         Me.lbl_groupId_proxy.Size = New System.Drawing.Size(45, 13)
         Me.lbl_groupId_proxy.TabIndex = 1
@@ -368,7 +365,7 @@ Partial Class Frm_Principal
         '
         'btn_search_proxy
         '
-        Me.btn_search_proxy.Location = New System.Drawing.Point(145, 98)
+        Me.btn_search_proxy.Location = New System.Drawing.Point(130, 66)
         Me.btn_search_proxy.Name = "btn_search_proxy"
         Me.btn_search_proxy.Size = New System.Drawing.Size(75, 23)
         Me.btn_search_proxy.TabIndex = 2
@@ -388,14 +385,14 @@ Partial Class Frm_Principal
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(1326, 599)
+        Me.TabPage3.Size = New System.Drawing.Size(792, 519)
         Me.TabPage3.TabIndex = 2
-        Me.TabPage3.Text = "Assign Service Pack"
+        Me.TabPage3.Text = "Assign User Licenses"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
         'btn_process_userLicense
         '
-        Me.btn_process_userLicense.Location = New System.Drawing.Point(79, 511)
+        Me.btn_process_userLicense.Location = New System.Drawing.Point(80, 457)
         Me.btn_process_userLicense.Name = "btn_process_userLicense"
         Me.btn_process_userLicense.Size = New System.Drawing.Size(75, 23)
         Me.btn_process_userLicense.TabIndex = 25
@@ -413,10 +410,10 @@ Partial Class Frm_Principal
         Me.DataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4})
-        Me.DataGridView2.Location = New System.Drawing.Point(79, 184)
+        Me.DataGridView2.Location = New System.Drawing.Point(80, 130)
         Me.DataGridView2.Name = "DataGridView2"
         Me.DataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
-        Me.DataGridView2.Size = New System.Drawing.Size(1151, 321)
+        Me.DataGridView2.Size = New System.Drawing.Size(617, 321)
         Me.DataGridView2.TabIndex = 3
         '
         'Column1
@@ -447,7 +444,7 @@ Partial Class Frm_Principal
         'lbl_numUser
         '
         Me.lbl_numUser.AutoSize = True
-        Me.lbl_numUser.Location = New System.Drawing.Point(76, 151)
+        Me.lbl_numUser.Location = New System.Drawing.Point(77, 97)
         Me.lbl_numUser.Name = "lbl_numUser"
         Me.lbl_numUser.Size = New System.Drawing.Size(0, 13)
         Me.lbl_numUser.TabIndex = 24
@@ -455,9 +452,9 @@ Partial Class Frm_Principal
         'StatusStrip3
         '
         Me.StatusStrip3.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar3, Me.lbl_state_userLicense})
-        Me.StatusStrip3.Location = New System.Drawing.Point(3, 574)
+        Me.StatusStrip3.Location = New System.Drawing.Point(3, 494)
         Me.StatusStrip3.Name = "StatusStrip3"
-        Me.StatusStrip3.Size = New System.Drawing.Size(1320, 22)
+        Me.StatusStrip3.Size = New System.Drawing.Size(786, 22)
         Me.StatusStrip3.TabIndex = 22
         Me.StatusStrip3.Text = "StatusStrip3"
         '
@@ -476,7 +473,7 @@ Partial Class Frm_Principal
         '
         Me.Label6.AutoSize = True
         Me.Label6.Enabled = False
-        Me.Label6.Location = New System.Drawing.Point(354, 74)
+        Me.Label6.Location = New System.Drawing.Point(355, 53)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(56, 13)
         Me.Label6.TabIndex = 15
@@ -484,7 +481,7 @@ Partial Class Frm_Principal
         '
         'tb_groupId_UserGetList
         '
-        Me.tb_groupId_UserGetList.Location = New System.Drawing.Point(145, 72)
+        Me.tb_groupId_UserGetList.Location = New System.Drawing.Point(146, 51)
         Me.tb_groupId_UserGetList.Name = "tb_groupId_UserGetList"
         Me.tb_groupId_UserGetList.Size = New System.Drawing.Size(202, 20)
         Me.tb_groupId_UserGetList.TabIndex = 1
@@ -492,7 +489,7 @@ Partial Class Frm_Principal
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(76, 75)
+        Me.Label7.Location = New System.Drawing.Point(77, 54)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(45, 13)
         Me.Label7.TabIndex = 13
@@ -500,32 +497,12 @@ Partial Class Frm_Principal
         '
         'Button4
         '
-        Me.Button4.Location = New System.Drawing.Point(145, 98)
+        Me.Button4.Location = New System.Drawing.Point(146, 77)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(75, 23)
         Me.Button4.TabIndex = 2
         Me.Button4.Text = "Search"
         Me.Button4.UseVisualStyleBackColor = True
-        '
-        'TabPage4
-        '
-        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(1326, 599)
-        Me.TabPage4.TabIndex = 3
-        Me.TabPage4.Text = "Crear Servicios"
-        Me.TabPage4.UseVisualStyleBackColor = True
-        '
-        'TabPage5
-        '
-        Me.TabPage5.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage5.Name = "TabPage5"
-        Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage5.Size = New System.Drawing.Size(1326, 599)
-        Me.TabPage5.TabIndex = 4
-        Me.TabPage5.Text = "Asignar Dispositivos"
-        Me.TabPage5.UseVisualStyleBackColor = True
         '
         'openFileDialogCSV
         '
@@ -535,11 +512,11 @@ Partial Class Frm_Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1350, 647)
+        Me.ClientSize = New System.Drawing.Size(784, 561)
         Me.Controls.Add(Me.TabControl1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximumSize = New System.Drawing.Size(1366, 768)
-        Me.MinimumSize = New System.Drawing.Size(832, 686)
+        Me.MinimumSize = New System.Drawing.Size(800, 600)
         Me.Name = "Frm_Principal"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Voxcom - CloudPBX"
@@ -567,8 +544,6 @@ Partial Class Frm_Principal
     Friend WithEvents TabPage1 As TabPage
     Friend WithEvents TabPage2 As TabPage
     Friend WithEvents TabPage3 As TabPage
-    Friend WithEvents TabPage4 As TabPage
-    Friend WithEvents TabPage5 As TabPage
     Friend WithEvents btn_browse_CSV As Button
     Friend WithEvents openFileDialogCSV As OpenFileDialog
     Friend WithEvents tb_file_name As TextBox

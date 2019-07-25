@@ -163,7 +163,7 @@ Partial Class Frm_Principal
         Me.lbl_wait.BackColor = System.Drawing.Color.White
         Me.lbl_wait.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbl_wait.ForeColor = System.Drawing.Color.Black
-        Me.lbl_wait.Location = New System.Drawing.Point(250, 233)
+        Me.lbl_wait.Location = New System.Drawing.Point(249, 278)
         Me.lbl_wait.Name = "lbl_wait"
         Me.lbl_wait.Size = New System.Drawing.Size(267, 31)
         Me.lbl_wait.TabIndex = 0
@@ -251,7 +251,7 @@ Partial Class Frm_Principal
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(792, 519)
+        Me.TabPage2.Size = New System.Drawing.Size(751, 514)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Rebuild the Proxy File"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -259,9 +259,9 @@ Partial Class Frm_Principal
         'StatusStrip2
         '
         Me.StatusStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar2, Me.lbl_state_proxy})
-        Me.StatusStrip2.Location = New System.Drawing.Point(3, 494)
+        Me.StatusStrip2.Location = New System.Drawing.Point(3, 489)
         Me.StatusStrip2.Name = "StatusStrip2"
-        Me.StatusStrip2.Size = New System.Drawing.Size(786, 22)
+        Me.StatusStrip2.Size = New System.Drawing.Size(745, 22)
         Me.StatusStrip2.TabIndex = 12
         Me.StatusStrip2.Text = "StatusStrip2"
         '
@@ -279,7 +279,7 @@ Partial Class Frm_Principal
         'cb_add_proxy
         '
         Me.cb_add_proxy.AutoSize = True
-        Me.cb_add_proxy.Location = New System.Drawing.Point(258, 368)
+        Me.cb_add_proxy.Location = New System.Drawing.Point(258, 357)
         Me.cb_add_proxy.Name = "cb_add_proxy"
         Me.cb_add_proxy.Size = New System.Drawing.Size(74, 17)
         Me.cb_add_proxy.TabIndex = 5
@@ -289,7 +289,7 @@ Partial Class Frm_Principal
         'cb_modify_proxy
         '
         Me.cb_modify_proxy.AutoSize = True
-        Me.cb_modify_proxy.Location = New System.Drawing.Point(130, 368)
+        Me.cb_modify_proxy.Location = New System.Drawing.Point(130, 357)
         Me.cb_modify_proxy.Name = "cb_modify_proxy"
         Me.cb_modify_proxy.Size = New System.Drawing.Size(86, 17)
         Me.cb_modify_proxy.TabIndex = 4
@@ -298,7 +298,7 @@ Partial Class Frm_Principal
         '
         'btn_process_proxy
         '
-        Me.btn_process_proxy.Location = New System.Drawing.Point(130, 432)
+        Me.btn_process_proxy.Location = New System.Drawing.Point(130, 421)
         Me.btn_process_proxy.Name = "btn_process_proxy"
         Me.btn_process_proxy.Size = New System.Drawing.Size(75, 23)
         Me.btn_process_proxy.TabIndex = 7
@@ -307,7 +307,7 @@ Partial Class Frm_Principal
         '
         'tb_write_proxy
         '
-        Me.tb_write_proxy.Location = New System.Drawing.Point(130, 406)
+        Me.tb_write_proxy.Location = New System.Drawing.Point(130, 395)
         Me.tb_write_proxy.Name = "tb_write_proxy"
         Me.tb_write_proxy.Size = New System.Drawing.Size(202, 20)
         Me.tb_write_proxy.TabIndex = 6
@@ -315,7 +315,7 @@ Partial Class Frm_Principal
         'lbl_proxy
         '
         Me.lbl_proxy.AutoSize = True
-        Me.lbl_proxy.Location = New System.Drawing.Point(61, 409)
+        Me.lbl_proxy.Location = New System.Drawing.Point(61, 398)
         Me.lbl_proxy.Name = "lbl_proxy"
         Me.lbl_proxy.Size = New System.Drawing.Size(33, 13)
         Me.lbl_proxy.TabIndex = 7
@@ -324,7 +324,7 @@ Partial Class Frm_Principal
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(38, 103)
+        Me.Label2.Location = New System.Drawing.Point(61, 93)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(0, 13)
         Me.Label2.TabIndex = 6
@@ -332,7 +332,7 @@ Partial Class Frm_Principal
         'listbox_proxy
         '
         Me.listbox_proxy.FormattingEnabled = True
-        Me.listbox_proxy.Location = New System.Drawing.Point(130, 127)
+        Me.listbox_proxy.Location = New System.Drawing.Point(130, 116)
         Me.listbox_proxy.Name = "listbox_proxy"
         Me.listbox_proxy.Size = New System.Drawing.Size(202, 225)
         Me.listbox_proxy.TabIndex = 3
@@ -341,7 +341,7 @@ Partial Class Frm_Principal
         '
         Me.lbl_cloudpbx_proxy.AutoSize = True
         Me.lbl_cloudpbx_proxy.Enabled = False
-        Me.lbl_cloudpbx_proxy.Location = New System.Drawing.Point(338, 43)
+        Me.lbl_cloudpbx_proxy.Location = New System.Drawing.Point(338, 32)
         Me.lbl_cloudpbx_proxy.Name = "lbl_cloudpbx_proxy"
         Me.lbl_cloudpbx_proxy.Size = New System.Drawing.Size(56, 13)
         Me.lbl_cloudpbx_proxy.TabIndex = 4
@@ -349,7 +349,7 @@ Partial Class Frm_Principal
         '
         'tb_groupId_proxy
         '
-        Me.tb_groupId_proxy.Location = New System.Drawing.Point(130, 40)
+        Me.tb_groupId_proxy.Location = New System.Drawing.Point(130, 29)
         Me.tb_groupId_proxy.Name = "tb_groupId_proxy"
         Me.tb_groupId_proxy.Size = New System.Drawing.Size(202, 20)
         Me.tb_groupId_proxy.TabIndex = 1
@@ -357,7 +357,7 @@ Partial Class Frm_Principal
         'lbl_groupId_proxy
         '
         Me.lbl_groupId_proxy.AutoSize = True
-        Me.lbl_groupId_proxy.Location = New System.Drawing.Point(61, 43)
+        Me.lbl_groupId_proxy.Location = New System.Drawing.Point(61, 32)
         Me.lbl_groupId_proxy.Name = "lbl_groupId_proxy"
         Me.lbl_groupId_proxy.Size = New System.Drawing.Size(45, 13)
         Me.lbl_groupId_proxy.TabIndex = 1
@@ -365,7 +365,7 @@ Partial Class Frm_Principal
         '
         'btn_search_proxy
         '
-        Me.btn_search_proxy.Location = New System.Drawing.Point(130, 66)
+        Me.btn_search_proxy.Location = New System.Drawing.Point(130, 55)
         Me.btn_search_proxy.Name = "btn_search_proxy"
         Me.btn_search_proxy.Size = New System.Drawing.Size(75, 23)
         Me.btn_search_proxy.TabIndex = 2
@@ -385,16 +385,17 @@ Partial Class Frm_Principal
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(792, 519)
+        Me.TabPage3.Size = New System.Drawing.Size(751, 514)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Assign User Licenses"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
         'btn_process_userLicense
         '
-        Me.btn_process_userLicense.Location = New System.Drawing.Point(80, 457)
+        Me.btn_process_userLicense.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_process_userLicense.Location = New System.Drawing.Point(64, 387)
         Me.btn_process_userLicense.Name = "btn_process_userLicense"
-        Me.btn_process_userLicense.Size = New System.Drawing.Size(75, 23)
+        Me.btn_process_userLicense.Size = New System.Drawing.Size(97, 57)
         Me.btn_process_userLicense.TabIndex = 25
         Me.btn_process_userLicense.Text = "Process"
         Me.btn_process_userLicense.UseVisualStyleBackColor = True
@@ -405,15 +406,18 @@ Partial Class Frm_Principal
         Me.DataGridView2.AllowUserToDeleteRows = False
         Me.DataGridView2.AllowUserToResizeColumns = False
         Me.DataGridView2.AllowUserToResizeRows = False
-        Me.DataGridView2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.DataGridView2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
+        Me.DataGridView2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells
         Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView2.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.Column1, Me.Column2, Me.Column3, Me.Column4})
-        Me.DataGridView2.Location = New System.Drawing.Point(80, 130)
+        Me.DataGridView2.Location = New System.Drawing.Point(64, 109)
+        Me.DataGridView2.MaximumSize = New System.Drawing.Size(1200, 422)
         Me.DataGridView2.Name = "DataGridView2"
         Me.DataGridView2.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
-        Me.DataGridView2.Size = New System.Drawing.Size(617, 321)
+        Me.DataGridView2.Size = New System.Drawing.Size(634, 272)
         Me.DataGridView2.TabIndex = 3
         '
         'Column1
@@ -444,7 +448,7 @@ Partial Class Frm_Principal
         'lbl_numUser
         '
         Me.lbl_numUser.AutoSize = True
-        Me.lbl_numUser.Location = New System.Drawing.Point(77, 97)
+        Me.lbl_numUser.Location = New System.Drawing.Point(61, 93)
         Me.lbl_numUser.Name = "lbl_numUser"
         Me.lbl_numUser.Size = New System.Drawing.Size(0, 13)
         Me.lbl_numUser.TabIndex = 24
@@ -452,9 +456,9 @@ Partial Class Frm_Principal
         'StatusStrip3
         '
         Me.StatusStrip3.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar3, Me.lbl_state_userLicense})
-        Me.StatusStrip3.Location = New System.Drawing.Point(3, 494)
+        Me.StatusStrip3.Location = New System.Drawing.Point(3, 489)
         Me.StatusStrip3.Name = "StatusStrip3"
-        Me.StatusStrip3.Size = New System.Drawing.Size(786, 22)
+        Me.StatusStrip3.Size = New System.Drawing.Size(745, 22)
         Me.StatusStrip3.TabIndex = 22
         Me.StatusStrip3.Text = "StatusStrip3"
         '
@@ -473,7 +477,7 @@ Partial Class Frm_Principal
         '
         Me.Label6.AutoSize = True
         Me.Label6.Enabled = False
-        Me.Label6.Location = New System.Drawing.Point(355, 53)
+        Me.Label6.Location = New System.Drawing.Point(338, 32)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(56, 13)
         Me.Label6.TabIndex = 15
@@ -481,7 +485,7 @@ Partial Class Frm_Principal
         '
         'tb_groupId_UserGetList
         '
-        Me.tb_groupId_UserGetList.Location = New System.Drawing.Point(146, 51)
+        Me.tb_groupId_UserGetList.Location = New System.Drawing.Point(130, 29)
         Me.tb_groupId_UserGetList.Name = "tb_groupId_UserGetList"
         Me.tb_groupId_UserGetList.Size = New System.Drawing.Size(202, 20)
         Me.tb_groupId_UserGetList.TabIndex = 1
@@ -489,7 +493,7 @@ Partial Class Frm_Principal
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(77, 54)
+        Me.Label7.Location = New System.Drawing.Point(61, 32)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(45, 13)
         Me.Label7.TabIndex = 13
@@ -497,7 +501,7 @@ Partial Class Frm_Principal
         '
         'Button4
         '
-        Me.Button4.Location = New System.Drawing.Point(146, 77)
+        Me.Button4.Location = New System.Drawing.Point(130, 55)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(75, 23)
         Me.Button4.TabIndex = 2

@@ -1,0 +1,39 @@
+**** Version Voxcom --> 2019.07.24 22:49:35:142 CLT
+**** Start OCIClient initialization --> 2019.07.24 22:49:35:152 CLT
+**** Sending request at: 2019.07.24 22:49:35:194 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 37 ms)
+AuthenticationRequest command successful
+
+**** Sending request at: 2019.07.24 22:49:35:234 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 21 ms)
+LoginRequest command successful
+
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserListInGroup\1_GetUserList_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserListInGroup\1_cloudpbx_response.xml
+********* Starting Run #: 1 in: 3 ms *********
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserListInGroup\1_GetUserList_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserListInGroup\1_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserListInGroup\1_GetUserList_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserListInGroup\1_cloudpbx_response.xml
+**** Sending request #: 1 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserListInGroup\1_GetUserList_request.xml at: 2019.07.24 22:49:35:270 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 22 ms)
+
+Run #: 1 -- Statistics ========================>
+Total Requests: 1
+Total Time for all requests: 22 ms
+Average Time per request: 22 ms
+Smallest request time: 22 ms
+Longest request time: 22 ms, FileName: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\GetUserListInGroup\1_GetUserList_request.xml, Time: 2019.07.24 22:49:35:296 CLT
+<========================
+
+**** Sending request at: 2019.07.24 22:49:35:328 CLT
+**** Time Out:1
+
+**** Received response (Request process time: 1001 ms)
+LogoutRequest command successful (no response when OCS)
+

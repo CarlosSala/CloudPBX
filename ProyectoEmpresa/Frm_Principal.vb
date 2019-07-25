@@ -350,10 +350,10 @@ Public Class Frm_Principal
 
     Public Sub Update_Grid()
 
-        Dim iSQL As String = "select * from brs_cloudpbx"
         Dim cmd As New OleDbCommand
         Dim dt As New DataTable
         Dim da As New OleDbDataAdapter
+        Dim iSQL As String = "select * from brs_cloudpbx"
 
         'Se ejecuta la consulta para traer registros
         Try
@@ -1968,18 +1968,13 @@ Public Class Frm_Principal
 
     Private Sub ParseXML_cloudPBX()
 
-        Me.Cursor = Cursors.WaitCursor
         btn_report_cloudpbx.Enabled = True 'Se habilita el boton que permite ver el reporte en cualquier momento
 
         lbl_state_cloud.Text = "Generating Report..."
         ProgressBar1.Value = 75
         My.Application.DoEvents()
 
-        Dim reader As XmlTextReader
-        Dim parseXML As String
-        Dim response As String = ""
-
-        Dim comando As New OleDbCommand()
+        Dim comando As New OleDbCommand
         comando.Connection = Conexion
         Dim sql As String = "delete * from brs_cloudpbx_response"
         comando.CommandText = sql
@@ -1999,11 +1994,16 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
+        Dim reader As XmlTextReader
+        Dim parseXML As String
+        Dim response As String = ""
+
         For num = 1 To indexXML_Cloud
             Try
                 parseXML = gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml"
                 reader = New XmlTextReader(parseXML)
-                'Se entra en el loop de lectura del archivo correspondiente
+
+                'Si el archivo no tiene el formato esperado o esta vacio se captura la excepción 
                 Do While (reader.Read())
                     Select Case reader.NodeType
                         Case XmlNodeType.Element
@@ -2054,7 +2054,6 @@ Public Class Frm_Principal
                         Me.Cursor = Cursors.Default
                         In_Case_Error2()
                         Conexion.Close()
-                        reader.Close()
                         Exit Sub
                     End Try
                     Conexion.Close()
@@ -2076,10 +2075,13 @@ Public Class Frm_Principal
         Dim FMP As New Frm_Report_Cloudpbx
         FMP.Show()
         FMP.BringToFront()
-        Me.Cursor = Cursors.Default
+
+
         btn_procesar.Enabled = False
         btn_browse_CSV.Enabled = True
         btn_validate_data.Enabled = True
+
+        Me.Cursor = Cursors.Default
         lbl_state_cloud.Text = "Finished"
         ProgressBar1.Value = ProgressBar1.Maximum
         My.Application.DoEvents()
@@ -2137,14 +2139,13 @@ Public Class Frm_Principal
             Exit Sub
         End If
 
-
         If tb_groupId_proxy.Text.Length = 0 Then
             MsgBox("Campo de 'groupId' inválido", MsgBoxStyle.Exclamation, "Error campo de búsqueda")
             Exit Sub
         End If
 
-        Me.Cursor = Cursors.WaitCursor
         indexXML_Proxy_DVmac = 0
+        Me.Cursor = Cursors.WaitCursor
         lbl_state_proxy.Text = ""
         ProgressBar2.Value = 0
         My.Application.DoEvents()
@@ -2233,11 +2234,7 @@ Public Class Frm_Principal
         ProgressBar2.Value = 75
         My.Application.DoEvents()
 
-        Dim reader As XmlTextReader
-        Dim parseXML As String
-        Dim response As String = ""
-
-        Dim comando As New OleDbCommand()
+        Dim comando As New OleDbCommand
         comando.Connection = Conexion
         Dim instruction As String = "delete * from brs_proxy_get_dvmac"
         comando.CommandText = instruction
@@ -2256,9 +2253,15 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
+        Dim reader As XmlTextReader
+        Dim parseXML As String
+        Dim response As String = ""
+
         Try
             parseXML = gblPathTmpProxy & "\getDeviceName\1_cloudpbx_response.xml"
             reader = New XmlTextReader(parseXML)
+
+            'Si el archivo no tiene el formato esperado o esta vacio se captura la excepción 
             Do While (reader.Read())
                 Select Case reader.NodeType
                     Case XmlNodeType.Element
@@ -2301,6 +2304,9 @@ Public Class Frm_Principal
                                 End If
                             End If
                         End If
+
+                        'Si no encuentra los nodos en el archivo, no inserta nada en el access
+
                         'Case XmlNodeType.XmlDeclaration
                 End Select
             Loop
@@ -2323,26 +2329,31 @@ Public Class Frm_Principal
     Dim dt1 As New DataTable
     Public Sub Update_ListBox()
 
-        Dim instruction As String = "select * from brs_proxy_get_dvmac"
         Dim cmd As New OleDbCommand
+        cmd.Connection = Conexion
+        Dim instruction As String = "select * from brs_proxy_get_dvmac"
+        cmd.CommandText = instruction
+
         Dim da As New OleDbDataAdapter
         Dim dtproxy As New DataTable
         dt1 = dtproxy
 
         Try
             Conexion.Open()
-            cmd.Connection = Conexion
-            cmd.CommandText = instruction
             da.SelectCommand = cmd
             da.Fill(dtproxy)
         Catch ex As Exception
             MsgBox(ex.ToString)
             MsgBox("No se pudo traer la información desde la tabla brs_proxy_get_dvmac", MsgBoxStyle.Exclamation, "Error con base de datos")
+            lbl_state_proxy.Text = "Error with Database"
+            ProgressBar2.Value = ProgressBar2.Maximum
+            Me.Cursor = Cursors.Default
             Conexion.Close()
+            Exit Sub
         End Try
         Conexion.Close()
 
-        Label2.Text = "Se encontraron " + dtproxy.Rows.Count.ToString() + " dispositivos" + " en el grupo " + tb_groupId_proxy.Text
+        Label2.Text = "Se encontraron " + dtproxy.Rows.Count.ToString() + " dispositivos en el grupo " + tb_groupId_proxy.Text
         listbox_proxy.Enabled = True
         Me.listbox_proxy.Items.Clear()
 
@@ -2372,13 +2383,14 @@ Public Class Frm_Principal
         End If
 
         If tb_write_proxy.Text.Length >= 7 Then
-            Me.Cursor = Cursors.WaitCursor
+
         Else
             MsgBox("Campo de 'proxy' inválido", MsgBoxStyle.Exclamation, "Error campo de búsqueda")
             Exit Sub
         End If
 
         indexXML_Proxy = 0
+        Me.Cursor = Cursors.WaitCursor
         lbl_state_proxy.Text = ""
         ProgressBar2.Value = 0
         My.Application.DoEvents()
@@ -2390,12 +2402,10 @@ Public Class Frm_Principal
             Next
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & gblPathTmpProxy & "\modifyProxy" &
-                   ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
+            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & gblPathTmpProxy & "\modifyProxy" & ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
             Me.Cursor = Cursors.Default
             Exit Sub
         End Try
-
 
         Dim line1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
         Dim line2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
@@ -2440,7 +2450,7 @@ Public Class Frm_Principal
             FileOpen(numFileProxy, multipleInputFile, OpenMode.Output, OpenAccess.Write)
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Asegurese de que el archivo " & gblPathTmpProxy & "\modifyProxy\multipleInputFile.txt" & " no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
+            MsgBox("Asegurese de que el archivo " & multipleInputFile & " no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
             FileClose(numFileProxy)
             Me.Cursor = Cursors.Default
             Exit Sub
@@ -2476,9 +2486,10 @@ Public Class Frm_Principal
             Next
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Error al crear el archivo " & indexXML_Proxy & "_CreateProxy_request.xml", MsgBoxStyle.Exclamation)
+            MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation)
             FileClose(numFile)
             FileClose(numFileProxy)
+            Me.Cursor = Cursors.Default
             Exit Sub
         End Try
 
@@ -2508,29 +2519,28 @@ Public Class Frm_Principal
             Next
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Error al crear el archivo " & indexXML_Proxy & "_RebuildDevice_request.xml", MsgBoxStyle.Exclamation)
+            MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation)
             FileClose(numFile)
             FileClose(numFileProxy)
+            Me.Cursor = Cursors.Default
             Exit Sub
         End Try
 
         FileClose(numFileProxy)
 
         ExecuteShellBulk(multipleInputFile, 2)
-        If codError <> 2 Then
+        If codError = 0 Then
             ParseXML_proxy()
         End If
     End Sub
 
     Private Sub ParseXML_proxy()
 
-        lbl_state_proxy.Text = "Generating Report"
+        lbl_state_proxy.Text = "Generating Report..."
         ProgressBar2.Value = 75
         My.Application.DoEvents()
 
-        Dim reader As XmlTextReader
-        Dim parseXML As String
-        Dim response As String = ""
+
         Dim comando As New OleDbCommand()
         comando.Connection = Conexion
         Dim instruction As String = "delete * from brs_proxy_response"
@@ -2541,10 +2551,8 @@ Public Class Frm_Principal
             comando.ExecuteNonQuery()
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_proxy_response'",
-                            MsgBoxStyle.Exclamation, "Error al generar reporte")
-
-            lbl_state_proxy.Text = "Error con base de datos"
+            MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_proxy_response'", MsgBoxStyle.Exclamation, "Error al generar reporte")
+            lbl_state_proxy.Text = "Error with Database"
             ProgressBar2.Value = ProgressBar2.Maximum
             Me.Cursor = Cursors.Default
             Conexion.Close()
@@ -2552,15 +2560,22 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
+        Dim reader As XmlTextReader
+        Dim parseXML As String
+        Dim response As String = ""
+
         For num = 1 To indexXML_Proxy
             Try
                 parseXML = gblPathTmpProxy & "\modifyProxy\" & num & "_cloudpbx_response.xml"
                 reader = New XmlTextReader(parseXML)
+
+                'Si el archivo no tiene el formato esperado o esta vacio se captura la excepción 
                 Do While (reader.Read())
                     Select Case reader.NodeType
                         Case XmlNodeType.Element
 
                             'Existen dos posibles response a encontrar en el archivo
+
                             If reader.Name = "command" Then
                                 If reader.HasAttributes Then 'If attributes exist
                                     While reader.MoveToNextAttribute()
@@ -2590,7 +2605,7 @@ Public Class Frm_Principal
 
                 If response.Length > 0 Then
                     response += " [File:" & num & "_cloudpbx_response.xml]"
-                    Dim cadena As String = "insert into brs_proxy_response (response) VALUES ( '" & response & "')"
+                    Dim cadena As String = "insert into brs_proxy_response (response) values ( '" & response & "')"
                     'Crear un comando
                     Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
                     Comando1.CommandText = cadena
@@ -2599,8 +2614,7 @@ Public Class Frm_Principal
                         Comando1.ExecuteNonQuery()
                     Catch ex As Exception
                         MsgBox(ex.ToString)
-                        MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'brs_proxy_response'",
-                                            MsgBoxStyle.Exclamation, "Error al generar reporte")
+                        MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'brs_proxy_response'", MsgBoxStyle.Exclamation, "Error al generar reporte")
                         lbl_state_proxy.Text = "Error with Database"
                         ProgressBar2.Value = ProgressBar2.Maximum
                         Me.Cursor = Cursors.Default
@@ -2610,9 +2624,10 @@ Public Class Frm_Principal
                     Conexion.Close()
                     response = ""
                 End If
+
             Catch ex As Exception
                 MsgBox(ex.ToString)
-                MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
+                MsgBox("Archivo de Respuesta no ha sido encontrado" & gblPathTmpProxy & "\modifyProxy\" & num & "_cloudpbx_response.xml", MsgBoxStyle.Exclamation, "Error al generar reporte")
                 'grabaLog(1, 2, "Error al leer archivo XML>" & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml")
                 lbl_state_proxy.Text = "Error to generate report"
                 ProgressBar2.Value = ProgressBar2.Maximum
@@ -2635,6 +2650,7 @@ Public Class Frm_Principal
         Me.listbox_proxy.Items.Clear()
         listbox_proxy.Enabled = False
         Label2.Text = ""
+
         Me.Cursor = Cursors.Default
         lbl_state_proxy.Text = "Finished"
         ProgressBar2.Value = ProgressBar2.Maximum
@@ -2647,23 +2663,20 @@ Public Class Frm_Principal
     '/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     Public Sub GetUserListInGroup()
 
-        Me.Cursor = Cursors.WaitCursor
-
         If My.Computer.Network.Ping(My.Settings.Host, gblTimePing) Then
             'MsgBox("Server pinged successfully.")
         Else
             MsgBox("Servidor fuera de Linea, favor verifique la conexion", MsgBoxStyle.Exclamation, "Error de Comunicación")
-            Me.Cursor = Cursors.Default
             Exit Sub
         End If
 
         If tb_groupId_UserGetList.Text.Length = 0 Then
             MsgBox("Campo de 'groupId' inválido", MsgBoxStyle.Exclamation, "Error campo de búsqueda")
-            Me.Cursor = Cursors.Default
             Exit Sub
         End If
 
         indexXML_UsersLincense_Group = 0
+        Me.Cursor = Cursors.WaitCursor
         lbl_state_userLicense.Text = ""
         ProgressBar3.Value = 0
         My.Application.DoEvents()
@@ -2675,8 +2688,7 @@ Public Class Frm_Principal
             Next
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & gblPathTmpUserLicense & "\GetUserListInGroup" &
-                   ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
+            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & gblPathTmpUserLicense & "\GetUserListInGroup" & ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
             Me.Cursor = Cursors.Default
             Exit Sub
         End Try
@@ -2735,7 +2747,7 @@ Public Class Frm_Principal
             FileClose(numFileUserGetList)
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Error al crear el archivo " & gblPathTmpUserLicense & "\GetUserListInGroup\" & indexXML_UsersLincense_Group & "_GetUserList_request.xml", MsgBoxStyle.Exclamation, "Error al crear el archivo")
+            MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
             FileClose(numFile)
             FileClose(numFileUserGetList)
             Me.Cursor = Cursors.Default
@@ -2743,23 +2755,18 @@ Public Class Frm_Principal
         End Try
 
         ExecuteShellBulk(multipleInputFile, 3)
-        If codError <> 3 Then
+        If codError = 0 Then
             ParseXML_UserGetList()
         End If
     End Sub
 
     Private Sub ParseXML_UserGetList()
 
-        lbl_state_userLicense.Text = "Obteniendo los usuarios"
+        lbl_state_userLicense.Text = "Getting Users..."
         ProgressBar3.Value = 50
         My.Application.DoEvents()
 
-        Dim xmldoc As New XmlDocument()
-        Dim xmlnode As XmlNodeList
-        Dim xmlnodeSummary As XmlNodeList
-        Dim response As String = ""
-
-        Dim comando As New OleDbCommand()
+        Dim comando As New OleDbCommand
         comando.Connection = Conexion
         Dim instruction As String = "delete * from brs_get_user_license"
         comando.CommandText = instruction
@@ -2769,9 +2776,8 @@ Public Class Frm_Principal
             comando.ExecuteNonQuery()
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_get_user_license'",
-                            MsgBoxStyle.Exclamation, "Error al generar reporte")
-            lbl_state_userLicense.Text = "Error al acceder a la base de datos"
+            MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_get_user_license'", MsgBoxStyle.Exclamation, "Error al generar reporte")
+            lbl_state_userLicense.Text = "Error with Database"
             ProgressBar3.Value = ProgressBar3.Maximum
             Me.Cursor = Cursors.Default
             Conexion.Close()
@@ -2779,8 +2785,14 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
-        Dim fs As New FileStream(gblPathTmpUserLicense & "\GetUserListInGroup\1_cloudpbx_response.xml", FileMode.Open, FileAccess.Read)
+        Dim xmldoc As New XmlDocument
+        Dim xmlnode As XmlNodeList
+        Dim xmlnodeSummary As XmlNodeList
+        Dim response As String = ""
+
         Try
+            Dim fs As New FileStream(gblPathTmpUserLicense & "\GetUserListInGroup\1_cloudpbx_response.xml", FileMode.Open, FileAccess.Read)
+
             xmldoc.Load(fs)
             xmlnode = xmldoc.GetElementsByTagName("col")
             xmlnodeSummary = xmldoc.GetElementsByTagName("summary")
@@ -2812,7 +2824,7 @@ Public Class Frm_Principal
 
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
+            MsgBox("Ha ocurrido un error con el archivo respuesta ", MsgBoxStyle.Exclamation, "Error al generar reporte")
             'grabaLog(1, 2, "Error al leer archivo XML>" & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml")
             lbl_state_userLicense.Text = "Error al generar reporte"
             ProgressBar3.Value = ProgressBar3.Maximum
@@ -2820,12 +2832,12 @@ Public Class Frm_Principal
             Exit Sub
         End Try
 
-        UserGetListServiPack()
+        GetUserLicense()
     End Sub
 
     'DataTable utilizada para el rebuild de archivos
 
-    Public Sub UserGetListServiPack()
+    Public Sub GetUserLicense()
 
         indexXML_UsersLincense = 0
 
@@ -2836,8 +2848,7 @@ Public Class Frm_Principal
             Next
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & gblPathTmpUserLicense & "\GetUserLicense" &
-                   ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
+            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & gblPathTmpUserLicense & "\GetUserLicense" & ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
             Me.Cursor = Cursors.Default
             Exit Sub
         End Try
@@ -2894,7 +2905,7 @@ Public Class Frm_Principal
             Next
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Error al crear el archivo " & indexXML_UsersLincense & "_GetUserLicense_request.xml", MsgBoxStyle.Exclamation)
+            MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation)
             FileClose(numFile)
             FileClose(numFileUserLicense)
             Exit Sub
@@ -2903,7 +2914,7 @@ Public Class Frm_Principal
         FileClose(numFileUserLicense)
 
         ExecuteShellBulk(multipleInputFile, 3)
-        If codError <> 3 Then
+        If codError = 0 Then
             ParseXML_UserGetLicense()
         End If
 
@@ -2911,20 +2922,13 @@ Public Class Frm_Principal
 
     Private Sub ParseXML_UserGetLicense()
 
-        lbl_state_userLicense.Text = "Obteniendo las licencias de los usuarios"
+        lbl_state_userLicense.Text = "Getting User Licenses..."
         ProgressBar3.Value = 75
         My.Application.DoEvents()
 
-        Dim response As String = ""
-        Dim response1 As String = ""
-        Dim response2 As String = ""
-        Dim response3 As String = ""
-
-        Dim comando As New OleDbCommand()
+        Dim comando As New OleDbCommand
         comando.Connection = Conexion
-        Dim instruction As String = "delete * from brs_get_user_license"
-
-        'Dim instruction As String = "DELETE * FROM brs_get_user_license WHERE user_id Is Null AND basic Is Null AND standard Is Null AND advanced is Null"
+        Dim instruction As String = "delete * from brs_get_user_license" 'Dim instruction As String = "DELETE * FROM brs_get_user_license WHERE user_id Is Null AND basic Is Null AND standard Is Null AND advanced is Null"
         comando.CommandText = instruction
 
         Try
@@ -2932,9 +2936,8 @@ Public Class Frm_Principal
             comando.ExecuteNonQuery()
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_get_user_license'",
-                            MsgBoxStyle.Exclamation, "Error al generar reporte")
-            lbl_state_userLicense.Text = "Error al acceder a la base de datos"
+            MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_get_user_license'", MsgBoxStyle.Exclamation, "Error al generar reporte")
+            lbl_state_userLicense.Text = "Error with Database"
             ProgressBar3.Value = ProgressBar3.Maximum
             Me.Cursor = Cursors.Default
             Conexion.Close()
@@ -2942,15 +2945,18 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
-
-        Dim xmldoc As New XmlDocument()
+        Dim xmldoc As New XmlDocument
         Dim xmlnode As XmlNodeList
+        Dim response As String = ""
+        Dim response1 As String = ""
+        Dim response2 As String = ""
+        Dim response3 As String = ""
 
         For num = 1 To indexXML_UsersLincense
             Try
                 Dim fs As New FileStream(gblPathTmpUserLicense & "\GetUserLicense\" & num & "_cloudpbx_response.xml", FileMode.Open, FileAccess.Read)
-                xmldoc.Load(fs)
 
+                xmldoc.Load(fs)
                 xmlnode = xmldoc.GetElementsByTagName("col")
 
                 For i = 0 To xmlnode.Count - 1
@@ -2998,26 +3004,26 @@ Public Class Frm_Principal
                     Catch ex As Exception
                         MsgBox(ex.ToString)
                         MsgBox("Error al acceder a la base de datos e intentar insertar nuevos elementos en la tabla 'brs_get_user_license'", MsgBoxStyle.Exclamation, "Error al generar reporte")
-                        lbl_state_userLicense.Text = "Error al acceder a la base de datos"
+                        lbl_state_userLicense.Text = "Error with Database"
                         ProgressBar3.Value = ProgressBar3.Maximum
                         Me.Cursor = Cursors.Default
                         Conexion.Close()
                         Exit Sub
                     End Try
                     Conexion.Close()
-
                     response = ""
                     response1 = ""
                     response2 = ""
                     response3 = ""
+
                 Else
                     'En caso de que un usuario no posea ninguna licencia
                 End If
             Catch ex As Exception
                 MsgBox(ex.ToString)
-                MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
+                MsgBox("Ha ocurrido un error con el archivo respuesta", MsgBoxStyle.Exclamation, "Error al generar reporte")
                 'grabaLog(1, 2, "Error al leer archivo XML>" & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml")
-                lbl_state_userLicense.Text = "Error al generar reporte"
+                lbl_state_userLicense.Text = "Error to generate report"
                 ProgressBar3.Value = ProgressBar3.Maximum
                 Me.Cursor = Cursors.Default
                 Exit Sub
@@ -3029,9 +3035,7 @@ Public Class Frm_Principal
         Update_Grid2()
     End Sub
 
-
     Public Sub Update_Grid2()
-
 
         Dim cmd As New OleDbCommand
         Dim da As New OleDbDataAdapter
@@ -3047,7 +3051,7 @@ Public Class Frm_Principal
         Catch ex As Exception
             MsgBox(ex.ToString)
             MsgBox("No se pudo traer la información desde la tabla brs_get_user_license", MsgBoxStyle.Exclamation, "Error con base de datos")
-            lbl_state_userLicense.Text = "Error al acceder a la base de datos"
+            lbl_state_userLicense.Text = "Error with Database"
             ProgressBar3.Value = ProgressBar3.Maximum
             Me.Cursor = Cursors.Default
             Conexion.Close()
@@ -3055,21 +3059,33 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
-        Dim filass As DataRowCollection
-        Dim filasss As DataRow
-        filass = dtproxy.Rows
+        Dim collectionRows As DataRowCollection
+        Dim rows As DataRow
+        collectionRows = dtproxy.Rows
 
-        'DataGridView2.DataSource = dtproxy
-        'DataGridView2.Columns.Clear()
         DataGridView2.Rows.Clear()
         DataGridView2.Refresh()
 
         'Se muestran los datos en el datagridview2
-        For Each filasss In filass
-            DataGridView2.Rows.Add(filasss.ItemArray)
+        For Each rows In collectionRows
+            DataGridView2.Rows.Add(rows.ItemArray)
         Next
 
         DataGridView2.Enabled = True
+        DataGridView2.EnableHeadersVisualStyles = True
+
+        lbl_numUser.Text = "Se encontraron " + dtproxy.Rows.Count.ToString() + " usuarios en el grupo " + tb_groupId_UserGetList.Text
+
+        lbl_state_userLicense.Text = "Finished"
+        ProgressBar3.Value = ProgressBar3.Maximum
+        Me.Cursor = Cursors.Default
+        btn_process_userLicense.Enabled = True
+        My.Application.DoEvents()
+
+        'DataGridView2.DataSource = dtproxy
+        'DataGridView2.Columns.Clear()
+
+        'Assignment_UserLicensse()
 
         'Dim btn As New DataGridViewButtonColumn()
         'DataGridView2.Columns.Add(btn)
@@ -3084,19 +3100,7 @@ Public Class Frm_Principal
         '    ListBox2.Items.Add(dtproxy.Rows.Item(j)(0).ToString)
         'Next
         'ListBox2.Refresh()
-
-        lbl_numUser.Text = "Se encontraron " + dtproxy.Rows.Count.ToString() + " usuarios" + " en el grupo " + tb_groupId_UserGetList.Text
-
-        lbl_state_userLicense.Text = "Finished"
-        ProgressBar3.Value = ProgressBar3.Maximum
-        Me.Cursor = Cursors.Default
-        btn_process_userLicense.Enabled = True
-        My.Application.DoEvents()
-        'Assignment_UserLicensse()
     End Sub
-
-
-
 
 
     Private Sub Assignment_UserLicensse()
@@ -3108,14 +3112,14 @@ Public Class Frm_Principal
             Exit Sub
         End If
 
-        Me.Cursor = Cursors.WaitCursor
-        DataGridView2.EnableHeadersVisualStyles = False
-        DataGridView2.Enabled = False
-
         indexXML_UsersLicense_Assign = 0
+        Me.Cursor = Cursors.WaitCursor
         lbl_state_userLicense.Text = ""
         ProgressBar3.Value = 0
         My.Application.DoEvents()
+
+        'DataGridView2.EnableHeadersVisualStyles = False
+        'DataGridView2.Enabled = False
 
         'Se eliminan los archivos antiguos del directorio correspondiente
         Try
@@ -3124,11 +3128,10 @@ Public Class Frm_Principal
             Next
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & gblPathTmpUserLicense & "\AssigmentUserLicense\AssignServices\" &
-                   ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
+            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & gblPathTmpUserLicense & "\AssigmentUserLicense\AssignServices\" & ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
             Me.Cursor = Cursors.Default
-            DataGridView2.Enabled = True
-            DataGridView2.EnableHeadersVisualStyles = False
+            'DataGridView2.Enabled = True
+            'DataGridView2.EnableHeadersVisualStyles = False
             Exit Sub
         End Try
 
@@ -3165,8 +3168,8 @@ Public Class Frm_Principal
             MsgBox("Asegurese de que el archivo " & multipleInputFile & " no este siendo utlizado por otro proceso", MsgBoxStyle.Exclamation, "Error al abrir el archivo")
             FileClose(numFileUserLicense)
             Me.Cursor = Cursors.Default
-            DataGridView2.Enabled = True
-            DataGridView2.EnableHeadersVisualStyles = True
+            'DataGridView2.Enabled = True
+            'DataGridView2.EnableHeadersVisualStyles = True
             Exit Sub
         End Try
 
@@ -3213,8 +3216,9 @@ Public Class Frm_Principal
                     FileClose(numFile)
                     lineConfigFile = fileIXML & ";" & fileOXML
                     WriteLine(numFileUserLicense, lineConfigFile.ToCharArray)
+                End If
 
-                ElseIf packBasic.Equals("FALSE") Or packStandard.Equals("FALSE") Or packAdvanced.Equals("FALSE") Then
+                If packBasic.Equals("FALSE") Or packStandard.Equals("FALSE") Or packAdvanced.Equals("FALSE") Then
 
                     UnAssignState = 1
 
@@ -3222,42 +3226,67 @@ Public Class Frm_Principal
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & gblPathTmpUserLicense & "\AssigmentUserLicense\AssignServices\" & indexXML_UsersLicense_Assign & "_AssignServices_request.xml", MsgBoxStyle.Exclamation)
-                Me.Cursor = Cursors.Default
-                DataGridView2.Enabled = True
-                DataGridView2.EnableHeadersVisualStyles = True
                 FileClose(numFile)
                 FileClose(numFileUserLicense)
+                Me.Cursor = Cursors.Default
+                'DataGridView2.Enabled = True
+                'DataGridView2.EnableHeadersVisualStyles = True
                 Exit Sub
             End Try
         Next
 
-        If AssignState = 0 Then
-            MsgBox("No se establecieron cambios para asignar licencias de usuarios", MsgBoxStyle.Exclamation, "Revise los campos 'TRUE'")
-            FileClose(numFileUserLicense)
-            'Exit Sub
-        Else
-            FileClose(numFileUserLicense)
-            ExecuteShellBulk(multipleInputFile, 3)
-            If codError <> 3 Then
-                ParseXML_Assignment_UserLicense()
-                Validate_Response()
-                UnAssignment_UserLicensse(UnAssignState)
+        FileClose(numFileUserLicense)
+
+        If AssignState = 0 And UnAssignState = 0 Then
+            MsgBox("No se establecieron cambios en las asignacioens de icencias de usuarios", MsgBoxStyle.Exclamation, "Revise los campos 'TRUE' y 'FALSE'")
+            Me.Cursor = Cursors.Default
+            Exit Sub
+
+        ElseIf AssignState = 1 And UnAssignState = 1 Then
+            If MsgBox("¿Está seguro que desea continuar?", vbOKCancel, "Se asignarán y desasignarán licencias a usuarios") = MsgBoxResult.Cancel Then
+                Me.Cursor = Cursors.Default
+                Exit Sub
             End If
+
+            ExecuteShellBulk(multipleInputFile, 3)
+            If codError = 0 Then
+                ParseXML_Assignment_UserLicense()
+                Dim confirmacion As Integer = Validate_Response()
+                If confirmacion = 1 Then
+                    UnAssignment_UserLicensse()
+                    GetUserListInGroup()
+                End If
+            End If
+
+        ElseIf AssignState = 1 And UnAssignState = 0 Then
+            If MsgBox("¿Está seguro que desea continuar?", vbOKCancel, "Se asignarán licencias a usuarios") = MsgBoxResult.Cancel Then
+                Me.Cursor = Cursors.Default
+                Exit Sub
+            End If
+            ExecuteShellBulk(multipleInputFile, 3)
+            If codError = 0 Then
+                ParseXML_Assignment_UserLicense()
+                GetUserListInGroup()
+            End If
+
+        ElseIf AssignState = 0 And UnAssignState = 1 Then
+            If MsgBox("¿Está seguro que desea continuar?", vbOKCancel, "Se quitarán licencias a usuarios") = MsgBoxResult.Cancel Then
+                Me.Cursor = Cursors.Default
+                Exit Sub
+            End If
+
+            UnAssignment_UserLicensse()
+            GetUserListInGroup()
         End If
-
-
 
     End Sub
 
     Private Sub ParseXML_Assignment_UserLicense()
 
-        'lbl_state_proxy.Text = "Generating Report"
-        'ProgressBar2.Value = 75
-        'My.Application.DoEvents()
+        lbl_state_userLicense.Text = "Getting new user licenses..."
+        ProgressBar3.Value = 75
+        My.Application.DoEvents()
 
-        Dim reader As XmlTextReader
-        Dim parseXML As String
-        Dim response As String = ""
         Dim comando As New OleDbCommand()
         comando.Connection = Conexion
         Dim instruction As String = "delete * from brs_user_license_assingment"
@@ -3268,10 +3297,8 @@ Public Class Frm_Principal
             comando.ExecuteNonQuery()
         Catch ex As Exception
             MsgBox(ex.ToString)
-            MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_user_license_assingment'",
-                            MsgBoxStyle.Exclamation, "Error al generar reporte")
-
-            lbl_state_userLicense.Text = "Error con base de datos"
+            MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_user_license_assingment'", MsgBoxStyle.Exclamation, "Error al generar reporte")
+                lbl_state_userLicense.Text = "Error with Database"
             ProgressBar3.Value = ProgressBar3.Maximum
             Me.Cursor = Cursors.Default
             Conexion.Close()
@@ -3279,15 +3306,22 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
+        Dim reader As XmlTextReader
+        Dim parseXML As String
+        Dim response As String = ""
+
         For num = 1 To indexXML_UsersLicense_Assign
             Try
                 parseXML = gblPathTmpUserLicense & "\AssigmentUserLicense\AssignServices\" & num & "_cloudpbx_response.xml"
                 reader = New XmlTextReader(parseXML)
+
+                'Si el archivo no tiene el formato esperado o esta vacio se captura la excepción 
                 Do While (reader.Read())
                     Select Case reader.NodeType
                         Case XmlNodeType.Element
 
                             'Existen dos posibles response a encontrar en el archivo
+
                             If reader.Name = "command" Then
                                 If reader.HasAttributes Then 'If attributes exist
                                     While reader.MoveToNextAttribute()
@@ -3326,11 +3360,8 @@ Public Class Frm_Principal
                         Comando1.ExecuteNonQuery()
                     Catch ex As Exception
                         MsgBox(ex.ToString)
-                        MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'brs_proxy_response'",
-                                            MsgBoxStyle.Exclamation, "Error al generar reporte")
-
-
-                        lbl_state_userLicense.Text = "Error con base de datos"
+                        MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'brs_proxy_response'", MsgBoxStyle.Exclamation, "Error al generar reporte")
+                        lbl_state_userLicense.Text = "Error with Database"
                         ProgressBar3.Value = ProgressBar3.Maximum
                         Me.Cursor = Cursors.Default
                         Conexion.Close()
@@ -3343,64 +3374,50 @@ Public Class Frm_Principal
                 MsgBox(ex.ToString)
                 MsgBox("Archivo de Respuesta no ha sido encontrado", MsgBoxStyle.Exclamation, "Error al generar reporte")
                 'grabaLog(1, 2, "Error al leer archivo XML>" & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml")
-                lbl_state_userLicense.Text = "Error con base de datos"
+                lbl_state_userLicense.Text = "Error to generate report"
                 ProgressBar3.Value = ProgressBar3.Maximum
                 Me.Cursor = Cursors.Default
                 Exit Sub
             End Try
         Next
 
-        'Dim FMP As New Frm_Report_Proxy
-        'FMP.Show()
-        'FMP.BringToFront()
+        Me.Cursor = Cursors.Default
+        lbl_state_userLicense.Text = "Finished"
+        ProgressBar3.Value = ProgressBar3.Maximum
+        My.Application.DoEvents()
 
-        'tb_groupId_proxy.Text = ""
-        'tb_write_proxy.Text = ""
-        'cb_modify_proxy.Enabled = False
-        'cb_add_proxy.Enabled = False
-        'tb_write_proxy.Enabled = False
-        'btn_process_proxy.Enabled = False
-        'lbl_proxy.Enabled = False
-        'Me.listbox_proxy.Items.Clear()
-        'listbox_proxy.Enabled = False
-        'Label2.Text = ""
-        'Me.Cursor = Cursors.Default
-        'lbl_state_proxy.Text = "Finished"
-        'ProgressBar2.Value = ProgressBar2.Maximum
-        'My.Application.DoEvents()
-
-
-
+        'GetUserListInGroup()
     End Sub
 
-    Private Sub Validate_Response()
+    Private Function Validate_Response() As Integer
 
-        Dim iSQL As String = "select * from brs_user_license_assingment"
         Dim cmd As New OleDbCommand
-        Dim dt As New DataTable
-        Dim da As New OleDbDataAdapter
-        Dim contador As Integer = 0
+        cmd.Connection = Conexion
+        Dim iSQL As String = "select * from brs_user_license_assingment"
+        cmd.CommandText = iSQL
 
-        'Se ejecuta la consulta para traer registros
+        Dim da As New OleDbDataAdapter
+        Dim dt As New DataTable
+
         Try
             Conexion.Open()
-            cmd.Connection = Conexion
-            cmd.CommandText = iSQL
             da.SelectCommand = cmd
             da.Fill(dt)
         Catch ex As Exception
             MsgBox(ex.ToString)
             MsgBox("No se pudo traer la información desde la tabla brs_cloudpbx", MsgBoxStyle.Exclamation, "Error con base de datos")
+            lbl_state_userLicense.Text = "Error with Database"
+            ProgressBar3.Value = ProgressBar3.Maximum
+            Me.Cursor = Cursors.Default
             Conexion.Close()
-            In_Case_Error()
-            Exit Sub
+            Exit Function
         End Try
         Conexion.Close()
+        Dim contador As Integer = 0
 
-
-        Dim filass As DataRowCollection
-        Dim filasss As DataRow
-        filass = dt.Rows
+        Dim rowCollection As DataRowCollection
+        Dim row As DataRow
+        rowCollection = dt.Rows
 
         'DataGridView2.DataSource = dtproxy
         'DataGridView2.Columns.Clear()
@@ -3409,31 +3426,28 @@ Public Class Frm_Principal
 
         'MsgBox(filasss.ItemArray.ToString)
 
-
-
         'Se muestran los datos en el datagridview2
-        For Each filasss In filass
-            If filasss.ItemArray(0).ToString.Substring(0, 17).Equals("c:SuccessResponse") Then
+        For Each row In rowCollection
+            If row.ItemArray(0).ToString.Substring(0, 17).Equals("c:SuccessResponse") Then
                 'MsgBox(filasss.ItemArray(0).ToString)
                 contador += 1
             End If
-
         Next
 
         If contador = indexXML_UsersLicense_Assign Then
-            MsgBox("todo correcto")
+            'MsgBox("todo correcto")
+            Me.Cursor = Cursors.Default
+            Return 1
         Else
-            MsgBox("hubo un error")
+            MsgBox("No se aplicaron los cambios de desasignación de licencias de usuario", MsgBoxStyle.Exclamation, "Error con base de datos")
             'llamar a un formulario y mostrar que se hizo mal
-            Exit Sub
+            Return 0
         End If
 
+    End Function
 
 
-    End Sub
-
-
-    Private Sub UnAssignment_UserLicensse(ByVal ChangeExist As Integer)
+    Private Sub UnAssignment_UserLicensse()
 
         If My.Computer.Network.Ping(My.Settings.Host, gblTimePing) Then
             'MsgBox("Server pinged successfully.")
@@ -3443,14 +3457,6 @@ Public Class Frm_Principal
             DataGridView2.Enabled = True
             Exit Sub
         End If
-
-        If ChangeExist = 1 Then
-
-        Else
-            MsgBox("No se establecieron cambios para desasignar licencias de usuarios", MsgBoxStyle.Exclamation, "Revise los campos 'FALSE'")
-            Exit Sub
-        End If
-
 
         indexXML_UsersLicense_UnAssign = 0
 
@@ -3565,20 +3571,29 @@ Public Class Frm_Principal
             End Try
         Next
 
-        If UnAssignState = 0 Then
-            MsgBox("No se establecieron cambios para desasignaar licencias de usuarios", MsgBoxStyle.Exclamation, "Revise los campos 'FALSE'")
-            Me.Cursor = Cursors.Default
-            DataGridView2.Enabled = True
-            FileClose(numFileUserLicense)
-            Exit Sub
-        End If
+        'If UnAssignState = 0 Then
+        '    MsgBox("No se establecieron cambios para desasignaar licencias de usuarios", MsgBoxStyle.Exclamation, "Revise los campos 'FALSE'")
+        '    Me.Cursor = Cursors.Default
+        '    DataGridView2.Enabled = True
+        '    FileClose(numFileUserLicense)
+        '    Exit Sub
+        'End If
 
         FileClose(numFileUserLicense)
 
         ExecuteShellBulk(multipleInputFile, 3)
-        'If codError <> 3 Then
+
+        Me.Cursor = Cursors.Default
+
+        'If codError = 0 Then
         '    ParseXML_UnAssignment_UserLicense()
         'End If
+
+        lbl_state_userLicense.Text = "Finished"
+        ProgressBar3.Value = 100
+        My.Application.DoEvents()
+
+        'GetUserListInGroup()
 
     End Sub
 
@@ -3619,6 +3634,8 @@ Public Class Frm_Principal
 
         If cb_modify_proxy.CheckState = 1 Then
             cb_add_proxy.Checked = 0
+        ElseIf cb_modify_proxy.CheckState = 0 Then
+            cb_add_proxy.Checked = 1
         End If
     End Sub
 
@@ -3626,6 +3643,8 @@ Public Class Frm_Principal
 
         If cb_add_proxy.CheckState = 1 Then
             cb_modify_proxy.Checked = 0
+        ElseIf cb_add_proxy.CheckState = 0 Then
+            cb_modify_proxy.Checked = 1
         End If
     End Sub
 
@@ -3656,6 +3675,5 @@ Public Class Frm_Principal
         'MsgBox(currentCell & "hola")
         'MsgBox(DataGridView2.CurrentCell.Clone().ToString)
     End Sub
-
 
 End Class

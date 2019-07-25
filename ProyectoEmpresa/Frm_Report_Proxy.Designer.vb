@@ -40,16 +40,16 @@ Partial Class Frm_Report_Proxy
         Me.DataGridView2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.DataGridView2.Location = New System.Drawing.Point(12, 12)
-        Me.DataGridView2.MaximumSize = New System.Drawing.Size(1326, 549)
-        Me.DataGridView2.MinimumSize = New System.Drawing.Size(792, 487)
+        Me.DataGridView2.MaximumSize = New System.Drawing.Size(1326, 700)
+        Me.DataGridView2.MinimumSize = New System.Drawing.Size(750, 450)
         Me.DataGridView2.Name = "DataGridView2"
-        Me.DataGridView2.Size = New System.Drawing.Size(792, 487)
+        Me.DataGridView2.Size = New System.Drawing.Size(750, 450)
         Me.DataGridView2.TabIndex = 0
         '
         'Button1
         '
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button1.Location = New System.Drawing.Point(685, 505)
+        Me.Button1.Location = New System.Drawing.Point(643, 468)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(119, 43)
         Me.Button1.TabIndex = 2
@@ -60,12 +60,12 @@ Partial Class Frm_Report_Proxy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(816, 591)
+        Me.ClientSize = New System.Drawing.Size(784, 561)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.DataGridView2)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximumSize = New System.Drawing.Size(1366, 768)
-        Me.MinimumSize = New System.Drawing.Size(832, 630)
+        Me.MinimumSize = New System.Drawing.Size(800, 600)
         Me.Name = "Frm_Report_Proxy"
         Me.Text = "CloudPBX Proxy Reporting"
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).EndInit()

@@ -6,6 +6,6 @@
 <groupId>MAMINA_cloudpbx</groupId>
 <deviceName>DV_805ec0568d17</deviceName>
 <tagName>%SBC_ADDRESS%</tagName>
-<tagValue>6.6.6.6</tagValue>
+<tagValue>4.4.4.4</tagValue>
 </command>
 </BroadsoftDocument>

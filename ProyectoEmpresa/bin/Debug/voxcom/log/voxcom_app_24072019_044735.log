@@ -1,0 +1,39 @@
+**** Version Voxcom --> 2019.07.24 16:47:35:763 CLT
+**** Start OCIClient initialization --> 2019.07.24 16:47:35:770 CLT
+**** Sending request at: 2019.07.24 16:47:35:802 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 24 ms)
+AuthenticationRequest command successful
+
+**** Sending request at: 2019.07.24 16:47:35:829 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 11 ms)
+LoginRequest command successful
+
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\AssigmentUserLicense\AssignServices\1_AssignServices_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\AssigmentUserLicense\AssignServices\1_cloudpbx_response.xml
+********* Starting Run #: 1 in: 3 ms *********
+**** Voxcom-> Procesando archivo de entrada:C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\AssigmentUserLicense\AssignServices\1_AssignServices_request.xml
+**** Voxcom-> Procesando archivo de salida :C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\AssigmentUserLicense\AssignServices\1_cloudpbx_response.xml
+**** Reading request(s) from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\AssigmentUserLicense\AssignServices\1_AssignServices_request.xml
+**** Writing response to file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\AssigmentUserLicense\AssignServices\1_cloudpbx_response.xml
+**** Sending request #: 1 from file: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\AssigmentUserLicense\AssignServices\1_AssignServices_request.xml at: 2019.07.24 16:47:35:852 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 56 ms)
+
+Run #: 1 -- Statistics ========================>
+Total Requests: 1
+Total Time for all requests: 56 ms
+Average Time per request: 56 ms
+Smallest request time: 56 ms
+Longest request time: 56 ms, FileName: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\AssigmentUserLicense\AssignServices\1_AssignServices_request.xml, Time: 2019.07.24 16:47:35:913 CLT
+<========================
+
+**** Sending request at: 2019.07.24 16:47:35:974 CLT
+**** Time Out:1
+
+**** Received response (Request process time: 1001 ms)
+LogoutRequest command successful (no response when OCS)
+

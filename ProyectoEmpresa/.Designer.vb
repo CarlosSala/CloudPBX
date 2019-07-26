@@ -26,6 +26,7 @@ Partial Class Frm_Principal
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Frm_Principal))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.btn_mode_auto = New System.Windows.Forms.Button()
         Me.btn_validate_data = New System.Windows.Forms.Button()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ProgressBar1 = New System.Windows.Forms.ToolStripProgressBar()
@@ -68,7 +69,6 @@ Partial Class Frm_Principal
         Me.Button4 = New System.Windows.Forms.Button()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
-        Me.btn_mode_auto = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -115,6 +115,24 @@ Partial Class Frm_Principal
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Create CloudPBX"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'btn_mode_auto
+        '
+        Me.btn_mode_auto.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_mode_auto.BackColor = System.Drawing.Color.Transparent
+        Me.btn_mode_auto.BackgroundImage = CType(resources.GetObject("btn_mode_auto.BackgroundImage"), System.Drawing.Image)
+        Me.btn_mode_auto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.btn_mode_auto.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btn_mode_auto.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_mode_auto.Location = New System.Drawing.Point(594, 7)
+        Me.btn_mode_auto.Margin = New System.Windows.Forms.Padding(4)
+        Me.btn_mode_auto.MaximumSize = New System.Drawing.Size(70, 70)
+        Me.btn_mode_auto.MinimumSize = New System.Drawing.Size(70, 70)
+        Me.btn_mode_auto.Name = "btn_mode_auto"
+        Me.btn_mode_auto.Size = New System.Drawing.Size(70, 70)
+        Me.btn_mode_auto.TabIndex = 54
+        Me.btn_mode_auto.UseVisualStyleBackColor = False
         '
         'btn_validate_data
         '
@@ -513,24 +531,6 @@ Partial Class Frm_Principal
         'openFileDialogCSV
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
-        '
-        'btn_mode_auto
-        '
-        Me.btn_mode_auto.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_mode_auto.BackColor = System.Drawing.Color.Transparent
-        Me.btn_mode_auto.BackgroundImage = CType(resources.GetObject("btn_mode_auto.BackgroundImage"), System.Drawing.Image)
-        Me.btn_mode_auto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.btn_mode_auto.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btn_mode_auto.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_mode_auto.Location = New System.Drawing.Point(594, 7)
-        Me.btn_mode_auto.Margin = New System.Windows.Forms.Padding(4)
-        Me.btn_mode_auto.MaximumSize = New System.Drawing.Size(70, 70)
-        Me.btn_mode_auto.MinimumSize = New System.Drawing.Size(70, 70)
-        Me.btn_mode_auto.Name = "btn_mode_auto"
-        Me.btn_mode_auto.Size = New System.Drawing.Size(70, 70)
-        Me.btn_mode_auto.TabIndex = 54
-        Me.btn_mode_auto.UseVisualStyleBackColor = False
         '
         'Frm_Principal
         '

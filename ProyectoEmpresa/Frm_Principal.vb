@@ -1,6 +1,7 @@
 ﻿Imports System.Xml
 Imports System.IO
 Imports System.Data.OleDb
+Imports System.Threading
 
 Public Class Frm_Principal
 
@@ -61,6 +62,7 @@ Public Class Frm_Principal
 
     Private Sub For1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+        'Interfaces iniciales
         First_Interface()
         Second_Interface()
         Third_Interface()
@@ -75,6 +77,78 @@ Public Class Frm_Principal
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy
         gblPathTmpUserLicense = My.Application.Info.DirectoryPath & My.Settings.PathTmpUserLicense
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense
+
+        'Habilitar monitoreo de carpeta input-csv cuando inicia la app
+        'MonitoringFolder()
+
+    End Sub
+
+    'Evento de monitoreo de carpeta
+    Public Sub MonitoringFolder()
+
+        ' Definir variables
+        Dim Vigilante As New FileSystemWatcher()
+
+        ' Ruta que vigilaremos 
+
+        Dim RutaVigilar As String = "C:\Users\cs\Desktop\origen"
+
+        ' Ruta a monitorizar
+        Vigilante.Path = RutaVigilar
+        ' Establece el tamaño (en bytes) del búfer interno para controlar 
+
+        ' la entrada masiva de documentos, 
+        ' ver http://msdn.microsoft.com/es-es/library/system.io.filesystemwatcher.internalbuffersize.aspx
+        Vigilante.InternalBufferSize = 8192
+        ' Inclusion de monitorizacion en Subdirectorios
+        Vigilante.IncludeSubdirectories = True
+        ' Filtro de monitorización,
+        ' Solo realizaremos acciones sobre archivos pdf
+        Vigilante.Filter = ("*.csv")
+        Vigilante.NotifyFilter = (NotifyFilters.FileName)
+
+        ' Monitorizar la creación de archivos
+        AddHandler Vigilante.Created, AddressOf OnChanged
+        ' Otros eventos que se pueden monitorizar
+        '     AddHandler Vigilante.Changed, AddressOf OnChanged
+        '     AddHandler Vigilante.Deleted, AddressOf OnChanged
+        '     AddHandler Vigilante.Renamed, AddressOf OnRenamed
+
+        ' Esta opción se utiliza en procesos asincrónicos 
+
+        ' para notificar a la aplicación que un proceso ha terminado
+        Vigilante.EnableRaisingEvents = True
+
+    End Sub
+
+    Private Sub OnChanged(ByVal source As Object, ByVal e As FileSystemEventArgs)
+
+        ' Definir variables
+        Dim RutaDestino As String  ' Destino de los archivos
+        Dim ArchivoOrigen As String
+        Dim ArchivoDestino As String
+
+        ' Establecer valor a las variables
+        ArchivoOrigen = e.FullPath.ToString
+        RutaDestino = "C:\Users\cs\Desktop\input-csv\" ' terminado en \
+        ArchivoDestino = RutaDestino & e.Name
+
+        ' Se pausa la ejecución de la aplicación 500 ms para que no se colapse
+        System.Threading.Thread.Sleep(500)
+
+        ' Movemos los archivos desde la ruta origen (RutaVigilas) a la ruta destino
+        ' Se usa FileSystem.MoveFile del namespace  Microsoft.VisualBasic.FileIO
+        Microsoft.VisualBasic.FileIO.FileSystem.MoveFile(ArchivoOrigen, ArchivoDestino)
+
+        '' Notificamos en pantalla de la acción
+        'Console.WriteLine(ArchivoOrigen & " traspasado con exito a " & ArchivoDestino)
+
+        CheckForIllegalCrossThreadCalls = False
+        tb_file_name.Text = ArchivoDestino
+        Validate_File()
+
+
+
     End Sub
 
     Private Sub First_Interface()
@@ -3676,4 +3750,7 @@ Public Class Frm_Principal
         'MsgBox(DataGridView2.CurrentCell.Clone().ToString)
     End Sub
 
+    Private Sub Btn_mode_auto_Click(sender As Object, e As EventArgs) Handles btn_mode_auto.Click
+        MonitoringFolder()
+    End Sub
 End Class

@@ -68,6 +68,7 @@ Partial Class Frm_Principal
         Me.Button4 = New System.Windows.Forms.Button()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
+        Me.btn_mode_auto = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -98,6 +99,7 @@ Partial Class Frm_Principal
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.btn_mode_auto)
         Me.TabPage1.Controls.Add(Me.btn_validate_data)
         Me.TabPage1.Controls.Add(Me.StatusStrip1)
         Me.TabPage1.Controls.Add(Me.btn_report_cloudpbx)
@@ -163,7 +165,7 @@ Partial Class Frm_Principal
         Me.lbl_wait.BackColor = System.Drawing.Color.White
         Me.lbl_wait.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbl_wait.ForeColor = System.Drawing.Color.Black
-        Me.lbl_wait.Location = New System.Drawing.Point(249, 278)
+        Me.lbl_wait.Location = New System.Drawing.Point(246, 249)
         Me.lbl_wait.Name = "lbl_wait"
         Me.lbl_wait.Size = New System.Drawing.Size(267, 31)
         Me.lbl_wait.TabIndex = 0
@@ -211,9 +213,9 @@ Partial Class Frm_Principal
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tb_file_name.Location = New System.Drawing.Point(6, 57)
         Me.tb_file_name.MaximumSize = New System.Drawing.Size(1225, 20)
-        Me.tb_file_name.MinimumSize = New System.Drawing.Size(650, 20)
+        Me.tb_file_name.MinimumSize = New System.Drawing.Size(581, 20)
         Me.tb_file_name.Name = "tb_file_name"
-        Me.tb_file_name.Size = New System.Drawing.Size(659, 20)
+        Me.tb_file_name.Size = New System.Drawing.Size(581, 20)
         Me.tb_file_name.TabIndex = 2
         '
         'btn_browse_CSV
@@ -512,6 +514,24 @@ Partial Class Frm_Principal
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
         '
+        'btn_mode_auto
+        '
+        Me.btn_mode_auto.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_mode_auto.BackColor = System.Drawing.Color.Transparent
+        Me.btn_mode_auto.BackgroundImage = CType(resources.GetObject("btn_mode_auto.BackgroundImage"), System.Drawing.Image)
+        Me.btn_mode_auto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.btn_mode_auto.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btn_mode_auto.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_mode_auto.Location = New System.Drawing.Point(594, 7)
+        Me.btn_mode_auto.Margin = New System.Windows.Forms.Padding(4)
+        Me.btn_mode_auto.MaximumSize = New System.Drawing.Size(70, 70)
+        Me.btn_mode_auto.MinimumSize = New System.Drawing.Size(70, 70)
+        Me.btn_mode_auto.Name = "btn_mode_auto"
+        Me.btn_mode_auto.Size = New System.Drawing.Size(70, 70)
+        Me.btn_mode_auto.TabIndex = 54
+        Me.btn_mode_auto.UseVisualStyleBackColor = False
+        '
         'Frm_Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -588,4 +608,5 @@ Partial Class Frm_Principal
     Friend WithEvents Column3 As DataGridViewButtonColumn
     Friend WithEvents Column4 As DataGridViewButtonColumn
     Friend WithEvents btn_process_userLicense As Button
+    Friend WithEvents btn_mode_auto As Button
 End Class

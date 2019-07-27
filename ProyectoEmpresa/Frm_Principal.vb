@@ -80,6 +80,8 @@ Public Class Frm_Principal
         FSW.IncludeSubdirectories = True
         FSW.EnableRaisingEvents = True
 
+
+
         gblPathAppl = My.Application.Info.DirectoryPath & My.Settings.PathAppl
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom
         gblPathLog = My.Application.Info.DirectoryPath & My.Settings.PathLog
@@ -93,14 +95,36 @@ Public Class Frm_Principal
     Private Sub FSW_Created(sender As Object, e As FileSystemEventArgs) Handles FSW.Created
 
         ' Se pausa la ejecución de la aplicación 500 ms para que no se colapse
-        System.Threading.Thread.Sleep(15000)
+        'System.Threading.Thread.Sleep(15000)
 
-        For Each foundFile In My.Computer.FileSystem.GetFiles(InputFolderPath)
+        'Dim arhivos As String = My.Computer.FileSystem.GetFiles(InputFolderPath, "*.csv").ToString
 
-            FileName = e.Name
-            tb_file_name.Text = foundFile
+        'MsgBox(arhivos.ToString)
+
+        System.Threading.Thread.Sleep(5000)
+
+        Dim di As DirectoryInfo = New DirectoryInfo(InputFolderPath)
+
+        For Each file In di.GetFiles("*.csv")
+
+            'MsgBox(folder.ToString)
+            FileName = file.Name
+            tb_file_name.Text = file.FullName
+            foundFile = file.FullName
+
+            'System.Threading.Thread.Sleep(60000)
+
             Validate_File()
         Next
+
+
+        'For Each foundFile In My.Computer.FileSystem.GetFiles(InputFolderPath, "*.csv")
+
+        '    'FileName = e.Name
+        '    FileName = foundFile
+        '    tb_file_name.Text = foundFile
+        '    Validate_File()
+        'Next
 
     End Sub
 
@@ -1934,6 +1958,7 @@ Public Class Frm_Principal
         End Try
     End Sub
 
+
     Private Sub ParseXML_cloudPBX()
 
         btn_report_cloudpbx.Enabled = True 'Se habilita el boton que permite ver el reporte en cualquier momento
@@ -1942,29 +1967,17 @@ Public Class Frm_Principal
         ProgressBar1.Value = 75
         My.Application.DoEvents()
 
-        Dim comando As New OleDbCommand
-        comando.Connection = Conexion
-        Dim sql As String = "delete * from brs_cloudpbx_response"
-        comando.CommandText = sql
-
-        Try
-            Conexion.Open()
-            comando.ExecuteNonQuery()
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-            MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_cloudpbx_response'", MsgBoxStyle.Exclamation, "Error al generar reporte")
-            lbl_state_cloud.Text = "Error with Database"
-            ProgressBar1.Value = ProgressBar1.Maximum
-            Me.Cursor = Cursors.Default
-            In_Case_Error3()
-            Conexion.Close()
-            Exit Sub
-        End Try
-        Conexion.Close()
-
         Dim reader As XmlTextReader
         Dim parseXML As String
         Dim response As String = ""
+        Dim lineReport As String = ""
+
+        numFile = 5
+
+        Dim name() As String = Split(FileName, ".")
+
+
+        FileOpen(numFile, Desktop & "\brs-response\" & name(0) & ".report", OpenMode.Output, OpenAccess.Write)
 
         For num = 1 To indexXML_Cloud
             Try
@@ -2007,56 +2020,151 @@ Public Class Frm_Principal
 
                 If response.Length > 0 Then
                     response += " [File:" & num & "_cloudpbx_response.xml]"
-                    Dim instruction As String = "insert into brs_cloudpbx_response (response) values ( '" & response & "')"
-                    'Crear un comando
-                    Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
-                    Comando1.CommandText = instruction
-                    Try
-                        Conexion.Open()
-                        Comando1.ExecuteNonQuery()
-                    Catch ex As Exception
-                        MsgBox(ex.ToString)
-                        MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'brs_cloudpbx_response'", MsgBoxStyle.Exclamation, "Error to the generate report")
-                        lbl_state_cloud.Text = "Error with Database"
-                        ProgressBar1.Value = ProgressBar1.Maximum
-                        Me.Cursor = Cursors.Default
-                        In_Case_Error3()
-                        Conexion.Close()
-                        Exit Sub
-                    End Try
-                    Conexion.Close()
-                    response = ""
+                    lineReport = response
+                    WriteLine(numFile, lineReport.ToCharArray)
                 End If
 
             Catch ex As Exception
-                MsgBox(ex.ToString)
-                MsgBox("Ha ocurrido un error con el archivo respuesta " & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml", MsgBoxStyle.Exclamation, "Error al generar reporte")
-                'grabaLog(1, 2, "Error al leer archivo XML>" & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml")
+                grabaLog(ex.ToString & "Ha ocurrido un error con el archivo respuesta " & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml", 1, 8)
                 lbl_state_cloud.Text = "Error to generate report"
                 ProgressBar1.Value = ProgressBar1.Maximum
-                Me.Cursor = Cursors.Default
-                In_Case_Error3()
                 Exit Sub
             End Try
         Next
 
-        Dim FMP As New Frm_Report_Cloudpbx
-        FMP.Show()
-        FMP.BringToFront()
+        FileClose(numFile)
 
-
-        btn_procesar.Enabled = False
-        btn_browse_CSV.Enabled = True
-        btn_validate_data.Enabled = True
-
-        Me.Cursor = Cursors.Default
         lbl_state_cloud.Text = "Finished"
         ProgressBar1.Value = ProgressBar1.Maximum
         My.Application.DoEvents()
-
         System.Threading.Thread.Sleep(1000)
-        'MsgBox("Finalizo el proceso")
     End Sub
+
+
+
+    'Private Sub ParseXML_cloudPBX()
+
+    '    btn_report_cloudpbx.Enabled = True 'Se habilita el boton que permite ver el reporte en cualquier momento
+
+    '    lbl_state_cloud.Text = "Generating Report..."
+    '    ProgressBar1.Value = 75
+    '    My.Application.DoEvents()
+
+    '    Dim comando As New OleDbCommand
+    '    comando.Connection = Conexion
+    '    Dim sql As String = "delete * from brs_cloudpbx_response"
+    '    comando.CommandText = sql
+
+    '    Try
+    '        Conexion.Open()
+    '        comando.ExecuteNonQuery()
+    '    Catch ex As Exception
+    '        MsgBox(ex.ToString)
+    '        MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_cloudpbx_response'", MsgBoxStyle.Exclamation, "Error al generar reporte")
+    '        lbl_state_cloud.Text = "Error with Database"
+    '        ProgressBar1.Value = ProgressBar1.Maximum
+    '        Me.Cursor = Cursors.Default
+    '        In_Case_Error3()
+    '        Conexion.Close()
+    '        Exit Sub
+    '    End Try
+    '    Conexion.Close()
+
+    '    Dim reader As XmlTextReader
+    '    Dim parseXML As String
+    '    Dim response As String = ""
+
+    '    For num = 1 To indexXML_Cloud
+    '        Try
+    '            parseXML = gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml"
+    '            reader = New XmlTextReader(parseXML)
+
+    '            'Si el archivo no tiene el formato esperado o esta vacio se captura la excepción 
+    '            Do While (reader.Read())
+    '                Select Case reader.NodeType
+    '                    Case XmlNodeType.Element
+
+    '                        'Existen dos posibles response a encontrar en el archivo
+
+    '                        If reader.Name = "command" Then
+    '                            If reader.HasAttributes Then 'If attributes exist
+    '                                While reader.MoveToNextAttribute()
+    '                                    'MsgBox(reader.Name.ToString & reader.Value.ToString) 'Display attribute name and value.
+    '                                    If reader.Name = "xsi:type" Then
+    '                                        If reader.Value = "c:SuccessResponse" Then
+    '                                            response = reader.Value.ToString
+    '                                            'ElseIf reader.Value = "c:ErrorResponse" Then
+
+    '                                        End If
+    '                                    End If
+    '                                End While
+    '                            End If
+    '                        End If
+
+    '                        If reader.Name = "summary" Then
+    '                            response = reader.ReadString
+    '                        End If
+
+    '                        If reader.Name = "detail" Then
+    '                            response += " " & reader.ReadString
+    '                        End If
+    '                        'Case XmlNodeType.XmlDeclaration
+    '                End Select
+    '            Loop
+    '            reader.Close()
+
+    '            If response.Length > 0 Then
+    '                response += " [File:" & num & "_cloudpbx_response.xml]"
+    '                Dim instruction As String = "insert into brs_cloudpbx_response (response) values ( '" & response & "')"
+    '                'Crear un comando
+    '                Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
+    '                Comando1.CommandText = instruction
+    '                Try
+    '                    Conexion.Open()
+    '                    Comando1.ExecuteNonQuery()
+    '                Catch ex As Exception
+    '                    MsgBox(ex.ToString)
+    '                    MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'brs_cloudpbx_response'", MsgBoxStyle.Exclamation, "Error to the generate report")
+    '                    lbl_state_cloud.Text = "Error with Database"
+    '                    ProgressBar1.Value = ProgressBar1.Maximum
+    '                    Me.Cursor = Cursors.Default
+    '                    In_Case_Error3()
+    '                    Conexion.Close()
+    '                    Exit Sub
+    '                End Try
+    '                Conexion.Close()
+    '                response = ""
+    '            End If
+
+    '        Catch ex As Exception
+    '            MsgBox(ex.ToString)
+    '            MsgBox("Ha ocurrido un error con el archivo respuesta " & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml", MsgBoxStyle.Exclamation, "Error al generar reporte")
+    '            'grabaLog(1, 2, "Error al leer archivo XML>" & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml")
+    '            lbl_state_cloud.Text = "Error to generate report"
+    '            ProgressBar1.Value = ProgressBar1.Maximum
+    '            Me.Cursor = Cursors.Default
+    '            In_Case_Error3()
+    '            Exit Sub
+    '        End Try
+    '    Next
+
+    '    Dim FMP As New Frm_Report_Cloudpbx
+    '    FMP.Show()
+    '    FMP.BringToFront()
+
+
+    '    btn_procesar.Enabled = False
+    '    btn_browse_CSV.Enabled = True
+    '    btn_validate_data.Enabled = True
+
+    '    Me.Cursor = Cursors.Default
+    '    lbl_state_cloud.Text = "Finished"
+    '    ProgressBar1.Value = ProgressBar1.Maximum
+    '    My.Application.DoEvents()
+
+    '    System.Threading.Thread.Sleep(1000)
+    '    'MsgBox("Finalizo el proceso")
+    'End Sub
 
     'Public Sub grabaLog(ByVal tipo As Integer, ByVal subtipo As Integer, ByVal mensaje As String)
     Public Sub grabaLog(ByVal mensaje As String, ByVal tipo As Integer, ByVal subtipo As Integer)
@@ -2097,6 +2205,9 @@ Public Class Frm_Principal
         End If
         If subtipo = 7 Then
             linerr += " ExecuteShellBulk>"
+        End If
+        If subtipo = 8 Then
+            linerr += " BroadsoftResponseReport>"
         End If
         linerr += " " & mensaje
 
@@ -2242,7 +2353,5 @@ Public Class Frm_Principal
         ToolTipHelpButtons.InitialDelay = 500
         ToolTipHelpButtons.IsBalloon = False
     End Sub
-
-
 
 End Class

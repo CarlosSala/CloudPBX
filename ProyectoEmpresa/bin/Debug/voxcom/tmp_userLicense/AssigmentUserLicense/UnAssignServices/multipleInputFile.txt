@@ -1,1 +1,0 @@
-C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\AssigmentUserLicense\UnAssignServices\1_AssignServices_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_userLicense\AssigmentUserLicense\UnAssignServices\1_cloudpbx_response.xml

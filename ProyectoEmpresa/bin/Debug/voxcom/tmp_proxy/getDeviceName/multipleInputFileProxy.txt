@@ -1,1 +1,0 @@
-C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\getDeviceName\1_DeviceGetList_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_proxy\getDeviceName\1_cloudpbx_response.xml

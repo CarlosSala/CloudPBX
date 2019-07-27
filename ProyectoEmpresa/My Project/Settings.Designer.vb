@@ -233,6 +233,30 @@ Namespace My
                 Me("PathTmpUserLicense") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\origen")>  _
+        Public Property OriginFolder() As String
+            Get
+                Return CType(Me("OriginFolder"),String)
+            End Get
+            Set
+                Me("OriginFolder") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\error")>  _
+        Public Property ErrorFolder() As String
+            Get
+                Return CType(Me("ErrorFolder"),String)
+            End Get
+            Set
+                Me("ErrorFolder") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

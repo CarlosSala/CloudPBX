@@ -47,5 +47,11 @@
     <Setting Name="PathTmpUserLicense" Type="System.String" Scope="User">
       <Value Profile="(Default)">\voxcom\tmp_userLicense</Value>
     </Setting>
+    <Setting Name="OriginFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\origen</Value>
+    </Setting>
+    <Setting Name="ErrorFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\error</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

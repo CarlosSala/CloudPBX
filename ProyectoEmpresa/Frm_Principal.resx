@@ -167,49 +167,6 @@
   <metadata name="StatusStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>458, 19</value>
   </metadata>
-  <data name="btn_browse_CSV.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAABHZJREFUSEut
-        ln1MVXUYx3/nonjvFIHIF4baZEmpEdq0P5xm2abOOdeWMleRGWqmYqWUCdo0tKHCRInMkE0Tk4VDRJRE
-        4h0S8C1I5SXBgjTAxMQ4cK98vz0Hlp5NbkTz2T57vr+73znf53l+95wd1ccYIAQJ4b0QKvgJfQpXoSgo
-        UEPMpxYK/+SHdMQ6C72HK132z+i6UuJlYY9w4F/IeHWWCx1nB0Iw5x517n4r5Zp8QS0c76d1HtpqRXqM
-        7SGORtuQEtVNxddusGd6/ieuJ7tD7l1jGJSWbXNje4In9HhP6ns9qO9xhx7nTj12MNt2D0ZbjFuXbj/k
-        xY5vh0Aw5x71b/u8jA66DGrqw620H7DAftRC+ymNHTkaBLZnatRTNbQlKrZGa7wTNpB6/HDoCd7U93l3
-        Zye6IWbYA4OmL7yACxHApVjnFK/E3TALWoJccXuJFS3CH8FWNAs33rai4S0r6hZZUR1kRc1iG+rWPXZ/
-        RDVNaa8QDSfAhhM0cKY7U57k758o1H2kWLNB4fImxYtbFEu2KuRuVsyQ34+sVPhyoeLaAIupg9TpRGUU
-        WBlFA2ealyKI/Llg9jQidxqYN43MF50vWrKxRo7o05NYusXFZJASICNa/ug4uwhNSaNMI0oZTZTMAUvm
-        0MCZNq+NLNBRNJt67kzYc6YQ3/sRJz3AY4pNB5W5g6FA4YQ+cfe7scg7OAab94zHh7H+CIscgePyLDXE
-        K+Ckkg6UqYPUQUSBD1jgQ4Medb6QN5TIdse1ZBtXJ05FaMFOJlamM6k6AweupDEkJ5LB0c+hYIvGxmRz
-        B+muRJEbWORGgwdajAttYtBfDDRBsfGYhqCkGdxcshPbz+3m9nO7mF1/BnHlidwm640/7MD8Xc/z5Aaz
-        wWmNKOsHlvUjy1xEW0TLDUsVUapgZIOOQsXth0dgSdYKhhZ8gB3nYnihqZL2Tgfudd7j8doshuavQdCp
-        pVy6+nGTQZ7Mrbx3bmYpzD8yGUuzAvFZ6UbY7znQam/BnY5baPzrF8Re/BircuZLAYGYGfOM6QzOSKXV
-        Umm1VCo401UZFs5Lm4xlWdNZ3lwG3dHKqPPzeLgqFJtKXuC6wil8L3eqFDCds5MmGh3UdxuUDCCqbBCM
-        7FRXpNr4WsZ4hOT681b7dVy9XSBnMEZMxsh5+DGi9CmuLxonXfhzQcrY+waZhekygsbeqc1RCM30RXix
-        L679WSxjqUX8Tz7Yf3k4Ei554/MffRB59gmsL/LFgriRxoiyDYNJnh7q1vLFCmtXyTukmx71u28qvhHu
-        KdWO5Im6QHTCIf+gSKbVDkFarRe/qRrG3RcniMkoBsx1MzpYaRgYMVR4XQjuhSX9rVpzWPIQpvzsi4qb
-        wdQdV1jTUoEzN75i1q/v8+jVcQjZ60XN0nXANqHP8eIgD+3upgQvlDdPREPrDDS3zUL9nZdwvvFZrIn2
-        gKtVNcs+/+7t/y8ChOJxARasWtOPWyNd8U6IC339NGPuGcJoY9OjiAnCCsH4VFkmPC2YQqm/ASDRp+aV
-        zfwIAAAAAElFTkSuQmCC
-</value>
-  </data>
-  <metadata name="StatusStrip2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>568, 19</value>
-  </metadata>
-  <metadata name="Column1.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Column2.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Column3.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Column4.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="StatusStrip3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>676, 19</value>
-  </metadata>
   <metadata name="openFileDialogCSV.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>

@@ -236,7 +236,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("\origen")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\input-csv")>  _
         Public Property OriginFolder() As String
             Get
                 Return CType(Me("OriginFolder"),String)

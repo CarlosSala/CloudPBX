@@ -48,7 +48,7 @@
       <Value Profile="(Default)">\voxcom\tmp_userLicense</Value>
     </Setting>
     <Setting Name="OriginFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\origen</Value>
+      <Value Profile="(Default)">\input-csv</Value>
     </Setting>
     <Setting Name="ErrorFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)">\error</Value>

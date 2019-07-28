@@ -15,7 +15,7 @@ Public Class Frm_Principal
     Dim indexXML_Cloud As Integer = 0
     Dim codError As Integer = 0
     Dim numFile As Integer = 1
-    'Dim n_File As Integer = FreeFile()
+    Dim foundFile As String
 
     Dim domain As String = ""
     Dim phoneNumber As String = ""
@@ -49,28 +49,14 @@ Public Class Frm_Principal
     Dim arregloDeptos() As String
     Dim proxyInfo As Integer = 0
     Dim estadoCeldas As Integer = 0
-    'Dim ArrayUserGetList() As String
-
-
-
-
-    Dim FinalPath As String = "C:\Users\cs\Desktop\input-csv\"
-    Dim OriginDirectoryFiles() As String
-    Dim FinalDirectoryFiles() As String
-    Dim filesNumbersFinalDirectoryFiles As Integer
-    Dim filesNumbersOriginDirectoryFiles As Integer
-    Dim foundFile As String
-
 
     Public WithEvents FSW As FileSystemWatcher
 
-    Dim InputFolderPath As String = My.Computer.FileSystem.SpecialDirectories.Desktop & My.Settings.OriginFolder
-    Dim FileName As String
     Dim Desktop As String = My.Computer.FileSystem.SpecialDirectories.Desktop
+    Dim InputFolderPath As String = Desktop & My.Settings.OriginFolder
+    Dim FileName As String
 
     Private Sub For1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-
 
         First_Interface()
 
@@ -78,9 +64,7 @@ Public Class Frm_Principal
 
         FSW = New FileSystemWatcher(InputFolderPath, "*.csv")
         FSW.IncludeSubdirectories = True
-        FSW.EnableRaisingEvents = True
-
-
+        FSW.EnableRaisingEvents = False
 
         gblPathAppl = My.Application.Info.DirectoryPath & My.Settings.PathAppl
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom
@@ -91,15 +75,7 @@ Public Class Frm_Principal
 
     End Sub
 
-
     Private Sub FSW_Created(sender As Object, e As FileSystemEventArgs) Handles FSW.Created
-
-        ' Se pausa la ejecución de la aplicación 500 ms para que no se colapse
-        'System.Threading.Thread.Sleep(15000)
-
-        'Dim arhivos As String = My.Computer.FileSystem.GetFiles(InputFolderPath, "*.csv").ToString
-
-        'MsgBox(arhivos.ToString)
 
         System.Threading.Thread.Sleep(5000)
 
@@ -116,15 +92,6 @@ Public Class Frm_Principal
 
             Validate_File()
         Next
-
-
-        'For Each foundFile In My.Computer.FileSystem.GetFiles(InputFolderPath, "*.csv")
-
-        '    'FileName = e.Name
-        '    FileName = foundFile
-        '    tb_file_name.Text = foundFile
-        '    Validate_File()
-        'Next
 
     End Sub
 
@@ -396,15 +363,7 @@ Public Class Frm_Principal
         DataGridView1.DataSource = dt
         DataGridView1.Refresh()
 
-        'Se evita que el usuario pueda reordenar la grilla
-        'For j = 0 To DataGridView1.ColumnCount - 1
-        '    DataGridView1.Columns(j).SortMode = DataGridViewColumnSortMode.NotSortable
-        'Next
-
-
         lbl_wait.Visible = False
-        'btn_procesar.Enabled = False
-        'btn_validate_data.Enabled = True
         My.Application.DoEvents()
         Validate_Data()
     End Sub
@@ -453,7 +412,7 @@ Public Class Frm_Principal
         End If
 
         'validar numeración-------------------------------------------------------------------------------------------------
-        For j = 0 To DataGridView1.Rows.Count - 2  'dt.Rows.Count - 1
+        For j = 0 To DataGridView1.Rows.Count - 1  'dt.Rows.Count - 1
             phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
             If phoneNumber.Length > 8 Then
                 DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -765,9 +724,11 @@ Public Class Frm_Principal
                         DataGridView1.Rows(fila).Cells(columna).ReadOnly = True
                         DataGridView1.Rows(fila).Cells(columna).Style.BackColor = Color.FromArgb(232, 232, 232)
                     End If
+
+                    'Para las columnas 1,8,9,10,11,12,13,14,15,15,17,19,20,21,22,23,24,25
                 Else
                     'filasValidas - 1 se iguala con fila, ya que esta parte en 0
-                    If fila > filasValidas - 1 And columna <> 1 And columna <> 8 Then
+                    If fila > filasValidas - 1 And columna <> 1 Then
                         DataGridView1.Rows(fila).Cells(columna).ReadOnly = True
                         DataGridView1.Rows(fila).Cells(columna).Style.BackColor = Color.FromArgb(232, 232, 232)
                     Else
@@ -799,39 +760,11 @@ Public Class Frm_Principal
         FileClose(numFile)
         FileClose(1)
         My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[Internal_Error]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
-        'Me.Cursor = Cursors.Default
-        'btn_procesar.Enabled = True
-        'btn_validate_data.Enabled = True
-        'btn_browse_CSV.Enabled = True
     End Sub
 
     Private Sub CloudPBX()
-        'Para comprobar conexión con el servidor
-        'If My.Computer.Network.Ping(My.Settings.Host, gblTimePing) Then
-        '    'MsgBox("Server pinged successfully.")
-        'Else
-        '    MsgBox("Servidor fuera de Linea, favor verifique la conexion", MsgBoxStyle.Exclamation, "Error de Comunicación")
-        '    Exit Sub
-        'End If
-
-        ''Se llama a la validación de la data por ultima vez
-        'Validate_Data()
-        'Dim estado = Validate_Data()
-        'If estado = 0 Then
-
-        'Else
-        '    'Me.Cursor = Cursors.Default
-        '    btn_procesar.Enabled = False
-        '    'MsgBox("revise las celdas")
-        '    Exit Sub
-        'End If
 
         indexXML_Cloud = 0
-        'Me.Cursor = Cursors.WaitCursor
-        'btn_procesar.Enabled = False
-        'btn_browse_CSV.Enabled = False
-        'btn_validate_data.Enabled = False
-        'My.Application.DoEvents()
 
         'FASE 1
 
@@ -1061,10 +994,11 @@ Public Class Frm_Principal
         ProgressBar1.Value = 0
         ProgressBar1.Maximum = 100
 
+
         'SearchAllSubDirectories
         Try
-            For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblPathTmpCloud, FileIO.SearchOption.SearchAllSubDirectories, "*.*")
-                My.Computer.FileSystem.DeleteFile(foundFile)
+            For Each document As String In My.Computer.FileSystem.GetFiles(gblPathTmpCloud, FileIO.SearchOption.SearchAllSubDirectories, "*.*")
+                My.Computer.FileSystem.DeleteFile(document)
             Next
         Catch ex As Exception
             grabaLog(ex.ToString, 1, 2)
@@ -1155,7 +1089,9 @@ Public Class Frm_Principal
                 WriteLine(numFile, line3.ToCharArray)
                 WriteLine(numFile, c_4.ToCharArray)
                 WriteLine(numFile, c_5.ToCharArray)
-                For j = 0 To DataGridView1.Rows.Count - 2
+                'DataGridView1.Rows.Count - 1 cuando se muestra el header de la columna
+                'DataGridView1.Rows.Count - 2 cuando se muestra el header de la columna y la fila de agregar columna
+                For j = 0 To DataGridView1.Rows.Count - 1
                     phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
                     c_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
                     WriteLine(numFile, c_6.ToCharArray)
@@ -1870,9 +1806,6 @@ Public Class Frm_Principal
 
     Private Sub In_Case_Error4()
         My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[Internal_Error]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
-        'btn_procesar.Enabled = True
-        'btn_validate_data.Enabled = True
-        'btn_browse_CSV.Enabled = True
     End Sub
 
     Public Sub ExecuteShellBulk(ByVal fileMIF As String, ByVal numberSubroutine As Integer)
@@ -2041,132 +1974,6 @@ Public Class Frm_Principal
     End Sub
 
 
-
-    'Private Sub ParseXML_cloudPBX()
-
-    '    btn_report_cloudpbx.Enabled = True 'Se habilita el boton que permite ver el reporte en cualquier momento
-
-    '    lbl_state_cloud.Text = "Generating Report..."
-    '    ProgressBar1.Value = 75
-    '    My.Application.DoEvents()
-
-    '    Dim comando As New OleDbCommand
-    '    comando.Connection = Conexion
-    '    Dim sql As String = "delete * from brs_cloudpbx_response"
-    '    comando.CommandText = sql
-
-    '    Try
-    '        Conexion.Open()
-    '        comando.ExecuteNonQuery()
-    '    Catch ex As Exception
-    '        MsgBox(ex.ToString)
-    '        MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_cloudpbx_response'", MsgBoxStyle.Exclamation, "Error al generar reporte")
-    '        lbl_state_cloud.Text = "Error with Database"
-    '        ProgressBar1.Value = ProgressBar1.Maximum
-    '        Me.Cursor = Cursors.Default
-    '        In_Case_Error3()
-    '        Conexion.Close()
-    '        Exit Sub
-    '    End Try
-    '    Conexion.Close()
-
-    '    Dim reader As XmlTextReader
-    '    Dim parseXML As String
-    '    Dim response As String = ""
-
-    '    For num = 1 To indexXML_Cloud
-    '        Try
-    '            parseXML = gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml"
-    '            reader = New XmlTextReader(parseXML)
-
-    '            'Si el archivo no tiene el formato esperado o esta vacio se captura la excepción 
-    '            Do While (reader.Read())
-    '                Select Case reader.NodeType
-    '                    Case XmlNodeType.Element
-
-    '                        'Existen dos posibles response a encontrar en el archivo
-
-    '                        If reader.Name = "command" Then
-    '                            If reader.HasAttributes Then 'If attributes exist
-    '                                While reader.MoveToNextAttribute()
-    '                                    'MsgBox(reader.Name.ToString & reader.Value.ToString) 'Display attribute name and value.
-    '                                    If reader.Name = "xsi:type" Then
-    '                                        If reader.Value = "c:SuccessResponse" Then
-    '                                            response = reader.Value.ToString
-    '                                            'ElseIf reader.Value = "c:ErrorResponse" Then
-
-    '                                        End If
-    '                                    End If
-    '                                End While
-    '                            End If
-    '                        End If
-
-    '                        If reader.Name = "summary" Then
-    '                            response = reader.ReadString
-    '                        End If
-
-    '                        If reader.Name = "detail" Then
-    '                            response += " " & reader.ReadString
-    '                        End If
-    '                        'Case XmlNodeType.XmlDeclaration
-    '                End Select
-    '            Loop
-    '            reader.Close()
-
-    '            If response.Length > 0 Then
-    '                response += " [File:" & num & "_cloudpbx_response.xml]"
-    '                Dim instruction As String = "insert into brs_cloudpbx_response (response) values ( '" & response & "')"
-    '                'Crear un comando
-    '                Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
-    '                Comando1.CommandText = instruction
-    '                Try
-    '                    Conexion.Open()
-    '                    Comando1.ExecuteNonQuery()
-    '                Catch ex As Exception
-    '                    MsgBox(ex.ToString)
-    '                    MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'brs_cloudpbx_response'", MsgBoxStyle.Exclamation, "Error to the generate report")
-    '                    lbl_state_cloud.Text = "Error with Database"
-    '                    ProgressBar1.Value = ProgressBar1.Maximum
-    '                    Me.Cursor = Cursors.Default
-    '                    In_Case_Error3()
-    '                    Conexion.Close()
-    '                    Exit Sub
-    '                End Try
-    '                Conexion.Close()
-    '                response = ""
-    '            End If
-
-    '        Catch ex As Exception
-    '            MsgBox(ex.ToString)
-    '            MsgBox("Ha ocurrido un error con el archivo respuesta " & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml", MsgBoxStyle.Exclamation, "Error al generar reporte")
-    '            'grabaLog(1, 2, "Error al leer archivo XML>" & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml")
-    '            lbl_state_cloud.Text = "Error to generate report"
-    '            ProgressBar1.Value = ProgressBar1.Maximum
-    '            Me.Cursor = Cursors.Default
-    '            In_Case_Error3()
-    '            Exit Sub
-    '        End Try
-    '    Next
-
-    '    Dim FMP As New Frm_Report_Cloudpbx
-    '    FMP.Show()
-    '    FMP.BringToFront()
-
-
-    '    btn_procesar.Enabled = False
-    '    btn_browse_CSV.Enabled = True
-    '    btn_validate_data.Enabled = True
-
-    '    Me.Cursor = Cursors.Default
-    '    lbl_state_cloud.Text = "Finished"
-    '    ProgressBar1.Value = ProgressBar1.Maximum
-    '    My.Application.DoEvents()
-
-    '    System.Threading.Thread.Sleep(1000)
-    '    'MsgBox("Finalizo el proceso")
-    'End Sub
-
-    'Public Sub grabaLog(ByVal tipo As Integer, ByVal subtipo As Integer, ByVal mensaje As String)
     Public Sub grabaLog(ByVal mensaje As String, ByVal tipo As Integer, ByVal subtipo As Integer)
 
         Dim fileLog As String = ""
@@ -2228,26 +2035,6 @@ Public Class Frm_Principal
         FileClose(numFile)
     End Sub
 
-    Private Sub Btn_procesar_Click(sender As Object, e As EventArgs)
-        CloudPBX()
-    End Sub
-
-    Private Sub Btn_BrowseCSV_MouseEnter(sender As Object, e As EventArgs)
-        Tooltip_Help_Buttons(ToolTipHelpButtons, btn_browse_CSV, "Seleccione un archivo")
-    End Sub
-
-    Private Sub Btn_procesar_MouseEnter(sender As Object, e As EventArgs)
-        Tooltip_Help_Buttons(ToolTipHelpButtons, btn_procesar, "Se procesa y se envía la información")
-    End Sub
-
-    Private Sub Btn_report_cloudpbx_MouseEnter(sender As Object, e As EventArgs) Handles btn_report_cloudpbx.MouseEnter
-        Tooltip_Help_Buttons(ToolTipHelpButtons, btn_report_cloudpbx, "Se genera un informe del último CloudPBX procesado")
-    End Sub
-
-    Private Sub Btn_validate_data_MouseEnter(sender As Object, e As EventArgs)
-        Tooltip_Help_Buttons(ToolTipHelpButtons, btn_validate_data, "Se valida localmente la información a procesar")
-    End Sub
-
     Private Sub Btn_report_cloudpbx_Click(sender As Object, e As EventArgs) Handles btn_report_cloudpbx.Click
         ParseXML_cloudPBX()
     End Sub
@@ -2256,90 +2043,21 @@ Public Class Frm_Principal
         Validate_Data()
     End Sub
 
-    Private Sub Btn_mode_auto_Click(sender As Object, e As EventArgs) Handles btn_mode_auto.Click
-        'MonitoringFolder()
+    Private Sub Btn_mode_auto_Click(sender As Object, e As EventArgs) Handles btn_fileWatcher.Click
+
+        If FSW.EnableRaisingEvents = False Then
+            FSW.EnableRaisingEvents = True
+            lbl_status_fileWatcher.Text = "System File Watcher ON"
+            My.Application.DoEvents()
+        ElseIf FSW.EnableRaisingEvents = True Then
+            FSW.EnableRaisingEvents = False
+            lbl_status_fileWatcher.Text = "System File Watcher OFF"
+            My.Application.DoEvents()
+        End If
+
     End Sub
 
-    ''Se obtiene el numero de archivos .csv existente en los directorios
-    'OriginDirectoryFiles = Directory.GetFiles(OriginPath, "*.csv")
-    'FinalDirectoryFiles = Directory.GetFiles(FinalPath, "*.csv")
-
-    'filesNumbersFinalDirectoryFiles = FinalDirectoryFiles.Length
-    'filesNumbersOriginDirectoryFiles = OriginDirectoryFiles.Length
-
-    ''Se mueve un archivo desde la ruta origen a la ruta destino
-    'If filesNumbersOriginDirectoryFiles > 0 Then
-    '    Microsoft.VisualBasic.FileIO.FileSystem.MoveFile(OriginPath & e.Name, FinalPath & e.Name)
-
-    '    tb_file_name.Text = FinalPath & e.Name
-    '    Validate_File()
-    'End If
-    'Evento de monitoreo de carpeta
-    'Public Sub MonitoringFolder()
-
-    '    Dim Vigilante As New FileSystemWatcher()
-
-    '    'Carpeta a monitorear
-    '    Dim RutaVigilar As String = "C:\Users\cs\Desktop\origen"
-
-    '    ' Ruta a monitorizar
-    '    Vigilante.Path = RutaVigilar
-
-    '    ' la entrada masiva de documentos ver http://msdn.microsoft.com/es-es/library/system.io.filesystemwatcher.internalbuffersize.aspx
-
-    '    ' Establece el tamaño (en bytes) del búfer interno para controlar 
-    '    Vigilante.InternalBufferSize = 8192
-    '    Vigilante.
-    '    ' Inclusion de monitoreo de subdirectorios
-    '    Vigilante.IncludeSubdirectories = False
-
-    '    ' Filtro de monitorización, solo acciones sobre archivos .csv y .txt
-    '    Vigilante.Filter = ("*.csv")
-    '    Vigilante.NotifyFilter = (NotifyFilters.FileName)
-
-    '    ' Monitorizar la creación de archivos
-    '    AddHandler Vigilante.Created, AddressOf OnChanged
-
-    '    ' Otros eventos que se pueden monitorizar
-    '    '     AddHandler Vigilante.Changed, AddressOf OnChanged
-    '    '     AddHandler Vigilante.Deleted, AddressOf OnChanged
-    '    '     AddHandler Vigilante.Renamed, AddressOf OnRenamed
-
-    '    ' Esta opción se utiliza en procesos asincrónicos 
-
-    '    ' para notificar a la aplicación que un proceso ha terminado
-    '    Vigilante.EnableRaisingEvents = True
-
-    'End Sub
-
-    'Private Sub OnChanged(ByVal source As Object, ByVal e As FileSystemEventArgs)
-
-    '    ' Definir variables
-    '    Dim RutaDestino As String  ' Destino de los archivos
-    '    Dim ArchivoOrigen As String
-    '    Dim ArchivoDestino As String
-
-    '    ' Establecer valor a las variables
-    '    ArchivoOrigen = e.FullPath.ToString
-    '    RutaDestino = "C:\Users\cs\Desktop\input-csv\" ' terminado en \
-    '    ArchivoDestino = RutaDestino & e.Name
-
-    '    ' Se pausa la ejecución de la aplicación 500 ms para que no se colapse
-    '    System.Threading.Thread.Sleep(500)
-
-
-    '    ' Notificamos en pantalla de la acción
-    '    'Console.WriteLine(ArchivoOrigen & " traspasado con exito a " & ArchivoDestino)
-
-    '    CheckForIllegalCrossThreadCalls = False
-
-    '    tb_file_name.Text = ArchivoDestino
-    '    Validate_File()
-
-    'End Sub
-
     Private Sub First_Interface()
-
 
         lbl_wait.Visible = False
         btn_report_cloudpbx.Enabled = False
@@ -2354,4 +2072,23 @@ Public Class Frm_Principal
         ToolTipHelpButtons.IsBalloon = False
     End Sub
 
+    Private Sub Btn_files_processed_Click(sender As Object, e As EventArgs) Handles btn_files_processed.Click
+        Process.Start("explorer.exe", Desktop & "\output-csv")
+    End Sub
+
+    Private Sub Btn_errors_Click(sender As Object, e As EventArgs) Handles btn_errors.Click
+        Process.Start("explorer.exe", Desktop & "\error")
+    End Sub
+
+    Private Sub Btn_input_csv_Click(sender As Object, e As EventArgs) Handles btn_input_csv.Click
+        Process.Start("explorer.exe", Desktop & "\input-csv")
+    End Sub
+
+    Private Sub Btn_show_logs_Click(sender As Object, e As EventArgs) Handles btn_show_logs.Click
+        Process.Start("explorer.exe", Desktop & "\log")
+    End Sub
+
+    Private Sub Btn_show_report_Click(sender As Object, e As EventArgs) Handles btn_show_report.Click
+        Process.Start("explorer.exe", Desktop & "\brs-response")
+    End Sub
 End Class

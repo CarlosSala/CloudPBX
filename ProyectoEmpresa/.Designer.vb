@@ -26,7 +26,12 @@ Partial Class Frm_Principal
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Frm_Principal))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
-        Me.btn_mode_auto = New System.Windows.Forms.Button()
+        Me.btn_input_csv = New System.Windows.Forms.Button()
+        Me.btn_errors = New System.Windows.Forms.Button()
+        Me.btn_files_processed = New System.Windows.Forms.Button()
+        Me.btn_show_logs = New System.Windows.Forms.Button()
+        Me.btn_show_report = New System.Windows.Forms.Button()
+        Me.btn_fileWatcher = New System.Windows.Forms.Button()
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.ProgressBar1 = New System.Windows.Forms.ToolStripProgressBar()
         Me.lbl_state_cloud = New System.Windows.Forms.ToolStripStatusLabel()
@@ -36,6 +41,7 @@ Partial Class Frm_Principal
         Me.tb_file_name = New System.Windows.Forms.TextBox()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
+        Me.lbl_status_fileWatcher = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -59,7 +65,13 @@ Partial Class Frm_Principal
         '
         'TabPage1
         '
-        Me.TabPage1.Controls.Add(Me.btn_mode_auto)
+        Me.TabPage1.Controls.Add(Me.lbl_status_fileWatcher)
+        Me.TabPage1.Controls.Add(Me.btn_input_csv)
+        Me.TabPage1.Controls.Add(Me.btn_errors)
+        Me.TabPage1.Controls.Add(Me.btn_files_processed)
+        Me.TabPage1.Controls.Add(Me.btn_show_logs)
+        Me.TabPage1.Controls.Add(Me.btn_show_report)
+        Me.TabPage1.Controls.Add(Me.btn_fileWatcher)
         Me.TabPage1.Controls.Add(Me.StatusStrip1)
         Me.TabPage1.Controls.Add(Me.btn_report_cloudpbx)
         Me.TabPage1.Controls.Add(Me.lbl_wait)
@@ -73,23 +85,73 @@ Partial Class Frm_Principal
         Me.TabPage1.Text = "Create CloudPBX"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
-        'btn_mode_auto
+        'btn_input_csv
         '
-        Me.btn_mode_auto.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.btn_input_csv.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_input_csv.Location = New System.Drawing.Point(110, 398)
+        Me.btn_input_csv.Name = "btn_input_csv"
+        Me.btn_input_csv.Size = New System.Drawing.Size(100, 58)
+        Me.btn_input_csv.TabIndex = 59
+        Me.btn_input_csv.Text = "Input CSV"
+        Me.btn_input_csv.UseVisualStyleBackColor = True
+        '
+        'btn_errors
+        '
+        Me.btn_errors.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_errors.Location = New System.Drawing.Point(216, 398)
+        Me.btn_errors.Name = "btn_errors"
+        Me.btn_errors.Size = New System.Drawing.Size(100, 58)
+        Me.btn_errors.TabIndex = 58
+        Me.btn_errors.Text = "Files CSV No Processed"
+        Me.btn_errors.UseVisualStyleBackColor = True
+        '
+        'btn_files_processed
+        '
+        Me.btn_files_processed.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_files_processed.Location = New System.Drawing.Point(322, 398)
+        Me.btn_files_processed.Name = "btn_files_processed"
+        Me.btn_files_processed.Size = New System.Drawing.Size(100, 58)
+        Me.btn_files_processed.TabIndex = 57
+        Me.btn_files_processed.Text = "Files CSV Processed"
+        Me.btn_files_processed.UseVisualStyleBackColor = True
+        '
+        'btn_show_logs
+        '
+        Me.btn_show_logs.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_show_logs.Location = New System.Drawing.Point(428, 398)
+        Me.btn_show_logs.Name = "btn_show_logs"
+        Me.btn_show_logs.Size = New System.Drawing.Size(100, 58)
+        Me.btn_show_logs.TabIndex = 56
+        Me.btn_show_logs.Text = "Logs"
+        Me.btn_show_logs.UseVisualStyleBackColor = True
+        '
+        'btn_show_report
+        '
+        Me.btn_show_report.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_show_report.Location = New System.Drawing.Point(534, 398)
+        Me.btn_show_report.Name = "btn_show_report"
+        Me.btn_show_report.Size = New System.Drawing.Size(100, 58)
+        Me.btn_show_report.TabIndex = 55
+        Me.btn_show_report.Text = "Reports"
+        Me.btn_show_report.UseVisualStyleBackColor = True
+        '
+        'btn_fileWatcher
+        '
+        Me.btn_fileWatcher.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_mode_auto.BackColor = System.Drawing.Color.Transparent
-        Me.btn_mode_auto.BackgroundImage = CType(resources.GetObject("btn_mode_auto.BackgroundImage"), System.Drawing.Image)
-        Me.btn_mode_auto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.btn_mode_auto.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.btn_mode_auto.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_mode_auto.Location = New System.Drawing.Point(670, 7)
-        Me.btn_mode_auto.Margin = New System.Windows.Forms.Padding(4)
-        Me.btn_mode_auto.MaximumSize = New System.Drawing.Size(70, 70)
-        Me.btn_mode_auto.MinimumSize = New System.Drawing.Size(70, 70)
-        Me.btn_mode_auto.Name = "btn_mode_auto"
-        Me.btn_mode_auto.Size = New System.Drawing.Size(70, 70)
-        Me.btn_mode_auto.TabIndex = 54
-        Me.btn_mode_auto.UseVisualStyleBackColor = False
+        Me.btn_fileWatcher.BackColor = System.Drawing.Color.Transparent
+        Me.btn_fileWatcher.BackgroundImage = CType(resources.GetObject("btn_fileWatcher.BackgroundImage"), System.Drawing.Image)
+        Me.btn_fileWatcher.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.btn_fileWatcher.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.btn_fileWatcher.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btn_fileWatcher.Location = New System.Drawing.Point(670, 7)
+        Me.btn_fileWatcher.Margin = New System.Windows.Forms.Padding(4)
+        Me.btn_fileWatcher.MaximumSize = New System.Drawing.Size(70, 70)
+        Me.btn_fileWatcher.MinimumSize = New System.Drawing.Size(70, 70)
+        Me.btn_fileWatcher.Name = "btn_fileWatcher"
+        Me.btn_fileWatcher.Size = New System.Drawing.Size(70, 70)
+        Me.btn_fileWatcher.TabIndex = 54
+        Me.btn_fileWatcher.UseVisualStyleBackColor = False
         '
         'StatusStrip1
         '
@@ -114,13 +176,13 @@ Partial Class Frm_Principal
         'btn_report_cloudpbx
         '
         Me.btn_report_cloudpbx.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_report_cloudpbx.Location = New System.Drawing.Point(608, 390)
+        Me.btn_report_cloudpbx.Location = New System.Drawing.Point(640, 398)
         Me.btn_report_cloudpbx.MaximumSize = New System.Drawing.Size(132, 75)
-        Me.btn_report_cloudpbx.MinimumSize = New System.Drawing.Size(132, 75)
+        Me.btn_report_cloudpbx.MinimumSize = New System.Drawing.Size(100, 58)
         Me.btn_report_cloudpbx.Name = "btn_report_cloudpbx"
-        Me.btn_report_cloudpbx.Size = New System.Drawing.Size(132, 75)
+        Me.btn_report_cloudpbx.Size = New System.Drawing.Size(100, 58)
         Me.btn_report_cloudpbx.TabIndex = 4
-        Me.btn_report_cloudpbx.Text = "Show Report"
+        Me.btn_report_cloudpbx.Text = "Generate Report"
         Me.btn_report_cloudpbx.UseVisualStyleBackColor = True
         '
         'lbl_wait
@@ -178,6 +240,15 @@ Partial Class Frm_Principal
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
         '
+        'lbl_status_fileWatcher
+        '
+        Me.lbl_status_fileWatcher.AutoSize = True
+        Me.lbl_status_fileWatcher.Location = New System.Drawing.Point(6, 25)
+        Me.lbl_status_fileWatcher.Name = "lbl_status_fileWatcher"
+        Me.lbl_status_fileWatcher.Size = New System.Drawing.Size(127, 13)
+        Me.lbl_status_fileWatcher.TabIndex = 60
+        Me.lbl_status_fileWatcher.Text = "System File Watcher OFF"
+        '
         'Frm_Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -214,6 +285,12 @@ Partial Class Frm_Principal
     Friend WithEvents ProgressBar1 As ToolStripProgressBar
     Friend WithEvents lbl_state_cloud As ToolStripStatusLabel
     Friend WithEvents btn_validate_data As Button
-    Friend WithEvents btn_mode_auto As Button
+    Friend WithEvents btn_fileWatcher As Button
     Friend WithEvents btn_browse_CSV As Button
+    Friend WithEvents btn_errors As Button
+    Friend WithEvents btn_files_processed As Button
+    Friend WithEvents btn_show_logs As Button
+    Friend WithEvents btn_show_report As Button
+    Friend WithEvents btn_input_csv As Button
+    Friend WithEvents lbl_status_fileWatcher As Label
 End Class

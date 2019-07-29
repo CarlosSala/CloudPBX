@@ -1,0 +1,15 @@
+**** Version Voxcom --> 2019.07.29 12:51:34:522 CLT
+**** Start OCIClient initialization --> 2019.07.29 12:51:34:535 CLT
+**** Sending request at: 2019.07.29 12:51:34:594 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 21 ms)
+AuthenticationRequest command successful
+
+**** Sending request at: 2019.07.29 12:51:34:619 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 13 ms)
+LoginRequest command successful
+
+**** Line InputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\1_CreateDomain_request.xml;C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\1_cloudpbx_response.xml

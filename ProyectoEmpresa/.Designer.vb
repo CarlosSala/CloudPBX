@@ -26,6 +26,7 @@ Partial Class Frm_Principal
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Frm_Principal))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.lbl_status_fileWatcher = New System.Windows.Forms.Label()
         Me.btn_input_csv = New System.Windows.Forms.Button()
         Me.btn_errors = New System.Windows.Forms.Button()
         Me.btn_files_processed = New System.Windows.Forms.Button()
@@ -41,7 +42,6 @@ Partial Class Frm_Principal
         Me.tb_file_name = New System.Windows.Forms.TextBox()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
-        Me.lbl_status_fileWatcher = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -84,6 +84,15 @@ Partial Class Frm_Principal
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Create CloudPBX"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'lbl_status_fileWatcher
+        '
+        Me.lbl_status_fileWatcher.AutoSize = True
+        Me.lbl_status_fileWatcher.Location = New System.Drawing.Point(6, 25)
+        Me.lbl_status_fileWatcher.Name = "lbl_status_fileWatcher"
+        Me.lbl_status_fileWatcher.Size = New System.Drawing.Size(104, 13)
+        Me.lbl_status_fileWatcher.TabIndex = 60
+        Me.lbl_status_fileWatcher.Text = "System File Watcher"
         '
         'btn_input_csv
         '
@@ -165,7 +174,7 @@ Partial Class Frm_Principal
         'ProgressBar1
         '
         Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(100, 16)
+        Me.ProgressBar1.Size = New System.Drawing.Size(300, 16)
         '
         'lbl_state_cloud
         '
@@ -239,15 +248,6 @@ Partial Class Frm_Principal
         'openFileDialogCSV
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
-        '
-        'lbl_status_fileWatcher
-        '
-        Me.lbl_status_fileWatcher.AutoSize = True
-        Me.lbl_status_fileWatcher.Location = New System.Drawing.Point(6, 25)
-        Me.lbl_status_fileWatcher.Name = "lbl_status_fileWatcher"
-        Me.lbl_status_fileWatcher.Size = New System.Drawing.Size(127, 13)
-        Me.lbl_status_fileWatcher.TabIndex = 60
-        Me.lbl_status_fileWatcher.Text = "System File Watcher OFF"
         '
         'Frm_Principal
         '

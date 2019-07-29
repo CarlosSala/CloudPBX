@@ -1,6 +1,7 @@
 ﻿Imports System.Xml
 Imports System.IO
 Imports System.Data.OleDb
+Imports System.Net
 
 Public Class Frm_Principal
 
@@ -64,7 +65,7 @@ Public Class Frm_Principal
 
         FSW = New FileSystemWatcher(InputFolderPath, "*.csv")
         FSW.IncludeSubdirectories = True
-        FSW.EnableRaisingEvents = False
+        FSW.EnableRaisingEvents = True
 
         gblPathAppl = My.Application.Info.DirectoryPath & My.Settings.PathAppl
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom
@@ -77,18 +78,23 @@ Public Class Frm_Principal
 
     Private Sub FSW_Created(sender As Object, e As FileSystemEventArgs) Handles FSW.Created
 
+        btn_report_cloudpbx.Enabled = False
+
         System.Threading.Thread.Sleep(5000)
 
         Dim di As DirectoryInfo = New DirectoryInfo(InputFolderPath)
 
         For Each file In di.GetFiles("*.csv")
 
-            'MsgBox(folder.ToString)
             FileName = file.Name
-            tb_file_name.Text = file.FullName
             foundFile = file.FullName
 
-            'System.Threading.Thread.Sleep(60000)
+            If tb_file_name.InvokeRequired Then
+                tb_file_name.BeginInvoke(Sub() tb_file_name.Text = file.FullName)
+                'tb_file_name.Invoke(Sub() tb_file_name.Text = file.FullName)
+            Else
+                tb_file_name.Text = file.FullName
+            End If
 
             Validate_File()
         Next
@@ -125,13 +131,19 @@ Public Class Frm_Principal
         If My.Computer.Network.Ping(My.Settings.Host, gblTimePing) Then
             'MsgBox("Server pinged successfully.")
         Else
-            MsgBox("Servidor fuera de Linea, favor verifique la conexion", MsgBoxStyle.Exclamation, "Error de Comunicación")
+            grabaLog("Servidor fuera de Linea, favor verifique la conexion", 3, 3)
+            My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[communication error with the server]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
             Exit Sub
         End If
 
+        If lbl_wait.InvokeRequired Then
 
-        lbl_wait.Visible = True
-        My.Application.DoEvents()
+            lbl_wait.BeginInvoke(Sub() lbl_wait.Visible = True)
+            My.Application.DoEvents()
+        Else
+            lbl_wait.Visible = True
+            My.Application.DoEvents()
+        End If
 
         'En el siguiente método, se valida que:
 
@@ -359,12 +371,55 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
+
+
         'Se muestran los datos en el datagridview 
+
+        '    DataGridView1.DataSource = dtResults
+        '    DataGridView1.Refresh()
+        '    btnRun.Text = "Run Query"
+        '    btnRun.ForeColor = Color.Black
+
+
+        'Dim dt1 As New DataTable
+        'dt1 = dt
+
+        If DataGridView1.InvokeRequired Then
+
+
+
+            'Task.Run(Function() Sub()
+
+            DataGridView1.Invoke(
+                    Sub()
+
+                        Dim dt1 As New DataTable
+                        dt1 = dt
+                        DataGridView1.DataSource = dt1
+                    End Sub
+                    )
+
+            'DataGridView1.BeginInvoke(Sub() DataGridView1.Refresh())
+
+        Else
         DataGridView1.DataSource = dt
         DataGridView1.Refresh()
+        End If
 
-        lbl_wait.Visible = False
-        My.Application.DoEvents()
+        'Se evita que el usuario pueda reordenar la grilla
+        'For j = 0 To DataGridView1.ColumnCount - 1
+        '    DataGridView1.Columns(j).SortMode = DataGridViewColumnSortMode.NotSortable
+        'Next
+
+        If lbl_wait.InvokeRequired Then
+
+            lbl_wait.BeginInvoke(Sub() lbl_wait.Visible = False)
+            My.Application.DoEvents()
+        Else
+            lbl_wait.Visible = False
+            My.Application.DoEvents()
+        End If
+
         Validate_Data()
     End Sub
 
@@ -403,7 +458,9 @@ Public Class Frm_Principal
         'ocp_premium1 sea mayor a un largo 8
 
         'validar dominio----------------------------------------------------------------------------------------------------
+
         domain = DataGridView1.Rows(0).Cells(0).Value.ToString.ToLower 'domain = dt.Rows(0)(0).ToString.ToLower
+
         If domain.Length > 3 Then
             DataGridView1.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(0, 247, 0)
         Else
@@ -1791,14 +1848,34 @@ Public Class Frm_Principal
 
         FileClose(1)
 
+        'If lbl_state_cloud.InvokeRequired Then
+
+
+        '    lbl_state_cloud.Invoke(
+        '            Sub()
+
+        '                lbl_state_cloud.Text = "Processing XML Files..."
+        '            End Sub
+        '            )
+
+        'Else
+        '    lbl_state_cloud.Text = "Processing XML Files..."
+        '    ProgressBar1.Value = ProgressBar1.Value = 30
+        '    My.Application.DoEvents()
+        'End If
+
+
         lbl_state_cloud.Text = "Processing XML Files..."
         ProgressBar1.Value = ProgressBar1.Value = 30
         My.Application.DoEvents()
 
         ExecuteShellBulk(multipleInputFile, 1)
-        If codError = 0 Then
+        If codError <> 1 Then
             grabaLog("Se procesó correctamente el archivo " & FileName.ToString, 2, 4)
             My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\output-csv\" & FileName & "_[SuccessfullyProcessed]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+            lbl_state_cloud.Text = "Finished"
+            ProgressBar1.Value = ProgressBar1.Maximum
+            My.Application.DoEvents()
             ParseXML_cloudPBX()
         End If
 
@@ -1897,7 +1974,7 @@ Public Class Frm_Principal
         btn_report_cloudpbx.Enabled = True 'Se habilita el boton que permite ver el reporte en cualquier momento
 
         lbl_state_cloud.Text = "Generating Report..."
-        ProgressBar1.Value = 75
+        ProgressBar1.Value = ProgressBar1.Maximum
         My.Application.DoEvents()
 
         Dim reader As XmlTextReader
@@ -1976,6 +2053,10 @@ Public Class Frm_Principal
 
     Public Sub grabaLog(ByVal mensaje As String, ByVal tipo As Integer, ByVal subtipo As Integer)
 
+        lbl_state_cloud.Text = "Saving log..."
+        ProgressBar1.Value = 100
+        My.Application.DoEvents()
+
         Dim fileLog As String = ""
         Dim linerr As String = ""
 
@@ -2025,18 +2106,24 @@ Public Class Frm_Principal
         fileLog = Desktop & "\log\" & FileName & "_" & Format(Now(), "dd-MM-yyyy_hhmmss") & ".log"
 
         'MsgBox(fileLog.ToString)
-        lbl_state_cloud.Text = "Saving log"
-        ProgressBar1.Value = ProgressBar1.Maximum
-        My.Application.DoEvents()
+
+        System.Threading.Thread.Sleep(2000)
+
         numFile = 4
 
         FileOpen(numFile, fileLog, OpenMode.Append, OpenAccess.Write)
         WriteLine(numFile, linerr.ToCharArray)
         FileClose(numFile)
+
+        lbl_state_cloud.Text = "Log saved"
+        'ProgressBar1.Value = ProgressBar1.Maximum
+        My.Application.DoEvents()
+
     End Sub
 
     Private Sub Btn_report_cloudpbx_Click(sender As Object, e As EventArgs) Handles btn_report_cloudpbx.Click
         ParseXML_cloudPBX()
+        Process.Start("explorer.exe", Desktop & "\brs-response")
     End Sub
 
     Private Sub Btn_validate_data_Click(sender As Object, e As EventArgs)
@@ -2059,6 +2146,7 @@ Public Class Frm_Principal
 
     Private Sub First_Interface()
 
+        lbl_status_fileWatcher.Text = "System File Watcher ON"
         lbl_wait.Visible = False
         btn_report_cloudpbx.Enabled = False
         lbl_state_cloud.Text = ""
@@ -2090,5 +2178,54 @@ Public Class Frm_Principal
 
     Private Sub Btn_show_report_Click(sender As Object, e As EventArgs) Handles btn_show_report.Click
         Process.Start("explorer.exe", Desktop & "\brs-response")
+    End Sub
+
+    Private Sub Btn_fileWatcher_MouseEnter(sender As Object, e As EventArgs) Handles btn_fileWatcher.MouseEnter
+        Tooltip_Help_Buttons(ToolTipHelpButtons, btn_fileWatcher, "Activar o desactivar la vigilancia del directorio Input-csv")
+    End Sub
+
+    Private Sub Btn_input_csv_MouseEnter(sender As Object, e As EventArgs) Handles btn_input_csv.MouseEnter
+        Tooltip_Help_Buttons(ToolTipHelpButtons, btn_input_csv, "Abrir directorio Input-csv")
+    End Sub
+
+    Private Sub Btn_errors_MouseEnter(sender As Object, e As EventArgs) Handles btn_errors.MouseEnter
+        Tooltip_Help_Buttons(ToolTipHelpButtons, btn_errors, "Abrir directorio Error")
+    End Sub
+
+    Private Sub Btn_files_processed_MouseEnter(sender As Object, e As EventArgs) Handles btn_files_processed.MouseEnter
+        Tooltip_Help_Buttons(ToolTipHelpButtons, btn_files_processed, "Abrir directorio Output-csv")
+    End Sub
+
+    Private Sub Btn_show_logs_MouseEnter(sender As Object, e As EventArgs) Handles btn_show_logs.MouseEnter
+        Tooltip_Help_Buttons(ToolTipHelpButtons, btn_show_logs, "Abrir directorio Logs")
+    End Sub
+
+    Private Sub Btn_show_report_MouseEnter(sender As Object, e As EventArgs) Handles btn_show_report.MouseEnter
+        Tooltip_Help_Buttons(ToolTipHelpButtons, btn_show_report, "Abrir directorio Report")
+    End Sub
+
+    Private Sub Btn_report_cloudpbx_MouseEnter(sender As Object, e As EventArgs) Handles btn_report_cloudpbx.MouseEnter
+        Tooltip_Help_Buttons(ToolTipHelpButtons, btn_fileWatcher, "Generar reporte de un CloudPBX provisionado correctamente")
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs)
+        'My.Computer.Network.DownloadFile("https://i.stack.imgur.com/grqbA.jpg", "C:\Users\cs\Downloads", "anonymous", "")
+        'My.Computer.Network.DownloadFile("https://via.placeholder.com/600/92c952", "C:\Users\cs\Downloads", )
+
+        'Dim fileReader As New WebClient()
+        'Dim fileAddress = "https://via.placeholder.com/150/92c952.jpg"
+        'fileReader.DownloadFile(fileAddress, "C:\Users\cs\Downloads")
+
+
+        'Dim Data As String
+        'Dim Address As String = "https://www.uv.mx/personal/cblazquez/files/2012/01/Sistema-Oseo.pdf"
+        'Dim Client1 As WebClient = New WebClient()
+        'Dim reader As StreamReader = New StreamReader(Client1.OpenRead(Address))
+        'Data = reader.ReadToEnd
+        'Client1.Dispose()
+        'MsgBox(Data.ToString)
+
+
+        My.Computer.Network.DownloadFile("https://via.placeholder.com/600/aa8f2e", "C:\Users\cs\Desktop\foto.jpg", "", "", True, 500, True)
     End Sub
 End Class

@@ -61,7 +61,7 @@ Public Class Frm_Principal
 
         First_Interface()
 
-        CheckForIllegalCrossThreadCalls = False
+        CheckForIllegalCrossThreadCalls = True
 
         FSW = New FileSystemWatcher(InputFolderPath, "*.csv")
         FSW.IncludeSubdirectories = True
@@ -344,8 +344,18 @@ Public Class Frm_Principal
         End While
 
         FileClose(1)
+
+
         lbl_state_cloud.Text = ""
-        ProgressBar1.Value = 0
+
+        If ProgressBar1.ProgressBar.InvokeRequired Then
+            ProgressBar1.ProgressBar.Invoke(Sub() ProgressBar1.Value = 0)
+            My.Application.DoEvents()
+        Else
+            ProgressBar1.Value = 0
+            My.Application.DoEvents()
+        End If
+
         Update_Grid()
     End Sub
 
@@ -396,6 +406,9 @@ Public Class Frm_Principal
                         Dim dt1 As New DataTable
                         dt1 = dt
                         DataGridView1.DataSource = dt1
+                        For j = 0 To DataGridView1.ColumnCount - 1
+                            DataGridView1.Columns(j).SortMode = DataGridViewColumnSortMode.NotSortable
+                        Next
                     End Sub
                     )
 
@@ -1047,10 +1060,10 @@ Public Class Frm_Principal
 
         Dim finalLine As String = "</BroadsoftDocument>"
 
-        ProgressBar1.Minimum = 0
-        ProgressBar1.Value = 0
-        ProgressBar1.Maximum = 100
-
+        'definición por código de los valores de la barra de progreso
+        'ProgressBar1.Minimum = 0
+        'ProgressBar1.Value = 0
+        'ProgressBar1.Maximum = 100
 
         'SearchAllSubDirectories
         Try
@@ -1848,26 +1861,15 @@ Public Class Frm_Principal
 
         FileClose(1)
 
-        'If lbl_state_cloud.InvokeRequired Then
-
-
-        '    lbl_state_cloud.Invoke(
-        '            Sub()
-
-        '                lbl_state_cloud.Text = "Processing XML Files..."
-        '            End Sub
-        '            )
-
-        'Else
-        '    lbl_state_cloud.Text = "Processing XML Files..."
-        '    ProgressBar1.Value = ProgressBar1.Value = 30
-        '    My.Application.DoEvents()
-        'End If
-
-
         lbl_state_cloud.Text = "Processing XML Files..."
-        ProgressBar1.Value = ProgressBar1.Value = 30
-        My.Application.DoEvents()
+
+        If ProgressBar1.ProgressBar.InvokeRequired Then
+            ProgressBar1.ProgressBar.Invoke(Sub() ProgressBar1.Value = 30)
+            My.Application.DoEvents()
+        Else
+            ProgressBar1.Value = 30
+            My.Application.DoEvents()
+        End If
 
         ExecuteShellBulk(multipleInputFile, 1)
         If codError <> 1 Then
@@ -1931,17 +1933,31 @@ Public Class Frm_Principal
             If numberSubroutine = 1 Then
                 codError = 1
                 In_Case_Error4()
+
                 lbl_state_cloud.Text = "Error File ociclient.config"
-                ProgressBar1.Value = ProgressBar1.Maximum
-                My.Application.DoEvents()
+
+                If ProgressBar1.ProgressBar.InvokeRequired Then
+                    ProgressBar1.ProgressBar.Invoke(Sub() ProgressBar1.Value = ProgressBar1.Maximum)
+                    My.Application.DoEvents()
+                Else
+                    ProgressBar1.Value = ProgressBar1.Maximum
+                    My.Application.DoEvents()
+                End If
             End If
             Exit Sub
         End Try
 
         If numberSubroutine = 1 Then
+
             lbl_state_cloud.Text = "Executing App Voxcom..."
-            ProgressBar1.Value = 50
-            My.Application.DoEvents()
+
+            If ProgressBar1.ProgressBar.InvokeRequired Then
+                ProgressBar1.ProgressBar.Invoke(Sub() ProgressBar1.Value = 50)
+                My.Application.DoEvents()
+            Else
+                ProgressBar1.Value = 50
+                My.Application.DoEvents()
+            End If
         End If
 
         Try
@@ -1952,8 +1968,28 @@ Public Class Frm_Principal
             proceso.StartInfo.Arguments = Chr(34) & strArguments & Chr(34)
             proceso.StartInfo.UseShellExecute = True
             proceso.Start()
+            If proceso.HasExited = True And CloseReason.None Or CloseReason.UserClosing Then
+                'MsgBox("el usuario cerro la ventana antes de tiempo")
+                Dim mensaje As String = "El Shell de windows se cerró antes de tiempo"
+                grabaLog(mensaje, 1, 7)
+                If numberSubroutine = 1 Then
+                    codError = 1
+                    In_Case_Error4()
+                    lbl_state_cloud.Text = "Error to the execute startASOCIClient.bat"
+
+                    If ProgressBar1.ProgressBar.InvokeRequired Then
+                        ProgressBar1.ProgressBar.Invoke(Sub() ProgressBar1.Value = ProgressBar1.Maximum)
+                        My.Application.DoEvents()
+                    Else
+                        ProgressBar1.Value = ProgressBar1.Maximum
+                        My.Application.DoEvents()
+                    End If
+                End If
+
+                Exit Sub
+            End If
             proceso.WaitForExit()
-            proceso.Close()
+                proceso.Close()
         Catch ex As Exception
             grabaLog(ex.ToString & strArguments, 1, 7)
             'Me.Cursor = Cursors.Default
@@ -1961,8 +1997,14 @@ Public Class Frm_Principal
                 codError = 1
                 In_Case_Error4()
                 lbl_state_cloud.Text = "Error to the execute startASOCIClient.bat"
-                ProgressBar1.Value = ProgressBar1.Maximum
-                My.Application.DoEvents()
+
+                If ProgressBar1.ProgressBar.InvokeRequired Then
+                    ProgressBar1.ProgressBar.Invoke(Sub() ProgressBar1.Value = ProgressBar1.Maximum)
+                    My.Application.DoEvents()
+                Else
+                    ProgressBar1.Value = ProgressBar1.Maximum
+                    My.Application.DoEvents()
+                End If
             End If
             Exit Sub
         End Try
@@ -1971,11 +2013,28 @@ Public Class Frm_Principal
 
     Private Sub ParseXML_cloudPBX()
 
-        btn_report_cloudpbx.Enabled = True 'Se habilita el boton que permite ver el reporte en cualquier momento
+        'Se habilita el boton que permite ver el reporte en cualquier momento
+
+        If btn_report_cloudpbx.InvokeRequired Then
+            btn_report_cloudpbx.Invoke(Sub() btn_report_cloudpbx.Enabled = True)
+            My.Application.DoEvents()
+        Else
+            btn_report_cloudpbx.Enabled = True
+            My.Application.DoEvents()
+        End If
+
+
+
 
         lbl_state_cloud.Text = "Generating Report..."
-        ProgressBar1.Value = ProgressBar1.Maximum
-        My.Application.DoEvents()
+
+        If ProgressBar1.ProgressBar.InvokeRequired Then
+            ProgressBar1.ProgressBar.Invoke(Sub() ProgressBar1.Value = ProgressBar1.Maximum)
+            My.Application.DoEvents()
+        Else
+            ProgressBar1.Value = ProgressBar1.Maximum
+            My.Application.DoEvents()
+        End If
 
         Dim reader As XmlTextReader
         Dim parseXML As String
@@ -2037,7 +2096,13 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString & "Ha ocurrido un error con el archivo respuesta " & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml", 1, 8)
                 lbl_state_cloud.Text = "Error to generate report"
-                ProgressBar1.Value = ProgressBar1.Maximum
+                If ProgressBar1.ProgressBar.InvokeRequired Then
+                    ProgressBar1.ProgressBar.Invoke(Sub() ProgressBar1.Value = ProgressBar1.Maximum)
+                    My.Application.DoEvents()
+                Else
+                    ProgressBar1.Value = ProgressBar1.Maximum
+                    My.Application.DoEvents()
+                End If
                 Exit Sub
             End Try
         Next
@@ -2045,17 +2110,29 @@ Public Class Frm_Principal
         FileClose(numFile)
 
         lbl_state_cloud.Text = "Finished"
-        ProgressBar1.Value = ProgressBar1.Maximum
-        My.Application.DoEvents()
+        If ProgressBar1.ProgressBar.InvokeRequired Then
+            ProgressBar1.ProgressBar.Invoke(Sub() ProgressBar1.Value = ProgressBar1.Maximum)
+            My.Application.DoEvents()
+        Else
+            ProgressBar1.Value = ProgressBar1.Maximum
+            My.Application.DoEvents()
+        End If
         System.Threading.Thread.Sleep(1000)
     End Sub
 
 
     Public Sub grabaLog(ByVal mensaje As String, ByVal tipo As Integer, ByVal subtipo As Integer)
 
+
         lbl_state_cloud.Text = "Saving log..."
-        ProgressBar1.Value = 100
-        My.Application.DoEvents()
+        If ProgressBar1.ProgressBar.InvokeRequired Then
+            ProgressBar1.ProgressBar.Invoke(Sub() ProgressBar1.Value = 100)
+            My.Application.DoEvents()
+        Else
+            ProgressBar1.Value = 100
+            My.Application.DoEvents()
+        End If
+
 
         Dim fileLog As String = ""
         Dim linerr As String = ""

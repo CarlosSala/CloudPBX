@@ -11,12 +11,12 @@ Public Class Frm_Principal
     Dim gblPathAppl As String
     Dim gblPathLog As String
     Dim gblPathTmpCloud As String
+    Dim gblSession As String
     Dim gblTimePing As Integer = 2000
-    Dim gblSession As String = ""
     Dim indexXML_Cloud As Integer = 0
     Dim codError As Integer = 0
     Dim numFile As Integer = 1
-    Dim foundFile As String
+
 
     Dim domain As String = ""
     Dim phoneNumber As String = ""
@@ -53,9 +53,17 @@ Public Class Frm_Principal
 
     Public WithEvents FSW As FileSystemWatcher
 
+    'Folders
     Dim Desktop As String = My.Computer.FileSystem.SpecialDirectories.Desktop
-    Dim InputFolderPath As String = Desktop & My.Settings.OriginFolder
+    Dim InputFolderPath As String = Desktop & My.Settings.InputFolder
+    Dim ErrorFolderPath As String = Desktop & My.Settings.ErrorFolder
+    Dim LogsFolderPath As String = Desktop & My.Settings.LogsFolder
+    Dim OutputFolderPath As String = Desktop & My.Settings.OutputFolder
+    Dim BrsResponseFolderPath As String = Desktop & My.Settings.BrsResponseFolder
+
+
     Dim FileName As String
+    Dim foundFile As String
 
     Private Sub For1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -78,7 +86,16 @@ Public Class Frm_Principal
 
     Private Sub FSW_Created(sender As Object, e As FileSystemEventArgs) Handles FSW.Created
 
-        btn_report_cloudpbx.Enabled = False
+        If btn_report_cloudpbx.InvokeRequired Then
+
+            btn_report_cloudpbx.BeginInvoke(Sub() btn_report_cloudpbx.Enabled = True)
+            My.Application.DoEvents()
+        Else
+            btn_report_cloudpbx.Enabled = True
+            My.Application.DoEvents()
+        End If
+
+
 
         System.Threading.Thread.Sleep(5000)
 
@@ -121,9 +138,51 @@ Public Class Frm_Principal
 
     End Sub
 
-    Private Sub In_Case_Error()
-        lbl_wait.Visible = False
-        My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[FileValidation_Error]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+    Private Sub In_Case_Error(ByVal type As Integer)
+
+        If lbl_wait.InvokeRequired Then
+
+            lbl_wait.BeginInvoke(Sub() lbl_wait.Visible = False)
+            My.Application.DoEvents()
+        Else
+            lbl_wait.Visible = False
+            My.Application.DoEvents()
+        End If
+
+        If type = 1 Then
+            My.Computer.FileSystem.MoveFile(foundFile, ErrorFolderPath & "\" & FileName & "_[communication error with the server]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+
+        ElseIf type = 2 Then
+            My.Computer.FileSystem.MoveFile(foundFile, ErrorFolderPath & "\" & FileName & "_[error trying to open the file]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+
+        ElseIf type = 3 Then
+            My.Computer.FileSystem.MoveFile(foundFile, ErrorFolderPath & "\" & FileName & "_[file validation error]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+
+        ElseIf type = 4 Then
+            My.Computer.FileSystem.MoveFile(foundFile, ErrorFolderPath & "\" & FileName & "_[database error]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+
+        ElseIf type = 5 Then
+            My.Computer.FileSystem.MoveFile(foundFile, ErrorFolderPath & "\" & FileName & "_[data validation error]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+
+        ElseIf type = 6 Then
+            FileClose(numFile)
+            FileClose(1)
+            My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[Internal error trying to create xml file]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+
+        ElseIf type = 7 Then
+            My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[Internal error trying to delete old responses from Broadsoft]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+
+        ElseIf type = 8 Then
+            My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[Internal error trying to open multipleInputFile]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+
+        ElseIf type = 9 Then
+            My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[Internal error trying to create file ociclient.config]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+
+        ElseIf type = 10 Then
+            My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[Internal error trying to execute startASOCIClient.bat]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+
+        End If
+
     End Sub
 
     Private Sub Validate_File()
@@ -132,7 +191,7 @@ Public Class Frm_Principal
             'MsgBox("Server pinged successfully.")
         Else
             grabaLog("Servidor fuera de Linea, favor verifique la conexion", 3, 3)
-            My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[communication error with the server]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+            In_Case_Error(1)
             Exit Sub
         End If
 
@@ -156,7 +215,7 @@ Public Class Frm_Principal
         Catch ex As Exception
             grabaLog(ex.ToString, 1, 4)
             FileClose(1)
-            In_Case_Error()
+            In_Case_Error(2)
             Exit Sub
         End Try
 
@@ -180,7 +239,7 @@ Public Class Frm_Principal
                 Dim mensaje As String = "El archivo no cuenta con el formato esperado de una matriz cuadrada de 26 columnas separadas por el caracter punto y  coma (;)"
                 grabaLog(mensaje, 1, 4)
                 FileClose(1)
-                In_Case_Error()
+                In_Case_Error(3)
                 Exit Sub
             End If
         End While
@@ -189,17 +248,12 @@ Public Class Frm_Principal
             Dim mensaje As String = "El archivo se encuentra vacío"
             grabaLog(mensaje, 1, 4)
             FileClose(1)
-            In_Case_Error()
+            In_Case_Error(3)
             Exit Sub
         End If
 
         FileClose(1)
         Save_Data_Access()
-    End Sub
-
-    Private Sub In_Case_Error1()
-        lbl_wait.Visible = False
-        My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[Internal_Error]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
     End Sub
 
     Private Sub Save_Data_Access()
@@ -209,7 +263,7 @@ Public Class Frm_Principal
         Catch ex As Exception
             grabaLog(ex.ToString, 1, 4)
             FileClose(1)
-            In_Case_Error1()
+            In_Case_Error(2)
             Exit Sub
         End Try
 
@@ -225,7 +279,7 @@ Public Class Frm_Principal
             grabaLog(ex.ToString, 1, 1)
             FileClose(1)
             Conexion.Close()
-            In_Case_Error1()
+            In_Case_Error(4)
             Exit Sub
         End Try
         Conexion.Close()
@@ -337,7 +391,7 @@ Public Class Frm_Principal
                 grabaLog(ex.ToString, 1, 1)
                 FileClose(1)
                 Conexion.Close()
-                In_Case_Error1()
+                In_Case_Error(4)
                 Exit Sub
             End Try
             Conexion.Close()
@@ -376,7 +430,7 @@ Public Class Frm_Principal
         Catch ex As Exception
             grabaLog(ex.ToString, 1, 1)
             Conexion.Close()
-            In_Case_Error1()
+            In_Case_Error(4)
             Exit Sub
         End Try
         Conexion.Close()
@@ -415,8 +469,8 @@ Public Class Frm_Principal
             'DataGridView1.BeginInvoke(Sub() DataGridView1.Refresh())
 
         Else
-        DataGridView1.DataSource = dt
-        DataGridView1.Refresh()
+            DataGridView1.DataSource = dt
+            DataGridView1.Refresh()
         End If
 
         'Se evita que el usuario pueda reordenar la grilla
@@ -434,10 +488,6 @@ Public Class Frm_Principal
         End If
 
         Validate_Data()
-    End Sub
-
-    Private Sub In_Case_Error2()
-        My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[FileValidation_Error]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
     End Sub
 
     Public Function Validate_Data() As Integer
@@ -818,7 +868,7 @@ Public Class Frm_Principal
         Else
             Dim mensaje As String = "Error de validación de la información contenida en el archivo"
             grabaLog(mensaje, 1, 4)
-            In_Case_Error2()
+            In_Case_Error(5)
             Return 1
             'btn_procesar.Enabled = False
             'MsgBox("revise las celdas")
@@ -826,12 +876,6 @@ Public Class Frm_Principal
     End Function
 
     'Se esta validando nuevamente el codigo se va aqui desde donde se llama al metodo por primera vez
-    Private Sub In_Case_Error3()
-        FileClose(numFile)
-        FileClose(1)
-        My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[Internal_Error]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
-    End Sub
-
     Private Sub CloudPBX()
 
         indexXML_Cloud = 0
@@ -1072,7 +1116,7 @@ Public Class Frm_Principal
             Next
         Catch ex As Exception
             grabaLog(ex.ToString, 1, 2)
-            My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[Internal_Error]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+            In_Case_Error(7)
             Exit Sub
         End Try
 
@@ -1087,7 +1131,7 @@ Public Class Frm_Principal
         Catch ex As Exception
             grabaLog(ex.ToString, 1, 5)
             FileClose(1)
-            My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[Internal_Error]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+            In_Case_Error(8)
             Exit Sub
         End Try
 
@@ -1112,7 +1156,7 @@ Public Class Frm_Principal
         Catch ex As Exception
             grabaLog(ex.ToString, 1, 2)
             'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-            In_Case_Error3()
+            In_Case_Error(6)
             Exit Sub
         End Try
         estadoArchivo = 1
@@ -1140,7 +1184,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error3()
+                In_Case_Error(6)
                 Exit Sub
             End Try
             estadoArchivo = 2
@@ -1174,7 +1218,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error3()
+                In_Case_Error(6)
                 Exit Sub
             End Try
             estadoArchivo = 3
@@ -1225,7 +1269,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error3()
+                In_Case_Error(6)
                 Exit Sub
             End Try
             estadoArchivo = 4
@@ -1257,7 +1301,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error3()
+                In_Case_Error(6)
                 Exit Sub
             End Try
             estadoArchivo = 5
@@ -1336,7 +1380,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error3()
+                In_Case_Error(6)
                 Exit Sub
             End Try
             estadoArchivo = 7
@@ -1370,7 +1414,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error3()
+                In_Case_Error(6)
                 Exit Sub
             End Try
             estadoArchivo = 8
@@ -1417,7 +1461,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error3()
+                In_Case_Error(6)
                 Exit Sub
             End Try
             estadoArchivo = 9
@@ -1451,7 +1495,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error3()
+                In_Case_Error(6)
                 Exit Sub
             End Try
             estadoArchivo = 10
@@ -1521,7 +1565,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error3()
+                In_Case_Error(6)
                 Exit Sub
             End Try
             estadoArchivo = 11
@@ -1560,7 +1604,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error2()
+                In_Case_Error(6)
                 Exit Sub
             End Try
             estadoArchivo = 12
@@ -1610,7 +1654,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error2()
+                In_Case_Error(6)
                 Exit Sub
             End Try
             estadoArchivo = 13
@@ -1650,7 +1694,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error2()
+                In_Case_Error(6)
                 Exit Sub
             End Try
             estadoArchivo = 14
@@ -1740,7 +1784,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error2()
+                In_Case_Error(6)
                 Exit Sub
             End Try
             estadoArchivo = 15
@@ -1777,7 +1821,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error2()
+                In_Case_Error(6)
                 Exit Sub
             End Try
             estadoArchivo = 16
@@ -1811,7 +1855,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error2()
+                In_Case_Error(6)
                 Exit Sub
             End Try
             estadoArchivo = 17
@@ -1854,14 +1898,20 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error2()
+                In_Case_Error(6)
                 Exit Sub
             End Try
         End If
 
         FileClose(1)
 
-        lbl_state_cloud.Text = "Processing XML Files..."
+        If lbl_state_cloud.GetCurrentParent.InvokeRequired Then
+            lbl_state_cloud.GetCurrentParent.Invoke(Sub() lbl_state_cloud.Text = "Processing XML Files...")
+            My.Application.DoEvents()
+        Else
+            lbl_state_cloud.Text = "Processing XML Files..."
+            My.Application.DoEvents()
+        End If
 
         If ProgressBar1.ProgressBar.InvokeRequired Then
             ProgressBar1.ProgressBar.Invoke(Sub() ProgressBar1.Value = 30)
@@ -1874,17 +1924,13 @@ Public Class Frm_Principal
         ExecuteShellBulk(multipleInputFile, 1)
         If codError <> 1 Then
             grabaLog("Se procesó correctamente el archivo " & FileName.ToString, 2, 4)
-            My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\output-csv\" & FileName & "_[SuccessfullyProcessed]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+            My.Computer.FileSystem.MoveFile(foundFile, OutputFolderPath & "\" & FileName & "_[SuccessfullyProcessed]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
             lbl_state_cloud.Text = "Finished"
             ProgressBar1.Value = ProgressBar1.Maximum
             My.Application.DoEvents()
             ParseXML_cloudPBX()
         End If
 
-    End Sub
-
-    Private Sub In_Case_Error4()
-        My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[Internal_Error]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
     End Sub
 
     Public Sub ExecuteShellBulk(ByVal fileMIF As String, ByVal numberSubroutine As Integer)
@@ -1932,9 +1978,15 @@ Public Class Frm_Principal
             'Me.Cursor = Cursors.Default
             If numberSubroutine = 1 Then
                 codError = 1
-                In_Case_Error4()
+                In_Case_Error(9)
 
-                lbl_state_cloud.Text = "Error File ociclient.config"
+                If lbl_state_cloud.GetCurrentParent.InvokeRequired Then
+                    lbl_state_cloud.GetCurrentParent.Invoke(Sub() lbl_state_cloud.Text = "Error File ociclient.config")
+                    My.Application.DoEvents()
+                Else
+                    lbl_state_cloud.Text = "Error File ociclient.config"
+                    My.Application.DoEvents()
+                End If
 
                 If ProgressBar1.ProgressBar.InvokeRequired Then
                     ProgressBar1.ProgressBar.Invoke(Sub() ProgressBar1.Value = ProgressBar1.Maximum)
@@ -1949,7 +2001,14 @@ Public Class Frm_Principal
 
         If numberSubroutine = 1 Then
 
-            lbl_state_cloud.Text = "Executing App Voxcom..."
+            If lbl_state_cloud.GetCurrentParent.InvokeRequired Then
+                lbl_state_cloud.GetCurrentParent.Invoke(Sub() lbl_state_cloud.Text = "Executing App Voxcom...")
+                My.Application.DoEvents()
+            Else
+                lbl_state_cloud.Text = "Executing App Voxcom..."
+                My.Application.DoEvents()
+            End If
+
 
             If ProgressBar1.ProgressBar.InvokeRequired Then
                 ProgressBar1.ProgressBar.Invoke(Sub() ProgressBar1.Value = 50)
@@ -1968,13 +2027,17 @@ Public Class Frm_Principal
             proceso.StartInfo.Arguments = Chr(34) & strArguments & Chr(34)
             proceso.StartInfo.UseShellExecute = True
             proceso.Start()
-            If proceso.HasExited = True And CloseReason.None Or CloseReason.UserClosing Then
+            proceso.WaitForExit()
+
+
+            If proceso.HasExited = True And proceso.ExitCode <> 0 Then
                 'MsgBox("el usuario cerro la ventana antes de tiempo")
                 Dim mensaje As String = "El Shell de windows se cerró antes de tiempo"
                 grabaLog(mensaje, 1, 7)
+
                 If numberSubroutine = 1 Then
                     codError = 1
-                    In_Case_Error4()
+                    In_Case_Error(10)
                     lbl_state_cloud.Text = "Error to the execute startASOCIClient.bat"
 
                     If ProgressBar1.ProgressBar.InvokeRequired Then
@@ -1988,14 +2051,19 @@ Public Class Frm_Principal
 
                 Exit Sub
             End If
-            proceso.WaitForExit()
-                proceso.Close()
+
+
+            proceso.Close()
+
+            'proceso.ExitCode
+
+
+            'MsgBox(proceso.ExitCode.ToString)
         Catch ex As Exception
             grabaLog(ex.ToString & strArguments, 1, 7)
-            'Me.Cursor = Cursors.Default
             If numberSubroutine = 1 Then
                 codError = 1
-                In_Case_Error4()
+                In_Case_Error(10)
                 lbl_state_cloud.Text = "Error to the execute startASOCIClient.bat"
 
                 If ProgressBar1.ProgressBar.InvokeRequired Then
@@ -2024,8 +2092,6 @@ Public Class Frm_Principal
         End If
 
 
-
-
         lbl_state_cloud.Text = "Generating Report..."
 
         If ProgressBar1.ProgressBar.InvokeRequired Then
@@ -2046,7 +2112,7 @@ Public Class Frm_Principal
         Dim name() As String = Split(FileName, ".")
 
 
-        FileOpen(numFile, Desktop & "\brs-response\" & name(0) & ".report", OpenMode.Output, OpenAccess.Write)
+        FileOpen(numFile, BrsResponseFolderPath & "\" & name(0) & ".report", OpenMode.Output, OpenAccess.Write)
 
         For num = 1 To indexXML_Cloud
             Try
@@ -2180,7 +2246,7 @@ Public Class Frm_Principal
         'fileLog = gblPathLog & "\LOG_" & DateAndTime.DateString & ".log"
         'fileLog = Desktop & "\log\" & FileName & "_" & DateAndTime.DateString & ".log"
 
-        fileLog = Desktop & "\log\" & FileName & "_" & Format(Now(), "dd-MM-yyyy_hhmmss") & ".log"
+        fileLog = LogsFolderPath & "\" & FileName & "_" & Format(Now(), "dd-MM-yyyy_hhmmss") & ".log"
 
         'MsgBox(fileLog.ToString)
 
@@ -2250,7 +2316,7 @@ Public Class Frm_Principal
     End Sub
 
     Private Sub Btn_show_logs_Click(sender As Object, e As EventArgs) Handles btn_show_logs.Click
-        Process.Start("explorer.exe", Desktop & "\log")
+        Process.Start("explorer.exe", Desktop & "\logs")
     End Sub
 
     Private Sub Btn_show_report_Click(sender As Object, e As EventArgs) Handles btn_show_report.Click
@@ -2303,6 +2369,6 @@ Public Class Frm_Principal
         'MsgBox(Data.ToString)
 
 
-        My.Computer.Network.DownloadFile("https://via.placeholder.com/600/aa8f2e", "C:\Users\cs\Desktop\foto.jpg", "", "", True, 500, True)
+        'My.Computer.Network.DownloadFile("https://via.placeholder.com/600/aa8f2e", "C:\Users\cs\Desktop\foto.jpg", "", "", True, 500, True)
     End Sub
 End Class

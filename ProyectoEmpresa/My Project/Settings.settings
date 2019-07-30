@@ -47,11 +47,20 @@
     <Setting Name="PathTmpUserLicense" Type="System.String" Scope="User">
       <Value Profile="(Default)">\voxcom\tmp_userLicense</Value>
     </Setting>
-    <Setting Name="OriginFolder" Type="System.String" Scope="User">
+    <Setting Name="InputFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)">\input-csv</Value>
     </Setting>
     <Setting Name="ErrorFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)">\error</Value>
+    </Setting>
+    <Setting Name="LogsFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\logs</Value>
+    </Setting>
+    <Setting Name="OutputFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\output-csv</Value>
+    </Setting>
+    <Setting Name="BrsResponseFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\brs-response</Value>
     </Setting>
   </Settings>
 </SettingsFile>

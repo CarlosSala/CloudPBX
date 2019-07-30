@@ -15,7 +15,7 @@ Option Explicit On
 Namespace My
     
     <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
-     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.1.0.0"),  _
+     Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.2.0.0"),  _
      Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
     Partial Friend NotInheritable Class MySettings
         Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -237,12 +237,12 @@ Namespace My
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.Configuration.DefaultSettingValueAttribute("\input-csv")>  _
-        Public Property OriginFolder() As String
+        Public Property InputFolder() As String
             Get
-                Return CType(Me("OriginFolder"),String)
+                Return CType(Me("InputFolder"),String)
             End Get
             Set
-                Me("OriginFolder") = value
+                Me("InputFolder") = value
             End Set
         End Property
         
@@ -255,6 +255,42 @@ Namespace My
             End Get
             Set
                 Me("ErrorFolder") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\logs")>  _
+        Public Property LogsFolder() As String
+            Get
+                Return CType(Me("LogsFolder"),String)
+            End Get
+            Set
+                Me("LogsFolder") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\output-csv")>  _
+        Public Property OutputFolder() As String
+            Get
+                Return CType(Me("OutputFolder"),String)
+            End Get
+            Set
+                Me("OutputFolder") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("\brs-response")>  _
+        Public Property BrsResponseFolder() As String
+            Get
+                Return CType(Me("BrsResponseFolder"),String)
+            End Get
+            Set
+                Me("BrsResponseFolder") = value
             End Set
         End Property
     End Class

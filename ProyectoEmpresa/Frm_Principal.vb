@@ -82,6 +82,7 @@ Public Class Frm_Principal
         btn_browse_CSV.Enabled = True
         lbl_wait.Visible = False
         btn_report_cloudpbx.Enabled = False
+        btn_show_report.Enabled = False
         btn_procesar.Enabled = False
         btn_validate_data.Enabled = False
         lbl_state_cloud.Text = ""
@@ -1968,13 +1969,15 @@ Public Class Frm_Principal
 
     Private Sub ParseXML_cloudPBX()
 
+        Me.Cursor = Cursors.WaitCursor
         lbl_state_cloud.Text = "Generating Report..."
         ProgressBar1.Value = 75
         My.Application.DoEvents()
 
-        System.Threading.Thread.Sleep(2000)
+        System.Threading.Thread.Sleep(500)
 
         btn_report_cloudpbx.Enabled = True 'Se habilita el boton que permite ver el reporte en cualquier momento
+        btn_show_report.Enabled = True
 
         Dim reader As XmlTextReader
         Dim parseXML As String
@@ -1982,8 +1985,16 @@ Public Class Frm_Principal
         Dim lineReport As String = ""
 
         numFile = 4
+        Try
+            FileOpen(numFile, My.Computer.FileSystem.SpecialDirectories.Desktop & "\" & group_id & "_report.txt", OpenMode.Output, OpenAccess.Write)
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("Se produjo un error al crear el archivo " & My.Computer.FileSystem.SpecialDirectories.Desktop & "\" & group_id & "_report.txt" & " que genera el reporte", MsgBoxStyle.Exclamation, "Error al crear archivo")
+            FileClose(numFile)
+            Me.Cursor = Cursors.Default
+            Exit Sub
+        End Try
 
-        FileOpen(numFile, My.Computer.FileSystem.SpecialDirectories.Desktop & "\" & group_id & "_report.txt", OpenMode.Output, OpenAccess.Write)
 
         For num = 1 To indexXML_Cloud
             Try
@@ -2054,6 +2065,7 @@ Public Class Frm_Principal
         My.Application.DoEvents()
 
         Process.Start("explorer.exe", My.Computer.FileSystem.SpecialDirectories.Desktop & "\" & group_id & "_report.txt")
+
     End Sub
 
 
@@ -3584,6 +3596,9 @@ Public Class Frm_Principal
         Tooltip_Help_Buttons(ToolTipHelpButtons, btn_report_cloudpbx, "Se genera un informe del último CloudPBX procesado")
     End Sub
 
+    Private Sub Btn_show_report_MouseEnter(sender As Object, e As EventArgs) Handles btn_show_report.MouseEnter
+        Tooltip_Help_Buttons(ToolTipHelpButtons, btn_show_report, "Se muestra el reporte del último CloudPBX procesado")
+    End Sub
     Private Sub Btn_validate_data_MouseEnter(sender As Object, e As EventArgs) Handles btn_validate_data.MouseEnter
         Tooltip_Help_Buttons(ToolTipHelpButtons, btn_validate_data, "Se valida localmente la información a procesar")
     End Sub
@@ -3646,7 +3661,15 @@ Public Class Frm_Principal
         'MsgBox(DataGridView2.CurrentCell.Clone().ToString)
     End Sub
 
-    Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
-        Process.Start("explorer.exe", My.Computer.FileSystem.SpecialDirectories.Desktop & "\" & group_id & "_report.txt")
+    Private Sub Btn_show_report_Click(sender As Object, e As EventArgs) Handles btn_show_report.Click
+
+        If File.Exists(My.Computer.FileSystem.SpecialDirectories.Desktop & "\" & group_id & "_report.txt") Then
+            Process.Start("explorer.exe", My.Computer.FileSystem.SpecialDirectories.Desktop & "\" & group_id & "_report.txt")
+        Else
+            Process.Start("explorer.exe", My.Computer.FileSystem.SpecialDirectories.Desktop)
+        End If
+
     End Sub
+
+
 End Class

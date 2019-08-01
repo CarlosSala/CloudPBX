@@ -68,6 +68,7 @@ Partial Class Frm_Principal
         Me.Button4 = New System.Windows.Forms.Button()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -98,6 +99,7 @@ Partial Class Frm_Principal
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.Button1)
         Me.TabPage1.Controls.Add(Me.btn_validate_data)
         Me.TabPage1.Controls.Add(Me.StatusStrip1)
         Me.TabPage1.Controls.Add(Me.btn_report_cloudpbx)
@@ -153,7 +155,7 @@ Partial Class Frm_Principal
         Me.btn_report_cloudpbx.Name = "btn_report_cloudpbx"
         Me.btn_report_cloudpbx.Size = New System.Drawing.Size(132, 75)
         Me.btn_report_cloudpbx.TabIndex = 4
-        Me.btn_report_cloudpbx.Text = "Show Report"
+        Me.btn_report_cloudpbx.Text = "Generate Report"
         Me.btn_report_cloudpbx.UseVisualStyleBackColor = True
         '
         'lbl_wait
@@ -512,6 +514,18 @@ Partial Class Frm_Principal
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
         '
+        'Button1
+        '
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Button1.Location = New System.Drawing.Point(282, 390)
+        Me.Button1.MaximumSize = New System.Drawing.Size(132, 75)
+        Me.Button1.MinimumSize = New System.Drawing.Size(132, 75)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(132, 75)
+        Me.Button1.TabIndex = 54
+        Me.Button1.Text = "Show Report"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'Frm_Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -588,4 +602,5 @@ Partial Class Frm_Principal
     Friend WithEvents Column3 As DataGridViewButtonColumn
     Friend WithEvents Column4 As DataGridViewButtonColumn
     Friend WithEvents btn_process_userLicense As Button
+    Friend WithEvents Button1 As Button
 End Class

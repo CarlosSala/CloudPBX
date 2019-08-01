@@ -1968,35 +1968,22 @@ Public Class Frm_Principal
 
     Private Sub ParseXML_cloudPBX()
 
-        btn_report_cloudpbx.Enabled = True 'Se habilita el boton que permite ver el reporte en cualquier momento
-
         lbl_state_cloud.Text = "Generating Report..."
         ProgressBar1.Value = 75
         My.Application.DoEvents()
 
-        Dim comando As New OleDbCommand
-        comando.Connection = Conexion
-        Dim sql As String = "delete * from brs_cloudpbx_response"
-        comando.CommandText = sql
+        System.Threading.Thread.Sleep(2000)
 
-        Try
-            Conexion.Open()
-            comando.ExecuteNonQuery()
-        Catch ex As Exception
-            MsgBox(ex.ToString)
-            MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_cloudpbx_response'", MsgBoxStyle.Exclamation, "Error al generar reporte")
-            lbl_state_cloud.Text = "Error with Database"
-            ProgressBar1.Value = ProgressBar1.Maximum
-            Me.Cursor = Cursors.Default
-            In_Case_Error2()
-            Conexion.Close()
-            Exit Sub
-        End Try
-        Conexion.Close()
+        btn_report_cloudpbx.Enabled = True 'Se habilita el boton que permite ver el reporte en cualquier momento
 
         Dim reader As XmlTextReader
         Dim parseXML As String
         Dim response As String = ""
+        Dim lineReport As String = ""
+
+        numFile = 4
+
+        FileOpen(numFile, My.Computer.FileSystem.SpecialDirectories.Desktop & "\" & group_id & "_report.txt", OpenMode.Output, OpenAccess.Write)
 
         For num = 1 To indexXML_Cloud
             Try
@@ -2039,25 +2026,8 @@ Public Class Frm_Principal
 
                 If response.Length > 0 Then
                     response += " [File:" & num & "_cloudpbx_response.xml]"
-                    Dim instruction As String = "insert into brs_cloudpbx_response (response) values ( '" & response & "')"
-                    'Crear un comando
-                    Dim Comando1 As OleDbCommand = Conexion.CreateCommand()
-                    Comando1.CommandText = instruction
-                    Try
-                        Conexion.Open()
-                        Comando1.ExecuteNonQuery()
-                    Catch ex As Exception
-                        MsgBox(ex.ToString)
-                        MsgBox("Error al acceder a la base de datos e intentar agregar registros a la tabla 'brs_cloudpbx_response'", MsgBoxStyle.Exclamation, "Error to the generate report")
-                        lbl_state_cloud.Text = "Error with Database"
-                        ProgressBar1.Value = ProgressBar1.Maximum
-                        Me.Cursor = Cursors.Default
-                        In_Case_Error2()
-                        Conexion.Close()
-                        Exit Sub
-                    End Try
-                    Conexion.Close()
-                    response = ""
+                    lineReport = response
+                    WriteLine(numFile, lineReport.ToCharArray)
                 End If
 
             Catch ex As Exception
@@ -2072,10 +2042,7 @@ Public Class Frm_Principal
             End Try
         Next
 
-        Dim FMP As New Frm_Report_Cloudpbx
-        FMP.Show()
-        FMP.BringToFront()
-
+        FileClose(numFile)
 
         btn_procesar.Enabled = False
         btn_browse_CSV.Enabled = True
@@ -2085,7 +2052,10 @@ Public Class Frm_Principal
         lbl_state_cloud.Text = "Finished"
         ProgressBar1.Value = ProgressBar1.Maximum
         My.Application.DoEvents()
+
+        Process.Start("explorer.exe", My.Computer.FileSystem.SpecialDirectories.Desktop & "\" & group_id & "_report.txt")
     End Sub
+
 
     'Public Sub grabaLog(ByVal tipo As Integer, ByVal subtipo As Integer, ByVal mensaje As String)
     '    Dim fileLog As String = ""
@@ -3676,4 +3646,7 @@ Public Class Frm_Principal
         'MsgBox(DataGridView2.CurrentCell.Clone().ToString)
     End Sub
 
+    Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
+        Process.Start("explorer.exe", My.Computer.FileSystem.SpecialDirectories.Desktop & "\" & group_id & "_report.txt")
+    End Sub
 End Class

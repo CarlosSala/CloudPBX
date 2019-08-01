@@ -102,12 +102,6 @@
     <Compile Include="Frm_Login.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Frm_Report_Cloudpbx.Designer.vb">
-      <DependentUpon>Frm_Report_Cloudpbx.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Frm_Report_Cloudpbx.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Frm_Report_Proxy.Designer.vb">
       <DependentUpon>Frm_Report_Proxy.vb</DependentUpon>
     </Compile>
@@ -137,9 +131,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_Principal.resx">
       <DependentUpon>Frm_Principal.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Frm_Report_Cloudpbx.resx">
-      <DependentUpon>Frm_Report_Cloudpbx.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Frm_Report_Proxy.resx">
       <DependentUpon>Frm_Report_Proxy.vb</DependentUpon>

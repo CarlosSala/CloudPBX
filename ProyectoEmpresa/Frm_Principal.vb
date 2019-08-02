@@ -1985,6 +1985,7 @@ Public Class Frm_Principal
         Dim lineReport As String = ""
 
         numFile = 4
+
         Try
             FileOpen(numFile, My.Computer.FileSystem.SpecialDirectories.Desktop & "\" & group_id & "_report.txt", OpenMode.Output, OpenAccess.Write)
         Catch ex As Exception

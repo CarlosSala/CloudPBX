@@ -2131,7 +2131,6 @@ Public Class Frm_Principal
 
         Dim name() As String = Split(FileName, ".")
 
-
         FileOpen(numFile, BrsResponseFolderPath & "\" & name(0) & ".report", OpenMode.Output, OpenAccess.Write)
 
         For num = 1 To indexXML_Cloud

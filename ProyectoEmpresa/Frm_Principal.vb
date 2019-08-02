@@ -1982,7 +1982,10 @@ Public Class Frm_Principal
         Dim reader As XmlTextReader
         Dim parseXML As String
         Dim response As String = ""
-        Dim lineReport As String = ""
+        Dim reportLine As String = ""
+        Dim infoLine As String = ""
+        Dim num As Integer = 0
+
 
         numFile = 4
 
@@ -2038,8 +2041,8 @@ Public Class Frm_Principal
 
                 If response.Length > 0 Then
                     response += " [File:" & num & "_cloudpbx_response.xml]"
-                    lineReport = response
-                    WriteLine(numFile, lineReport.ToCharArray)
+                    reportLine = response
+                    WriteLine(numFile, reportLine.ToCharArray)
                 End If
 
             Catch ex As Exception
@@ -2053,6 +2056,10 @@ Public Class Frm_Principal
                 Exit Sub
             End Try
         Next
+
+        infoLine = "Se enviaron " & indexXML_Cloud & " archivos " & vbNewLine & "Se recibieron " & num - 1 & " archivos"
+
+        WriteLine(numFile, infoLine.ToCharArray)
 
         FileClose(numFile)
 

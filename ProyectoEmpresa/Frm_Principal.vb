@@ -1208,7 +1208,22 @@ Public Class Frm_Principal
                 WriteLine(numFile, d_6.ToCharArray)
                 d_7 = "<defaultDomain>" & domain & "</defaultDomain>"
                 WriteLine(numFile, d_7.ToCharArray)
+
+                Dim limit As Integer = DataGridView1.Rows.Count
+
+                If limit < 25 Then
+                    d_8 = "<userLimit>25</userLimit>"
+                ElseIf limit >= 25 And limit < 50 Then
+                    d_8 = "<userLimit>50</userLimit>"
+                ElseIf limit >= 50 And limit < 100 Then
+                    d_8 = "<userLimit>100</userLimit>"
+                ElseIf limit >= 100 And limit < 200 Then
+                    d_8 = "<userLimit>200</userLimit>"
+                Else
+                    d_8 = "<userLimit>1000</userLimit>"
+                End If
                 WriteLine(numFile, d_8.ToCharArray)
+
                 d_9 = "<groupName>" & group_name & "</groupName>"
                 WriteLine(numFile, d_9.ToCharArray)
                 d_10 = "<callingLineIdName>" & group_name & "</callingLineIdName>"

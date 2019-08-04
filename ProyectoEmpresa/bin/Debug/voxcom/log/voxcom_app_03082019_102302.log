@@ -1,0 +1,19 @@
+**** Version Voxcom --> 2019.08.03 22:23:03:319 CLT
+**** Start OCIClient initialization --> 2019.08.03 22:23:03:328 CLT
+**** Sending request at: 2019.08.03 22:23:03:369 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 34 ms)
+AuthenticationRequest command successful
+
+**** Sending request at: 2019.08.03 22:23:03:406 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 40 ms)
+LoginRequest command successful
+
+********* Starting Run #: 1 in: 3 ms *********
+
+Run #: 1 -- Statistics ========================>
+Total Requests: 0
+Total Time for all requests: 0 ms

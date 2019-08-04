@@ -3,6 +3,6 @@
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
 <command xsi:type="ServiceProviderDnAddListRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
-<phoneNumber>222360347</phoneNumber>
+<phoneNumber>412470070</phoneNumber>
 </command>
 </BroadsoftDocument>

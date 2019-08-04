@@ -1126,29 +1126,62 @@ Public Class Frm_Principal
             estadoArchivo = 2
         End If
 
+        ''XML PARA CREAR NUMERACIÓN------------------------------------------------------------------------------
+        'If estadoArchivo = 2 Then
+        '    Try
+        '        numFile = 2
+        '        indexXML_Cloud += 1
+        '        fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateNumbers_request.xml"
+        '        fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+        '        FileOpen(numFile, fileIXML, OpenMode.Output)
+        '        WriteLine(numFile, line1.ToCharArray)
+        '        WriteLine(numFile, line2.ToCharArray)
+        '        WriteLine(numFile, line3.ToCharArray)
+        '        WriteLine(numFile, c_4.ToCharArray)
+        '        WriteLine(numFile, c_5.ToCharArray)
+        '        For j = 0 To DataGridView1.Rows.Count - 2
+        '            phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+        '            c_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
+        '            WriteLine(numFile, c_6.ToCharArray)
+        '        Next
+        '        WriteLine(numFile, c_7.ToCharArray)
+        '        WriteLine(numFile, finalLine.ToCharArray)
+        '        FileClose(numFile)
+        '        lineConfigFile = fileIXML & ";" & fileOXML
+        '        WriteLine(1, lineConfigFile.ToCharArray)
+        '    Catch ex As Exception
+        '        MsgBox(ex.ToString)
+        '        MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
+        '        In_Case_Error1()
+        '        Exit Sub
+        '    End Try
+        '    estadoArchivo = 3
+        'End If
+
+
         'XML PARA CREAR NUMERACIÓN------------------------------------------------------------------------------
         If estadoArchivo = 2 Then
             Try
-                numFile = 2
-                indexXML_Cloud += 1
-                fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateNumbers_request.xml"
-                fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
-                FileOpen(numFile, fileIXML, OpenMode.Output)
-                WriteLine(numFile, line1.ToCharArray)
-                WriteLine(numFile, line2.ToCharArray)
-                WriteLine(numFile, line3.ToCharArray)
-                WriteLine(numFile, c_4.ToCharArray)
-                WriteLine(numFile, c_5.ToCharArray)
                 For j = 0 To DataGridView1.Rows.Count - 2
+                    numFile = 2
+                    indexXML_Cloud += 1
+                    fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateNumbers_request.xml"
+                    fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+                    FileOpen(numFile, fileIXML, OpenMode.Output)
+                    WriteLine(numFile, line1.ToCharArray)
+                    WriteLine(numFile, line2.ToCharArray)
+                    WriteLine(numFile, line3.ToCharArray)
+                    WriteLine(numFile, c_4.ToCharArray)
+                    WriteLine(numFile, c_5.ToCharArray)
                     phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
                     c_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
                     WriteLine(numFile, c_6.ToCharArray)
+                    WriteLine(numFile, c_7.ToCharArray)
+                    WriteLine(numFile, finalLine.ToCharArray)
+                    FileClose(numFile)
+                    lineConfigFile = fileIXML & ";" & fileOXML
+                    WriteLine(1, lineConfigFile.ToCharArray)
                 Next
-                WriteLine(numFile, c_7.ToCharArray)
-                WriteLine(numFile, finalLine.ToCharArray)
-                FileClose(numFile)
-                lineConfigFile = fileIXML & ";" & fileOXML
-                WriteLine(1, lineConfigFile.ToCharArray)
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
@@ -1320,31 +1353,65 @@ Public Class Frm_Principal
             estadoArchivo = 7
         End If
 
+        ''XML PARA ASIGNAR LA NUMERACIÓN AL GRUPO----------------------------------------------------------------------------------------
+        'If estadoArchivo = 7 Then
+        '    Try
+        '        numFile = 2
+        '        indexXML_Cloud += 1
+        '        fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignNumber_request.xml"
+        '        fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+        '        FileOpen(numFile, fileIXML, OpenMode.Output)
+        '        WriteLine(numFile, line1.ToCharArray)
+        '        WriteLine(numFile, line2.ToCharArray)
+        '        WriteLine(numFile, line3.ToCharArray)
+        '        WriteLine(numFile, f_4.ToCharArray)
+        '        WriteLine(numFile, f_5.ToCharArray)
+        '        f_6 = "<groupId>" & group_id & "</groupId>"
+        '        WriteLine(numFile, f_6.ToCharArray)
+        '        For j = 0 To DataGridView1.Rows.Count - 2
+        '            phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+        '            f_7 = "<phoneNumber>+56-" & phoneNumber & "</phoneNumber>"
+        '            WriteLine(numFile, f_7.ToCharArray)
+        '        Next
+        '        WriteLine(numFile, f_8.ToCharArray)
+        '        WriteLine(numFile, finalLine.ToCharArray)
+        '        FileClose(numFile)
+        '        lineConfigFile = fileIXML & ";" & fileOXML
+        '        WriteLine(1, lineConfigFile.ToCharArray)
+        '    Catch ex As Exception
+        '        MsgBox(ex.ToString)
+        '        MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
+        '        In_Case_Error1()
+        '        Exit Sub
+        '    End Try
+        '    estadoArchivo = 8
+        'End If
+
         'XML PARA ASIGNAR LA NUMERACIÓN AL GRUPO----------------------------------------------------------------------------------------
         If estadoArchivo = 7 Then
             Try
-                numFile = 2
-                indexXML_Cloud += 1
-                fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignNumber_request.xml"
-                fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
-                FileOpen(numFile, fileIXML, OpenMode.Output)
-                WriteLine(numFile, line1.ToCharArray)
-                WriteLine(numFile, line2.ToCharArray)
-                WriteLine(numFile, line3.ToCharArray)
-                WriteLine(numFile, f_4.ToCharArray)
-                WriteLine(numFile, f_5.ToCharArray)
-                f_6 = "<groupId>" & group_id & "</groupId>"
-                WriteLine(numFile, f_6.ToCharArray)
                 For j = 0 To DataGridView1.Rows.Count - 2
+                    numFile = 2
+                    indexXML_Cloud += 1
+                    fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignNumber_request.xml"
+                    fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+                    FileOpen(numFile, fileIXML, OpenMode.Output)
+                    WriteLine(numFile, line1.ToCharArray)
+                    WriteLine(numFile, line2.ToCharArray)
+                    WriteLine(numFile, line3.ToCharArray)
+                    WriteLine(numFile, f_4.ToCharArray)
+                    WriteLine(numFile, f_5.ToCharArray)
+                    f_6 = "<groupId>" & group_id & "</groupId>"
+                    WriteLine(numFile, f_6.ToCharArray)
                     phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
                     f_7 = "<phoneNumber>+56-" & phoneNumber & "</phoneNumber>"
                     WriteLine(numFile, f_7.ToCharArray)
+                    WriteLine(numFile, f_8.ToCharArray)
+                    WriteLine(numFile, finalLine.ToCharArray)
+                    FileClose(numFile)
+                    lineConfigFile = fileIXML & ";" & fileOXML
+                    WriteLine(1, lineConfigFile.ToCharArray)
                 Next
-                WriteLine(numFile, f_8.ToCharArray)
-                WriteLine(numFile, finalLine.ToCharArray)
-                FileClose(numFile)
-                lineConfigFile = fileIXML & ";" & fileOXML
-                WriteLine(1, lineConfigFile.ToCharArray)
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")

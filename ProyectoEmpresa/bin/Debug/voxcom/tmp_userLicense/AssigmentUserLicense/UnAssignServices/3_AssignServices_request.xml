@@ -2,7 +2,7 @@
 <BroadsoftDocument protocol="OCI" xmlns="C">
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
 <command xsi:type="UserServiceUnassignListRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-<userId>222360347@felipe.cl</userId>
-<servicePackName>Pack_Basico</servicePackName>
+<userId>232781883@felipe.cl</userId>
+<servicePackName>Pack_Avanzado</servicePackName>
 </command>
 </BroadsoftDocument>

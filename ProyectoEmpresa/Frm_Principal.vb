@@ -1,7 +1,7 @@
 ﻿Imports System.Xml
 Imports System.IO
 Imports System.Data.OleDb
-
+Imports System.Text.RegularExpressions
 Public Class Frm_Principal
 
     Private ConexionString As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" & My.Application.Info.DirectoryPath & My.Settings.Database
@@ -423,9 +423,26 @@ Public Class Frm_Principal
         'ocp_special2 sea mayor a un largo 8
         'ocp_premium1 sea mayor a un largo 8
 
+        'Dim mc As MatchCollection = Regex.Matches(domain, pattern)
+        'Dim m As Match
+
+        'Dim contador As Integer = 0
+
+        'For Each m In mc
+        '    contador += 1
+        '    m.Value, m.Index
+        'Next m
+
+        ''Si la cantidad de matches es igual a al largo del dominio
+        'If domain.Length = mc.Count Then
+
+
         'validar dominio----------------------------------------------------------------------------------------------------
         domain = DataGridView1.Rows(0).Cells(0).Value.ToString.ToLower 'domain = dt.Rows(0)(0).ToString.ToLower
-        If domain.Length > 3 Then
+
+        'El patron devuelve true si hay match con la expresion completa del pattern
+        Dim pattern As String = "\A[a-no-zA-NO-Z0-9]{4,76}(.cl){1}\Z"
+        If Regex.IsMatch(domain, pattern) Then
             DataGridView1.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(0, 247, 0)
         Else
             DataGridView1.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(254, 84, 97)
@@ -435,7 +452,9 @@ Public Class Frm_Principal
         'validar numeración-------------------------------------------------------------------------------------------------
         For j = 0 To DataGridView1.Rows.Count - 2  'dt.Rows.Count - 1
             phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
-            If phoneNumber.Length > 8 Then
+
+            pattern = "\A[0-9]{9}\Z"
+            If Regex.IsMatch(phoneNumber, pattern) Then
                 DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(0, 247, 0)
             Else
                 DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(254, 84, 97)
@@ -449,21 +468,35 @@ Public Class Frm_Principal
         address = DataGridView1.Rows(0).Cells(6).Value.ToString
         city = DataGridView1.Rows(0).Cells(7).Value.ToString
 
-        If group_id.Length > 3 Then
+        pattern = "\A[a-no-zA-NO-Z0-9_\.\-]{4,76}(_cloudpbx){1}\Z"
+        If Regex.IsMatch(group_id, pattern) Then
             DataGridView1.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(0, 247, 0)
         Else
             DataGridView1.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(254, 84, 97)
             estadoCeldas = 1
         End If
 
-        If group_name.Length > 3 Then
+        pattern = "\A([a-no-zA-NO-Z0-9_\.{0,1}]{1,18}\.{0,1}\s{0,1}){1,5}\Z"
+        If Regex.IsMatch(group_name, pattern) Then
             DataGridView1.Rows(0).Cells(3).Style.BackColor = Color.FromArgb(0, 247, 0)
         Else
             DataGridView1.Rows(0).Cells(3).Style.BackColor = Color.FromArgb(254, 84, 97)
             estadoCeldas = 1
         End If
 
-        If address.Length > 3 Then
+        pattern = "[a-no-zA-NO-Z0-9_\.\,\-\s]"
+        Dim mc As MatchCollection = Regex.Matches(address, pattern)
+        Dim m As Match
+
+        Dim contador1 As Integer = 0
+
+        For Each m In mc
+            contador1 += 1
+            'm.Value, m.Index
+        Next m
+
+        ''Si la cantidad de matches es igual a al largo del dominio
+        If address.Length = mc.Count Then
             DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(0, 247, 0)
         Else
             DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(254, 84, 97)

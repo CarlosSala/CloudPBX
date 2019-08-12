@@ -485,7 +485,7 @@ Public Class Frm_Principal
             estadoCeldas = 1
         End If
 
-        pattern = "\A([\w]\s{0,1}){1,80}\Z"
+        pattern = "\A([\w\,]\s{0,1}){1,80}\Z"
         If Regex.IsMatch(address, pattern) Then
             DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(0, 247, 0)
         Else
@@ -728,7 +728,7 @@ Public Class Frm_Principal
         contact_name = DataGridView1.Rows(0).Cells(4).Value.ToString
         contact_number = DataGridView1.Rows(0).Cells(5).Value.ToString
 
-        pattern = "\A([\w\.\,\-]\s{0,1}){1,30}\Z"
+        pattern = "\A([\w\.\,\-\/]\s{0,1}){1,30}\Z"
 
         'mc = Regex.Matches(contact_name, pattern)
         'Dim mc1 As MatchCollection = Regex.Matches(contact_number, pattern)

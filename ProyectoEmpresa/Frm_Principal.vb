@@ -437,11 +437,11 @@ Public Class Frm_Principal
         'If domain.Length = mc.Count Then
 
 
-        'validar dominio----------------------------------------------------------------------------------------------------
+        'Validación del dominio----------------------------------------------------------------------------------------------------
         domain = DataGridView1.Rows(0).Cells(0).Value.ToString.ToLower 'domain = dt.Rows(0)(0).ToString.ToLower
 
-        'El patron devuelve true si hay match con la expresion completa del pattern
-        Dim pattern As String = "\A[a-no-zA-NO-Z0-9]{4,76}(.cl){1}\Z"
+        Dim pattern As String = "\A[a-no-z0-9\-\.\:]{1,76}\.(cl|com|org){1}\Z"
+
         If Regex.IsMatch(domain, pattern) Then
             DataGridView1.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(0, 247, 0)
         Else
@@ -449,11 +449,12 @@ Public Class Frm_Principal
             estadoCeldas = 1
         End If
 
-        'validar numeración-------------------------------------------------------------------------------------------------
+        'Validación numeración-------------------------------------------------------------------------------------------------
         For j = 0 To DataGridView1.Rows.Count - 2  'dt.Rows.Count - 1
             phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
 
             pattern = "\A[0-9]{9}\Z"
+
             If Regex.IsMatch(phoneNumber, pattern) Then
                 DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(0, 247, 0)
             Else
@@ -462,13 +463,13 @@ Public Class Frm_Principal
             End If
         Next
 
-        'validar información del grupo---------------------------------------------------------------------------------------
+        'Validación de información del grupo---------------------------------------------------------------------------------------
         group_id = DataGridView1.Rows(0).Cells(2).Value.ToString
         group_name = DataGridView1.Rows(0).Cells(3).Value.ToString
         address = DataGridView1.Rows(0).Cells(6).Value.ToString
         city = DataGridView1.Rows(0).Cells(7).Value.ToString
 
-        pattern = "\A[a-no-zA-NO-Z0-9_\.\-]{4,76}(_cloudpbx){1}\Z"
+        pattern = "\A[\w]{1,19}(_cloudpbx){1}\Z"
         If Regex.IsMatch(group_id, pattern) Then
             DataGridView1.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(0, 247, 0)
         Else
@@ -476,7 +477,7 @@ Public Class Frm_Principal
             estadoCeldas = 1
         End If
 
-        pattern = "\A([a-no-zA-NO-Z0-9_\.{0,1}]{1,18}\.{0,1}\s{0,1}){1,5}\Z"
+        pattern = "\A(([a-no-zA-NO-Z0-9_]\.{0,1}\s{0,1})){1,80}\Z"
         If Regex.IsMatch(group_name, pattern) Then
             DataGridView1.Rows(0).Cells(3).Style.BackColor = Color.FromArgb(0, 247, 0)
         Else
@@ -484,31 +485,33 @@ Public Class Frm_Principal
             estadoCeldas = 1
         End If
 
-        pattern = "[a-no-zA-NO-Z0-9_\.\,\-\s]"
-        Dim mc As MatchCollection = Regex.Matches(address, pattern)
-        Dim m As Match
-
-        Dim contador1 As Integer = 0
-
-        For Each m In mc
-            contador1 += 1
-            'm.Value, m.Index
-        Next m
-
-        ''Si la cantidad de matches es igual a al largo del dominio
-        If address.Length = mc.Count Then
+        pattern = "\A([\w]\s{0,1}){1,80}\Z"
+        If Regex.IsMatch(address, pattern) Then
             DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(0, 247, 0)
         Else
             DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(254, 84, 97)
             estadoCeldas = 1
         End If
 
-        If city.Length > 3 Then
+        pattern = "\A([\w]\s{0,1}){1,80}\Z"
+        If Regex.IsMatch(city, pattern) Then
             DataGridView1.Rows(0).Cells(7).Style.BackColor = Color.FromArgb(0, 247, 0)
         Else
             DataGridView1.Rows(0).Cells(7).Style.BackColor = Color.FromArgb(254, 84, 97)
             estadoCeldas = 1
         End If
+
+        'pattern = "[a-no-zA-NO-Z0-9_\.\,\-\s]"
+        Dim mc As MatchCollection = Regex.Matches(address, pattern)
+
+        'Dim m As Match
+        'Dim contador1 As Integer = 0
+
+        'For Each m In mc
+        '    contador1 += 1
+        '    'm.Value, m.Index
+        'Next m
+        ''Si la cantidad de matches es igual a al largo del dominio
 
         'validar información de los dispositivos-----------------------------------------------------------------------------------
         'La columna 'device_type' es la referencia para las demas, por ello se valida lo sigte:
@@ -536,7 +539,8 @@ Public Class Frm_Principal
             serial_number = DataGridView1.Rows(j).Cells(10).Value.ToString
             physical_location = DataGridView1.Rows(j).Cells(11).Value.ToString
 
-            If mac.Length > 11 Then
+            pattern = "\A[a-fA-F0-9]{12}\Z"
+            If Regex.IsMatch(mac, pattern) Then
                 DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(0, 247, 0)
             Else
                 DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(254, 84, 97)
@@ -544,21 +548,25 @@ Public Class Frm_Principal
             End If
 
             'Si se compara con el signo = un string, no importaran las mayusculas o minusculas
-            If device_type.Equals("Yealink-T19xE2") Or device_type.Equals("Yealink-T21xE2") Or device_type.Equals("Yealink-T27G") Then
+            'If device_type.Equals("Yealink-T19xE2") Or device_type.Equals("Yealink-T21xE2") Or device_type.Equals("Yealink-T27G") Then
+            pattern = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)){1}\Z"
+            If Regex.IsMatch(device_type, pattern) Then
                 DataGridView1.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(0, 247, 0)
             Else
                 DataGridView1.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas = 1
             End If
 
-            If serial_number.Length > 15 Then
+            pattern = "\A[0-9]{16}\Z"
+            If Regex.IsMatch(serial_number, pattern) Then
                 DataGridView1.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(0, 247, 0)
             Else
                 DataGridView1.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas = 1
             End If
 
-            If physical_location.Length > 3 Then
+            pattern = "\A[a-no-zA-NO-Z0-9_]{1,12}\Z"
+            If Regex.IsMatch(physical_location, pattern) Then
                 DataGridView1.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(0, 247, 0)
             Else
                 DataGridView1.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(254, 84, 97)
@@ -599,13 +607,18 @@ Public Class Frm_Principal
         'Next
         For j = 0 To filasValidas - 1
             department = DataGridView1.Rows(j).Cells(12).Value.ToString
-            If department.Length = 0 Then
-                DataGridView1.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(255, 255, 255)
-            ElseIf department.Length > 0 Then
+
+            pattern = "\A([\w\.\,\-]\s{0,1}){1,80}\Z"
+
+            If Regex.IsMatch(department, pattern) Then
                 DataGridView1.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(0, 247, 0)
+            ElseIf Not Regex.IsMatch(department, pattern) And department.length = 0 Then
+                DataGridView1.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(255, 255, 255)
+            ElseIf Not Regex.IsMatch(department, pattern) And department.length > 0 Then
+                DataGridView1.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(254, 84, 97)
+                estadoCeldas = 1
             End If
         Next
-
 
         For j = 0 To filasValidas - 1
             first_name = DataGridView1.Rows(j).Cells(13).Value.ToString
@@ -620,35 +633,41 @@ Public Class Frm_Principal
             ocp_special2 = DataGridView1.Rows(j).Cells(24).Value.ToString
             ocp_premium1 = DataGridView1.Rows(j).Cells(25).Value.ToString
 
-            If first_name.Length > 1 Then
+            pattern = "\A([a-no-zA-NO-Z0-9_\.\-]\s{0,1}){1,30}\Z"
+
+            If Regex.IsMatch(first_name, pattern) Then
                 DataGridView1.Rows(j).Cells(13).Style.BackColor = Color.FromArgb(0, 247, 0)
             Else
                 DataGridView1.Rows(j).Cells(13).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas = 1
             End If
 
-            If last_name.Length > 0 Then
+            If Regex.IsMatch(last_name, pattern) Then
                 DataGridView1.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(0, 247, 0)
             Else
                 DataGridView1.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas = 1
             End If
 
-            If user_address.Length > 3 Then
+            pattern = "\A([\w\,]\s{0,1}){1,80}\Z"
+
+            If Regex.IsMatch(user_address, pattern) Then
                 DataGridView1.Rows(j).Cells(16).Style.BackColor = Color.FromArgb(0, 247, 0)
             Else
                 DataGridView1.Rows(j).Cells(16).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas = 1
             End If
 
-            If user_city.Length > 3 Then
+            If Regex.IsMatch(user_city, pattern) Then
                 DataGridView1.Rows(j).Cells(17).Style.BackColor = Color.FromArgb(0, 247, 0)
             Else
                 DataGridView1.Rows(j).Cells(17).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas = 1
             End If
 
-            If extensions.Length > 2 Then
+            pattern = "\A[0-9]{2,5}\Z"
+
+            If Regex.IsMatch(extensions, pattern) Then
                 DataGridView1.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(0, 247, 0)
             Else
                 DataGridView1.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(254, 84, 97)
@@ -698,7 +717,6 @@ Public Class Frm_Principal
             End If
         Next
 
-
         'INFORMACION OPCIONAL. A CONTINUACION SE VALIDA QUE:
 
         'Para añadir contact_name y conctact_number al archivo xml correspondiente:
@@ -710,64 +728,75 @@ Public Class Frm_Principal
         contact_name = DataGridView1.Rows(0).Cells(4).Value.ToString
         contact_number = DataGridView1.Rows(0).Cells(5).Value.ToString
 
-        'Intento fallido
-        If contact_name.Length <= 3 And contact_name.Length > 0 And contact_number.Length <= 8 And contact_number.Length > 0 Then
-            DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(254, 84, 97)
-            DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(254, 84, 97)
-            infoContact = 0
+        pattern = "\A([\w\.\,\-]\s{0,1}){1,30}\Z"
 
-            'Ambos cumplen
-        ElseIf contact_name.Length > 3 And contact_number.Length > 8 Then
+        'mc = Regex.Matches(contact_name, pattern)
+        'Dim mc1 As MatchCollection = Regex.Matches(contact_number, pattern)
+
+        'Se llenan los campos y ambos cumplen
+        If Regex.IsMatch(contact_name, pattern) And Regex.IsMatch(contact_number, pattern) Then
             DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(0, 247, 0)
             DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(0, 247, 0)
             infoContact = 1
 
+            'Se llenan los campos y Niguno cumple
+        ElseIf Not Regex.IsMatch(contact_name, pattern) And Not Regex.IsMatch(contact_number, pattern) Then
             'Ninguno cumple (apropósito)
-        ElseIf contact_name.Length = 0 And contact_number.Length = 0 Then
-            DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(255, 255, 255)
-            DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(255, 255, 255)
-            infoContact = 1
+            If contact_name.Length = 0 And contact_number.Length = 0 Then
+                DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(255, 255, 255)
+                DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(255, 255, 255)
+                infoContact = 0
+            Else  ''Ninguno cumple (Intento fallido)
+                DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(254, 84, 97)
+                infoContact = 0
+                estadoCeldas = 1
+            End If
 
             'Solo el primero cumple
-        ElseIf contact_name.Length > 3 And contact_number.Length <= 8 Then
+        ElseIf Regex.IsMatch(contact_name, pattern) And Not Regex.IsMatch(contact_number, pattern) Then
             DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(0, 247, 0)
             DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(254, 84, 97)
             infoContact = 0
             estadoCeldas = 1
 
             'Solo el segundo cumple
-        ElseIf contact_name.Length <= 3 And contact_number.Length > 8 Then
+        ElseIf Not Regex.IsMatch(contact_name, pattern) And Regex.IsMatch(contact_number, pattern) Then
             DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(254, 84, 97)
             DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(0, 247, 0)
             infoContact = 0
             estadoCeldas = 1
         End If
 
+        pattern = "^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"
+
         For j = 0 To filasValidas - 1
             user_email = DataGridView1.Rows(j).Cells(15).Value.ToString
-            If user_email.Length = 0 Then
-                DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(255, 255, 255)
-            ElseIf user_email.Length > 10 Then
+
+            If Regex.IsMatch(user_email, pattern) Then
                 DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(0, 247, 0)
-            ElseIf user_email.Length <= 10 And user_email.Length > 0 Then
+            ElseIf Not Regex.IsMatch(user_email, pattern) And user_email.Length > 0 Then
                 DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(254, 84, 97)
                 estadoCeldas = 1
+            ElseIf Not Regex.IsMatch(user_email, pattern) And user_email.Length = 0 Then
+                DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(255, 255, 255)
             End If
         Next
 
         proxy = DataGridView1.Rows(0).Cells(18).Value.ToString
-        If proxy.Length = 0 Then
-            DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(255, 255, 255)
-            proxyInfo = 0
-        ElseIf proxy.Length > 0 And proxy.Length < 7 Then
+        pattern = "^(?:(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^localhost$"
+
+        If Regex.IsMatch(proxy, pattern) Then
+            DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(0, 247, 0)
+            proxyInfo = 1
+        ElseIf proxy.Length > 0 Then
             DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(254, 84, 97)
             proxyInfo = 0
             estadoCeldas = 1
-        ElseIf proxy.Length > 7 Then
-            DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(0, 247, 0)
-            proxyInfo = 1
+        ElseIf proxy.Length = 0 Then
+            DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(255, 255, 255)
+            proxyInfo = 0
         End If
-
 
         For fila As Integer = 0 To DataGridView1.RowCount - 1
             For columna As Integer = 0 To DataGridView1.ColumnCount - 1

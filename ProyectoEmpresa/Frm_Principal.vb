@@ -398,31 +398,6 @@ Public Class Frm_Principal
         'Esta variable se usa para controlar que la data supere las pruebas de validación
         estadoCeldas = 0
 
-        'INFORMACION OBLIGATORIA. A CONTINUACION SE VALIDA QUE:
-
-        'domain sea mayor a un largo 3
-        'todos los phoneNumber tengan un largo mayor a 8
-        'group_id sea mayor a un largo 3
-        'group_name sea mayor a un largo 3
-        'address sea mayor a un largo 3
-        'city sea mayor a un largo 3
-        'device_type se mayor a un largo 11
-        'mac sea mayor a un largo 11
-        'serial_number sea mayor a un largo 15
-        'physical_location sea mayor a un largo 3
-        'first_name sea mayor a un largo 1
-        'last_name sea mayor a un largo 0
-        'user_address sea mayor a un largo 3
-        'user_city sea mayor a un largo 3
-        'first_name sea mayor a un largo 1
-        'extensions sea mayor a un largo 1
-        'ocp_local sea mayor a un largo 8
-        'ocp_tollFree sea mayor a un largo 8
-        'ocp_internacional sea mayor a un largo 8
-        'ocp_special1 sea mayor a un largo 8
-        'ocp_special2 sea mayor a un largo 8
-        'ocp_premium1 sea mayor a un largo 8
-
         'Dim mc As MatchCollection = Regex.Matches(domain, pattern)
         'Dim m As Match
 
@@ -435,7 +410,6 @@ Public Class Frm_Principal
 
         ''Si la cantidad de matches es igual a al largo del dominio
         'If domain.Length = mc.Count Then
-
 
         'Validación del dominio----------------------------------------------------------------------------------------------------
         domain = DataGridView1.Rows(0).Cells(0).Value.ToString.ToLower 'domain = dt.Rows(0)(0).ToString.ToLower
@@ -500,18 +474,6 @@ Public Class Frm_Principal
             DataGridView1.Rows(0).Cells(7).Style.BackColor = Color.FromArgb(254, 84, 97)
             estadoCeldas = 1
         End If
-
-        'pattern = "[a-no-zA-NO-Z0-9_\.\,\-\s]"
-        Dim mc As MatchCollection = Regex.Matches(address, pattern)
-
-        'Dim m As Match
-        'Dim contador1 As Integer = 0
-
-        'For Each m In mc
-        '    contador1 += 1
-        '    'm.Value, m.Index
-        'Next m
-        ''Si la cantidad de matches es igual a al largo del dominio
 
         'validar información de los dispositivos-----------------------------------------------------------------------------------
         'La columna 'device_type' es la referencia para las demas, por ello se valida lo sigte:
@@ -717,21 +679,12 @@ Public Class Frm_Principal
             End If
         Next
 
-        'INFORMACION OPCIONAL. A CONTINUACION SE VALIDA QUE:
-
-        'Para añadir contact_name y conctact_number al archivo xml correspondiente:
-        'contact_name debe ser mayor a un largo 3 y
-        'contact_number deber ser mayor a un largo 8
-        'user_email  debe ser mayor a un largo 10
-        'proxy sea mayor a un largo 7
+        'INFORMACION OPCIONAL
 
         contact_name = DataGridView1.Rows(0).Cells(4).Value.ToString
         contact_number = DataGridView1.Rows(0).Cells(5).Value.ToString
 
         pattern = "\A([\w\.\,\-\/]\s{0,1}){1,30}\Z"
-
-        'mc = Regex.Matches(contact_name, pattern)
-        'Dim mc1 As MatchCollection = Regex.Matches(contact_number, pattern)
 
         'Se llenan los campos y ambos cumplen
         If Regex.IsMatch(contact_name, pattern) And Regex.IsMatch(contact_number, pattern) Then
@@ -2516,7 +2469,9 @@ Public Class Frm_Principal
             Exit Sub
         End If
 
-        If tb_write_proxy.Text.Length >= 7 Then
+        Dim pattern As String = "^(?:(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^localhost$"
+
+        If Regex.IsMatch(tb_write_proxy.Text, pattern) Then
 
         Else
             MsgBox("Campo de 'proxy' inválido", MsgBoxStyle.Exclamation, "Error campo de búsqueda")
@@ -2933,7 +2888,7 @@ Public Class Frm_Principal
 
             If xmlnodeSummary.Count = 1 Then
                 MsgBox(xmlnodeSummary(0).InnerText.ToString, MsgBoxStyle.Exclamation, "Broadsoft Response")
-                lbl_state_userLicense.Text = "Error de Consulta"
+                lbl_state_userLicense.Text = xmlnodeSummary(0).InnerText.ToString
                 ProgressBar3.Value = ProgressBar3.Maximum
                 Me.Cursor = Cursors.Default
                 fs.Close()

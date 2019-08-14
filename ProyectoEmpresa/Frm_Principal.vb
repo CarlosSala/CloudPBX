@@ -2050,7 +2050,7 @@ Public Class Frm_Principal
             lbl_state_userLicense.Text = "Executing App Voxcom..."
             ProgressBar3.Value = 50
             My.Application.DoEvents()
-        ElseIf numberSubroutine = 3 Then
+        ElseIf numberSubroutine = 4 Then
             lbl_state_usersNames.Text = "Executing App Voxcom..."
             ProgressBar4.Value = 50
             My.Application.DoEvents()
@@ -2471,7 +2471,7 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
-        Label2.Text = "Se encontraron " + dtproxy.Rows.Count.ToString() + " dispositivos en el grupo " + tb_groupId_proxy.Text
+        Label2.Text = "They were found " + dtproxy.Rows.Count.ToString() + " users in the group " + tb_groupId_proxy.Text
         listbox_proxy.Enabled = True
         Me.listbox_proxy.Items.Clear()
 
@@ -3175,7 +3175,7 @@ Public Class Frm_Principal
         DataGridView2.Enabled = True
         DataGridView2.EnableHeadersVisualStyles = True
 
-        lbl_numUser.Text = "Se encontraron " + dtproxy.Rows.Count.ToString() + " usuarios en el grupo " + tb_groupId_UserGetList.Text
+        lbl_numUser.Text = "They were found " + dtproxy.Rows.Count.ToString() + " users in the group " + tb_groupId_UserGetList.Text
 
         lbl_state_userLicense.Text = "Finished"
         ProgressBar3.Value = ProgressBar3.Maximum
@@ -3962,7 +3962,7 @@ Public Class Frm_Principal
         DataGridView3.Enabled = True
         DataGridView3.EnableHeadersVisualStyles = True
 
-        lbl_numUser2.Text = "Se encontraron " + dtUsersNames.Rows.Count.ToString() + " usuarios en el grupo " + tb_groupId_UserGetList2.Text
+        lbl_numUser2.Text = "They were found " + dtUsersNames.Rows.Count.ToString() + " users in the group " + tb_groupId_UserGetList2.Text
 
         lbl_state_usersNames.Text = "Finished"
         ProgressBar4.Value = ProgressBar4.Maximum
@@ -4028,6 +4028,7 @@ Public Class Frm_Principal
         Dim userId As String = ""
         Dim firstName As String = ""
         Dim lastName As String = ""
+        Dim control As Integer = 0
 
         numFile = 25
         Dim numFileUsersNames As Integer = numFile
@@ -4050,34 +4051,42 @@ Public Class Frm_Principal
                 firstName = DataGridView3.Rows(j).Cells(1).Value.ToString
                 lastName = DataGridView3.Rows(j).Cells(2).Value.ToString
 
-                numFile = 26
-                indexXML_UsersNames += 1
-                fileIXML = gblPathTmpUsersNames & "\ModifyUsersNames\" & indexXML_UsersNames & "_ModifyUserName_request.xml"
-                fileOXML = gblPathTmpUsersNames & "\ModifyUsersNames\" & indexXML_UsersNames & "_cloudpbx_response.xml"
-                FileOpen(numFile, fileIXML, OpenMode.Output)
-                WriteLine(numFile, line1.ToCharArray)
-                WriteLine(numFile, line2.ToCharArray)
-                WriteLine(numFile, line3.ToCharArray)
-                WriteLine(numFile, i_4.ToCharArray)
-                'WriteLine(numFile, i_5.ToCharArray)
-                userId = DataGridView3.Rows(j).Cells(0).Value.ToString
-                i_6 = "<userId>" & userId & "</userId>"
-                WriteLine(numFile, i_6.ToCharArray)
-                lastName = DataGridView3.Rows(j).Cells(2).Value.ToString
-                i_7 = "<lastName>" & lastName & "</lastName>"
-                WriteLine(numFile, i_7.ToCharArray)
-                firstName = DataGridView3.Rows(j).Cells(1).Value.ToString
-                i_8 = "<firstName>" & firstName & "</firstName>"
-                WriteLine(numFile, i_8.ToCharArray)
-                i_9 = "<callingLineIdLastName>" & lastName & "</callingLineIdLastName>"
-                WriteLine(numFile, i_9.ToCharArray)
-                i_10 = "<callingLineIdFirstName>" & firstName & "</callingLineIdFirstName>"
-                WriteLine(numFile, i_10.ToCharArray)
-                WriteLine(numFile, i_11.ToCharArray)
-                WriteLine(numFile, finalLine.ToCharArray)
-                FileClose(numFile)
-                lineConfigFile = fileIXML & ";" & fileOXML
-                WriteLine(numFileUsersNames, lineConfigFile.ToCharArray)
+                If DataGridView3.Rows(j).Cells(3).Value = True Then
+
+                    control = 1
+
+                    numFile = 26
+                    indexXML_UsersNames += 1
+                    fileIXML = gblPathTmpUsersNames & "\ModifyUsersNames\" & indexXML_UsersNames & "_ModifyUserName_request.xml"
+                    fileOXML = gblPathTmpUsersNames & "\ModifyUsersNames\" & indexXML_UsersNames & "_cloudpbx_response.xml"
+                    FileOpen(numFile, fileIXML, OpenMode.Output)
+                    WriteLine(numFile, line1.ToCharArray)
+                    WriteLine(numFile, line2.ToCharArray)
+                    WriteLine(numFile, line3.ToCharArray)
+                    WriteLine(numFile, i_4.ToCharArray)
+                    'WriteLine(numFile, i_5.ToCharArray)
+                    userId = DataGridView3.Rows(j).Cells(0).Value.ToString
+                    i_6 = "<userId>" & userId & "</userId>"
+                    WriteLine(numFile, i_6.ToCharArray)
+                    lastName = DataGridView3.Rows(j).Cells(2).Value.ToString
+                    i_7 = "<lastName>" & lastName & "</lastName>"
+                    WriteLine(numFile, i_7.ToCharArray)
+                    firstName = DataGridView3.Rows(j).Cells(1).Value.ToString
+                    i_8 = "<firstName>" & firstName & "</firstName>"
+                    WriteLine(numFile, i_8.ToCharArray)
+                    i_9 = "<callingLineIdLastName>" & lastName & "</callingLineIdLastName>"
+                    WriteLine(numFile, i_9.ToCharArray)
+                    i_10 = "<callingLineIdFirstName>" & firstName & "</callingLineIdFirstName>"
+                    WriteLine(numFile, i_10.ToCharArray)
+                    WriteLine(numFile, i_11.ToCharArray)
+                    WriteLine(numFile, finalLine.ToCharArray)
+                    FileClose(numFile)
+                    lineConfigFile = fileIXML & ";" & fileOXML
+                    WriteLine(numFileUsersNames, lineConfigFile.ToCharArray)
+
+                Else
+
+                End If
             Catch ex As Exception
                 MsgBox(ex.ToString)
                 MsgBox("Error al crear el archivo " & gblPathTmpUsersNames & "\ModifyUsersNames\" & indexXML_UsersNames & "_ModifyUserName_request.xml", MsgBoxStyle.Exclamation)
@@ -4092,11 +4101,18 @@ Public Class Frm_Principal
 
         FileClose(numFileUsersNames)
 
-        ExecuteShellBulk(multipleInputFile, 4)
-        If codError = 0 Then
-            GetUserListInGroup2()
-            'ParseXML_Assignment_UserLicense()
+        If control > 0 Then
+            ExecuteShellBulk(multipleInputFile, 4)
+            If codError = 0 Then
+                GetUserListInGroup2()
+                'ParseXML_Assignment_UserLicense()
+            End If
+        Else
+            MsgBox("No hubo ninguna confirmación de cambios", MsgBoxStyle.Exclamation, "No se enviaron los comandos")
+            Me.Cursor = Cursors.Default
+            Exit Sub
         End If
+
     End Sub
 
     Private Sub Btn_BrowseCSV_MouseEnter(sender As Object, e As EventArgs) Handles btn_browse_CSV.MouseEnter

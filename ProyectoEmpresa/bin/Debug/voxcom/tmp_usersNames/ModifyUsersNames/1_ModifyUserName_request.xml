@@ -3,9 +3,9 @@
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
 <command xsi:type="UserModifyRequest17sp4" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <userId>222360347@felipe.cl</userId>
-<lastName>Tapia</lastName>
-<firstName>Dange</firstName>
-<callingLineIdLastName>Tapia</callingLineIdLastName>
-<callingLineIdFirstName>Dange</callingLineIdFirstName>
+<lastName>tapia</lastName>
+<firstName>Dangelo&&4543534{}ñ´ñ+.,°|</firstName>
+<callingLineIdLastName>tapia</callingLineIdLastName>
+<callingLineIdFirstName>Dangelo&&4543534{}ñ´ñ+.,°|</callingLineIdFirstName>
 </command>
 </BroadsoftDocument>

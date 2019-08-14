@@ -27,8 +27,6 @@ Public Class Frm_Principal
     Dim indexXML_UsersNames As Integer = 0
 
 
-
-
     Dim codError As Integer = 0
     Dim numFile As Integer = 1
     'Dim n_File As Integer = FreeFile()
@@ -438,7 +436,45 @@ Public Class Frm_Principal
             DataGridView1.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(0, 247, 0)
         Else
             DataGridView1.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(254, 84, 97)
+            'DataGridView1.Rows(0).Cells(0).ToolTipText = pattern
             estadoCeldas = 1
+
+            'pattern = "^[a-no-z0-9\-\.\:]"
+
+            'Dim hola As MatchCollection = Regex.Matches(domain, pattern)
+
+            'DataGridView1.Rows(0).Cells(0).ToolTipText = pattern
+            'Dim st As String = ""
+
+
+            'If Regex.Matches(domain, pattern).Count > 0 Then
+
+
+            '    For i = 0 To hola.Count - 1
+
+            '        'st += hola(i)
+
+            '    Next
+
+
+            '    For Each Match In Regex.Matches(domain, pattern)
+
+            '        st += Match.Value
+
+            '        Match.Index
+            '    Next
+
+            '    'For Each holaas As Match In hola
+
+            '    '    st += holaas.NextMatch.Value
+            '    '    'st += holaas.Name
+            '    '    'st += holaas.Value.ToString
+
+            '    'Next
+
+            'End If
+
+
         End If
 
         'Validación numeración-------------------------------------------------------------------------------------------------
@@ -451,6 +487,7 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(0, 247, 0)
             Else
                 DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(254, 84, 97)
+                'DataGridView1.Rows(j).Cells(1).ToolTipText = pattern
                 estadoCeldas = 1
             End If
         Next
@@ -537,7 +574,7 @@ Public Class Frm_Principal
                 estadoCeldas = 1
             End If
 
-            pattern = "\A[0-9]{16}\Z"
+            pattern = "\A[a-fA-F0-9]{16}\Z"
             If Regex.IsMatch(serial_number, pattern) Then
                 DataGridView1.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(0, 247, 0)
             Else

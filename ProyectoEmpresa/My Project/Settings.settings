@@ -47,5 +47,8 @@
     <Setting Name="PathTmpUserLicense" Type="System.String" Scope="User">
       <Value Profile="(Default)">\voxcom\tmp_userLicense</Value>
     </Setting>
+    <Setting Name="PathTmpUsersNames" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\voxcom\tmp_usersNames</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -73,6 +73,10 @@ Partial Class Frm_Principal
         Me.lbl_state_usersNames = New System.Windows.Forms.ToolStripStatusLabel()
         Me.btn_process_usersNames = New System.Windows.Forms.Button()
         Me.DataGridView3 = New System.Windows.Forms.DataGridView()
+        Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewButtonColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.DataGridViewButtonColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Confirmation = New System.Windows.Forms.DataGridViewCheckBoxColumn()
         Me.lbl_numUser2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.tb_groupId_UserGetList2 = New System.Windows.Forms.TextBox()
@@ -80,10 +84,16 @@ Partial Class Frm_Principal
         Me.btn_search_group2 = New System.Windows.Forms.Button()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
-        Me.DataGridViewTextBoxColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewButtonColumn1 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.DataGridViewButtonColumn2 = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Confirmation = New System.Windows.Forms.DataGridViewCheckBoxColumn()
+        Me.TabPage5 = New System.Windows.Forms.TabPage()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.DataGridView4 = New System.Windows.Forms.DataGridView()
+        Me.btn_procesar2 = New System.Windows.Forms.Button()
+        Me.StatusStrip5 = New System.Windows.Forms.StatusStrip()
+        Me.ProgressBar5 = New System.Windows.Forms.ToolStripProgressBar()
+        Me.lbl_state_create_users = New System.Windows.Forms.ToolStripStatusLabel()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -96,6 +106,9 @@ Partial Class Frm_Principal
         Me.TabPage4.SuspendLayout()
         Me.StatusStrip4.SuspendLayout()
         CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage5.SuspendLayout()
+        CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.StatusStrip5.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -107,6 +120,7 @@ Partial Class Frm_Principal
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Controls.Add(Me.TabPage3)
         Me.TabControl1.Controls.Add(Me.TabPage4)
+        Me.TabControl1.Controls.Add(Me.TabPage5)
         Me.TabControl1.Location = New System.Drawing.Point(12, 12)
         Me.TabControl1.MaximumSize = New System.Drawing.Size(1325, 690)
         Me.TabControl1.MinimumSize = New System.Drawing.Size(625, 500)
@@ -610,6 +624,29 @@ Partial Class Frm_Principal
         Me.DataGridView3.Size = New System.Drawing.Size(500, 232)
         Me.DataGridView3.TabIndex = 28
         '
+        'DataGridViewTextBoxColumn1
+        '
+        Me.DataGridViewTextBoxColumn1.HeaderText = "UserId"
+        Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
+        Me.DataGridViewTextBoxColumn1.ReadOnly = True
+        '
+        'DataGridViewButtonColumn1
+        '
+        Me.DataGridViewButtonColumn1.HeaderText = "First name"
+        Me.DataGridViewButtonColumn1.Name = "DataGridViewButtonColumn1"
+        Me.DataGridViewButtonColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        '
+        'DataGridViewButtonColumn2
+        '
+        Me.DataGridViewButtonColumn2.HeaderText = "Last name"
+        Me.DataGridViewButtonColumn2.Name = "DataGridViewButtonColumn2"
+        Me.DataGridViewButtonColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        '
+        'Confirmation
+        '
+        Me.Confirmation.HeaderText = "Confirmation"
+        Me.Confirmation.Name = "Confirmation"
+        '
         'lbl_numUser2
         '
         Me.lbl_numUser2.AutoSize = True
@@ -657,28 +694,124 @@ Partial Class Frm_Principal
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
         '
-        'DataGridViewTextBoxColumn1
+        'TabPage5
         '
-        Me.DataGridViewTextBoxColumn1.HeaderText = "UserId"
-        Me.DataGridViewTextBoxColumn1.Name = "DataGridViewTextBoxColumn1"
-        Me.DataGridViewTextBoxColumn1.ReadOnly = True
+        Me.TabPage5.Controls.Add(Me.StatusStrip5)
+        Me.TabPage5.Controls.Add(Me.Button1)
+        Me.TabPage5.Controls.Add(Me.Button2)
+        Me.TabPage5.Controls.Add(Me.Button3)
+        Me.TabPage5.Controls.Add(Me.Label1)
+        Me.TabPage5.Controls.Add(Me.DataGridView4)
+        Me.TabPage5.Controls.Add(Me.btn_procesar2)
+        Me.TabPage5.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage5.Name = "TabPage5"
+        Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage5.Size = New System.Drawing.Size(617, 474)
+        Me.TabPage5.TabIndex = 4
+        Me.TabPage5.Text = "Create Users"
+        Me.TabPage5.UseVisualStyleBackColor = True
         '
-        'DataGridViewButtonColumn1
+        'Button1
         '
-        Me.DataGridViewButtonColumn1.HeaderText = "First name"
-        Me.DataGridViewButtonColumn1.Name = "DataGridViewButtonColumn1"
-        Me.DataGridViewButtonColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Button1.Location = New System.Drawing.Point(282, 334)
+        Me.Button1.MaximumSize = New System.Drawing.Size(132, 75)
+        Me.Button1.MinimumSize = New System.Drawing.Size(132, 75)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(132, 75)
+        Me.Button1.TabIndex = 60
+        Me.Button1.Text = "Show Report"
+        Me.Button1.UseVisualStyleBackColor = True
         '
-        'DataGridViewButtonColumn2
+        'Button2
         '
-        Me.DataGridViewButtonColumn2.HeaderText = "Last name"
-        Me.DataGridViewButtonColumn2.Name = "DataGridViewButtonColumn2"
-        Me.DataGridViewButtonColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button2.Location = New System.Drawing.Point(474, 334)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(132, 75)
+        Me.Button2.TabIndex = 59
+        Me.Button2.Text = "Validate Data"
+        Me.Button2.UseVisualStyleBackColor = True
         '
-        'Confirmation
+        'Button3
         '
-        Me.Confirmation.HeaderText = "Confirmation"
-        Me.Confirmation.Name = "Confirmation"
+        Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Button3.Location = New System.Drawing.Point(144, 334)
+        Me.Button3.MaximumSize = New System.Drawing.Size(132, 75)
+        Me.Button3.MinimumSize = New System.Drawing.Size(132, 75)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(132, 75)
+        Me.Button3.TabIndex = 57
+        Me.Button3.Text = "Generate Report"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
+        'Label1
+        '
+        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.Label1.AutoSize = True
+        Me.Label1.BackColor = System.Drawing.Color.White
+        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.ForeColor = System.Drawing.Color.Black
+        Me.Label1.Location = New System.Drawing.Point(187, 210)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(267, 31)
+        Me.Label1.TabIndex = 55
+        Me.Label1.Text = "Hold on a second..."
+        Me.Label1.Visible = False
+        '
+        'DataGridView4
+        '
+        Me.DataGridView4.AllowUserToResizeColumns = False
+        Me.DataGridView4.AllowUserToResizeRows = False
+        Me.DataGridView4.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DataGridView4.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
+        Me.DataGridView4.BackgroundColor = System.Drawing.Color.DarkGray
+        Me.DataGridView4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.DataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView4.Cursor = System.Windows.Forms.Cursors.Default
+        Me.DataGridView4.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
+        Me.DataGridView4.GridColor = System.Drawing.Color.DimGray
+        Me.DataGridView4.Location = New System.Drawing.Point(6, 78)
+        Me.DataGridView4.MaximumSize = New System.Drawing.Size(1300, 440)
+        Me.DataGridView4.MinimumSize = New System.Drawing.Size(600, 250)
+        Me.DataGridView4.Name = "DataGridView4"
+        Me.DataGridView4.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
+        Me.DataGridView4.Size = New System.Drawing.Size(600, 250)
+        Me.DataGridView4.TabIndex = 58
+        '
+        'btn_procesar2
+        '
+        Me.btn_procesar2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_procesar2.Location = New System.Drawing.Point(6, 334)
+        Me.btn_procesar2.MaximumSize = New System.Drawing.Size(132, 75)
+        Me.btn_procesar2.MinimumSize = New System.Drawing.Size(132, 75)
+        Me.btn_procesar2.Name = "btn_procesar2"
+        Me.btn_procesar2.Size = New System.Drawing.Size(132, 75)
+        Me.btn_procesar2.TabIndex = 56
+        Me.btn_procesar2.Text = "Process"
+        Me.btn_procesar2.UseVisualStyleBackColor = True
+        '
+        'StatusStrip5
+        '
+        Me.StatusStrip5.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar5, Me.lbl_state_create_users})
+        Me.StatusStrip5.Location = New System.Drawing.Point(3, 449)
+        Me.StatusStrip5.Name = "StatusStrip5"
+        Me.StatusStrip5.Size = New System.Drawing.Size(611, 22)
+        Me.StatusStrip5.TabIndex = 61
+        Me.StatusStrip5.Text = "StatusStrip5"
+        '
+        'ProgressBar5
+        '
+        Me.ProgressBar5.Name = "ProgressBar5"
+        Me.ProgressBar5.Size = New System.Drawing.Size(100, 16)
+        '
+        'lbl_state_create_users
+        '
+        Me.lbl_state_create_users.Name = "lbl_state_create_users"
+        Me.lbl_state_create_users.Size = New System.Drawing.Size(119, 17)
+        Me.lbl_state_create_users.Text = "lbl_state_create_users"
         '
         'Frm_Principal
         '
@@ -713,6 +846,11 @@ Partial Class Frm_Principal
         Me.StatusStrip4.ResumeLayout(False)
         Me.StatusStrip4.PerformLayout()
         CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage5.ResumeLayout(False)
+        Me.TabPage5.PerformLayout()
+        CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.StatusStrip5.ResumeLayout(False)
+        Me.StatusStrip5.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -777,4 +915,14 @@ Partial Class Frm_Principal
     Friend WithEvents DataGridViewButtonColumn1 As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewButtonColumn2 As DataGridViewTextBoxColumn
     Friend WithEvents Confirmation As DataGridViewCheckBoxColumn
+    Friend WithEvents TabPage5 As TabPage
+    Friend WithEvents Button1 As Button
+    Friend WithEvents Button2 As Button
+    Friend WithEvents Button3 As Button
+    Friend WithEvents Label1 As Label
+    Friend WithEvents DataGridView4 As DataGridView
+    Friend WithEvents btn_procesar2 As Button
+    Friend WithEvents StatusStrip5 As StatusStrip
+    Friend WithEvents ProgressBar5 As ToolStripProgressBar
+    Friend WithEvents lbl_state_create_users As ToolStripStatusLabel
 End Class

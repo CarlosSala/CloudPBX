@@ -82,18 +82,20 @@ Partial Class Frm_Principal
         Me.tb_groupId_UserGetList2 = New System.Windows.Forms.TextBox()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.btn_search_group2 = New System.Windows.Forms.Button()
-        Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
-        Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
         Me.TabPage5 = New System.Windows.Forms.TabPage()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.Button2 = New System.Windows.Forms.Button()
-        Me.Button3 = New System.Windows.Forms.Button()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.DataGridView4 = New System.Windows.Forms.DataGridView()
-        Me.btn_procesar2 = New System.Windows.Forms.Button()
+        Me.tb_file_name2 = New System.Windows.Forms.TextBox()
+        Me.Btn_browse_CSV2 = New System.Windows.Forms.Button()
         Me.StatusStrip5 = New System.Windows.Forms.StatusStrip()
         Me.ProgressBar5 = New System.Windows.Forms.ToolStripProgressBar()
         Me.lbl_state_create_users = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.btn_show_report2 = New System.Windows.Forms.Button()
+        Me.btn_validate_data2 = New System.Windows.Forms.Button()
+        Me.btn_report_createUsers = New System.Windows.Forms.Button()
+        Me.lbl_wait2 = New System.Windows.Forms.Label()
+        Me.DataGridView4 = New System.Windows.Forms.DataGridView()
+        Me.btn_procesar2 = New System.Windows.Forms.Button()
+        Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
+        Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -107,8 +109,8 @@ Partial Class Frm_Principal
         Me.StatusStrip4.SuspendLayout()
         CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage5.SuspendLayout()
-        CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.StatusStrip5.SuspendLayout()
+        CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -210,7 +212,7 @@ Partial Class Frm_Principal
         Me.lbl_wait.BackColor = System.Drawing.Color.White
         Me.lbl_wait.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbl_wait.ForeColor = System.Drawing.Color.Black
-        Me.lbl_wait.Location = New System.Drawing.Point(187, 216)
+        Me.lbl_wait.Location = New System.Drawing.Point(189, 209)
         Me.lbl_wait.Name = "lbl_wait"
         Me.lbl_wait.Size = New System.Drawing.Size(267, 31)
         Me.lbl_wait.TabIndex = 0
@@ -690,17 +692,15 @@ Partial Class Frm_Principal
         Me.btn_search_group2.Text = "Search"
         Me.btn_search_group2.UseVisualStyleBackColor = True
         '
-        'openFileDialogCSV
-        '
-        Me.openFileDialogCSV.FileName = "OpenFileDialog1"
-        '
         'TabPage5
         '
+        Me.TabPage5.Controls.Add(Me.tb_file_name2)
+        Me.TabPage5.Controls.Add(Me.Btn_browse_CSV2)
         Me.TabPage5.Controls.Add(Me.StatusStrip5)
-        Me.TabPage5.Controls.Add(Me.Button1)
-        Me.TabPage5.Controls.Add(Me.Button2)
-        Me.TabPage5.Controls.Add(Me.Button3)
-        Me.TabPage5.Controls.Add(Me.Label1)
+        Me.TabPage5.Controls.Add(Me.btn_show_report2)
+        Me.TabPage5.Controls.Add(Me.btn_validate_data2)
+        Me.TabPage5.Controls.Add(Me.btn_report_createUsers)
+        Me.TabPage5.Controls.Add(Me.lbl_wait2)
         Me.TabPage5.Controls.Add(Me.DataGridView4)
         Me.TabPage5.Controls.Add(Me.btn_procesar2)
         Me.TabPage5.Location = New System.Drawing.Point(4, 22)
@@ -711,87 +711,35 @@ Partial Class Frm_Principal
         Me.TabPage5.Text = "Create Users"
         Me.TabPage5.UseVisualStyleBackColor = True
         '
-        'Button1
+        'tb_file_name2
         '
-        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Button1.Location = New System.Drawing.Point(282, 334)
-        Me.Button1.MaximumSize = New System.Drawing.Size(132, 75)
-        Me.Button1.MinimumSize = New System.Drawing.Size(132, 75)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(132, 75)
-        Me.Button1.TabIndex = 60
-        Me.Button1.Text = "Show Report"
-        Me.Button1.UseVisualStyleBackColor = True
-        '
-        'Button2
-        '
-        Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Button2.Location = New System.Drawing.Point(474, 334)
-        Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(132, 75)
-        Me.Button2.TabIndex = 59
-        Me.Button2.Text = "Validate Data"
-        Me.Button2.UseVisualStyleBackColor = True
-        '
-        'Button3
-        '
-        Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Button3.Location = New System.Drawing.Point(144, 334)
-        Me.Button3.MaximumSize = New System.Drawing.Size(132, 75)
-        Me.Button3.MinimumSize = New System.Drawing.Size(132, 75)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(132, 75)
-        Me.Button3.TabIndex = 57
-        Me.Button3.Text = "Generate Report"
-        Me.Button3.UseVisualStyleBackColor = True
-        '
-        'Label1
-        '
-        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
-        Me.Label1.AutoSize = True
-        Me.Label1.BackColor = System.Drawing.Color.White
-        Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.ForeColor = System.Drawing.Color.Black
-        Me.Label1.Location = New System.Drawing.Point(187, 210)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(267, 31)
-        Me.Label1.TabIndex = 55
-        Me.Label1.Text = "Hold on a second..."
-        Me.Label1.Visible = False
-        '
-        'DataGridView4
-        '
-        Me.DataGridView4.AllowUserToResizeColumns = False
-        Me.DataGridView4.AllowUserToResizeRows = False
-        Me.DataGridView4.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.tb_file_name2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.DataGridView4.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
-        Me.DataGridView4.BackgroundColor = System.Drawing.Color.DarkGray
-        Me.DataGridView4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.DataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView4.Cursor = System.Windows.Forms.Cursors.Default
-        Me.DataGridView4.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
-        Me.DataGridView4.GridColor = System.Drawing.Color.DimGray
-        Me.DataGridView4.Location = New System.Drawing.Point(6, 78)
-        Me.DataGridView4.MaximumSize = New System.Drawing.Size(1300, 440)
-        Me.DataGridView4.MinimumSize = New System.Drawing.Size(600, 250)
-        Me.DataGridView4.Name = "DataGridView4"
-        Me.DataGridView4.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
-        Me.DataGridView4.Size = New System.Drawing.Size(600, 250)
-        Me.DataGridView4.TabIndex = 58
+        Me.tb_file_name2.Location = New System.Drawing.Point(6, 57)
+        Me.tb_file_name2.MaximumSize = New System.Drawing.Size(1225, 20)
+        Me.tb_file_name2.MinimumSize = New System.Drawing.Size(523, 20)
+        Me.tb_file_name2.Name = "tb_file_name2"
+        Me.tb_file_name2.Size = New System.Drawing.Size(523, 20)
+        Me.tb_file_name2.TabIndex = 63
         '
-        'btn_procesar2
+        'Btn_browse_CSV2
         '
-        Me.btn_procesar2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btn_procesar2.Location = New System.Drawing.Point(6, 334)
-        Me.btn_procesar2.MaximumSize = New System.Drawing.Size(132, 75)
-        Me.btn_procesar2.MinimumSize = New System.Drawing.Size(132, 75)
-        Me.btn_procesar2.Name = "btn_procesar2"
-        Me.btn_procesar2.Size = New System.Drawing.Size(132, 75)
-        Me.btn_procesar2.TabIndex = 56
-        Me.btn_procesar2.Text = "Process"
-        Me.btn_procesar2.UseVisualStyleBackColor = True
+        Me.Btn_browse_CSV2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Btn_browse_CSV2.BackColor = System.Drawing.Color.Transparent
+        Me.Btn_browse_CSV2.BackgroundImage = CType(resources.GetObject("Btn_browse_CSV2.BackgroundImage"), System.Drawing.Image)
+        Me.Btn_browse_CSV2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.Btn_browse_CSV2.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Btn_browse_CSV2.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_browse_CSV2.Location = New System.Drawing.Point(536, 7)
+        Me.Btn_browse_CSV2.Margin = New System.Windows.Forms.Padding(4)
+        Me.Btn_browse_CSV2.MaximumSize = New System.Drawing.Size(70, 70)
+        Me.Btn_browse_CSV2.MinimumSize = New System.Drawing.Size(70, 70)
+        Me.Btn_browse_CSV2.Name = "Btn_browse_CSV2"
+        Me.Btn_browse_CSV2.Size = New System.Drawing.Size(70, 70)
+        Me.Btn_browse_CSV2.TabIndex = 62
+        Me.Btn_browse_CSV2.UseVisualStyleBackColor = False
         '
         'StatusStrip5
         '
@@ -812,6 +760,92 @@ Partial Class Frm_Principal
         Me.lbl_state_create_users.Name = "lbl_state_create_users"
         Me.lbl_state_create_users.Size = New System.Drawing.Size(119, 17)
         Me.lbl_state_create_users.Text = "lbl_state_create_users"
+        '
+        'btn_show_report2
+        '
+        Me.btn_show_report2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_show_report2.Location = New System.Drawing.Point(282, 340)
+        Me.btn_show_report2.MaximumSize = New System.Drawing.Size(132, 75)
+        Me.btn_show_report2.MinimumSize = New System.Drawing.Size(132, 75)
+        Me.btn_show_report2.Name = "btn_show_report2"
+        Me.btn_show_report2.Size = New System.Drawing.Size(132, 75)
+        Me.btn_show_report2.TabIndex = 60
+        Me.btn_show_report2.Text = "Show Report"
+        Me.btn_show_report2.UseVisualStyleBackColor = True
+        '
+        'btn_validate_data2
+        '
+        Me.btn_validate_data2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btn_validate_data2.Location = New System.Drawing.Point(474, 340)
+        Me.btn_validate_data2.Name = "btn_validate_data2"
+        Me.btn_validate_data2.Size = New System.Drawing.Size(132, 75)
+        Me.btn_validate_data2.TabIndex = 59
+        Me.btn_validate_data2.Text = "Validate Data"
+        Me.btn_validate_data2.UseVisualStyleBackColor = True
+        '
+        'btn_report_createUsers
+        '
+        Me.btn_report_createUsers.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_report_createUsers.Location = New System.Drawing.Point(144, 340)
+        Me.btn_report_createUsers.MaximumSize = New System.Drawing.Size(132, 75)
+        Me.btn_report_createUsers.MinimumSize = New System.Drawing.Size(132, 75)
+        Me.btn_report_createUsers.Name = "btn_report_createUsers"
+        Me.btn_report_createUsers.Size = New System.Drawing.Size(132, 75)
+        Me.btn_report_createUsers.TabIndex = 57
+        Me.btn_report_createUsers.Text = "Generate Report"
+        Me.btn_report_createUsers.UseVisualStyleBackColor = True
+        '
+        'lbl_wait2
+        '
+        Me.lbl_wait2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom), System.Windows.Forms.AnchorStyles)
+        Me.lbl_wait2.AutoSize = True
+        Me.lbl_wait2.BackColor = System.Drawing.Color.White
+        Me.lbl_wait2.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbl_wait2.ForeColor = System.Drawing.Color.Black
+        Me.lbl_wait2.Location = New System.Drawing.Point(189, 209)
+        Me.lbl_wait2.Name = "lbl_wait2"
+        Me.lbl_wait2.Size = New System.Drawing.Size(267, 31)
+        Me.lbl_wait2.TabIndex = 55
+        Me.lbl_wait2.Text = "Hold on a second..."
+        Me.lbl_wait2.Visible = False
+        '
+        'DataGridView4
+        '
+        Me.DataGridView4.AllowUserToResizeColumns = False
+        Me.DataGridView4.AllowUserToResizeRows = False
+        Me.DataGridView4.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DataGridView4.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
+        Me.DataGridView4.BackgroundColor = System.Drawing.Color.DarkGray
+        Me.DataGridView4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.DataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView4.Cursor = System.Windows.Forms.Cursors.Default
+        Me.DataGridView4.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter
+        Me.DataGridView4.GridColor = System.Drawing.Color.DimGray
+        Me.DataGridView4.Location = New System.Drawing.Point(6, 84)
+        Me.DataGridView4.MaximumSize = New System.Drawing.Size(1300, 440)
+        Me.DataGridView4.MinimumSize = New System.Drawing.Size(600, 250)
+        Me.DataGridView4.Name = "DataGridView4"
+        Me.DataGridView4.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
+        Me.DataGridView4.Size = New System.Drawing.Size(600, 250)
+        Me.DataGridView4.TabIndex = 58
+        '
+        'btn_procesar2
+        '
+        Me.btn_procesar2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_procesar2.Location = New System.Drawing.Point(6, 340)
+        Me.btn_procesar2.MaximumSize = New System.Drawing.Size(132, 75)
+        Me.btn_procesar2.MinimumSize = New System.Drawing.Size(132, 75)
+        Me.btn_procesar2.Name = "btn_procesar2"
+        Me.btn_procesar2.Size = New System.Drawing.Size(132, 75)
+        Me.btn_procesar2.TabIndex = 56
+        Me.btn_procesar2.Text = "Process"
+        Me.btn_procesar2.UseVisualStyleBackColor = True
+        '
+        'openFileDialogCSV
+        '
+        Me.openFileDialogCSV.FileName = "OpenFileDialog1"
         '
         'Frm_Principal
         '
@@ -848,9 +882,9 @@ Partial Class Frm_Principal
         CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage5.ResumeLayout(False)
         Me.TabPage5.PerformLayout()
-        CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.StatusStrip5.ResumeLayout(False)
         Me.StatusStrip5.PerformLayout()
+        CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -916,13 +950,15 @@ Partial Class Frm_Principal
     Friend WithEvents DataGridViewButtonColumn2 As DataGridViewTextBoxColumn
     Friend WithEvents Confirmation As DataGridViewCheckBoxColumn
     Friend WithEvents TabPage5 As TabPage
-    Friend WithEvents Button1 As Button
-    Friend WithEvents Button2 As Button
-    Friend WithEvents Button3 As Button
-    Friend WithEvents Label1 As Label
+    Friend WithEvents btn_show_report2 As Button
+    Friend WithEvents btn_validate_data2 As Button
+    Friend WithEvents btn_report_createUsers As Button
+    Friend WithEvents lbl_wait2 As Label
     Friend WithEvents DataGridView4 As DataGridView
     Friend WithEvents btn_procesar2 As Button
     Friend WithEvents StatusStrip5 As StatusStrip
     Friend WithEvents ProgressBar5 As ToolStripProgressBar
     Friend WithEvents lbl_state_create_users As ToolStripStatusLabel
+    Friend WithEvents tb_file_name2 As TextBox
+    Friend WithEvents Btn_browse_CSV2 As Button
 End Class

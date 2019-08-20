@@ -1,0 +1,21 @@
+**** Version Voxcom --> 2019.08.20 16:01:02:634 CLT
+**** Start OCIClient initialization --> 2019.08.20 16:01:02:644 CLT
+**** Sending request at: 2019.08.20 16:01:02:684 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 24 ms)
+AuthenticationRequest command successful
+
+**** Sending request at: 2019.08.20 16:01:02:711 CLT
+**** Time Out:120
+
+**** Received response (Request process time: 12 ms)
+LoginRequest command successful
+
+multipleInputFile: C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud\multipleInputFile.txt not found
+**** Sending request at: 2019.08.20 16:01:02:731 CLT
+**** Time Out:1
+
+**** Received response (Request process time: 1000 ms)
+LogoutRequest command successful (no response when OCS)
+

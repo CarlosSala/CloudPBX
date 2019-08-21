@@ -475,7 +475,7 @@ Public Class Frm_Principal
 
             If Regex.IsMatch(phoneNumber, pattern) Then
                 DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView1.Rows(0).Cells(1).ToolTipText = ""
+                DataGridView1.Rows(j).Cells(1).ToolTipText = ""
 
                 'validar que no existan datos de ciertas columnas repetidas
                 For i = 0 To DataGridView1.RowCount - 2
@@ -608,6 +608,30 @@ Public Class Frm_Principal
             If Regex.IsMatch(mac, pattern) Then
                 DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView1.Rows(j).Cells(9).ToolTipText = ""
+
+                'validar que no existan datos de ciertas columnas repetidas
+                For i = 0 To filasValidas - 1
+
+                    Dim valorComparado As String = DataGridView1.Rows(i).Cells(9).Value.ToString
+                    Dim valores As String
+                    'Dim control As Integer = 0
+
+                    For k = 0 To filasValidas - 1
+
+                        valores = DataGridView1.Rows(k).Cells(9).Value.ToString
+
+                        If valorComparado.Equals(valores) And i <> k Then
+
+                            DataGridView1.Rows(k).Cells(9).Style.BackColor = Color.FromArgb(182, 15, 196)
+                            DataGridView1.Rows(k).Cells(9).ToolTipText = "El valor esta repetido"
+                            estadoCeldas = 1
+                            'Else
+                            '    DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(255, 255, 255)
+                            '    DataGridView1.Rows(j).Cells(9).ToolTipText = ""
+                        End If
+                    Next
+                Next
+
             Else
                 DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(9).ToolTipText = prohibited
@@ -767,6 +791,30 @@ Public Class Frm_Principal
             If Regex.IsMatch(extensions, pattern) Then
                 DataGridView1.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView1.Rows(j).Cells(19).ToolTipText = ""
+
+                'validar que no existan datos de ciertas columnas repetidas
+                For i = 0 To filasValidas - 1
+
+                    Dim valorComparado As String = DataGridView1.Rows(i).Cells(19).Value.ToString
+                    Dim valores As String
+                    'Dim control As Integer = 0
+
+                    For k = 0 To filasValidas - 1
+
+                        valores = DataGridView1.Rows(k).Cells(19).Value.ToString
+
+                        If valorComparado.Equals(valores) And i <> k Then
+
+                            DataGridView1.Rows(k).Cells(19).Style.BackColor = Color.FromArgb(182, 15, 196)
+                            DataGridView1.Rows(k).Cells(19).ToolTipText = "El valor esta repetido"
+                            estadoCeldas = 1
+                            'Else
+                            '    DataGridView1.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(255, 255, 255)
+                            '    DataGridView1.Rows(j).Cells(19).ToolTipText = ""
+                        End If
+                    Next
+                Next
+
             Else
                 DataGridView1.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(19).ToolTipText = prohibited
@@ -951,20 +999,6 @@ Public Class Frm_Principal
                 'MsgBox(Me.DataGridView1.Item(Columnas, filas).Value)
             Next
         Next
-
-        'validar que la columna de los numeros sea igual o mayor a la de los dispositivos
-
-
-
-
-
-
-
-
-
-
-
-
 
         If estadoCeldas = 0 Then
             btn_procesar.Enabled = True
@@ -4171,6 +4205,7 @@ Public Class Frm_Principal
 
 
         Dim pattern As String = "\A([a-no-zA-NO-Z0-9_\.\-]\s{0,1}){1,30}\Z"
+        Dim prohibited As String = "La celda puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), guiones bajos y medio, punto y no mas de un espacio consecutivo."
         Dim validation As Integer = 0
 
         For j = 0 To DataGridView3.Rows.Count - 1
@@ -4179,18 +4214,23 @@ Public Class Frm_Principal
             Dim surname As String = DataGridView3.Rows(j).Cells(2).Value.ToString()
 
             If Regex.IsMatch(name, pattern) Then
-                DataGridView3.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(255, 255, 255)
+                DataGridView3.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView3.Rows(j).Cells(1).ToolTipText = ""
             Else
                 DataGridView3.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView3.Rows(j).Cells(1).ToolTipText = prohibited
                 validation = 1
             End If
 
             If Regex.IsMatch(surname, pattern) Then
-                DataGridView3.Rows(j).Cells(2).Style.BackColor = Color.FromArgb(255, 255, 255)
+                DataGridView3.Rows(j).Cells(2).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView3.Rows(j).Cells(2).ToolTipText = ""
             Else
                 DataGridView3.Rows(j).Cells(2).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView3.Rows(j).Cells(2).ToolTipText = prohibited
                 validation = 1
             End If
+
         Next
 
         If validation = 1 Then
@@ -4575,7 +4615,7 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
-        'Se muestran los datos en el datagridview 
+        'Se muestran los datos en el datagridview4 
         DataGridView4.DataSource = dt
         DataGridView4.Refresh()
 
@@ -4597,37 +4637,24 @@ Public Class Frm_Principal
         'Esta variable se usa para controlar que la data supere las pruebas de validación
         estadoCeldas1 = 0
 
-        Dim matches As MatchCollection
-        Dim match As Match
+        'Dim matches As MatchCollection
+        'Dim match As Match
         Dim prohibited As String = ""
         Dim pattern As String
-        Dim pattern1 As String
+        'Dim pattern1 As String
 
         domain = DataGridView4.Rows(0).Cells(0).Value.ToString.ToLower 'domain = dt.Rows(0)(0).ToString.ToLower
 
         pattern = "\A[a-no-z0-9.]{1,76}.(cl|com|org){1}\Z"
-        pattern1 = "[^a-no-z0-9.]"
+        prohibited = "La celda puede contener hasta 80 caracteres que pueden ser alfanuméricos (obviando la 'ñ' y los espacios) incluyendo obligatoriamente '.cl' o '.com' o '.org' al final de la expresión."
 
         If Regex.IsMatch(domain, pattern) Then
             DataGridView4.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView4.Rows(0).Cells(0).ToolTipText = ""
         Else
             DataGridView4.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView4.Rows(0).Cells(0).ToolTipText = prohibited
             estadoCeldas1 = 1
-
-            matches = Regex.Matches(domain, pattern1)
-
-            If matches.Count > 0 Then
-                prohibited = "No esta permitido el uso de "
-
-                For Each match In matches
-                    prohibited += "'" & match.Value.ToString & "' "
-                Next match
-
-                DataGridView4.Rows(0).Cells(0).ToolTipText = prohibited
-            Else
-                DataGridView4.Rows(0).Cells(0).ToolTipText = "La expresión tiene un límite de 80 caracteres incluyendo obligatoriamente '.cl' o '.com' o '.org' al final"
-            End If
-
         End If
 
 
@@ -4641,10 +4668,35 @@ Public Class Frm_Principal
 
             If Regex.IsMatch(phoneNumber, pattern) Then
                 DataGridView4.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(1).ToolTipText = ""
+
+                'validar que no existan datos de ciertas columnas repetidas
+                For i = 0 To DataGridView4.RowCount - 2
+
+                    Dim valorComparado As String = DataGridView4.Rows(i).Cells(1).Value.ToString
+                    Dim valores As String
+                    'Dim control As Integer = 0
+
+                    For k = 0 To DataGridView4.RowCount - 2
+
+                        valores = DataGridView4.Rows(k).Cells(1).Value.ToString
+
+                        If valorComparado.Equals(valores) And i <> k Then
+
+                            DataGridView4.Rows(k).Cells(1).Style.BackColor = Color.FromArgb(182, 15, 196)
+                            DataGridView4.Rows(k).Cells(1).ToolTipText = "El valor esta repetido"
+                            estadoCeldas1 = 1
+                            'Else
+                            '    DataGridView4.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(255, 255, 255)
+                            '    DataGridView4.Rows(j).Cells(1).ToolTipText = ""
+                        End If
+                    Next
+                Next
+
             Else
                 DataGridView4.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(254, 84, 97)
-                estadoCeldas1 = 1
                 DataGridView4.Rows(j).Cells(1).ToolTipText = "Solo se permite el uso de caracteres númericos, con un largo de 9 dígitos"
+                estadoCeldas1 = 1
             End If
         Next
 
@@ -4652,28 +4704,15 @@ Public Class Frm_Principal
         group_id = DataGridView4.Rows(0).Cells(2).Value.ToString
 
         pattern = "\A[\w]{1,19}(_cloudpbx){1}\Z"
-        pattern1 = "[\W]"
+        prohibited = "La celda puede contener hasta 28 caracteres, que pueden ser alfanuméricos (obviando la 'ñ') incluyendo obligatoriamente '_cloudpbx' al final de la expresión."
 
         If Regex.IsMatch(group_id, pattern) Then
             DataGridView4.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView4.Rows(0).Cells(2).ToolTipText = ""
         Else
             DataGridView4.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView4.Rows(0).Cells(2).ToolTipText = prohibited
             estadoCeldas1 = 1
-
-            matches = Regex.Matches(group_id, pattern1)
-
-            If matches.Count > 0 Then
-                prohibited = "No esta permitido el uso de "
-
-                For Each match In matches
-                    prohibited += "'" & match.Value.ToString & "' "
-                Next match
-
-                DataGridView4.Rows(0).Cells(2).ToolTipText = prohibited
-            Else
-                DataGridView4.Rows(0).Cells(2).ToolTipText = "La expresión tiene un límite de 28 caracteres incluyendo obligatoriamente '_cloudpbx' al final"
-            End If
-
         End If
 
         'validar información de los dispositivos//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -4703,36 +4742,76 @@ Public Class Frm_Principal
             physical_location = DataGridView4.Rows(j).Cells(6).Value.ToString
 
             pattern = "\A[a-fA-F0-9]{12}\Z"
+            prohibited = "La celda debe contener exactamente 12 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
+
             If Regex.IsMatch(mac, pattern) Then
                 DataGridView4.Rows(j).Cells(4).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(4).ToolTipText = ""
+
+                'validar que no existan datos de ciertas columnas repetidas
+                For i = 0 To filasValidas - 1
+
+                    Dim valorComparado As String = DataGridView4.Rows(i).Cells(4).Value.ToString
+                    Dim valores As String
+                    'Dim control As Integer = 0
+
+                    For k = 0 To filasValidas - 1
+
+                        valores = DataGridView4.Rows(k).Cells(4).Value.ToString
+
+                        If valorComparado.Equals(valores) And i <> k Then
+
+                            DataGridView4.Rows(k).Cells(4).Style.BackColor = Color.FromArgb(182, 15, 196)
+                            DataGridView4.Rows(k).Cells(4).ToolTipText = "El valor esta repetido"
+                            estadoCeldas1 = 1
+                            'Else
+                            '    DataGridView4.Rows(j).Cells(4).Style.BackColor = Color.FromArgb(255, 255, 255)
+                            '    DataGridView4.Rows(j).Cells(4).ToolTipText = ""
+                        End If
+                    Next
+                Next
+
             Else
                 DataGridView4.Rows(j).Cells(4).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(4).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
 
             'Si se compara con el signo = un string, no importaran las mayusculas o minusculas
             'If device_type.Equals("Yealink-T19xE2") Or device_type.Equals("Yealink-T21xE2") Or device_type.Equals("Yealink-T27G") Then
             pattern = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)){1}\Z"
+            prohibited = "La celda solo puede contener el texto: Yealink-T19xE2 o Yealink-T21xE2 o Yealink-T27G"
+
             If Regex.IsMatch(device_type, pattern) Then
                 DataGridView4.Rows(j).Cells(3).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(3).ToolTipText = ""
             Else
                 DataGridView4.Rows(j).Cells(3).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(3).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
 
             pattern = "\A[a-no-zA-NO-Z0-9]{16}\Z"
+            prohibited = "La celda debe contener exactamente 16 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
+
             If Regex.IsMatch(serial_number, pattern) Then
                 DataGridView4.Rows(j).Cells(5).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(5).ToolTipText = ""
             Else
                 DataGridView4.Rows(j).Cells(5).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(5).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
 
             pattern = "\A[a-no-zA-NO-Z0-9_]{1,12}\Z"
+            prohibited = "La celda puede contener hasta 12 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
+
             If Regex.IsMatch(physical_location, pattern) Then
                 DataGridView4.Rows(j).Cells(6).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(6).ToolTipText = ""
             Else
                 DataGridView4.Rows(j).Cells(6).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(6).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
         Next
@@ -4772,13 +4851,19 @@ Public Class Frm_Principal
             department = DataGridView4.Rows(j).Cells(7).Value.ToString
 
             pattern = "\A([\w\.\,\-]\s{0,1}){1,80}\Z"
+            prohibited = "La celda puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), guiones bajos y medio, coma, punto y no mas de un espacio consecutivo."
 
             If Regex.IsMatch(department, pattern) Then
                 DataGridView4.Rows(j).Cells(7).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(7).ToolTipText = ""
+
             ElseIf Not Regex.IsMatch(department, pattern) And department.Length = 0 Then
                 DataGridView4.Rows(j).Cells(7).Style.BackColor = Color.FromArgb(255, 255, 255)
+                DataGridView4.Rows(j).Cells(7).ToolTipText = ""
+
             ElseIf Not Regex.IsMatch(department, pattern) And department.Length > 0 Then
                 DataGridView4.Rows(j).Cells(7).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(7).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
         Next
@@ -4797,118 +4882,184 @@ Public Class Frm_Principal
             ocp_premium1 = DataGridView4.Rows(j).Cells(20).Value.ToString
 
             pattern = "\A([a-no-zA-NO-Z0-9_\.\-]\s{0,1}){1,30}\Z"
+            prohibited = "La celda puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), guiones bajos y medio, punto y no mas de un espacio consecutivo."
 
             If Regex.IsMatch(first_name, pattern) Then
                 DataGridView4.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(8).ToolTipText = ""
             Else
                 DataGridView4.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(8).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
 
             If Regex.IsMatch(last_name, pattern) Then
                 DataGridView4.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(9).ToolTipText = ""
             Else
                 DataGridView4.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(9).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
 
+
             pattern = "\A([\w\,]\s{0,1}){1,80}\Z"
+            prohibited = "La celda puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
 
             If Regex.IsMatch(user_address, pattern) Then
                 DataGridView4.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(11).ToolTipText = ""
             Else
                 DataGridView4.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(11).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
 
             If Regex.IsMatch(user_city, pattern) Then
                 DataGridView4.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(12).ToolTipText = ""
             Else
                 DataGridView4.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(12).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
 
             pattern = "\A[0-9]{2,5}\Z"
+            prohibited = "La celda solo puede contener numeros de 0 a 9 (sin espacios) y con un largo de 2 a 5 cifras"
 
             If Regex.IsMatch(extensions, pattern) Then
                 DataGridView4.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(14).ToolTipText = ""
+
+                'validar que no existan datos de ciertas columnas repetidas
+                For i = 0 To filasValidas - 1
+
+                    Dim valorComparado As String = DataGridView4.Rows(i).Cells(14).Value.ToString
+                    Dim valores As String
+                    'Dim control As Integer = 0
+
+                    For k = 0 To filasValidas - 1
+
+                        valores = DataGridView4.Rows(k).Cells(14).Value.ToString
+
+                        If valorComparado.Equals(valores) And i <> k Then
+
+                            DataGridView4.Rows(k).Cells(14).Style.BackColor = Color.FromArgb(182, 15, 196)
+                            DataGridView4.Rows(k).Cells(14).ToolTipText = "El valor esta repetido"
+                            estadoCeldas1 = 1
+                            'Else
+                            '    DataGridView4.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(255, 255, 255)
+                            '    DataGridView4.Rows(j).Cells(14).ToolTipText = ""
+                        End If
+                    Next
+                Next
+
             Else
                 DataGridView4.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(14).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
 
-            If ocp_local.Equals("bloqueado") Or ocp_local.Equals("Bloqueado") Or ocp_local.Equals("BLOQUEADO") Or ocp_local.Equals("desbloqueado") Or ocp_local.Equals("Desbloqueado") Or ocp_local.Equals("DESBLOQUEADO") Then
+            pattern = "\A(b|B)loqueado\Z|\A(BLOQUEADO)\Z|\A(d|D)esbloqueado\Z|\A(DESBLOQUEADO)\Z"
+            prohibited = "La celda solo puede contener el texto: bloqueado o Bloqueado o BLOQUEADO o desbloqueado o Desbloqueado o DESBLOQUEADO"
+
+            If Regex.IsMatch(ocp_local, pattern) Then
                 DataGridView4.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(15).ToolTipText = ""
             Else
                 DataGridView4.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(15).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
 
-            If ocp_tollFree.Equals("bloqueado") Or ocp_tollFree.Equals("Bloqueado") Or ocp_tollFree.Equals("BLOQUEADO") Or ocp_tollFree.Equals("desbloqueado") Or ocp_tollFree.Equals("Desbloqueado") Or ocp_tollFree.Equals("DESBLOQUEADO") Then
+            If Regex.IsMatch(ocp_tollFree, pattern) Then
                 DataGridView4.Rows(j).Cells(16).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(16).ToolTipText = ""
             Else
                 DataGridView4.Rows(j).Cells(16).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(16).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
 
-            If ocp_internacional.Equals("bloqueado") Or ocp_internacional.Equals("Bloqueado") Or ocp_internacional.Equals("BLOQUEADO") Or ocp_internacional.Equals("desbloqueado") Or ocp_internacional.Equals("Desbloqueado") Or ocp_internacional.Equals("DESBLOQUEADO") Then
+            If Regex.IsMatch(ocp_internacional, pattern) Then
                 DataGridView4.Rows(j).Cells(17).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(17).ToolTipText = ""
             Else
                 DataGridView4.Rows(j).Cells(17).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(17).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
 
-            If ocp_special1.Equals("bloqueado") Or ocp_special1.Equals("Bloqueado") Or ocp_special1.Equals("BLOQUEADO") Or ocp_special1.Equals("desbloqueado") Or ocp_special1.Equals("Desbloqueado") Or ocp_special1.Equals("DESBLOQUEADO") Then
+            If Regex.IsMatch(ocp_special1, pattern) Then
                 DataGridView4.Rows(j).Cells(18).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(18).ToolTipText = ""
             Else
                 DataGridView4.Rows(j).Cells(18).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(18).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
 
-            If ocp_special2.Equals("bloqueado") Or ocp_special2.Equals("Bloqueado") Or ocp_special2.Equals("BLOQUEADO") Or ocp_special2.Equals("desbloqueado") Or ocp_special2.Equals("Desbloqueado") Or ocp_special2.Equals("DESBLOQUEADO") Then
+            If Regex.IsMatch(ocp_special2, pattern) Then
                 DataGridView4.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(19).ToolTipText = ""
             Else
                 DataGridView4.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(19).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
 
-            If ocp_premium1.Equals("bloqueado") Or ocp_premium1.Equals("Bloqueado") Or ocp_premium1.Equals("BLOQUEADO") Or ocp_premium1.Equals("desbloqueado") Or ocp_premium1.Equals("Desbloqueado") Or ocp_premium1.Equals("DESBLOQUEADO") Then
+            If Regex.IsMatch(ocp_premium1, pattern) Then
                 DataGridView4.Rows(j).Cells(20).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(20).ToolTipText = ""
             Else
                 DataGridView4.Rows(j).Cells(20).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(20).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
         Next
 
         'INFORMACION OPCIONAL
 
-        pattern = "^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"
+        pattern = "^([a-no-zA-NO-Z0-9\.\-]+)@([a-no-zA-NO-Z0-9\-]+)((\.[a-no-zA-NO-Z0-9]{2,3})+)$"
+        prohibited = "La celda no cumple con el formato esperado para una dirección de email"
 
         For j = 0 To filasValidas - 1
+
             user_email = DataGridView4.Rows(j).Cells(10).Value.ToString
 
             If Regex.IsMatch(user_email, pattern) Then
                 DataGridView4.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(0, 247, 0)
-            ElseIf Not Regex.IsMatch(user_email, pattern) And user_email.Length > 0 Then
+                DataGridView4.Rows(j).Cells(10).ToolTipText = ""
+
+            ElseIf user_email.Length > 0 Then
                 DataGridView4.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(10).ToolTipText = prohibited
                 estadoCeldas1 = 1
-            ElseIf Not Regex.IsMatch(user_email, pattern) And user_email.Length = 0 Then
+
+            ElseIf user_email.Length = 0 Then
                 DataGridView4.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(255, 255, 255)
+                DataGridView4.Rows(j).Cells(10).ToolTipText = ""
             End If
         Next
 
         proxy = DataGridView4.Rows(0).Cells(13).Value.ToString
-        pattern = "^(?:(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^localhost$"
+        pattern = "^(?:(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
+        prohibited = "La celda no cumple con el formatao de una dirección IP"
 
         If Regex.IsMatch(proxy, pattern) Then
             DataGridView4.Rows(0).Cells(13).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView4.Rows(0).Cells(13).ToolTipText = ""
             proxyInfo = 1
+
         ElseIf proxy.Length > 0 Then
             DataGridView4.Rows(0).Cells(13).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView4.Rows(0).Cells(13).ToolTipText = prohibited
             proxyInfo = 0
             estadoCeldas1 = 1
+
         ElseIf proxy.Length = 0 Then
             DataGridView4.Rows(0).Cells(13).Style.BackColor = Color.FromArgb(255, 255, 255)
+            DataGridView4.Rows(0).Cells(13).ToolTipText = ""
             proxyInfo = 0
         End If
 
@@ -4970,7 +5121,7 @@ Public Class Frm_Principal
         '    Exit Sub
         'End If
 
-        '''Se llama a la validación de la data por ultima vez
+        ''Se llama a la validación de la data por ultima vez
         ''Validate_Data()
         ''Dim estado = Validate_Data()
         ''If estado = 0 Then

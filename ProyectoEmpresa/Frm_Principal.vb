@@ -2,6 +2,7 @@
 Imports System.IO
 Imports System.Data.OleDb
 Imports System.Net
+Imports System.Text.RegularExpressions
 
 Public Class Frm_Principal
 
@@ -135,7 +136,7 @@ Public Class Frm_Principal
 
     End Sub
 
-    Private Sub In_Case_Error(ByVal type As Integer)
+    Private Sub In_Case_Error()
 
         If lbl_wait.InvokeRequired Then
 
@@ -146,39 +147,7 @@ Public Class Frm_Principal
             My.Application.DoEvents()
         End If
 
-        If type = 1 Then
-            My.Computer.FileSystem.MoveFile(foundFile, ErrorFolderPath & "\" & FileName & "_[communication error with the server]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
-
-        ElseIf type = 2 Then
-            My.Computer.FileSystem.MoveFile(foundFile, ErrorFolderPath & "\" & FileName & "_[error trying to open the file]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
-
-        ElseIf type = 3 Then
-            My.Computer.FileSystem.MoveFile(foundFile, ErrorFolderPath & "\" & FileName & "_[file validation error]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
-
-        ElseIf type = 4 Then
-            My.Computer.FileSystem.MoveFile(foundFile, ErrorFolderPath & "\" & FileName & "_[database error]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
-
-        ElseIf type = 5 Then
-            My.Computer.FileSystem.MoveFile(foundFile, ErrorFolderPath & "\" & FileName & "_[data validation error]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
-
-        ElseIf type = 6 Then
-            FileClose(numFile)
-            FileClose(1)
-            My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[Internal error trying to create xml file]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
-
-        ElseIf type = 7 Then
-            My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[Internal error trying to delete old responses from Broadsoft]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
-
-        ElseIf type = 8 Then
-            My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[Internal error trying to open multipleInputFile]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
-
-        ElseIf type = 9 Then
-            My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[Internal error trying to create file ociclient.config]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
-
-        ElseIf type = 10 Then
-            My.Computer.FileSystem.MoveFile(foundFile, Desktop & "\error\" & FileName & "_[Internal error trying to execute startASOCIClient.bat]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
-
-        End If
+        My.Computer.FileSystem.MoveFile(foundFile, ErrorFolderPath & "\" & FileName, FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
 
     End Sub
 
@@ -187,8 +156,8 @@ Public Class Frm_Principal
         If My.Computer.Network.Ping(My.Settings.Host, gblTimePing) Then
             'MsgBox("Server pinged successfully.")
         Else
-            grabaLog("Servidor fuera de Linea, favor verifique la conexion", 3, 3)
-            In_Case_Error(1)
+            grabaLog(3, 3, 1)
+            In_Case_Error()
             Exit Sub
         End If
 
@@ -210,9 +179,9 @@ Public Class Frm_Principal
         Try
             FileOpen(1, foundFile, OpenMode.Input)
         Catch ex As Exception
-            grabaLog(ex.ToString, 1, 4)
+            grabaLog(1, 4, 2, ex.ToString)
             FileClose(1)
-            In_Case_Error(2)
+            In_Case_Error()
             Exit Sub
         End Try
 
@@ -234,18 +203,18 @@ Public Class Frm_Principal
             'Se comprueba que cada linea del archivo contenga 26 columnas por fila
             If arrayLine.Length <> 26 Then
                 Dim mensaje As String = "El archivo no cuenta con el formato esperado de una matriz cuadrada de 26 columnas separadas por el caracter punto y  coma (;)"
-                grabaLog(mensaje, 1, 4)
+                grabaLog(1, 4, 3, mensaje)
                 FileClose(1)
-                In_Case_Error(3)
+                In_Case_Error()
                 Exit Sub
             End If
         End While
 
         If controlEmptyFile = 0 Then
             Dim mensaje As String = "El archivo se encuentra vacío"
-            grabaLog(mensaje, 1, 4)
+            grabaLog(1, 4, 3, mensaje)
             FileClose(1)
-            In_Case_Error(3)
+            In_Case_Error()
             Exit Sub
         End If
 
@@ -258,9 +227,9 @@ Public Class Frm_Principal
         Try
             FileOpen(1, foundFile, OpenMode.Input)
         Catch ex As Exception
-            grabaLog(ex.ToString, 1, 4)
+            grabaLog(1, 4, 2, ex.ToString)
             FileClose(1)
-            In_Case_Error(2)
+            In_Case_Error()
             Exit Sub
         End Try
 
@@ -273,10 +242,10 @@ Public Class Frm_Principal
             Conexion.Open()
             cmd.ExecuteNonQuery()
         Catch ex As Exception
-            grabaLog(ex.ToString, 1, 1)
+            grabaLog(1, 1, 7, ex.ToString)
             FileClose(1)
             Conexion.Close()
-            In_Case_Error(4)
+            In_Case_Error()
             Exit Sub
         End Try
         Conexion.Close()
@@ -385,10 +354,10 @@ Public Class Frm_Principal
                 Conexion.Open()
                 Comando.ExecuteNonQuery()
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 1)
+                grabaLog(1, 1, 4, ex.ToString)
                 FileClose(1)
                 Conexion.Close()
-                In_Case_Error(4)
+                In_Case_Error()
                 Exit Sub
             End Try
             Conexion.Close()
@@ -431,9 +400,9 @@ Public Class Frm_Principal
             da.SelectCommand = cmd
             da.Fill(dt)
         Catch ex As Exception
-            grabaLog(ex.ToString, 1, 1)
+            grabaLog(1, 1, 4, ex.ToString)
             Conexion.Close()
-            In_Case_Error(4)
+            In_Case_Error()
             Exit Sub
         End Try
         Conexion.Close()
@@ -489,88 +458,154 @@ Public Class Frm_Principal
         'Esta variable se usa para controlar que la data supere las pruebas de validación
         estadoCeldas = 0
 
-        'INFORMACION OBLIGATORIA. A CONTINUACION SE VALIDA QUE:
+        'Dim matches As MatchCollection
+        'Dim match As Match
+        Dim prohibited As String = ""
+        Dim pattern As String
+        'Dim pattern1 As String
 
-        'domain sea mayor a un largo 3
-        'todos los phoneNumber tengan un largo mayor a 8
-        'group_id sea mayor a un largo 3
-        'group_name sea mayor a un largo 3
-        'address sea mayor a un largo 3
-        'city sea mayor a un largo 3
-        'device_type se mayor a un largo 11
-        'mac sea mayor a un largo 11
-        'serial_number sea mayor a un largo 15
-        'physical_location sea mayor a un largo 3
-        'first_name sea mayor a un largo 1
-        'last_name sea mayor a un largo 0
-        'user_address sea mayor a un largo 3
-        'user_city sea mayor a un largo 3
-        'first_name sea mayor a un largo 1
-        'extensions sea mayor a un largo 1
-        'ocp_local sea mayor a un largo 8
-        'ocp_tollFree sea mayor a un largo 8
-        'ocp_internacional sea mayor a un largo 8
-        'ocp_special1 sea mayor a un largo 8
-        'ocp_special2 sea mayor a un largo 8
-        'ocp_premium1 sea mayor a un largo 8
-
-        'validar dominio----------------------------------------------------------------------------------------------------
-
+        'Validación del dominio//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         domain = DataGridView1.Rows(0).Cells(0).Value.ToString.ToLower 'domain = dt.Rows(0)(0).ToString.ToLower
 
-        If domain.Length > 3 Then
+        pattern = "\A[a-no-z0-9.]{1,76}\.(cl|com|org){1}\Z"
+        prohibited = "La celda puede contener hasta 80 caracteres que pueden ser alfanuméricos (obviando la 'ñ' y los espacios) incluyendo obligatoriamente '.cl' o '.com' o '.org' al final de la expresión."
+        'pattern1 = "[^a-no-z0-9.]"
+
+        If Regex.IsMatch(domain, pattern) Then
             DataGridView1.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView1.Rows(0).Cells(0).ToolTipText = ""
         Else
             DataGridView1.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView1.Rows(0).Cells(0).ToolTipText = prohibited
             estadoCeldas = 1
+            grabaLog(1, 4, 3, prohibited)
+            'matches = Regex.Matches(domain, pattern1)
+
+            'If matches.Count > 0 Then
+            '    prohibited = "No esta permitido el uso de "
+
+            '    For Each match In matches
+            '        prohibited += "'" & match.Value.ToString & "' "
+            '    Next match
+
+            '    DataGridView1.Rows(0).Cells(0).ToolTipText = prohibited
+            'Else
+            '    DataGridView1.Rows(0).Cells(0).ToolTipText = "La expresión tiene un límite de 80 caracteres incluyendo obligatoriamente '.cl' o '.com' o '.org' al final"
+            'End If
+
         End If
 
-        'validar numeración-------------------------------------------------------------------------------------------------
-        For j = 0 To DataGridView1.Rows.Count - 1  'dt.Rows.Count - 1
+        'Validación numeración//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        For j = 0 To DataGridView1.Rows.Count - 2  'dt.Rows.Count - 1
+
             phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
-            If phoneNumber.Length > 8 Then
+
+            pattern = "\A[0-9]{9}\Z"
+
+            If Regex.IsMatch(phoneNumber, pattern) Then
                 DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(1).ToolTipText = ""
+
+                'validar que no existan datos de ciertas columnas repetidas
+                For i = 0 To DataGridView1.RowCount - 2
+
+                    Dim valorComparado As String = DataGridView1.Rows(i).Cells(1).Value.ToString
+                    Dim valores As String
+                    'Dim control As Integer = 0
+
+                    For k = 0 To DataGridView1.RowCount - 2
+
+                        valores = DataGridView1.Rows(k).Cells(1).Value.ToString
+
+                        If valorComparado.Equals(valores) And i <> k Then
+
+                            DataGridView1.Rows(k).Cells(1).Style.BackColor = Color.FromArgb(182, 15, 196)
+                            DataGridView1.Rows(k).Cells(1).ToolTipText = "El valor esta repetido"
+                            estadoCeldas = 1
+                            'Else
+                            '    DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(255, 255, 255)
+                            '    DataGridView1.Rows(j).Cells(1).ToolTipText = ""
+                        End If
+                    Next
+                Next
+
             Else
                 DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(1).ToolTipText = "Solo se permite el uso de caracteres númericos, con un largo de 9 dígitos"
                 estadoCeldas = 1
             End If
         Next
 
-        'validar información del grupo---------------------------------------------------------------------------------------
+        'Validación de información del grupo//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         group_id = DataGridView1.Rows(0).Cells(2).Value.ToString
         group_name = DataGridView1.Rows(0).Cells(3).Value.ToString
         address = DataGridView1.Rows(0).Cells(6).Value.ToString
         city = DataGridView1.Rows(0).Cells(7).Value.ToString
 
-        If group_id.Length > 3 Then
+        pattern = "\A[\w]{1,19}(_cloudpbx){1}\Z"
+        prohibited = "La celda puede contener hasta 28 caracteres, que pueden ser alfanuméricos (obviando la 'ñ') incluyendo obligatoriamente '_cloudpbx' al final de la expresión."
+
+        If Regex.IsMatch(group_id, pattern) Then
             DataGridView1.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView1.Rows(0).Cells(2).ToolTipText = ""
         Else
             DataGridView1.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView1.Rows(0).Cells(2).ToolTipText = prohibited
             estadoCeldas = 1
+
+            'matches = Regex.Matches(group_id, pattern1)
+
+            'If matches.Count > 0 Then
+            '    prohibited = "No esta permitido el uso de "
+
+            '    For Each match In matches
+            '        prohibited += "'" & match.Value.ToString & "' "
+            '    Next match
+
+            '    DataGridView1.Rows(0).Cells(2).ToolTipText = prohibited
+            'Else
+            '    DataGridView1.Rows(0).Cells(2).ToolTipText = "La expresión tiene un límite de 28 caracteres incluyendo obligatoriamente '_cloudpbx' al final"
+            'End If
+
         End If
 
-        If group_name.Length > 3 Then
+        pattern = "\A(([a-no-zA-NO-Z0-9_]\.{0,1}\s{0,1})){1,80}\Z"
+        prohibited = "La celda puede contener hasta 80 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), puntos, comas y no mas de un espacio consecutivo."
+
+        If Regex.IsMatch(group_name, pattern) Then
             DataGridView1.Rows(0).Cells(3).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView1.Rows(0).Cells(3).ToolTipText = ""
         Else
             DataGridView1.Rows(0).Cells(3).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView1.Rows(0).Cells(3).ToolTipText = prohibited
             estadoCeldas = 1
         End If
 
-        If address.Length > 3 Then
+        pattern = "\A([\w\,]\s{0,1}){1,80}\Z"
+        prohibited = "La celda puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
+
+        If Regex.IsMatch(address, pattern) Then
             DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView1.Rows(0).Cells(6).ToolTipText = ""
         Else
             DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView1.Rows(0).Cells(6).ToolTipText = prohibited
             estadoCeldas = 1
         End If
 
-        If city.Length > 3 Then
+        pattern = "\A([\w]\s{0,1}){1,80}\Z"
+        prohibited = "La celda puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ') y no mas de un espacio consecutivo."
+
+        If Regex.IsMatch(city, pattern) Then
             DataGridView1.Rows(0).Cells(7).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView1.Rows(0).Cells(7).ToolTipText = ""
         Else
             DataGridView1.Rows(0).Cells(7).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView1.Rows(0).Cells(7).ToolTipText = prohibited
             estadoCeldas = 1
         End If
 
-        'validar información de los dispositivos-----------------------------------------------------------------------------------
+        'validar información de los dispositivos//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         'La columna 'device_type' es la referencia para las demas, por ello se valida lo sigte:
         'No puede estar vacia la primera celda
         'No puede haber celdas vacias entremedio
@@ -596,37 +631,82 @@ Public Class Frm_Principal
             serial_number = DataGridView1.Rows(j).Cells(10).Value.ToString
             physical_location = DataGridView1.Rows(j).Cells(11).Value.ToString
 
-            If mac.Length > 11 Then
+            pattern = "\A[a-fA-F0-9]{12}\Z"
+            prohibited = "La celda debe contener exactamente 12 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
+
+            If Regex.IsMatch(mac, pattern) Then
                 DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(9).ToolTipText = ""
+
+                'validar que no existan datos de ciertas columnas repetidas
+                For i = 0 To filasValidas - 1
+
+                    Dim valorComparado As String = DataGridView1.Rows(i).Cells(9).Value.ToString
+                    Dim valores As String
+                    'Dim control As Integer = 0
+
+                    For k = 0 To filasValidas - 1
+
+                        valores = DataGridView1.Rows(k).Cells(9).Value.ToString
+
+                        If valorComparado.Equals(valores) And i <> k Then
+
+                            DataGridView1.Rows(k).Cells(9).Style.BackColor = Color.FromArgb(182, 15, 196)
+                            DataGridView1.Rows(k).Cells(9).ToolTipText = "El valor esta repetido"
+                            estadoCeldas = 1
+                            'Else
+                            '    DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(255, 255, 255)
+                            '    DataGridView1.Rows(j).Cells(9).ToolTipText = ""
+                        End If
+                    Next
+                Next
+
             Else
                 DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(9).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
 
             'Si se compara con el signo = un string, no importaran las mayusculas o minusculas
-            If device_type.Equals("Yealink-T19xE2") Or device_type.Equals("Yealink-T21xE2") Or device_type.Equals("Yealink-T27G") Then
+            'If device_type.Equals("Yealink-T19xE2") Or device_type.Equals("Yealink-T21xE2") Or device_type.Equals("Yealink-T27G") Then
+            pattern = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)){1}\Z"
+            prohibited = "La celda solo puede contener el texto: Yealink-T19xE2 o Yealink-T21xE2 o Yealink-T27G"
+
+            If Regex.IsMatch(device_type, pattern) Then
                 DataGridView1.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(8).ToolTipText = ""
             Else
                 DataGridView1.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(8).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
 
-            If serial_number.Length > 15 Then
+            pattern = "\A[a-no-zA-NO-Z0-9]{16}\Z"
+            prohibited = "La celda debe contener exactamente 16 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
+
+            If Regex.IsMatch(serial_number, pattern) Then
                 DataGridView1.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(10).ToolTipText = ""
             Else
                 DataGridView1.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(10).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
 
-            If physical_location.Length > 3 Then
+            pattern = "\A[a-no-zA-NO-Z0-9_]{1,12}\Z"
+            prohibited = "La celda puede contener hasta 12 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
+
+            If Regex.IsMatch(physical_location, pattern) Then
                 DataGridView1.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(11).ToolTipText = ""
             Else
                 DataGridView1.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(11).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
         Next
 
-        'validar información de los usuarios------------------------------------------------------------------------------------------
+        'validar información de los usuarios//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         'validar creación de los departamentos
         Dim varAcumulaDepto As String = ""
         Dim arreglo() As String
@@ -659,13 +739,24 @@ Public Class Frm_Principal
         'Next
         For j = 0 To filasValidas - 1
             department = DataGridView1.Rows(j).Cells(12).Value.ToString
-            If department.Length = 0 Then
-                DataGridView1.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(255, 255, 255)
-            ElseIf department.Length > 0 Then
+
+            pattern = "\A([\w\.\,\-]\s{0,1}){1,80}\Z"
+            prohibited = "La celda puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), guiones bajos y medio, coma, punto y no mas de un espacio consecutivo."
+
+            If Regex.IsMatch(department, pattern) Then
                 DataGridView1.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(12).ToolTipText = ""
+
+            ElseIf Not Regex.IsMatch(department, pattern) And department.Length = 0 Then
+                DataGridView1.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(255, 255, 255)
+                DataGridView1.Rows(j).Cells(12).ToolTipText = ""
+
+            ElseIf Not Regex.IsMatch(department, pattern) And department.Length > 0 Then
+                DataGridView1.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(12).ToolTipText = prohibited
+                estadoCeldas = 1
             End If
         Next
-
 
         For j = 0 To filasValidas - 1
             first_name = DataGridView1.Rows(j).Cells(13).Value.ToString
@@ -680,154 +771,241 @@ Public Class Frm_Principal
             ocp_special2 = DataGridView1.Rows(j).Cells(24).Value.ToString
             ocp_premium1 = DataGridView1.Rows(j).Cells(25).Value.ToString
 
-            If first_name.Length > 1 Then
+            pattern = "\A([a-no-zA-NO-Z0-9_\.\-]\s{0,1}){1,30}\Z"
+            prohibited = "La celda puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), guiones bajos y medio, punto y no mas de un espacio consecutivo."
+
+            If Regex.IsMatch(first_name, pattern) Then
                 DataGridView1.Rows(j).Cells(13).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(13).ToolTipText = ""
             Else
                 DataGridView1.Rows(j).Cells(13).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(13).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
 
-            If last_name.Length > 0 Then
+            If Regex.IsMatch(last_name, pattern) Then
                 DataGridView1.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(14).ToolTipText = ""
             Else
                 DataGridView1.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(14).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
 
-            If user_address.Length > 3 Then
+
+            pattern = "\A([\w\,]\s{0,1}){1,80}\Z"
+            prohibited = "La celda puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
+
+            If Regex.IsMatch(user_address, pattern) Then
                 DataGridView1.Rows(j).Cells(16).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(16).ToolTipText = ""
             Else
                 DataGridView1.Rows(j).Cells(16).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(16).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
 
-            If user_city.Length > 3 Then
+            If Regex.IsMatch(user_city, pattern) Then
                 DataGridView1.Rows(j).Cells(17).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(17).ToolTipText = ""
             Else
                 DataGridView1.Rows(j).Cells(17).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(17).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
 
-            If extensions.Length > 2 Then
+            pattern = "\A[0-9]{2,5}\Z"
+            prohibited = "La celda solo puede contener numeros de 0 a 9 (sin espacios) y con un largo de 2 a 5 cifras"
+
+            If Regex.IsMatch(extensions, pattern) Then
                 DataGridView1.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(19).ToolTipText = ""
+
+                'validar que no existan datos de ciertas columnas repetidas
+                For i = 0 To filasValidas - 1
+
+                    Dim valorComparado As String = DataGridView1.Rows(i).Cells(19).Value.ToString
+                    Dim valores As String
+                    'Dim control As Integer = 0
+
+                    For k = 0 To filasValidas - 1
+
+                        valores = DataGridView1.Rows(k).Cells(19).Value.ToString
+
+                        If valorComparado.Equals(valores) And i <> k Then
+
+                            DataGridView1.Rows(k).Cells(19).Style.BackColor = Color.FromArgb(182, 15, 196)
+                            DataGridView1.Rows(k).Cells(19).ToolTipText = "El valor esta repetido"
+                            estadoCeldas = 1
+                            'Else
+                            '    DataGridView1.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(255, 255, 255)
+                            '    DataGridView1.Rows(j).Cells(19).ToolTipText = ""
+                        End If
+                    Next
+                Next
+
             Else
                 DataGridView1.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(19).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
 
-            If ocp_local.Equals("bloqueado") Or ocp_local.Equals("Bloqueado") Or ocp_local.Equals("BLOQUEADO") Or ocp_local.Equals("desbloqueado") Or ocp_local.Equals("Desbloqueado") Or ocp_local.Equals("DESBLOQUEADO") Then
+            pattern = "\A(b|B)loqueado\Z|\A(BLOQUEADO)\Z|\A(d|D)esbloqueado\Z|\A(DESBLOQUEADO)\Z"
+            prohibited = "La celda solo puede contener el texto: bloqueado o Bloqueado o BLOQUEADO o desbloqueado o Desbloqueado o DESBLOQUEADO"
+
+            If Regex.IsMatch(ocp_local, pattern) Then
                 DataGridView1.Rows(j).Cells(20).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(20).ToolTipText = ""
             Else
                 DataGridView1.Rows(j).Cells(20).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(20).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
 
-            If ocp_tollFree.Equals("bloqueado") Or ocp_tollFree.Equals("Bloqueado") Or ocp_tollFree.Equals("BLOQUEADO") Or ocp_tollFree.Equals("desbloqueado") Or ocp_tollFree.Equals("Desbloqueado") Or ocp_tollFree.Equals("DESBLOQUEADO") Then
+            If Regex.IsMatch(ocp_tollFree, pattern) Then
                 DataGridView1.Rows(j).Cells(21).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(21).ToolTipText = ""
             Else
                 DataGridView1.Rows(j).Cells(21).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(21).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
 
-            If ocp_internacional.Equals("bloqueado") Or ocp_internacional.Equals("Bloqueado") Or ocp_internacional.Equals("BLOQUEADO") Or ocp_internacional.Equals("desbloqueado") Or ocp_internacional.Equals("Desbloqueado") Or ocp_internacional.Equals("DESBLOQUEADO") Then
+            If Regex.IsMatch(ocp_internacional, pattern) Then
                 DataGridView1.Rows(j).Cells(22).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(22).ToolTipText = ""
             Else
                 DataGridView1.Rows(j).Cells(22).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(22).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
 
-            If ocp_special1.Equals("bloqueado") Or ocp_special1.Equals("Bloqueado") Or ocp_special1.Equals("BLOQUEADO") Or ocp_special1.Equals("desbloqueado") Or ocp_special1.Equals("Desbloqueado") Or ocp_special1.Equals("DESBLOQUEADO") Then
+            If Regex.IsMatch(ocp_special1, pattern) Then
                 DataGridView1.Rows(j).Cells(23).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(23).ToolTipText = ""
             Else
                 DataGridView1.Rows(j).Cells(23).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(23).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
 
-            If ocp_special2.Equals("bloqueado") Or ocp_special2.Equals("Bloqueado") Or ocp_special2.Equals("BLOQUEADO") Or ocp_special2.Equals("desbloqueado") Or ocp_special2.Equals("Desbloqueado") Or ocp_special2.Equals("DESBLOQUEADO") Then
+            If Regex.IsMatch(ocp_special2, pattern) Then
                 DataGridView1.Rows(j).Cells(24).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(24).ToolTipText = ""
             Else
                 DataGridView1.Rows(j).Cells(24).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(24).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
 
-            If ocp_premium1.Equals("bloqueado") Or ocp_premium1.Equals("Bloqueado") Or ocp_premium1.Equals("BLOQUEADO") Or ocp_premium1.Equals("desbloqueado") Or ocp_premium1.Equals("Desbloqueado") Or ocp_premium1.Equals("DESBLOQUEADO") Then
+            If Regex.IsMatch(ocp_premium1, pattern) Then
                 DataGridView1.Rows(j).Cells(25).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(25).ToolTipText = ""
             Else
                 DataGridView1.Rows(j).Cells(25).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(25).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
         Next
 
-
-        'INFORMACION OPCIONAL. A CONTINUACION SE VALIDA QUE:
-
-        'Para añadir contact_name y conctact_number al archivo xml correspondiente:
-        'contact_name debe ser mayor a un largo 3 y
-        'contact_number deber ser mayor a un largo 8
-        'user_email  debe ser mayor a un largo 10
-        'proxy sea mayor a un largo 7
+        'INFORMACION OPCIONAL
 
         contact_name = DataGridView1.Rows(0).Cells(4).Value.ToString
         contact_number = DataGridView1.Rows(0).Cells(5).Value.ToString
 
-        'Intento fallido
-        If contact_name.Length <= 3 And contact_name.Length > 0 And contact_number.Length <= 8 And contact_number.Length > 0 Then
-            DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(254, 84, 97)
-            DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(254, 84, 97)
-            infoContact = 0
+        pattern = "\A([\w\.\,\-\/]\s{0,1}){1,30}\Z"
+        prohibited = "La celda puede contener hasta 30 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), puntos, comas, guiones, barras y no mas de un espacio consecutivo."
 
-            'Ambos cumplen
-        ElseIf contact_name.Length > 3 And contact_number.Length > 8 Then
+        'Se llenan los campos y ambos cumplen
+        If Regex.IsMatch(contact_name, pattern) And Regex.IsMatch(contact_number, pattern) Then
             DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(0, 247, 0)
             DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView1.Rows(0).Cells(4).ToolTipText = ""
+            DataGridView1.Rows(0).Cells(5).ToolTipText = ""
             infoContact = 1
+
+            'Se llenan los campos y Niguno cumple
+        ElseIf Not Regex.IsMatch(contact_name, pattern) And Not Regex.IsMatch(contact_number, pattern) Then
 
             'Ninguno cumple (apropósito)
-        ElseIf contact_name.Length = 0 And contact_number.Length = 0 Then
-            DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(255, 255, 255)
-            DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(255, 255, 255)
-            infoContact = 1
+            If contact_name.Length = 0 And contact_number.Length = 0 Then
+                DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(255, 255, 255)
+                DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(255, 255, 255)
+                DataGridView1.Rows(0).Cells(4).ToolTipText = ""
+                DataGridView1.Rows(0).Cells(5).ToolTipText = ""
+                infoContact = 0
+
+                'Ninguno cumple (Intento fallido)
+            Else
+                DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(0).Cells(4).ToolTipText = prohibited
+                DataGridView1.Rows(0).Cells(5).ToolTipText = prohibited
+                infoContact = 0
+                estadoCeldas = 1
+            End If
 
             'Solo el primero cumple
-        ElseIf contact_name.Length > 3 And contact_number.Length <= 8 Then
+        ElseIf Regex.IsMatch(contact_name, pattern) And Not Regex.IsMatch(contact_number, pattern) Then
             DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(0, 247, 0)
             DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView1.Rows(0).Cells(4).ToolTipText = ""
+            DataGridView1.Rows(0).Cells(5).ToolTipText = prohibited
             infoContact = 0
             estadoCeldas = 1
 
             'Solo el segundo cumple
-        ElseIf contact_name.Length <= 3 And contact_number.Length > 8 Then
+        ElseIf Not Regex.IsMatch(contact_name, pattern) And Regex.IsMatch(contact_number, pattern) Then
             DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(254, 84, 97)
             DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView1.Rows(0).Cells(4).ToolTipText = prohibited
+            DataGridView1.Rows(0).Cells(5).ToolTipText = ""
             infoContact = 0
             estadoCeldas = 1
         End If
 
+        pattern = "^([a-no-zA-NO-Z0-9\.\-]+)@([a-no-zA-NO-Z0-9\-]+)((\.[a-no-zA-NO-Z0-9]{2,3})+)$"
+        prohibited = "La celda no cumple con el formato esperado para una dirección de email"
+
         For j = 0 To filasValidas - 1
+
             user_email = DataGridView1.Rows(j).Cells(15).Value.ToString
-            If user_email.Length = 0 Then
-                DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(255, 255, 255)
-            ElseIf user_email.Length > 10 Then
+
+            If Regex.IsMatch(user_email, pattern) Then
                 DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(0, 247, 0)
-            ElseIf user_email.Length <= 10 And user_email.Length > 0 Then
+                DataGridView1.Rows(j).Cells(15).ToolTipText = ""
+
+            ElseIf user_email.Length > 0 Then
                 DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(15).ToolTipText = prohibited
                 estadoCeldas = 1
+
+            ElseIf user_email.Length = 0 Then
+                DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(255, 255, 255)
+                DataGridView1.Rows(j).Cells(15).ToolTipText = ""
             End If
         Next
 
         proxy = DataGridView1.Rows(0).Cells(18).Value.ToString
-        If proxy.Length = 0 Then
-            DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(255, 255, 255)
-            proxyInfo = 0
-        ElseIf proxy.Length > 0 And proxy.Length < 7 Then
+        pattern = "^(?:(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
+        prohibited = "La celda no cumple con el formatao de una dirección IP"
+
+        If Regex.IsMatch(proxy, pattern) Then
+            DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView1.Rows(0).Cells(18).ToolTipText = ""
+            proxyInfo = 1
+
+        ElseIf proxy.Length > 0 Then
             DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView1.Rows(0).Cells(18).ToolTipText = prohibited
             proxyInfo = 0
             estadoCeldas = 1
-        ElseIf proxy.Length > 7 Then
-            DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(0, 247, 0)
-            proxyInfo = 1
-        End If
 
+        ElseIf proxy.Length = 0 Then
+            DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(255, 255, 255)
+            DataGridView1.Rows(0).Cells(18).ToolTipText = ""
+            proxyInfo = 0
+        End If
 
         For fila As Integer = 0 To DataGridView1.RowCount - 1
             For columna As Integer = 0 To DataGridView1.ColumnCount - 1
@@ -838,11 +1016,9 @@ Public Class Frm_Principal
                         DataGridView1.Rows(fila).Cells(columna).ReadOnly = True
                         DataGridView1.Rows(fila).Cells(columna).Style.BackColor = Color.FromArgb(232, 232, 232)
                     End If
-
-                    'Para las columnas 1,8,9,10,11,12,13,14,15,15,17,19,20,21,22,23,24,25
                 Else
                     'filasValidas - 1 se iguala con fila, ya que esta parte en 0
-                    If fila > filasValidas - 1 And columna <> 1 Then
+                    If fila > filasValidas - 1 And columna <> 1 And columna <> 8 Then
                         DataGridView1.Rows(fila).Cells(columna).ReadOnly = True
                         DataGridView1.Rows(fila).Cells(columna).Style.BackColor = Color.FromArgb(232, 232, 232)
                     Else
@@ -860,9 +1036,9 @@ Public Class Frm_Principal
             CloudPBX()
             'Return 0
         Else
-            Dim mensaje As String = "Error de validación de la información contenida en el archivo"
-            grabaLog(mensaje, 1, 4)
-            In_Case_Error(5)
+            'Dim mensaje As String = "Error de validación de la información contenida en el archivo"
+            'grabaLog(mensaje, 1, 4)
+            In_Case_Error()
             Return 1
             'btn_procesar.Enabled = False
             'MsgBox("revise las celdas")
@@ -1110,7 +1286,7 @@ Public Class Frm_Principal
             Next
         Catch ex As Exception
             grabaLog(ex.ToString, 1, 2)
-            In_Case_Error(7)
+            In_Case_Error()
             Exit Sub
         End Try
 
@@ -1125,7 +1301,7 @@ Public Class Frm_Principal
         Catch ex As Exception
             grabaLog(ex.ToString, 1, 5)
             FileClose(1)
-            In_Case_Error(8)
+            In_Case_Error()
             Exit Sub
         End Try
 
@@ -1150,7 +1326,7 @@ Public Class Frm_Principal
         Catch ex As Exception
             grabaLog(ex.ToString, 1, 2)
             'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-            In_Case_Error(6)
+            In_Case_Error()
             Exit Sub
         End Try
         estadoArchivo = 1
@@ -1178,7 +1354,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error(6)
+                In_Case_Error()
                 Exit Sub
             End Try
             estadoArchivo = 2
@@ -1212,7 +1388,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error(6)
+                In_Case_Error()
                 Exit Sub
             End Try
             estadoArchivo = 3
@@ -1263,7 +1439,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error(6)
+                In_Case_Error()
                 Exit Sub
             End Try
             estadoArchivo = 4
@@ -1295,7 +1471,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error(6)
+                In_Case_Error()
                 Exit Sub
             End Try
             estadoArchivo = 5
@@ -1374,7 +1550,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error(6)
+                In_Case_Error()
                 Exit Sub
             End Try
             estadoArchivo = 7
@@ -1408,7 +1584,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error(6)
+                In_Case_Error()
                 Exit Sub
             End Try
             estadoArchivo = 8
@@ -1455,7 +1631,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error(6)
+                In_Case_Error()
                 Exit Sub
             End Try
             estadoArchivo = 9
@@ -1489,7 +1665,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error(6)
+                In_Case_Error()
                 Exit Sub
             End Try
             estadoArchivo = 10
@@ -1559,7 +1735,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error(6)
+                In_Case_Error()
                 Exit Sub
             End Try
             estadoArchivo = 11
@@ -1598,7 +1774,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error(6)
+                In_Case_Error()
                 Exit Sub
             End Try
             estadoArchivo = 12
@@ -1648,7 +1824,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error(6)
+                In_Case_Error()
                 Exit Sub
             End Try
             estadoArchivo = 13
@@ -1688,7 +1864,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error(6)
+                In_Case_Error()
                 Exit Sub
             End Try
             estadoArchivo = 14
@@ -1778,7 +1954,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error(6)
+                In_Case_Error()
                 Exit Sub
             End Try
             estadoArchivo = 15
@@ -1815,7 +1991,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error(6)
+                In_Case_Error()
                 Exit Sub
             End Try
             estadoArchivo = 16
@@ -1849,7 +2025,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error(6)
+                In_Case_Error()
                 Exit Sub
             End Try
             estadoArchivo = 17
@@ -1892,7 +2068,7 @@ Public Class Frm_Principal
             Catch ex As Exception
                 grabaLog(ex.ToString, 1, 2)
                 'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error(6)
+                In_Case_Error()
                 Exit Sub
             End Try
         End If
@@ -1986,7 +2162,7 @@ Public Class Frm_Principal
             'Me.Cursor = Cursors.Default
             If numberSubroutine = 1 Then
                 codError = 1
-                In_Case_Error(9)
+                In_Case_Error()
 
                 If lbl_state_cloud.GetCurrentParent.InvokeRequired Then
                     lbl_state_cloud.GetCurrentParent.Invoke(Sub() lbl_state_cloud.Text = "Error File ociclient.config")
@@ -2043,7 +2219,7 @@ Public Class Frm_Principal
 
                 If numberSubroutine = 1 Then
                     codError = 1
-                    In_Case_Error(10)
+                    In_Case_Error()
 
                     If lbl_state_cloud.GetCurrentParent.InvokeRequired Then
                         lbl_state_cloud.GetCurrentParent.Invoke(Sub() lbl_state_cloud.Text = "Error to the execute startASOCIClient.bat")
@@ -2071,7 +2247,7 @@ Public Class Frm_Principal
             grabaLog(ex.ToString & strArguments, 1, 7)
             If numberSubroutine = 1 Then
                 codError = 1
-                In_Case_Error(10)
+                In_Case_Error()
 
                 If lbl_state_cloud.GetCurrentParent.InvokeRequired Then
                     lbl_state_cloud.GetCurrentParent.Invoke(Sub() lbl_state_cloud.Text = "Error to the execute startASOCIClient.bat")
@@ -2221,8 +2397,7 @@ Public Class Frm_Principal
     End Sub
 
 
-    Public Sub grabaLog(ByVal mensaje As String, ByVal tipo As Integer, ByVal subtipo As Integer)
-
+    Public Sub grabaLog(ByVal tipo As Integer, ByVal subtipo As Integer, ByVal tipoMensaje As Integer, Optional ByVal aditionalMessage As String = "")
 
         If lbl_state_cloud.GetCurrentParent.InvokeRequired Then
             lbl_state_cloud.GetCurrentParent.Invoke(Sub() lbl_state_cloud.Text = "Saving log...")
@@ -2240,47 +2415,72 @@ Public Class Frm_Principal
             My.Application.DoEvents()
         End If
 
+        Dim mensaje As String = ""
         Dim fileLog As String = ""
         Dim linerr As String = ""
 
-        linerr = DateAndTime.Now & " ->"
-
+        'tipo de indicación
         If tipo = 1 Then
             linerr += " Error>"
-        End If
-        If tipo = 2 Then
+
+        ElseIf tipo = 2 Then
             linerr += " INFO>"
-        End If
-        If tipo = 3 Then
+
+        ElseIf tipo = 3 Then
             linerr += " WARNING>"
+
         End If
 
-        If subtipo = 1 Then
-            linerr += " DB>"
-        End If
-        If subtipo = 2 Then
-            linerr += " XML>"
-        End If
-        If subtipo = 3 Then
-            linerr += " CNX>"
-        End If
-        If subtipo = 4 Then
-            linerr += " CSV>"
-        End If
-        If subtipo = 5 Then
-            linerr += " MultipleInputFile>"
-        End If
-        If subtipo = 6 Then
-            linerr += " ociclient.config>"
-        End If
-        If subtipo = 7 Then
-            linerr += " ExecuteShellBulk>"
-        End If
-        If subtipo = 8 Then
-            linerr += " BroadsoftResponseReport>"
-        End If
-        linerr += " " & mensaje
+        'subtipo de indicación
+        Select Case subtipo
 
+            Case 1
+                linerr += " DB> "
+            Case 2
+                linerr += " XML> "
+            Case 3
+                linerr += " CNX> "
+            Case 4
+                linerr += " CSV> "
+            Case 5
+                linerr += " MultipleInputFile> "
+            Case 6
+                linerr += " ociclient.config> "
+            Case 7
+                linerr += " ExecuteShellBulk> "
+            Case 8
+                linerr += " BroadsoftResponseReport> "
+        End Select
+
+        'tipo de mensaje
+        Select Case tipoMensaje
+
+            Case 1
+                'My.Computer.FileSystem.MoveFile(foundFile, ErrorFolderPath & "\" & FileName & "_[communication error with the server]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+                mensaje = "communication error with the server "
+            Case 2
+                mensaje = "error trying to open the file "
+            Case 3
+                mensaje = "file validation error "
+            Case 4
+                mensaje = "database error "
+            Case 5
+                mensaje = "data validation error "
+            Case 6
+                mensaje = "Internal error trying to create xml file "
+                FileClose(numFile)
+                FileClose(1)
+            Case 7
+                mensaje = "Internal error trying to delete old responses from Broadsoft "
+            Case 8
+                mensaje = "Internal error trying to open multipleInputFile "
+            Case 9
+                mensaje = "Internal error trying to create file ociclient.config "
+            Case 10
+                mensaje = "Internal error trying to execute startASOCIClient.bat "
+        End Select
+
+        linerr += DateAndTime.Now & " -> " & mensaje & vbNewLine & aditionalMessage
 
         fileLog = LogsFolderPath & "\" & FileName & "_" & Format(Now(), "dd-MM-yyyy_hhmmss") & ".log"
 
@@ -2300,10 +2500,23 @@ Public Class Frm_Principal
             My.Application.DoEvents()
         End If
 
-        'ProgressBar1.Value = ProgressBar1.Maximum
-        'My.Application.DoEvents()
-
     End Sub
+
+
+
+    '    Dim number As Integer = 8
+    'Select Case number
+    '    Case 1 To 5
+    '        Debug.WriteLine("Between 1 and 5, inclusive")
+    '        ' The following is the only Case clause that evaluates to True.
+    '    Case 6, 7, 8
+    '        Debug.WriteLine("Between 6 and 8, inclusive")
+    '    Case 9 To 10
+    '        Debug.WriteLine("Equal to 9 or 10")
+    '    Case Else
+    '        Debug.WriteLine("Not between 1 and 10, inclusive")
+    'End Select
+
 
     Private Sub Btn_report_cloudpbx_Click(sender As Object, e As EventArgs) Handles btn_report_cloudpbx.Click
         ParseXML_cloudPBX()
@@ -2411,5 +2624,9 @@ Public Class Frm_Principal
 
 
         'My.Computer.Network.DownloadFile("https://via.placeholder.com/600/aa8f2e", "C:\Users\cs\Desktop\foto.jpg", "", "", True, 500, True)
+    End Sub
+
+    Private Sub TabPage1_Click(sender As Object, e As EventArgs) Handles TabPage1.Click
+
     End Sub
 End Class

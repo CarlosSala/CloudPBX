@@ -136,7 +136,7 @@ Public Class Frm_Principal
 
     End Sub
 
-    Private Sub In_Case_Error()
+    Private Sub In_Case_Error(Optional ByVal closeFile As Integer = 0)
 
         If lbl_wait.InvokeRequired Then
 
@@ -149,6 +149,10 @@ Public Class Frm_Principal
 
         My.Computer.FileSystem.MoveFile(foundFile, ErrorFolderPath & "\" & FileName, FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
 
+        If closeFile = 1 Then
+            FileClose(numFile)
+            FileClose(1)
+        End If
     End Sub
 
     Private Sub Validate_File()
@@ -458,18 +462,14 @@ Public Class Frm_Principal
         'Esta variable se usa para controlar que la data supere las pruebas de validación
         estadoCeldas = 0
 
-        'Dim matches As MatchCollection
-        'Dim match As Match
-        Dim prohibited As String = ""
+        Dim prohibited As String
         Dim pattern As String
-        'Dim pattern1 As String
 
         'Validación del dominio//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         domain = DataGridView1.Rows(0).Cells(0).Value.ToString.ToLower 'domain = dt.Rows(0)(0).ToString.ToLower
 
         pattern = "\A[a-no-z0-9.]{1,76}\.(cl|com|org){1}\Z"
         prohibited = "La celda puede contener hasta 80 caracteres que pueden ser alfanuméricos (obviando la 'ñ' y los espacios) incluyendo obligatoriamente '.cl' o '.com' o '.org' al final de la expresión."
-        'pattern1 = "[^a-no-z0-9.]"
 
         If Regex.IsMatch(domain, pattern) Then
             DataGridView1.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -479,60 +479,55 @@ Public Class Frm_Principal
             DataGridView1.Rows(0).Cells(0).ToolTipText = prohibited
             estadoCeldas = 1
             grabaLog(1, 4, 3, prohibited)
-            'matches = Regex.Matches(domain, pattern1)
-
-            'If matches.Count > 0 Then
-            '    prohibited = "No esta permitido el uso de "
-
-            '    For Each match In matches
-            '        prohibited += "'" & match.Value.ToString & "' "
-            '    Next match
-
-            '    DataGridView1.Rows(0).Cells(0).ToolTipText = prohibited
-            'Else
-            '    DataGridView1.Rows(0).Cells(0).ToolTipText = "La expresión tiene un límite de 80 caracteres incluyendo obligatoriamente '.cl' o '.com' o '.org' al final"
-            'End If
+            In_Case_Error()
+            Exit Function
 
         End If
 
         'Validación numeración//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        For j = 0 To DataGridView1.Rows.Count - 2  'dt.Rows.Count - 1
+        For j = 0 To DataGridView1.Rows.Count - 1  'dt.Rows.Count - 1
 
             phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
 
             pattern = "\A[0-9]{9}\Z"
+            prohibited = "Solo se permite el uso de caracteres númericos, con un largo de 9 dígitos"
 
             If Regex.IsMatch(phoneNumber, pattern) Then
                 DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView1.Rows(j).Cells(1).ToolTipText = ""
 
                 'validar que no existan datos de ciertas columnas repetidas
-                For i = 0 To DataGridView1.RowCount - 2
+                For i = 0 To DataGridView1.RowCount - 1
 
                     Dim valorComparado As String = DataGridView1.Rows(i).Cells(1).Value.ToString
                     Dim valores As String
                     'Dim control As Integer = 0
 
-                    For k = 0 To DataGridView1.RowCount - 2
+                    For k = 0 To DataGridView1.RowCount - 1
 
                         valores = DataGridView1.Rows(k).Cells(1).Value.ToString
 
                         If valorComparado.Equals(valores) And i <> k Then
 
+                            prohibited = "El valor " & valorComparado & " esta repetido."
                             DataGridView1.Rows(k).Cells(1).Style.BackColor = Color.FromArgb(182, 15, 196)
-                            DataGridView1.Rows(k).Cells(1).ToolTipText = "El valor esta repetido"
+                            DataGridView1.Rows(k).Cells(1).ToolTipText = prohibited
                             estadoCeldas = 1
-                            'Else
-                            '    DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(255, 255, 255)
-                            '    DataGridView1.Rows(j).Cells(1).ToolTipText = ""
+                            grabaLog(1, 4, 3, prohibited)
+                            In_Case_Error()
+                            Exit Function
+
                         End If
                     Next
                 Next
 
             Else
                 DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView1.Rows(j).Cells(1).ToolTipText = "Solo se permite el uso de caracteres númericos, con un largo de 9 dígitos"
+                DataGridView1.Rows(j).Cells(1).ToolTipText = prohibited
                 estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
             End If
         Next
 
@@ -552,20 +547,9 @@ Public Class Frm_Principal
             DataGridView1.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(254, 84, 97)
             DataGridView1.Rows(0).Cells(2).ToolTipText = prohibited
             estadoCeldas = 1
-
-            'matches = Regex.Matches(group_id, pattern1)
-
-            'If matches.Count > 0 Then
-            '    prohibited = "No esta permitido el uso de "
-
-            '    For Each match In matches
-            '        prohibited += "'" & match.Value.ToString & "' "
-            '    Next match
-
-            '    DataGridView1.Rows(0).Cells(2).ToolTipText = prohibited
-            'Else
-            '    DataGridView1.Rows(0).Cells(2).ToolTipText = "La expresión tiene un límite de 28 caracteres incluyendo obligatoriamente '_cloudpbx' al final"
-            'End If
+            grabaLog(1, 4, 3, prohibited)
+            In_Case_Error()
+            Exit Function
 
         End If
 
@@ -579,6 +563,9 @@ Public Class Frm_Principal
             DataGridView1.Rows(0).Cells(3).Style.BackColor = Color.FromArgb(254, 84, 97)
             DataGridView1.Rows(0).Cells(3).ToolTipText = prohibited
             estadoCeldas = 1
+            grabaLog(1, 4, 3, prohibited)
+            In_Case_Error()
+            Exit Function
         End If
 
         pattern = "\A([\w\,]\s{0,1}){1,80}\Z"
@@ -591,6 +578,9 @@ Public Class Frm_Principal
             DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(254, 84, 97)
             DataGridView1.Rows(0).Cells(6).ToolTipText = prohibited
             estadoCeldas = 1
+            grabaLog(1, 4, 3, prohibited)
+            In_Case_Error()
+            Exit Function
         End If
 
         pattern = "\A([\w]\s{0,1}){1,80}\Z"
@@ -603,19 +593,15 @@ Public Class Frm_Principal
             DataGridView1.Rows(0).Cells(7).Style.BackColor = Color.FromArgb(254, 84, 97)
             DataGridView1.Rows(0).Cells(7).ToolTipText = prohibited
             estadoCeldas = 1
+            grabaLog(1, 4, 3, prohibited)
+            In_Case_Error()
+            Exit Function
         End If
 
         'validar información de los dispositivos//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         'La columna 'device_type' es la referencia para las demas, por ello se valida lo sigte:
         'No puede estar vacia la primera celda
         'No puede haber celdas vacias entremedio
-
-        If DataGridView1.Rows(0).Cells(8).Value.ToString.Length > 11 Then
-            DataGridView1.Rows(0).Cells(8).Style.BackColor = Color.FromArgb(0, 247, 0)
-        Else
-            DataGridView1.Rows(0).Cells(8).Style.BackColor = Color.FromArgb(254, 84, 97)
-            estadoCeldas = 1
-        End If
 
         filasValidas = 0
         'For para saber cantidad de filas no vacias de la columna device_type
@@ -626,10 +612,27 @@ Public Class Frm_Principal
         Next
 
         For j = 0 To filasValidas - 1
-            mac = DataGridView1.Rows(j).Cells(9).Value.ToString
             device_type = DataGridView1.Rows(j).Cells(8).Value.ToString
+            mac = DataGridView1.Rows(j).Cells(9).Value.ToString
             serial_number = DataGridView1.Rows(j).Cells(10).Value.ToString
             physical_location = DataGridView1.Rows(j).Cells(11).Value.ToString
+
+            'Si se compara con el signo = un string, no importaran las mayusculas o minusculas
+            'If device_type.Equals("Yealink-T19xE2") Or device_type.Equals("Yealink-T21xE2") Or device_type.Equals("Yealink-T27G") Then
+            pattern = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)){1}\Z"
+            prohibited = "La celda solo puede contener el texto: Yealink-T19xE2 o Yealink-T21xE2 o Yealink-T27G"
+
+            If Regex.IsMatch(device_type, pattern) Then
+                DataGridView1.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(8).ToolTipText = ""
+            Else
+                DataGridView1.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(8).ToolTipText = prohibited
+                estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
+            End If
 
             pattern = "\A[a-fA-F0-9]{12}\Z"
             prohibited = "La celda debe contener exactamente 12 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
@@ -651,12 +654,14 @@ Public Class Frm_Principal
 
                         If valorComparado.Equals(valores) And i <> k Then
 
+                            prohibited = "El valor " & valorComparado & " esta repetido."
                             DataGridView1.Rows(k).Cells(9).Style.BackColor = Color.FromArgb(182, 15, 196)
-                            DataGridView1.Rows(k).Cells(9).ToolTipText = "El valor esta repetido"
+                            DataGridView1.Rows(k).Cells(9).ToolTipText = prohibited
                             estadoCeldas = 1
-                            'Else
-                            '    DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(255, 255, 255)
-                            '    DataGridView1.Rows(j).Cells(9).ToolTipText = ""
+                            grabaLog(1, 4, 3, prohibited)
+                            In_Case_Error()
+                            Exit Function
+
                         End If
                     Next
                 Next
@@ -665,20 +670,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(9).ToolTipText = prohibited
                 estadoCeldas = 1
-            End If
-
-            'Si se compara con el signo = un string, no importaran las mayusculas o minusculas
-            'If device_type.Equals("Yealink-T19xE2") Or device_type.Equals("Yealink-T21xE2") Or device_type.Equals("Yealink-T27G") Then
-            pattern = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)){1}\Z"
-            prohibited = "La celda solo puede contener el texto: Yealink-T19xE2 o Yealink-T21xE2 o Yealink-T27G"
-
-            If Regex.IsMatch(device_type, pattern) Then
-                DataGridView1.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView1.Rows(j).Cells(8).ToolTipText = ""
-            Else
-                DataGridView1.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView1.Rows(j).Cells(8).ToolTipText = prohibited
-                estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
             End If
 
             pattern = "\A[a-no-zA-NO-Z0-9]{16}\Z"
@@ -691,6 +685,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(10).ToolTipText = prohibited
                 estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
             End If
 
             pattern = "\A[a-no-zA-NO-Z0-9_]{1,12}\Z"
@@ -703,6 +700,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(11).ToolTipText = prohibited
                 estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
             End If
         Next
 
@@ -755,6 +755,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(12).ToolTipText = prohibited
                 estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
             End If
         Next
 
@@ -781,6 +784,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(13).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(13).ToolTipText = prohibited
                 estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
             End If
 
             If Regex.IsMatch(last_name, pattern) Then
@@ -790,6 +796,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(14).ToolTipText = prohibited
                 estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
             End If
 
 
@@ -803,6 +812,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(16).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(16).ToolTipText = prohibited
                 estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
             End If
 
             If Regex.IsMatch(user_city, pattern) Then
@@ -812,6 +824,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(17).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(17).ToolTipText = prohibited
                 estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
             End If
 
             pattern = "\A[0-9]{2,5}\Z"
@@ -834,12 +849,14 @@ Public Class Frm_Principal
 
                         If valorComparado.Equals(valores) And i <> k Then
 
+                            prohibited = "El valor " & valorComparado & " esta repetido."
                             DataGridView1.Rows(k).Cells(19).Style.BackColor = Color.FromArgb(182, 15, 196)
-                            DataGridView1.Rows(k).Cells(19).ToolTipText = "El valor esta repetido"
+                            DataGridView1.Rows(k).Cells(19).ToolTipText = prohibited
                             estadoCeldas = 1
-                            'Else
-                            '    DataGridView1.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(255, 255, 255)
-                            '    DataGridView1.Rows(j).Cells(19).ToolTipText = ""
+                            grabaLog(1, 4, 3, prohibited)
+                            In_Case_Error()
+                            Exit Function
+
                         End If
                     Next
                 Next
@@ -848,6 +865,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(19).ToolTipText = prohibited
                 estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
             End If
 
             pattern = "\A(b|B)loqueado\Z|\A(BLOQUEADO)\Z|\A(d|D)esbloqueado\Z|\A(DESBLOQUEADO)\Z"
@@ -860,6 +880,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(20).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(20).ToolTipText = prohibited
                 estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
             End If
 
             If Regex.IsMatch(ocp_tollFree, pattern) Then
@@ -869,6 +892,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(21).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(21).ToolTipText = prohibited
                 estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
             End If
 
             If Regex.IsMatch(ocp_internacional, pattern) Then
@@ -878,6 +904,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(22).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(22).ToolTipText = prohibited
                 estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
             End If
 
             If Regex.IsMatch(ocp_special1, pattern) Then
@@ -887,6 +916,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(23).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(23).ToolTipText = prohibited
                 estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
             End If
 
             If Regex.IsMatch(ocp_special2, pattern) Then
@@ -896,6 +928,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(24).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(24).ToolTipText = prohibited
                 estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
             End If
 
             If Regex.IsMatch(ocp_premium1, pattern) Then
@@ -905,6 +940,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(25).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(25).ToolTipText = prohibited
                 estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
             End If
         Next
 
@@ -943,6 +981,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(0).Cells(5).ToolTipText = prohibited
                 infoContact = 0
                 estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
             End If
 
             'Solo el primero cumple
@@ -953,6 +994,9 @@ Public Class Frm_Principal
             DataGridView1.Rows(0).Cells(5).ToolTipText = prohibited
             infoContact = 0
             estadoCeldas = 1
+            grabaLog(1, 4, 3, prohibited)
+            In_Case_Error()
+            Exit Function
 
             'Solo el segundo cumple
         ElseIf Not Regex.IsMatch(contact_name, pattern) And Regex.IsMatch(contact_number, pattern) Then
@@ -962,6 +1006,9 @@ Public Class Frm_Principal
             DataGridView1.Rows(0).Cells(5).ToolTipText = ""
             infoContact = 0
             estadoCeldas = 1
+            grabaLog(1, 4, 3, prohibited)
+            In_Case_Error()
+            Exit Function
         End If
 
         pattern = "^([a-no-zA-NO-Z0-9\.\-]+)@([a-no-zA-NO-Z0-9\-]+)((\.[a-no-zA-NO-Z0-9]{2,3})+)$"
@@ -979,6 +1026,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(15).ToolTipText = prohibited
                 estadoCeldas = 1
+                grabaLog(1, 4, 3, prohibited)
+                In_Case_Error()
+                Exit Function
 
             ElseIf user_email.Length = 0 Then
                 DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(255, 255, 255)
@@ -1000,6 +1050,9 @@ Public Class Frm_Principal
             DataGridView1.Rows(0).Cells(18).ToolTipText = prohibited
             proxyInfo = 0
             estadoCeldas = 1
+            grabaLog(1, 4, 3, prohibited)
+            In_Case_Error()
+            Exit Function
 
         ElseIf proxy.Length = 0 Then
             DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(255, 255, 255)
@@ -1285,7 +1338,7 @@ Public Class Frm_Principal
                 My.Computer.FileSystem.DeleteFile(document)
             Next
         Catch ex As Exception
-            grabaLog(ex.ToString, 1, 2)
+            grabaLog(1, 2, 7, ex.ToString)
             In_Case_Error()
             Exit Sub
         End Try
@@ -1299,7 +1352,7 @@ Public Class Frm_Principal
         Try
             FileOpen(1, multipleInputFile, OpenMode.Output, OpenAccess.Write)
         Catch ex As Exception
-            grabaLog(ex.ToString, 1, 5)
+            grabaLog(1, 2, 5, ex.ToString)
             FileClose(1)
             In_Case_Error()
             Exit Sub
@@ -1324,16 +1377,13 @@ Public Class Frm_Principal
             lineConfigFile = fileIXML & ";" & fileOXML
             WriteLine(1, lineConfigFile.ToCharArray)
         Catch ex As Exception
-            grabaLog(ex.ToString, 1, 2)
-            'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-            In_Case_Error()
+            grabaLog(1, 2, 6, ex.ToString)
+            In_Case_Error(1)
             Exit Sub
         End Try
-        estadoArchivo = 1
 
         'XML PARA ASIGNAR EL DOMINIO CREADO----------------------------------------------------------------------
-        If estadoArchivo = 1 Then
-            Try
+        Try
                 numFile = 2
                 indexXML_Cloud += 1
                 fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignDomain_request.xml"
@@ -1352,16 +1402,12 @@ Public Class Frm_Principal
                 lineConfigFile = fileIXML & ";" & fileOXML
                 WriteLine(1, lineConfigFile.ToCharArray)
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 2)
-                'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error()
+                grabaLog(1, 2, 6, ex.ToString)
+                In_Case_Error(1)
                 Exit Sub
             End Try
-            estadoArchivo = 2
-        End If
 
-        'XML PARA CREAR NUMERACIÓN------------------------------------------------------------------------------
-        If estadoArchivo = 2 Then
+            'XML PARA CREAR NUMERACIÓN------------------------------------------------------------------------------
             Try
                 numFile = 2
                 indexXML_Cloud += 1
@@ -1386,16 +1432,12 @@ Public Class Frm_Principal
                 lineConfigFile = fileIXML & ";" & fileOXML
                 WriteLine(1, lineConfigFile.ToCharArray)
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 2)
-                'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error()
+                grabaLog(1, 2, 6, ex.ToString)
+                In_Case_Error(1)
                 Exit Sub
             End Try
-            estadoArchivo = 3
-        End If
 
-        'XML PARA CREAR PERFIL DE GRUPO-------------------------------------------------------------------------
-        If estadoArchivo = 3 Then
+            'XML PARA CREAR PERFIL DE GRUPO-------------------------------------------------------------------------
             Try
                 numFile = 2
                 indexXML_Cloud += 1
@@ -1437,16 +1479,12 @@ Public Class Frm_Principal
                 lineConfigFile = fileIXML & ";" & fileOXML
                 WriteLine(1, lineConfigFile.ToCharArray)
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 2)
-                'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error()
+                grabaLog(1, 2, 6, ex.ToString)
+                In_Case_Error(1)
                 Exit Sub
             End Try
-            estadoArchivo = 4
-        End If
 
-        'XML PARA MODIFICAR EL LARGO DE LAS EXTENSIONES DE GRUPO--------------------------------------------------------------
-        If estadoArchivo = 4 Then
+            'XML PARA MODIFICAR EL LARGO DE LAS EXTENSIONES DE GRUPO--------------------------------------------------------------
             Try
                 numFile = 2
                 indexXML_Cloud += 1
@@ -1469,54 +1507,47 @@ Public Class Frm_Principal
                 lineConfigFile = fileIXML & ";" & fileOXML
                 WriteLine(1, lineConfigFile.ToCharArray)
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 2)
-                'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error()
+                grabaLog(1, 2, 6, ex.ToString)
+                In_Case_Error(1)
                 Exit Sub
             End Try
-            estadoArchivo = 5
-        End If
 
-        'XML PARA SELECCIONAR SERVICIOS DE GRUPO (ARCHIVO EXTERNO)--------------------------------------------------------------
-        indexXML_Cloud += 1
-        If estadoArchivo = 5 Then
-            Try
-                'Lee un archivo, modifica la linea 6
-                Dim Lines_Array() As String = IO.File.ReadAllLines(gblPathAppl & "\servicesFile_cloud\" & "5_SelectServices_request.xml")
-                Lines_Array(5) = " <groupId>" & group_id & "</groupId>"
+            'XML PARA SELECCIONAR SERVICIOS DE GRUPO (ARCHIVO EXTERNO)--------------------------------------------------------------
+            indexXML_Cloud += 1
+        Try
+            'Lee un archivo, modifica la linea 6
+            Dim Lines_Array() As String = IO.File.ReadAllLines(gblPathAppl & "\servicesFile_cloud\" & "5_SelectServices_request.xml")
+            Lines_Array(5) = " <groupId>" & group_id & "</groupId>"
 
-                'Se reescribe el archivo con la linea 6 ya editada
-                IO.File.WriteAllLines(gblPathAppl & "\servicesFile_cloud\" & indexXML_Cloud & "_SelectServices_request.xml", Lines_Array)
+            'Se reescribe el archivo con la linea 6 ya editada
+            IO.File.WriteAllLines(gblPathAppl & "\servicesFile_cloud\" & indexXML_Cloud & "_SelectServices_request.xml", Lines_Array)
 
-                fileIXML = gblPathAppl & "\servicesFile_cloud\" & indexXML_Cloud & "_SelectServices_request.xml"
-                fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
-                lineConfigFile = fileIXML & ";" & fileOXML
-                WriteLine(1, lineConfigFile.ToCharArray)
+            fileIXML = gblPathAppl & "\servicesFile_cloud\" & indexXML_Cloud & "_SelectServices_request.xml"
+            fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+            lineConfigFile = fileIXML & ";" & fileOXML
+            WriteLine(1, lineConfigFile.ToCharArray)
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 2)
-                'MsgBox("Error al modificar el archivo " & gblPathAppl & "\servicesFile_cloud\" & indexXML_Cloud & "_SelectServices_request.xml", MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                FileClose(1)
-                'Me.Cursor = Cursors.Default
-                'btn_browse_CSV.Enabled = True
-                'btn_procesar.Enabled = True
-                'btn_validate_data.Enabled = True
-                Exit Sub
-            End Try
-            estadoArchivo = 6
-        End If
+            grabaLog(1, 2, 6, ex.ToString)
+            FileClose(1)
+            Exit Sub
+            'MsgBox("Error al modificar el archivo " & gblPathAppl & "\servicesFile_cloud\" & indexXML_Cloud & "_SelectServices_request.xml", MsgBoxStyle.Exclamation, "Error al crear el archivo")
+            'Me.Cursor = Cursors.Default
+            'btn_browse_CSV.Enabled = True
+            'btn_procesar.Enabled = True
+            'btn_validate_data.Enabled = True
+        End Try
 
         'XML PARA ASIGNAR LOS SERVICIOS---------------------------------------------------------------------------------
-        If estadoArchivo = 6 Then
-            Try
-                numFile = 2
-                indexXML_Cloud += 1
-                fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignServices_request.xml"
-                fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
-                FileOpen(numFile, fileIXML, OpenMode.Output)
-                WriteLine(numFile, line1.ToCharArray)
-                WriteLine(numFile, line2.ToCharArray)
-                WriteLine(numFile, line3.ToCharArray)
-                WriteLine(numFile, e_4.ToCharArray)
+        Try
+            numFile = 2
+            indexXML_Cloud += 1
+            fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignServices_request.xml"
+            fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, line1.ToCharArray)
+            WriteLine(numFile, line2.ToCharArray)
+            WriteLine(numFile, line3.ToCharArray)
+            WriteLine(numFile, e_4.ToCharArray)
                 WriteLine(numFile, e_5.ToCharArray)
                 e_6 = "<groupId>" & group_id & "</groupId>"
                 WriteLine(numFile, e_6.ToCharArray)
@@ -1548,16 +1579,12 @@ Public Class Frm_Principal
                 lineConfigFile = fileIXML & ";" & fileOXML
                 WriteLine(1, lineConfigFile.ToCharArray)
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 2)
-                'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error()
+                grabaLog(1, 2, 6, ex.ToString)
+                In_Case_Error(1)
                 Exit Sub
             End Try
-            estadoArchivo = 7
-        End If
 
-        'XML PARA ASIGNAR LA NUMERACIÓN AL GRUPO----------------------------------------------------------------------------------------
-        If estadoArchivo = 7 Then
+            'XML PARA ASIGNAR LA NUMERACIÓN AL GRUPO----------------------------------------------------------------------------------------
             Try
                 numFile = 2
                 indexXML_Cloud += 1
@@ -1582,16 +1609,12 @@ Public Class Frm_Principal
                 lineConfigFile = fileIXML & ";" & fileOXML
                 WriteLine(1, lineConfigFile.ToCharArray)
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 2)
-                'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error()
+                grabaLog(1, 2, 6, ex.ToString)
+                In_Case_Error(1)
                 Exit Sub
             End Try
-            estadoArchivo = 8
-        End If
 
-        'XML PARA CREAR LOS DISPOSITIVOS---------------------------------------------------------------------------------
-        If estadoArchivo = 8 Then
+            'XML PARA CREAR LOS DISPOSITIVOS--------------------------------------------------------------------------------
             Try
                 For j = 0 To filasValidas - 1
                     numFile = 2
@@ -1629,16 +1652,12 @@ Public Class Frm_Principal
                     WriteLine(1, lineConfigFile.ToCharArray)
                 Next
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 2)
-                'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error()
+                grabaLog(1, 2, 6, ex.ToString)
+                In_Case_Error(1)
                 Exit Sub
             End Try
-            estadoArchivo = 9
-        End If
 
-        'XML PARA CREAR LOS DEPARTAMENTOS---------------------------------------------------------------------------------
-        If estadoArchivo = 9 Then
+            'XML PARA CREAR LOS DEPARTAMENTOS---------------------------------------------------------------------------------
             Try
                 For j = 0 To arregloDeptos.Length - 1
                     numFile = 2
@@ -1663,16 +1682,12 @@ Public Class Frm_Principal
                     WriteLine(1, lineConfigFile.ToCharArray)
                 Next
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 2)
-                'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error()
+                grabaLog(1, 2, 6, ex.ToString)
+                In_Case_Error(1)
                 Exit Sub
             End Try
-            estadoArchivo = 10
-        End If
 
-        'XML PARA CREAR LOS USUARIOS---------------------------------------------------------------------------------
-        If estadoArchivo = 10 Then
+            'XML PARA CREAR LOS USUARIOS---------------------------------------------------------------------------------
             Try
                 For j = 0 To filasValidas - 1
                     numFile = 2
@@ -1733,16 +1748,12 @@ Public Class Frm_Principal
                     WriteLine(1, lineConfigFile.ToCharArray)
                 Next
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 2)
-                'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error()
+                grabaLog(1, 2, 6, ex.ToString)
+                In_Case_Error(1)
                 Exit Sub
             End Try
-            estadoArchivo = 11
-        End If
 
-        'XML PARA EL PROXY-----------------------------------------------------------------------------------------------
-        If estadoArchivo = 11 Then
+            'XML PARA EL PROXY-----------------------------------------------------------------------------------------------
             Try
                 If proxyInfo = 1 Then
                     For j = 0 To filasValidas - 1
@@ -1772,16 +1783,12 @@ Public Class Frm_Principal
                     Next
                 End If
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 2)
-                'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error()
+                grabaLog(1, 2, 6, ex.ToString)
+                In_Case_Error(1)
                 Exit Sub
             End Try
-            estadoArchivo = 12
-        End If
 
-        'XML PARA ASIGNAR DISPOSITIVOS A USUARIOS---------------------------------------------------------------------
-        If estadoArchivo = 12 Then
+            'XML PARA ASIGNAR DISPOSITIVOS A USUARIOS---------------------------------------------------------------------
             Try
                 For j = 0 To filasValidas - 1
                     numFile = 2
@@ -1822,16 +1829,12 @@ Public Class Frm_Principal
                     WriteLine(1, lineConfigFile.ToCharArray)
                 Next
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 2)
-                'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error()
+                grabaLog(1, 2, 6, ex.ToString)
+                In_Case_Error(1)
                 Exit Sub
             End Try
-            estadoArchivo = 13
-        End If
 
-        'XML PARA ASIGNAR PACK DE SERVICIOS---------------------------------------------------------------------
-        If estadoArchivo = 13 Then
+            'XML PARA ASIGNAR PACK DE SERVICIOS---------------------------------------------------------------------
             Try
                 For j = 0 To filasValidas - 1
                     numFile = 2
@@ -1862,16 +1865,12 @@ Public Class Frm_Principal
                     WriteLine(1, lineConfigFile.ToCharArray)
                 Next
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 2)
-                'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error()
+                grabaLog(1, 2, 6, ex.ToString)
+                In_Case_Error(1)
                 Exit Sub
             End Try
-            estadoArchivo = 14
-        End If
 
-        'XML PARA OCP OUTGOING-CALLING-PLAN------------------------------------------------------------------------
-        If estadoArchivo = 14 Then
+            'XML PARA OCP OUTGOING-CALLING-PLAN------------------------------------------------------------------------
             Try
                 For j = 0 To filasValidas - 1
                     numFile = 2
@@ -1952,16 +1951,12 @@ Public Class Frm_Principal
                     WriteLine(1, lineConfigFile.ToCharArray)
                 Next
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 2)
-                'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error()
+                grabaLog(1, 2, 6, ex.ToString)
+                In_Case_Error(1)
                 Exit Sub
             End Try
-            estadoArchivo = 15
-        End If
 
-        'XML PARA ASIGNAR CONTRASEÑA SIP------------------------------------------------------------------------
-        If estadoArchivo = 15 Then
+            'XML PARA ASIGNAR CONTRASEÑA SIP------------------------------------------------------------------------
             Try
                 For j = 0 To filasValidas - 1
                     numFile = 2
@@ -1989,16 +1984,12 @@ Public Class Frm_Principal
                     WriteLine(1, lineConfigFile.ToCharArray)
                 Next
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 2)
-                'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error()
+                grabaLog(1, 2, 6, ex.ToString)
+                In_Case_Error(1)
                 Exit Sub
             End Try
-            estadoArchivo = 16
-        End If
 
-        'XML PARA ACTIVAR LOS NUMEROS------------------------------------------------------------------------
-        If estadoArchivo = 16 Then
+            'XML PARA ACTIVAR LOS NUMEROS------------------------------------------------------------------------
             Try
                 For j = 0 To filasValidas - 1
                     numFile = 2
@@ -2023,17 +2014,13 @@ Public Class Frm_Principal
                     WriteLine(1, lineConfigFile.ToCharArray)
                 Next
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 2)
-                'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error()
+                grabaLog(1, 2, 6, ex.ToString)
+                In_Case_Error(1)
                 Exit Sub
             End Try
-            estadoArchivo = 17
-        End If
 
         'XML PARA ACTIVAR LA MUSICA EN ESPERA DEL GRUPO--------------------------------------------------------------
-        If estadoArchivo = 17 Then
-            Try
+        Try
                 numFile = 2
                 indexXML_Cloud += 1
                 fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_GroupMusicOnHold_request.xml"
@@ -2066,14 +2053,12 @@ Public Class Frm_Principal
                 lineConfigFile = fileIXML & ";" & fileOXML
                 WriteLine(1, lineConfigFile.ToCharArray)
             Catch ex As Exception
-                grabaLog(ex.ToString, 1, 2)
-                'MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
-                In_Case_Error()
+                grabaLog(1, 2, 6, ex.ToString)
+                In_Case_Error(1)
                 Exit Sub
             End Try
-        End If
 
-        FileClose(1)
+            FileClose(1)
 
         If lbl_state_cloud.GetCurrentParent.InvokeRequired Then
             lbl_state_cloud.GetCurrentParent.Invoke(Sub() lbl_state_cloud.Text = "Processing XML Files...")
@@ -2092,8 +2077,8 @@ Public Class Frm_Principal
         End If
 
         ExecuteShellBulk(multipleInputFile, 1)
-        If codError <> 1 Then
-            grabaLog("Se procesó correctamente el archivo " & FileName.ToString, 2, 4)
+        If codError = 0 Then
+            grabaLog(2, 4, , "Se procesó correctamente el archivo " & FileName.ToString)
             My.Computer.FileSystem.MoveFile(foundFile, OutputFolderPath & "\" & FileName & "_[SuccessfullyProcessed]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
 
             If lbl_state_cloud.GetCurrentParent.InvokeRequired Then
@@ -2156,8 +2141,7 @@ Public Class Frm_Principal
             FileClose(numFile)
             strArguments &= fileConfig 'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\ociclient.config
         Catch ex As Exception
-            grabaLog(ex.ToString, 1, 6)
-            'MsgBox("Se produjo un error al crear el archivo" & fileConfig & " y los archivos XML no fueron enviados", MsgBoxStyle.Exclamation, "Error al crear archivo")
+            grabaLog(1, 6, 9, ex.ToString)
             FileClose(numFile)
             'Me.Cursor = Cursors.Default
             If numberSubroutine = 1 Then
@@ -2215,7 +2199,7 @@ Public Class Frm_Principal
             If proceso.HasExited = True And proceso.ExitCode <> 0 Then
                 'MsgBox("el usuario cerro la ventana antes de tiempo")
                 Dim mensaje As String = "El Shell de windows se cerró antes de tiempo"
-                grabaLog(mensaje, 1, 7)
+                grabaLog(1, 7, 10, mensaje)
 
                 If numberSubroutine = 1 Then
                     codError = 1
@@ -2244,7 +2228,8 @@ Public Class Frm_Principal
             proceso.Close()
 
         Catch ex As Exception
-            grabaLog(ex.ToString & strArguments, 1, 7)
+            grabaLog(1, 7, 10, ex.ToString & strArguments)
+
             If numberSubroutine = 1 Then
                 codError = 1
                 In_Case_Error()
@@ -2307,7 +2292,7 @@ Public Class Frm_Principal
 
         Dim name() As String = Split(FileName, ".")
 
-        FileOpen(numFile, BrsResponseFolderPath & "\" & name(0) & ".report", OpenMode.Output, OpenAccess.Write)
+        FileOpen(numFile, BrsResponseFolderPath & "\" & name(0) & "_report.txt", OpenMode.Output, OpenAccess.Write)
 
         For num = 1 To indexXML_Cloud
             Try
@@ -2355,7 +2340,7 @@ Public Class Frm_Principal
                 End If
 
             Catch ex As Exception
-                grabaLog(ex.ToString & "Ha ocurrido un error con el archivo respuesta " & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml", 1, 8)
+                grabaLog(1, 8, , ex.ToString & "Ha ocurrido un error con el archivo respuesta " & gblPathTmpCloud & "\" & num & "_cloudpbx_response.xml")
 
                 If lbl_state_cloud.GetCurrentParent.InvokeRequired Then
                     lbl_state_cloud.GetCurrentParent.Invoke(Sub() lbl_state_cloud.Text = "Error to generate report")
@@ -2397,7 +2382,7 @@ Public Class Frm_Principal
     End Sub
 
 
-    Public Sub grabaLog(ByVal tipo As Integer, ByVal subtipo As Integer, ByVal tipoMensaje As Integer, Optional ByVal aditionalMessage As String = "")
+    Public Sub grabaLog(ByVal tipo As Integer, ByVal subtipo As Integer, Optional ByVal tipoMensaje As Integer = 0, Optional ByVal aditionalMessage As String = "")
 
         If lbl_state_cloud.GetCurrentParent.InvokeRequired Then
             lbl_state_cloud.GetCurrentParent.Invoke(Sub() lbl_state_cloud.Text = "Saving log...")
@@ -2468,8 +2453,6 @@ Public Class Frm_Principal
                 mensaje = "data validation error "
             Case 6
                 mensaje = "Internal error trying to create xml file "
-                FileClose(numFile)
-                FileClose(1)
             Case 7
                 mensaje = "Internal error trying to delete old responses from Broadsoft "
             Case 8
@@ -2626,7 +2609,4 @@ Public Class Frm_Principal
         'My.Computer.Network.DownloadFile("https://via.placeholder.com/600/aa8f2e", "C:\Users\cs\Desktop\foto.jpg", "", "", True, 500, True)
     End Sub
 
-    Private Sub TabPage1_Click(sender As Object, e As EventArgs) Handles TabPage1.Click
-
-    End Sub
 End Class

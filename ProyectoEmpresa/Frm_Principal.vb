@@ -3,6 +3,7 @@ Imports System.IO
 Imports System.Data.OleDb
 Imports System.Net
 Imports System.Text.RegularExpressions
+Imports System.Security.Permissions
 
 Public Class Frm_Principal
 
@@ -17,6 +18,7 @@ Public Class Frm_Principal
     Dim indexXML_Cloud As Integer = 0
     Dim codError As Integer = 0
     Dim numFile As Integer = 1
+    Dim numFileLog As Integer = 4
 
     Dim domain As String = ""
     Dim phoneNumber As String = ""
@@ -79,8 +81,12 @@ Public Class Frm_Principal
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom
         gblPathLog = My.Application.Info.DirectoryPath & My.Settings.PathLog
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\log
+
         gblPathTmpCloud = My.Application.Info.DirectoryPath & My.Settings.PathTmpCloud
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud
+        Dim file_permissions As New FileIOPermission(FileIOPermissionAccess.Read, gblPathTmpCloud)
+
+        file_permissions.PermitOnly()
 
     End Sub
 
@@ -147,6 +153,9 @@ Public Class Frm_Principal
             My.Application.DoEvents()
         End If
 
+        'Se cierra el archivo de los logs
+        FileClose(numFileLog)
+
         My.Computer.FileSystem.MoveFile(foundFile, ErrorFolderPath & "\" & FileName, FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
 
         If closeFile = 1 Then
@@ -206,7 +215,7 @@ Public Class Frm_Principal
 
             'Se comprueba que cada linea del archivo contenga 26 columnas por fila
             If arrayLine.Length <> 26 Then
-                Dim mensaje As String = "El archivo no cuenta con el formato esperado de una matriz cuadrada de 26 columnas separadas por el caracter punto y  coma (;)"
+                Dim mensaje As String = "El archivo cargado no cuenta con 26 columnas separadas por el caracter ';', como se esperaba."
                 grabaLog(1, 4, 3, mensaje)
                 FileClose(1)
                 In_Case_Error()
@@ -215,7 +224,7 @@ Public Class Frm_Principal
         End While
 
         If controlEmptyFile = 0 Then
-            Dim mensaje As String = "El archivo se encuentra vacío"
+            Dim mensaje As String = "El archivo cargado se encuentra vacío"
             grabaLog(1, 4, 3, mensaje)
             FileClose(1)
             In_Case_Error()
@@ -369,7 +378,6 @@ Public Class Frm_Principal
 
         FileClose(1)
 
-
         If lbl_state_cloud.GetCurrentParent.InvokeRequired Then
             lbl_state_cloud.GetCurrentParent.Invoke(Sub() lbl_state_cloud.Text = "")
             My.Application.DoEvents()
@@ -457,7 +465,7 @@ Public Class Frm_Principal
         Validate_Data()
     End Sub
 
-    Public Function Validate_Data() As Integer
+    Public Sub Validate_Data()
 
         'Esta variable se usa para controlar que la data supere las pruebas de validación
         estadoCeldas = 0
@@ -469,7 +477,7 @@ Public Class Frm_Principal
         domain = DataGridView1.Rows(0).Cells(0).Value.ToString.ToLower 'domain = dt.Rows(0)(0).ToString.ToLower
 
         pattern = "\A[a-no-z0-9.]{1,76}\.(cl|com|org){1}\Z"
-        prohibited = "La celda puede contener hasta 80 caracteres que pueden ser alfanuméricos (obviando la 'ñ' y los espacios) incluyendo obligatoriamente '.cl' o '.com' o '.org' al final de la expresión."
+        prohibited = "El campo del 'dominio' o 'domain' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (obviando la 'ñ' y los espacios) incluyendo obligatoriamente '.cl' o '.com' o '.org' al final de la expresión."
 
         If Regex.IsMatch(domain, pattern) Then
             DataGridView1.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -479,9 +487,6 @@ Public Class Frm_Principal
             DataGridView1.Rows(0).Cells(0).ToolTipText = prohibited
             estadoCeldas = 1
             grabaLog(1, 4, 3, prohibited)
-            In_Case_Error()
-            Exit Function
-
         End If
 
         'Validación numeración//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -490,7 +495,7 @@ Public Class Frm_Principal
             phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
 
             pattern = "\A[0-9]{9}\Z"
-            prohibited = "Solo se permite el uso de caracteres númericos, con un largo de 9 dígitos"
+            prohibited = "El campo de los 'números de teléfono' o 'numbers' solo aceptan caracteres númericos con un largo de 9 dígitos"
 
             If Regex.IsMatch(phoneNumber, pattern) Then
                 DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -501,7 +506,6 @@ Public Class Frm_Principal
 
                     Dim valorComparado As String = DataGridView1.Rows(i).Cells(1).Value.ToString
                     Dim valores As String
-                    'Dim control As Integer = 0
 
                     For k = 0 To DataGridView1.RowCount - 1
 
@@ -509,14 +513,11 @@ Public Class Frm_Principal
 
                         If valorComparado.Equals(valores) And i <> k Then
 
-                            prohibited = "El valor " & valorComparado & " esta repetido."
+                            prohibited = "El número " & valorComparado & " esta repetido."
                             DataGridView1.Rows(k).Cells(1).Style.BackColor = Color.FromArgb(182, 15, 196)
                             DataGridView1.Rows(k).Cells(1).ToolTipText = prohibited
                             estadoCeldas = 1
                             grabaLog(1, 4, 3, prohibited)
-                            In_Case_Error()
-                            Exit Function
-
                         End If
                     Next
                 Next
@@ -526,8 +527,7 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(1).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
+
             End If
         Next
 
@@ -538,7 +538,7 @@ Public Class Frm_Principal
         city = DataGridView1.Rows(0).Cells(7).Value.ToString
 
         pattern = "\A[\w]{1,19}(_cloudpbx){1}\Z"
-        prohibited = "La celda puede contener hasta 28 caracteres, que pueden ser alfanuméricos (obviando la 'ñ') incluyendo obligatoriamente '_cloudpbx' al final de la expresión."
+        prohibited = "El campo de 'identificación de grupo' o 'group_id' puede contener hasta 28 caracteres, que pueden ser alfanuméricos (obviando la 'ñ' y los espacios) incluyendo obligatoriamente '_cloudpbx' al final de la expresión."
 
         If Regex.IsMatch(group_id, pattern) Then
             DataGridView1.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -548,13 +548,10 @@ Public Class Frm_Principal
             DataGridView1.Rows(0).Cells(2).ToolTipText = prohibited
             estadoCeldas = 1
             grabaLog(1, 4, 3, prohibited)
-            In_Case_Error()
-            Exit Function
-
         End If
 
         pattern = "\A(([a-no-zA-NO-Z0-9_]\.{0,1}\s{0,1})){1,80}\Z"
-        prohibited = "La celda puede contener hasta 80 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), puntos, comas y no mas de un espacio consecutivo."
+        prohibited = "El campo de 'nombre de grupo' o 'group_name' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), puntos, comas y no mas de un espacio consecutivo."
 
         If Regex.IsMatch(group_name, pattern) Then
             DataGridView1.Rows(0).Cells(3).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -564,12 +561,10 @@ Public Class Frm_Principal
             DataGridView1.Rows(0).Cells(3).ToolTipText = prohibited
             estadoCeldas = 1
             grabaLog(1, 4, 3, prohibited)
-            In_Case_Error()
-            Exit Function
         End If
 
         pattern = "\A([\w\,]\s{0,1}){1,80}\Z"
-        prohibited = "La celda puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
+        prohibited = "El campo de 'dirección de empresa' o 'address' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
 
         If Regex.IsMatch(address, pattern) Then
             DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -579,12 +574,10 @@ Public Class Frm_Principal
             DataGridView1.Rows(0).Cells(6).ToolTipText = prohibited
             estadoCeldas = 1
             grabaLog(1, 4, 3, prohibited)
-            In_Case_Error()
-            Exit Function
         End If
 
         pattern = "\A([\w]\s{0,1}){1,80}\Z"
-        prohibited = "La celda puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ') y no mas de un espacio consecutivo."
+        prohibited = "El campo 'ciudad' o 'city' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ') y no mas de un espacio consecutivo."
 
         If Regex.IsMatch(city, pattern) Then
             DataGridView1.Rows(0).Cells(7).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -594,8 +587,6 @@ Public Class Frm_Principal
             DataGridView1.Rows(0).Cells(7).ToolTipText = prohibited
             estadoCeldas = 1
             grabaLog(1, 4, 3, prohibited)
-            In_Case_Error()
-            Exit Function
         End If
 
         'validar información de los dispositivos//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -620,7 +611,7 @@ Public Class Frm_Principal
             'Si se compara con el signo = un string, no importaran las mayusculas o minusculas
             'If device_type.Equals("Yealink-T19xE2") Or device_type.Equals("Yealink-T21xE2") Or device_type.Equals("Yealink-T27G") Then
             pattern = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)){1}\Z"
-            prohibited = "La celda solo puede contener el texto: Yealink-T19xE2 o Yealink-T21xE2 o Yealink-T27G"
+            prohibited = "El campo de 'tipo de dispositivo' o device_type' solo puede contener uno de los siguientes tipos de teléfonos: Yealink-T19xE2 o Yealink-T21xE2 o Yealink-T27G"
 
             If Regex.IsMatch(device_type, pattern) Then
                 DataGridView1.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -630,12 +621,10 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(8).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
             End If
 
             pattern = "\A[a-fA-F0-9]{12}\Z"
-            prohibited = "La celda debe contener exactamente 12 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
+            prohibited = "El campo de 'dirección mac' o 'mac' debe contener exactamente 12 caracteres, que deben pertenecer al sistema hexadecimal."
 
             If Regex.IsMatch(mac, pattern) Then
                 DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -659,9 +648,6 @@ Public Class Frm_Principal
                             DataGridView1.Rows(k).Cells(9).ToolTipText = prohibited
                             estadoCeldas = 1
                             grabaLog(1, 4, 3, prohibited)
-                            In_Case_Error()
-                            Exit Function
-
                         End If
                     Next
                 Next
@@ -671,12 +657,10 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(9).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
             End If
 
             pattern = "\A[a-no-zA-NO-Z0-9]{16}\Z"
-            prohibited = "La celda debe contener exactamente 16 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
+            prohibited = "El campo de 'número de serie' o 'serial_number' debe contener exactamente 16 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
 
             If Regex.IsMatch(serial_number, pattern) Then
                 DataGridView1.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -686,12 +670,10 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(10).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
             End If
 
             pattern = "\A[a-no-zA-NO-Z0-9_]{1,12}\Z"
-            prohibited = "La celda puede contener hasta 12 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
+            prohibited = "El campo de 'locación física' o 'physical_location' puede contener hasta 12 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
 
             If Regex.IsMatch(physical_location, pattern) Then
                 DataGridView1.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -701,8 +683,6 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(11).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
             End If
         Next
 
@@ -741,7 +721,7 @@ Public Class Frm_Principal
             department = DataGridView1.Rows(j).Cells(12).Value.ToString
 
             pattern = "\A([\w\.\,\-]\s{0,1}){1,80}\Z"
-            prohibited = "La celda puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), guiones bajos y medio, coma, punto y no mas de un espacio consecutivo."
+            prohibited = "El campo 'departamento' o 'department' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), guiones bajos y medios, comas, puntos y no mas de un espacio consecutivo."
 
             If Regex.IsMatch(department, pattern) Then
                 DataGridView1.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -756,8 +736,6 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(12).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
             End If
         Next
 
@@ -775,7 +753,7 @@ Public Class Frm_Principal
             ocp_premium1 = DataGridView1.Rows(j).Cells(25).Value.ToString
 
             pattern = "\A([a-no-zA-NO-Z0-9_\.\-]\s{0,1}){1,30}\Z"
-            prohibited = "La celda puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), guiones bajos y medio, punto y no mas de un espacio consecutivo."
+            prohibited = "El campo de 'nombre de usuario' o 'first_name' puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), guiones bajos y medios, puntos y no mas de un espacio consecutivo."
 
             If Regex.IsMatch(first_name, pattern) Then
                 DataGridView1.Rows(j).Cells(13).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -785,9 +763,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(13).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
             End If
+
+            prohibited = "El campo de 'apellido de usuario' o 'last_name' puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), guiones bajos y medios, puntos y no mas de un espacio consecutivo."
 
             If Regex.IsMatch(last_name, pattern) Then
                 DataGridView1.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -797,13 +775,10 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(14).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
             End If
 
-
             pattern = "\A([\w\,]\s{0,1}){1,80}\Z"
-            prohibited = "La celda puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
+            prohibited = "El campo de 'dirección de usuario' o 'user_address' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
 
             If Regex.IsMatch(user_address, pattern) Then
                 DataGridView1.Rows(j).Cells(16).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -813,9 +788,9 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(16).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
             End If
+
+            prohibited = "El campo de 'ciudad de usuario' o 'user_city' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
 
             If Regex.IsMatch(user_city, pattern) Then
                 DataGridView1.Rows(j).Cells(17).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -825,12 +800,10 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(17).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
             End If
 
             pattern = "\A[0-9]{2,5}\Z"
-            prohibited = "La celda solo puede contener numeros de 0 a 9 (sin espacios) y con un largo de 2 a 5 cifras"
+            prohibited = "El campo de 'extensiones' o 'extensions' solo puede contener numeros del 0 a 9 con un largo de 2 a 5 cifras y sin espacios."
 
             If Regex.IsMatch(extensions, pattern) Then
                 DataGridView1.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -854,9 +827,6 @@ Public Class Frm_Principal
                             DataGridView1.Rows(k).Cells(19).ToolTipText = prohibited
                             estadoCeldas = 1
                             grabaLog(1, 4, 3, prohibited)
-                            In_Case_Error()
-                            Exit Function
-
                         End If
                     Next
                 Next
@@ -866,12 +836,10 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(19).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
             End If
 
             pattern = "\A(b|B)loqueado\Z|\A(BLOQUEADO)\Z|\A(d|D)esbloqueado\Z|\A(DESBLOQUEADO)\Z"
-            prohibited = "La celda solo puede contener el texto: bloqueado o Bloqueado o BLOQUEADO o desbloqueado o Desbloqueado o DESBLOQUEADO"
+            prohibited = "Los campos de 'ocp' u 'outgoing calling plan' solo pueden contener uno de los siguientes textos: bloqueado o Bloqueado o BLOQUEADO o desbloqueado o Desbloqueado o DESBLOQUEADO"
 
             If Regex.IsMatch(ocp_local, pattern) Then
                 DataGridView1.Rows(j).Cells(20).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -881,8 +849,6 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(20).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
             End If
 
             If Regex.IsMatch(ocp_tollFree, pattern) Then
@@ -893,8 +859,6 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(21).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
             End If
 
             If Regex.IsMatch(ocp_internacional, pattern) Then
@@ -905,8 +869,6 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(22).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
             End If
 
             If Regex.IsMatch(ocp_special1, pattern) Then
@@ -917,8 +879,6 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(23).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
             End If
 
             If Regex.IsMatch(ocp_special2, pattern) Then
@@ -929,8 +889,6 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(24).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
             End If
 
             If Regex.IsMatch(ocp_premium1, pattern) Then
@@ -941,8 +899,6 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(25).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
             End If
         Next
 
@@ -952,7 +908,7 @@ Public Class Frm_Principal
         contact_number = DataGridView1.Rows(0).Cells(5).Value.ToString
 
         pattern = "\A([\w\.\,\-\/]\s{0,1}){1,30}\Z"
-        prohibited = "La celda puede contener hasta 30 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), puntos, comas, guiones, barras y no mas de un espacio consecutivo."
+        prohibited = "Los campos 'nombre de contacto' o 'contact_name' y 'número de contacto' o 'contact_number' puede contener hasta 30 caracteres cada uno, que pueden ser alfanuméricos (incluyendo la 'ñ'), puntos, comas, guiones, barras y no mas de un espacio consecutivo."
 
         'Se llenan los campos y ambos cumplen
         If Regex.IsMatch(contact_name, pattern) And Regex.IsMatch(contact_number, pattern) Then
@@ -982,8 +938,6 @@ Public Class Frm_Principal
                 infoContact = 0
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
             End If
 
             'Solo el primero cumple
@@ -995,8 +949,6 @@ Public Class Frm_Principal
             infoContact = 0
             estadoCeldas = 1
             grabaLog(1, 4, 3, prohibited)
-            In_Case_Error()
-            Exit Function
 
             'Solo el segundo cumple
         ElseIf Not Regex.IsMatch(contact_name, pattern) And Regex.IsMatch(contact_number, pattern) Then
@@ -1007,12 +959,10 @@ Public Class Frm_Principal
             infoContact = 0
             estadoCeldas = 1
             grabaLog(1, 4, 3, prohibited)
-            In_Case_Error()
-            Exit Function
         End If
 
-        pattern = "^([a-no-zA-NO-Z0-9\.\-]+)@([a-no-zA-NO-Z0-9\-]+)((\.[a-no-zA-NO-Z0-9]{2,3})+)$"
-        prohibited = "La celda no cumple con el formato esperado para una dirección de email"
+        pattern = "^([a-no-zA-NO-Z0-9_\.\-]+)@([a-no-zA-NO-Z0-9\-]+)((\.[a-no-zA-NO-Z0-9]{2,3})+)$"
+        prohibited = "El campo de 'correo electrónico de usuario' o 'user_email' puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), puntos y guiones."
 
         For j = 0 To filasValidas - 1
 
@@ -1027,8 +977,6 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(15).ToolTipText = prohibited
                 estadoCeldas = 1
                 grabaLog(1, 4, 3, prohibited)
-                In_Case_Error()
-                Exit Function
 
             ElseIf user_email.Length = 0 Then
                 DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(255, 255, 255)
@@ -1038,7 +986,7 @@ Public Class Frm_Principal
 
         proxy = DataGridView1.Rows(0).Cells(18).Value.ToString
         pattern = "^(?:(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
-        prohibited = "La celda no cumple con el formatao de una dirección IP"
+        prohibited = "El campo 'proxy' debe cumplir con el formato de una dirección IPv4"
 
         If Regex.IsMatch(proxy, pattern) Then
             DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -1051,8 +999,6 @@ Public Class Frm_Principal
             proxyInfo = 0
             estadoCeldas = 1
             grabaLog(1, 4, 3, prohibited)
-            In_Case_Error()
-            Exit Function
 
         ElseIf proxy.Length = 0 Then
             DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(255, 255, 255)
@@ -1085,18 +1031,13 @@ Public Class Frm_Principal
         'validar que la columna de los numeros sea igual o mayor a la de los dispositivos
 
         If estadoCeldas = 0 Then
-            'btn_procesar.Enabled = True
+
             CloudPBX()
-            'Return 0
         Else
-            'Dim mensaje As String = "Error de validación de la información contenida en el archivo"
-            'grabaLog(mensaje, 1, 4)
             In_Case_Error()
-            Return 1
-            'btn_procesar.Enabled = False
-            'MsgBox("revise las celdas")
+            Exit Sub
         End If
-    End Function
+    End Sub
 
     'Se esta validando nuevamente el codigo se va aqui desde donde se llama al metodo por primera vez
     Private Sub CloudPBX()
@@ -1384,136 +1325,136 @@ Public Class Frm_Principal
 
         'XML PARA ASIGNAR EL DOMINIO CREADO----------------------------------------------------------------------
         Try
-                numFile = 2
-                indexXML_Cloud += 1
-                fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignDomain_request.xml"
-                fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
-                FileOpen(numFile, fileIXML, OpenMode.Output)
-                WriteLine(numFile, line1.ToCharArray)
-                WriteLine(numFile, line2.ToCharArray)
-                WriteLine(numFile, line3.ToCharArray)
-                WriteLine(numFile, b_4.ToCharArray)
-                WriteLine(numFile, b_5.ToCharArray)
-                b_6 = "<domain>" & domain & "</domain>"
-                WriteLine(numFile, b_6.ToCharArray)
-                WriteLine(numFile, b_7.ToCharArray)
-                WriteLine(numFile, finalLine.ToCharArray)
-                FileClose(numFile)
-                lineConfigFile = fileIXML & ";" & fileOXML
-                WriteLine(1, lineConfigFile.ToCharArray)
-            Catch ex As Exception
-                grabaLog(1, 2, 6, ex.ToString)
-                In_Case_Error(1)
-                Exit Sub
-            End Try
-
-            'XML PARA CREAR NUMERACIÓN------------------------------------------------------------------------------
-            Try
-                numFile = 2
-                indexXML_Cloud += 1
-                fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateNumbers_request.xml"
-                fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
-                FileOpen(numFile, fileIXML, OpenMode.Output)
-                WriteLine(numFile, line1.ToCharArray)
-                WriteLine(numFile, line2.ToCharArray)
-                WriteLine(numFile, line3.ToCharArray)
-                WriteLine(numFile, c_4.ToCharArray)
-                WriteLine(numFile, c_5.ToCharArray)
-                'DataGridView1.Rows.Count - 1 cuando se muestra el header de la columna
-                'DataGridView1.Rows.Count - 2 cuando se muestra el header de la columna y la fila de agregar columna
-                For j = 0 To DataGridView1.Rows.Count - 1
-                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
-                    c_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
-                    WriteLine(numFile, c_6.ToCharArray)
-                Next
-                WriteLine(numFile, c_7.ToCharArray)
-                WriteLine(numFile, finalLine.ToCharArray)
-                FileClose(numFile)
-                lineConfigFile = fileIXML & ";" & fileOXML
-                WriteLine(1, lineConfigFile.ToCharArray)
-            Catch ex As Exception
-                grabaLog(1, 2, 6, ex.ToString)
-                In_Case_Error(1)
-                Exit Sub
-            End Try
-
-            'XML PARA CREAR PERFIL DE GRUPO-------------------------------------------------------------------------
-            Try
-                numFile = 2
-                indexXML_Cloud += 1
-                fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateProfileGroup_request.xml"
-                fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
-                FileOpen(numFile, fileIXML, OpenMode.Output)
-                WriteLine(numFile, line1.ToCharArray)
-                WriteLine(numFile, line2.ToCharArray)
-                WriteLine(numFile, line3.ToCharArray)
-                WriteLine(numFile, d_4.ToCharArray)
-                WriteLine(numFile, d_5.ToCharArray)
-                d_6 = "<groupId>" & group_id & "</groupId>"
-                WriteLine(numFile, d_6.ToCharArray)
-                d_7 = "<defaultDomain>" & domain & "</defaultDomain>"
-                WriteLine(numFile, d_7.ToCharArray)
-                WriteLine(numFile, d_8.ToCharArray)
-                d_9 = "<groupName>" & group_name & "</groupName>"
-                WriteLine(numFile, d_9.ToCharArray)
-                d_10 = "<callingLineIdName>" & group_name & "</callingLineIdName>"
-                WriteLine(numFile, d_10.ToCharArray)
-                'WriteLine(numFile, d_11.ToCharArray) "<timeZone>America/Santiago</timeZone>"
-                If infoContact = 1 Then
-                    WriteLine(numFile, d_12.ToCharArray)
-                    d_13 = "<contactName>" & contact_name & "</contactName>"
-                    WriteLine(numFile, d_13.ToCharArray)
-                    d_14 = "<contactNumber>" & contact_number & "</contactNumber>"
-                    WriteLine(numFile, d_14.ToCharArray)
-                    WriteLine(numFile, d_15.ToCharArray)
-                End If
-                WriteLine(numFile, d_16.ToCharArray)
-                d_17 = "<addressLine1>" & address & "</addressLine1>"
-                WriteLine(numFile, d_17.ToCharArray)
-                d_18 = "<city>" & city & "</city>"
-                WriteLine(numFile, d_18.ToCharArray)
-                WriteLine(numFile, d_19.ToCharArray)
-                WriteLine(numFile, d_20.ToCharArray)
-                WriteLine(numFile, finalLine.ToCharArray)
-                FileClose(numFile)
-                lineConfigFile = fileIXML & ";" & fileOXML
-                WriteLine(1, lineConfigFile.ToCharArray)
-            Catch ex As Exception
-                grabaLog(1, 2, 6, ex.ToString)
-                In_Case_Error(1)
-                Exit Sub
-            End Try
-
-            'XML PARA MODIFICAR EL LARGO DE LAS EXTENSIONES DE GRUPO--------------------------------------------------------------
-            Try
-                numFile = 2
-                indexXML_Cloud += 1
-                fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_ExtensionsLength_request.xml"
-                fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
-                FileOpen(numFile, fileIXML, OpenMode.Output)
-                WriteLine(numFile, line1.ToCharArray)
-                WriteLine(numFile, line2.ToCharArray)
-                WriteLine(numFile, line3.ToCharArray)
-                WriteLine(numFile, p_4.ToCharArray)
-                WriteLine(numFile, p_5.ToCharArray)
-                p_6 = "<groupId>" & group_id & "</groupId>"
-                WriteLine(numFile, p_6.ToCharArray)
-                WriteLine(numFile, p_7.ToCharArray)
-                WriteLine(numFile, p_8.ToCharArray)
-                WriteLine(numFile, p_9.ToCharArray)
-                WriteLine(numFile, p_10.ToCharArray)
-                WriteLine(numFile, finalLine.ToCharArray)
-                FileClose(numFile)
-                lineConfigFile = fileIXML & ";" & fileOXML
-                WriteLine(1, lineConfigFile.ToCharArray)
-            Catch ex As Exception
-                grabaLog(1, 2, 6, ex.ToString)
-                In_Case_Error(1)
-                Exit Sub
-            End Try
-
-            'XML PARA SELECCIONAR SERVICIOS DE GRUPO (ARCHIVO EXTERNO)--------------------------------------------------------------
+            numFile = 2
             indexXML_Cloud += 1
+            fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignDomain_request.xml"
+            fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, line1.ToCharArray)
+            WriteLine(numFile, line2.ToCharArray)
+            WriteLine(numFile, line3.ToCharArray)
+            WriteLine(numFile, b_4.ToCharArray)
+            WriteLine(numFile, b_5.ToCharArray)
+            b_6 = "<domain>" & domain & "</domain>"
+            WriteLine(numFile, b_6.ToCharArray)
+            WriteLine(numFile, b_7.ToCharArray)
+            WriteLine(numFile, finalLine.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            WriteLine(1, lineConfigFile.ToCharArray)
+        Catch ex As Exception
+            grabaLog(1, 2, 6, ex.ToString)
+            In_Case_Error(1)
+            Exit Sub
+        End Try
+
+        'XML PARA CREAR NUMERACIÓN------------------------------------------------------------------------------
+        Try
+            numFile = 2
+            indexXML_Cloud += 1
+            fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateNumbers_request.xml"
+            fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, line1.ToCharArray)
+            WriteLine(numFile, line2.ToCharArray)
+            WriteLine(numFile, line3.ToCharArray)
+            WriteLine(numFile, c_4.ToCharArray)
+            WriteLine(numFile, c_5.ToCharArray)
+            'DataGridView1.Rows.Count - 1 cuando se muestra el header de la columna
+            'DataGridView1.Rows.Count - 2 cuando se muestra el header de la columna y la fila de agregar columna
+            For j = 0 To DataGridView1.Rows.Count - 1
+                phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+                c_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
+                WriteLine(numFile, c_6.ToCharArray)
+            Next
+            WriteLine(numFile, c_7.ToCharArray)
+            WriteLine(numFile, finalLine.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            WriteLine(1, lineConfigFile.ToCharArray)
+        Catch ex As Exception
+            grabaLog(1, 2, 6, ex.ToString)
+            In_Case_Error(1)
+            Exit Sub
+        End Try
+
+        'XML PARA CREAR PERFIL DE GRUPO-------------------------------------------------------------------------
+        Try
+            numFile = 2
+            indexXML_Cloud += 1
+            fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateProfileGroup_request.xml"
+            fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, line1.ToCharArray)
+            WriteLine(numFile, line2.ToCharArray)
+            WriteLine(numFile, line3.ToCharArray)
+            WriteLine(numFile, d_4.ToCharArray)
+            WriteLine(numFile, d_5.ToCharArray)
+            d_6 = "<groupId>" & group_id & "</groupId>"
+            WriteLine(numFile, d_6.ToCharArray)
+            d_7 = "<defaultDomain>" & domain & "</defaultDomain>"
+            WriteLine(numFile, d_7.ToCharArray)
+            WriteLine(numFile, d_8.ToCharArray)
+            d_9 = "<groupName>" & group_name & "</groupName>"
+            WriteLine(numFile, d_9.ToCharArray)
+            d_10 = "<callingLineIdName>" & group_name & "</callingLineIdName>"
+            WriteLine(numFile, d_10.ToCharArray)
+            'WriteLine(numFile, d_11.ToCharArray) "<timeZone>America/Santiago</timeZone>"
+            If infoContact = 1 Then
+                WriteLine(numFile, d_12.ToCharArray)
+                d_13 = "<contactName>" & contact_name & "</contactName>"
+                WriteLine(numFile, d_13.ToCharArray)
+                d_14 = "<contactNumber>" & contact_number & "</contactNumber>"
+                WriteLine(numFile, d_14.ToCharArray)
+                WriteLine(numFile, d_15.ToCharArray)
+            End If
+            WriteLine(numFile, d_16.ToCharArray)
+            d_17 = "<addressLine1>" & address & "</addressLine1>"
+            WriteLine(numFile, d_17.ToCharArray)
+            d_18 = "<city>" & city & "</city>"
+            WriteLine(numFile, d_18.ToCharArray)
+            WriteLine(numFile, d_19.ToCharArray)
+            WriteLine(numFile, d_20.ToCharArray)
+            WriteLine(numFile, finalLine.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            WriteLine(1, lineConfigFile.ToCharArray)
+        Catch ex As Exception
+            grabaLog(1, 2, 6, ex.ToString)
+            In_Case_Error(1)
+            Exit Sub
+        End Try
+
+        'XML PARA MODIFICAR EL LARGO DE LAS EXTENSIONES DE GRUPO--------------------------------------------------------------
+        Try
+            numFile = 2
+            indexXML_Cloud += 1
+            fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_ExtensionsLength_request.xml"
+            fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, line1.ToCharArray)
+            WriteLine(numFile, line2.ToCharArray)
+            WriteLine(numFile, line3.ToCharArray)
+            WriteLine(numFile, p_4.ToCharArray)
+            WriteLine(numFile, p_5.ToCharArray)
+            p_6 = "<groupId>" & group_id & "</groupId>"
+            WriteLine(numFile, p_6.ToCharArray)
+            WriteLine(numFile, p_7.ToCharArray)
+            WriteLine(numFile, p_8.ToCharArray)
+            WriteLine(numFile, p_9.ToCharArray)
+            WriteLine(numFile, p_10.ToCharArray)
+            WriteLine(numFile, finalLine.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            WriteLine(1, lineConfigFile.ToCharArray)
+        Catch ex As Exception
+            grabaLog(1, 2, 6, ex.ToString)
+            In_Case_Error(1)
+            Exit Sub
+        End Try
+
+        'XML PARA SELECCIONAR SERVICIOS DE GRUPO (ARCHIVO EXTERNO)--------------------------------------------------------------
+        indexXML_Cloud += 1
         Try
             'Lee un archivo, modifica la linea 6
             Dim Lines_Array() As String = IO.File.ReadAllLines(gblPathAppl & "\servicesFile_cloud\" & "5_SelectServices_request.xml")
@@ -1526,15 +1467,10 @@ Public Class Frm_Principal
             fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
             lineConfigFile = fileIXML & ";" & fileOXML
             WriteLine(1, lineConfigFile.ToCharArray)
-            Catch ex As Exception
+        Catch ex As Exception
             grabaLog(1, 2, 6, ex.ToString)
-            FileClose(1)
+            In_Case_Error(1)
             Exit Sub
-            'MsgBox("Error al modificar el archivo " & gblPathAppl & "\servicesFile_cloud\" & indexXML_Cloud & "_SelectServices_request.xml", MsgBoxStyle.Exclamation, "Error al crear el archivo")
-            'Me.Cursor = Cursors.Default
-            'btn_browse_CSV.Enabled = True
-            'btn_procesar.Enabled = True
-            'btn_validate_data.Enabled = True
         End Try
 
         'XML PARA ASIGNAR LOS SERVICIOS---------------------------------------------------------------------------------
@@ -1548,517 +1484,517 @@ Public Class Frm_Principal
             WriteLine(numFile, line2.ToCharArray)
             WriteLine(numFile, line3.ToCharArray)
             WriteLine(numFile, e_4.ToCharArray)
-                WriteLine(numFile, e_5.ToCharArray)
-                e_6 = "<groupId>" & group_id & "</groupId>"
-                WriteLine(numFile, e_6.ToCharArray)
-                WriteLine(numFile, e_7.ToCharArray)
-                WriteLine(numFile, e_8.ToCharArray)
-                WriteLine(numFile, e_9.ToCharArray)
-                WriteLine(numFile, e_10.ToCharArray)
-                WriteLine(numFile, e_11.ToCharArray)
-                WriteLine(numFile, e_12.ToCharArray)
-                WriteLine(numFile, e_13.ToCharArray)
-                WriteLine(numFile, e_14.ToCharArray)
-                WriteLine(numFile, e_15.ToCharArray)
-                WriteLine(numFile, e_16.ToCharArray)
-                WriteLine(numFile, e_17.ToCharArray)
-                WriteLine(numFile, e_18.ToCharArray)
-                WriteLine(numFile, e_19.ToCharArray)
-                WriteLine(numFile, e_20.ToCharArray)
-                WriteLine(numFile, e_21.ToCharArray)
-                WriteLine(numFile, e_22.ToCharArray)
-                WriteLine(numFile, e_23.ToCharArray)
-                WriteLine(numFile, e_24.ToCharArray)
-                WriteLine(numFile, e_25.ToCharArray)
-                WriteLine(numFile, e_26.ToCharArray)
-                WriteLine(numFile, e_27.ToCharArray)
-                WriteLine(numFile, e_28.ToCharArray)
-                WriteLine(numFile, e_29.ToCharArray)
-                WriteLine(numFile, finalLine.ToCharArray)
-                FileClose(numFile)
-                lineConfigFile = fileIXML & ";" & fileOXML
-                WriteLine(1, lineConfigFile.ToCharArray)
-            Catch ex As Exception
-                grabaLog(1, 2, 6, ex.ToString)
-                In_Case_Error(1)
-                Exit Sub
-            End Try
+            WriteLine(numFile, e_5.ToCharArray)
+            e_6 = "<groupId>" & group_id & "</groupId>"
+            WriteLine(numFile, e_6.ToCharArray)
+            WriteLine(numFile, e_7.ToCharArray)
+            WriteLine(numFile, e_8.ToCharArray)
+            WriteLine(numFile, e_9.ToCharArray)
+            WriteLine(numFile, e_10.ToCharArray)
+            WriteLine(numFile, e_11.ToCharArray)
+            WriteLine(numFile, e_12.ToCharArray)
+            WriteLine(numFile, e_13.ToCharArray)
+            WriteLine(numFile, e_14.ToCharArray)
+            WriteLine(numFile, e_15.ToCharArray)
+            WriteLine(numFile, e_16.ToCharArray)
+            WriteLine(numFile, e_17.ToCharArray)
+            WriteLine(numFile, e_18.ToCharArray)
+            WriteLine(numFile, e_19.ToCharArray)
+            WriteLine(numFile, e_20.ToCharArray)
+            WriteLine(numFile, e_21.ToCharArray)
+            WriteLine(numFile, e_22.ToCharArray)
+            WriteLine(numFile, e_23.ToCharArray)
+            WriteLine(numFile, e_24.ToCharArray)
+            WriteLine(numFile, e_25.ToCharArray)
+            WriteLine(numFile, e_26.ToCharArray)
+            WriteLine(numFile, e_27.ToCharArray)
+            WriteLine(numFile, e_28.ToCharArray)
+            WriteLine(numFile, e_29.ToCharArray)
+            WriteLine(numFile, finalLine.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            WriteLine(1, lineConfigFile.ToCharArray)
+        Catch ex As Exception
+            grabaLog(1, 2, 6, ex.ToString)
+            In_Case_Error(1)
+            Exit Sub
+        End Try
 
-            'XML PARA ASIGNAR LA NUMERACIÓN AL GRUPO----------------------------------------------------------------------------------------
-            Try
+        'XML PARA ASIGNAR LA NUMERACIÓN AL GRUPO----------------------------------------------------------------------------------------
+        Try
+            numFile = 2
+            indexXML_Cloud += 1
+            fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignNumber_request.xml"
+            fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, line1.ToCharArray)
+            WriteLine(numFile, line2.ToCharArray)
+            WriteLine(numFile, line3.ToCharArray)
+            WriteLine(numFile, f_4.ToCharArray)
+            WriteLine(numFile, f_5.ToCharArray)
+            f_6 = "<groupId>" & group_id & "</groupId>"
+            WriteLine(numFile, f_6.ToCharArray)
+            For j = 0 To DataGridView1.Rows.Count - 2
+                phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+                f_7 = "<phoneNumber>+56-" & phoneNumber & "</phoneNumber>"
+                WriteLine(numFile, f_7.ToCharArray)
+            Next
+            WriteLine(numFile, f_8.ToCharArray)
+            WriteLine(numFile, finalLine.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            WriteLine(1, lineConfigFile.ToCharArray)
+        Catch ex As Exception
+            grabaLog(1, 2, 6, ex.ToString)
+            In_Case_Error(1)
+            Exit Sub
+        End Try
+
+        'XML PARA CREAR LOS DISPOSITIVOS--------------------------------------------------------------------------------
+        Try
+            For j = 0 To filasValidas - 1
                 numFile = 2
                 indexXML_Cloud += 1
-                fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignNumber_request.xml"
+                fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateDevice_request.xml"
                 fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
                 FileOpen(numFile, fileIXML, OpenMode.Output)
                 WriteLine(numFile, line1.ToCharArray)
                 WriteLine(numFile, line2.ToCharArray)
                 WriteLine(numFile, line3.ToCharArray)
-                WriteLine(numFile, f_4.ToCharArray)
-                WriteLine(numFile, f_5.ToCharArray)
-                f_6 = "<groupId>" & group_id & "</groupId>"
-                WriteLine(numFile, f_6.ToCharArray)
-                For j = 0 To DataGridView1.Rows.Count - 2
-                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
-                    f_7 = "<phoneNumber>+56-" & phoneNumber & "</phoneNumber>"
-                    WriteLine(numFile, f_7.ToCharArray)
-                Next
-                WriteLine(numFile, f_8.ToCharArray)
+                WriteLine(numFile, g_4.ToCharArray)
+                WriteLine(numFile, g_5.ToCharArray)
+                g_6 = "<groupId>" & group_id & "</groupId>"
+                WriteLine(numFile, g_6.ToCharArray)
+                mac = DataGridView1.Rows(j).Cells(9).Value.ToString
+                g_7 = "<deviceName>DV_" & mac & "</deviceName>"
+                WriteLine(numFile, g_7.ToCharArray)
+                device_type = DataGridView1.Rows(j).Cells(8).Value.ToString
+                g_8 = "<deviceType>" & device_type & "</deviceType>"
+                WriteLine(numFile, g_8.ToCharArray)
+                WriteLine(numFile, g_9.ToCharArray)
+                g_10 = "<macAddress>" & mac & "</macAddress>"
+                WriteLine(numFile, g_10.ToCharArray)
+                serial_number = DataGridView1.Rows(j).Cells(10).Value.ToString
+                g_11 = "<serialNumber>" & serial_number & "</serialNumber>"
+                WriteLine(numFile, g_11.ToCharArray)
+                physical_location = DataGridView1.Rows(j).Cells(11).Value.ToString
+                g_12 = "<physicalLocation>" & physical_location & "</physicalLocation>"
+                WriteLine(numFile, g_12.ToCharArray)
+                WriteLine(numFile, g_13.ToCharArray)
+                WriteLine(numFile, g_14.ToCharArray)
                 WriteLine(numFile, finalLine.ToCharArray)
                 FileClose(numFile)
                 lineConfigFile = fileIXML & ";" & fileOXML
                 WriteLine(1, lineConfigFile.ToCharArray)
-            Catch ex As Exception
-                grabaLog(1, 2, 6, ex.ToString)
-                In_Case_Error(1)
-                Exit Sub
-            End Try
+            Next
+        Catch ex As Exception
+            grabaLog(1, 2, 6, ex.ToString)
+            In_Case_Error(1)
+            Exit Sub
+        End Try
 
-            'XML PARA CREAR LOS DISPOSITIVOS--------------------------------------------------------------------------------
-            Try
-                For j = 0 To filasValidas - 1
-                    numFile = 2
-                    indexXML_Cloud += 1
-                    fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateDevice_request.xml"
-                    fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
-                    FileOpen(numFile, fileIXML, OpenMode.Output)
-                    WriteLine(numFile, line1.ToCharArray)
-                    WriteLine(numFile, line2.ToCharArray)
-                    WriteLine(numFile, line3.ToCharArray)
-                    WriteLine(numFile, g_4.ToCharArray)
-                    WriteLine(numFile, g_5.ToCharArray)
-                    g_6 = "<groupId>" & group_id & "</groupId>"
-                    WriteLine(numFile, g_6.ToCharArray)
-                    mac = DataGridView1.Rows(j).Cells(9).Value.ToString
-                    g_7 = "<deviceName>DV_" & mac & "</deviceName>"
-                    WriteLine(numFile, g_7.ToCharArray)
-                    device_type = DataGridView1.Rows(j).Cells(8).Value.ToString
-                    g_8 = "<deviceType>" & device_type & "</deviceType>"
-                    WriteLine(numFile, g_8.ToCharArray)
-                    WriteLine(numFile, g_9.ToCharArray)
-                    g_10 = "<macAddress>" & mac & "</macAddress>"
-                    WriteLine(numFile, g_10.ToCharArray)
-                    serial_number = DataGridView1.Rows(j).Cells(10).Value.ToString
-                    g_11 = "<serialNumber>" & serial_number & "</serialNumber>"
-                    WriteLine(numFile, g_11.ToCharArray)
-                    physical_location = DataGridView1.Rows(j).Cells(11).Value.ToString
-                    g_12 = "<physicalLocation>" & physical_location & "</physicalLocation>"
-                    WriteLine(numFile, g_12.ToCharArray)
-                    WriteLine(numFile, g_13.ToCharArray)
-                    WriteLine(numFile, g_14.ToCharArray)
-                    WriteLine(numFile, finalLine.ToCharArray)
-                    FileClose(numFile)
-                    lineConfigFile = fileIXML & ";" & fileOXML
-                    WriteLine(1, lineConfigFile.ToCharArray)
-                Next
-            Catch ex As Exception
-                grabaLog(1, 2, 6, ex.ToString)
-                In_Case_Error(1)
-                Exit Sub
-            End Try
+        'XML PARA CREAR LOS DEPARTAMENTOS---------------------------------------------------------------------------------
+        Try
+            For j = 0 To arregloDeptos.Length - 1
+                numFile = 2
+                indexXML_Cloud += 1
+                fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateDepartment_request.xml"
+                fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, line1.ToCharArray)
+                WriteLine(numFile, line2.ToCharArray)
+                WriteLine(numFile, line3.ToCharArray)
+                WriteLine(numFile, h_4.ToCharArray)
+                WriteLine(numFile, h_5.ToCharArray)
+                h_6 = "<groupId>" & group_id & "</groupId>"
+                WriteLine(numFile, h_6.ToCharArray)
+                department = arregloDeptos(j).ToString
+                h_7 = "<departmentName>" & department & "</departmentName>"
+                WriteLine(numFile, h_7.ToCharArray)
+                WriteLine(numFile, h_8.ToCharArray)
+                WriteLine(numFile, finalLine.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(1, lineConfigFile.ToCharArray)
+            Next
+        Catch ex As Exception
+            grabaLog(1, 2, 6, ex.ToString)
+            In_Case_Error(1)
+            Exit Sub
+        End Try
 
-            'XML PARA CREAR LOS DEPARTAMENTOS---------------------------------------------------------------------------------
-            Try
-                For j = 0 To arregloDeptos.Length - 1
-                    numFile = 2
-                    indexXML_Cloud += 1
-                    fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateDepartment_request.xml"
-                    fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
-                    FileOpen(numFile, fileIXML, OpenMode.Output)
-                    WriteLine(numFile, line1.ToCharArray)
-                    WriteLine(numFile, line2.ToCharArray)
-                    WriteLine(numFile, line3.ToCharArray)
-                    WriteLine(numFile, h_4.ToCharArray)
-                    WriteLine(numFile, h_5.ToCharArray)
-                    h_6 = "<groupId>" & group_id & "</groupId>"
-                    WriteLine(numFile, h_6.ToCharArray)
-                    department = arregloDeptos(j).ToString
-                    h_7 = "<departmentName>" & department & "</departmentName>"
-                    WriteLine(numFile, h_7.ToCharArray)
-                    WriteLine(numFile, h_8.ToCharArray)
-                    WriteLine(numFile, finalLine.ToCharArray)
-                    FileClose(numFile)
-                    lineConfigFile = fileIXML & ";" & fileOXML
-                    WriteLine(1, lineConfigFile.ToCharArray)
-                Next
-            Catch ex As Exception
-                grabaLog(1, 2, 6, ex.ToString)
-                In_Case_Error(1)
-                Exit Sub
-            End Try
-
-            'XML PARA CREAR LOS USUARIOS---------------------------------------------------------------------------------
-            Try
-                For j = 0 To filasValidas - 1
-                    numFile = 2
-                    indexXML_Cloud += 1
-                    fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateUser_request.xml"
-                    fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
-                    FileOpen(numFile, fileIXML, OpenMode.Output)
-                    WriteLine(numFile, line1.ToCharArray)
-                    WriteLine(numFile, line2.ToCharArray)
-                    WriteLine(numFile, line3.ToCharArray)
-                    WriteLine(numFile, i_4.ToCharArray)
-                    WriteLine(numFile, i_5.ToCharArray)
-                    i_6 = "<groupId>" & group_id & "</groupId>"
-                    WriteLine(numFile, i_6.ToCharArray)
-                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
-                    i_7 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
-                    WriteLine(numFile, i_7.ToCharArray)
-                    last_name = DataGridView1.Rows(j).Cells(14).Value.ToString
-                    i_8 = "<lastName>" & last_name & "</lastName>"
-                    WriteLine(numFile, i_8.ToCharArray)
-                    first_name = DataGridView1.Rows(j).Cells(13).Value.ToString
-                    i_9 = "<firstName>" & first_name & "</firstName>"
-                    WriteLine(numFile, i_9.ToCharArray)
-                    i_10 = "<callingLineIdLastName>" & last_name & "</callingLineIdLastName>"
-                    WriteLine(numFile, i_10.ToCharArray)
-                    i_11 = "<callingLineIdFirstName>" & first_name & "</callingLineIdFirstName>"
-                    WriteLine(numFile, i_11.ToCharArray)
-                    WriteLine(numFile, i_12.ToCharArray)
-                    department = DataGridView1.Rows(j).Cells(12).Value.ToString
-                    If department.Length > 0 Then
-                        WriteLine(numFile, i_13.ToCharArray)
-                        WriteLine(numFile, i_14.ToCharArray)
-                        i_15 = "<groupId>" & group_id & "</groupId>"
-                        WriteLine(numFile, i_15.ToCharArray)
-                        i_16 = "<name>" & department & "</name>"
-                        WriteLine(numFile, i_16.ToCharArray)
-                        WriteLine(numFile, i_17.ToCharArray)
-                    End If
-                    WriteLine(numFile, i_18.ToCharArray)
-                    WriteLine(numFile, i_19.ToCharArray)
-                    user_email = DataGridView1.Rows(j).Cells(15).Value.ToString
-                    If user_email.Length > 0 Then
-                        i_20 = "<emailAddress>" & user_email & "</emailAddress>"
-                        WriteLine(numFile, i_20.ToCharArray)
-                    End If
-                    WriteLine(numFile, i_21.ToCharArray)
-                    user_address = DataGridView1.Rows(j).Cells(16).Value.ToString
-                    i_22 = "<addressLine1>" & user_address & "</addressLine1>"
-                    WriteLine(numFile, i_22.ToCharArray)
-                    user_city = DataGridView1.Rows(j).Cells(17).Value.ToString
-                    i_23 = "<city>" & user_city & "</city>"
-                    WriteLine(numFile, i_23.ToCharArray)
-                    WriteLine(numFile, i_24.ToCharArray)
-                    WriteLine(numFile, i_25.ToCharArray)
-                    WriteLine(numFile, finalLine.ToCharArray)
-                    FileClose(numFile)
-                    lineConfigFile = fileIXML & ";" & fileOXML
-                    WriteLine(1, lineConfigFile.ToCharArray)
-                Next
-            Catch ex As Exception
-                grabaLog(1, 2, 6, ex.ToString)
-                In_Case_Error(1)
-                Exit Sub
-            End Try
-
-            'XML PARA EL PROXY-----------------------------------------------------------------------------------------------
-            Try
-                If proxyInfo = 1 Then
-                    For j = 0 To filasValidas - 1
-                        numFile = 2
-                        indexXML_Cloud += 1
-                        fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateProxy_request.xml"
-                        fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
-                        FileOpen(numFile, fileIXML, OpenMode.Output)
-                        WriteLine(numFile, line1.ToCharArray)
-                        WriteLine(numFile, line2.ToCharArray)
-                        WriteLine(numFile, line3.ToCharArray)
-                        WriteLine(numFile, j_4.ToCharArray)
-                        WriteLine(numFile, j_5.ToCharArray)
-                        j_6 = "<groupId>" & group_id & "</groupId>"
-                        WriteLine(numFile, j_6.ToCharArray)
-                        mac = DataGridView1.Rows(j).Cells(9).Value.ToString
-                        j_7 = "<deviceName>DV_" & mac & "</deviceName>"
-                        WriteLine(numFile, j_7.ToCharArray)
-                        WriteLine(numFile, j_8.ToCharArray)
-                        j_9 = "<tagValue>" & proxy & "</tagValue>"
-                        WriteLine(numFile, j_9.ToCharArray)
-                        WriteLine(numFile, j_10.ToCharArray)
-                        WriteLine(numFile, finalLine.ToCharArray)
-                        FileClose(numFile)
-                        lineConfigFile = fileIXML & ";" & fileOXML
-                        WriteLine(1, lineConfigFile.ToCharArray)
-                    Next
+        'XML PARA CREAR LOS USUARIOS---------------------------------------------------------------------------------
+        Try
+            For j = 0 To filasValidas - 1
+                numFile = 2
+                indexXML_Cloud += 1
+                fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateUser_request.xml"
+                fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, line1.ToCharArray)
+                WriteLine(numFile, line2.ToCharArray)
+                WriteLine(numFile, line3.ToCharArray)
+                WriteLine(numFile, i_4.ToCharArray)
+                WriteLine(numFile, i_5.ToCharArray)
+                i_6 = "<groupId>" & group_id & "</groupId>"
+                WriteLine(numFile, i_6.ToCharArray)
+                phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+                i_7 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
+                WriteLine(numFile, i_7.ToCharArray)
+                last_name = DataGridView1.Rows(j).Cells(14).Value.ToString
+                i_8 = "<lastName>" & last_name & "</lastName>"
+                WriteLine(numFile, i_8.ToCharArray)
+                first_name = DataGridView1.Rows(j).Cells(13).Value.ToString
+                i_9 = "<firstName>" & first_name & "</firstName>"
+                WriteLine(numFile, i_9.ToCharArray)
+                i_10 = "<callingLineIdLastName>" & last_name & "</callingLineIdLastName>"
+                WriteLine(numFile, i_10.ToCharArray)
+                i_11 = "<callingLineIdFirstName>" & first_name & "</callingLineIdFirstName>"
+                WriteLine(numFile, i_11.ToCharArray)
+                WriteLine(numFile, i_12.ToCharArray)
+                department = DataGridView1.Rows(j).Cells(12).Value.ToString
+                If department.Length > 0 Then
+                    WriteLine(numFile, i_13.ToCharArray)
+                    WriteLine(numFile, i_14.ToCharArray)
+                    i_15 = "<groupId>" & group_id & "</groupId>"
+                    WriteLine(numFile, i_15.ToCharArray)
+                    i_16 = "<name>" & department & "</name>"
+                    WriteLine(numFile, i_16.ToCharArray)
+                    WriteLine(numFile, i_17.ToCharArray)
                 End If
-            Catch ex As Exception
-                grabaLog(1, 2, 6, ex.ToString)
-                In_Case_Error(1)
-                Exit Sub
-            End Try
+                WriteLine(numFile, i_18.ToCharArray)
+                WriteLine(numFile, i_19.ToCharArray)
+                user_email = DataGridView1.Rows(j).Cells(15).Value.ToString
+                If user_email.Length > 0 Then
+                    i_20 = "<emailAddress>" & user_email & "</emailAddress>"
+                    WriteLine(numFile, i_20.ToCharArray)
+                End If
+                WriteLine(numFile, i_21.ToCharArray)
+                user_address = DataGridView1.Rows(j).Cells(16).Value.ToString
+                i_22 = "<addressLine1>" & user_address & "</addressLine1>"
+                WriteLine(numFile, i_22.ToCharArray)
+                user_city = DataGridView1.Rows(j).Cells(17).Value.ToString
+                i_23 = "<city>" & user_city & "</city>"
+                WriteLine(numFile, i_23.ToCharArray)
+                WriteLine(numFile, i_24.ToCharArray)
+                WriteLine(numFile, i_25.ToCharArray)
+                WriteLine(numFile, finalLine.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(1, lineConfigFile.ToCharArray)
+            Next
+        Catch ex As Exception
+            grabaLog(1, 2, 6, ex.ToString)
+            In_Case_Error(1)
+            Exit Sub
+        End Try
 
-            'XML PARA ASIGNAR DISPOSITIVOS A USUARIOS---------------------------------------------------------------------
-            Try
+        'XML PARA EL PROXY-----------------------------------------------------------------------------------------------
+        Try
+            If proxyInfo = 1 Then
                 For j = 0 To filasValidas - 1
                     numFile = 2
                     indexXML_Cloud += 1
-                    fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignUser_request.xml"
+                    fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_CreateProxy_request.xml"
                     fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
                     FileOpen(numFile, fileIXML, OpenMode.Output)
                     WriteLine(numFile, line1.ToCharArray)
                     WriteLine(numFile, line2.ToCharArray)
                     WriteLine(numFile, line3.ToCharArray)
-                    WriteLine(numFile, k_4.ToCharArray)
-                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
-                    k_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
-                    WriteLine(numFile, k_5.ToCharArray)
-                    k_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
-                    WriteLine(numFile, k_6.ToCharArray)
-                    extensions = DataGridView1.Rows(j).Cells(19).Value.ToString
-                    k_7 = "<extension>" & extensions & "</extension>"
-                    WriteLine(numFile, k_7.ToCharArray)
-                    WriteLine(numFile, k_8.ToCharArray)
-                    WriteLine(numFile, k_9.ToCharArray)
-                    WriteLine(numFile, k_10.ToCharArray)
-                    WriteLine(numFile, k_11.ToCharArray)
-                    WriteLine(numFile, k_12.ToCharArray)
+                    WriteLine(numFile, j_4.ToCharArray)
+                    WriteLine(numFile, j_5.ToCharArray)
+                    j_6 = "<groupId>" & group_id & "</groupId>"
+                    WriteLine(numFile, j_6.ToCharArray)
                     mac = DataGridView1.Rows(j).Cells(9).Value.ToString
-                    k_13 = "<deviceName>DV_" & mac & "</deviceName>"
-                    WriteLine(numFile, k_13.ToCharArray)
-                    WriteLine(numFile, k_14.ToCharArray)
-                    k_15 = "<linePort>" & phoneNumber & "@" & domain & "</linePort>"
-                    WriteLine(numFile, k_15.ToCharArray)
-                    WriteLine(numFile, k_16.ToCharArray)
-                    WriteLine(numFile, k_17.ToCharArray)
-                    WriteLine(numFile, k_18.ToCharArray)
-                    WriteLine(numFile, k_19.ToCharArray)
+                    j_7 = "<deviceName>DV_" & mac & "</deviceName>"
+                    WriteLine(numFile, j_7.ToCharArray)
+                    WriteLine(numFile, j_8.ToCharArray)
+                    j_9 = "<tagValue>" & proxy & "</tagValue>"
+                    WriteLine(numFile, j_9.ToCharArray)
+                    WriteLine(numFile, j_10.ToCharArray)
                     WriteLine(numFile, finalLine.ToCharArray)
                     FileClose(numFile)
                     lineConfigFile = fileIXML & ";" & fileOXML
                     WriteLine(1, lineConfigFile.ToCharArray)
                 Next
-            Catch ex As Exception
-                grabaLog(1, 2, 6, ex.ToString)
-                In_Case_Error(1)
-                Exit Sub
-            End Try
+            End If
+        Catch ex As Exception
+            grabaLog(1, 2, 6, ex.ToString)
+            In_Case_Error(1)
+            Exit Sub
+        End Try
 
-            'XML PARA ASIGNAR PACK DE SERVICIOS---------------------------------------------------------------------
-            Try
-                For j = 0 To filasValidas - 1
-                    numFile = 2
-                    indexXML_Cloud += 1
-                    fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignServices_request.xml"
-                    fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
-                    FileOpen(numFile, fileIXML, OpenMode.Output)
-                    WriteLine(numFile, line1.ToCharArray)
-                    WriteLine(numFile, line2.ToCharArray)
-                    WriteLine(numFile, line3.ToCharArray)
-                    WriteLine(numFile, l_4.ToCharArray)
-                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
-                    l_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
-                    WriteLine(numFile, l_5.ToCharArray)
-                    device_type = DataGridView1.Rows(j).Cells(8).Value.ToString
-                    If device_type = "Yealink-T19xE2" Then
-                        l_6 = "<servicePackName>Pack_Basico</servicePackName>"
-                    ElseIf device_type = "Yealink-T21xE2" Then
-                        l_6 = "<servicePackName>Pack_Estandar</servicePackName>"
-                    ElseIf device_type = "Yealink-T27G" Then
-                        l_6 = "<servicePackName>Pack_Avanzado</servicePackName>"
-                    End If
-                    WriteLine(numFile, l_6.ToCharArray)
-                    WriteLine(numFile, l_7.ToCharArray)
-                    WriteLine(numFile, finalLine.ToCharArray)
-                    FileClose(numFile)
-                    lineConfigFile = fileIXML & ";" & fileOXML
-                    WriteLine(1, lineConfigFile.ToCharArray)
-                Next
-            Catch ex As Exception
-                grabaLog(1, 2, 6, ex.ToString)
-                In_Case_Error(1)
-                Exit Sub
-            End Try
+        'XML PARA ASIGNAR DISPOSITIVOS A USUARIOS---------------------------------------------------------------------
+        Try
+            For j = 0 To filasValidas - 1
+                numFile = 2
+                indexXML_Cloud += 1
+                fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignUser_request.xml"
+                fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, line1.ToCharArray)
+                WriteLine(numFile, line2.ToCharArray)
+                WriteLine(numFile, line3.ToCharArray)
+                WriteLine(numFile, k_4.ToCharArray)
+                phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+                k_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
+                WriteLine(numFile, k_5.ToCharArray)
+                k_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
+                WriteLine(numFile, k_6.ToCharArray)
+                extensions = DataGridView1.Rows(j).Cells(19).Value.ToString
+                k_7 = "<extension>" & extensions & "</extension>"
+                WriteLine(numFile, k_7.ToCharArray)
+                WriteLine(numFile, k_8.ToCharArray)
+                WriteLine(numFile, k_9.ToCharArray)
+                WriteLine(numFile, k_10.ToCharArray)
+                WriteLine(numFile, k_11.ToCharArray)
+                WriteLine(numFile, k_12.ToCharArray)
+                mac = DataGridView1.Rows(j).Cells(9).Value.ToString
+                k_13 = "<deviceName>DV_" & mac & "</deviceName>"
+                WriteLine(numFile, k_13.ToCharArray)
+                WriteLine(numFile, k_14.ToCharArray)
+                k_15 = "<linePort>" & phoneNumber & "@" & domain & "</linePort>"
+                WriteLine(numFile, k_15.ToCharArray)
+                WriteLine(numFile, k_16.ToCharArray)
+                WriteLine(numFile, k_17.ToCharArray)
+                WriteLine(numFile, k_18.ToCharArray)
+                WriteLine(numFile, k_19.ToCharArray)
+                WriteLine(numFile, finalLine.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(1, lineConfigFile.ToCharArray)
+            Next
+        Catch ex As Exception
+            grabaLog(1, 2, 6, ex.ToString)
+            In_Case_Error(1)
+            Exit Sub
+        End Try
 
-            'XML PARA OCP OUTGOING-CALLING-PLAN------------------------------------------------------------------------
-            Try
-                For j = 0 To filasValidas - 1
-                    numFile = 2
-                    indexXML_Cloud += 1
-                    fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_OCP_request.xml"
-                    fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
-                    FileOpen(numFile, fileIXML, OpenMode.Output)
-                    WriteLine(numFile, line1.ToCharArray)
-                    WriteLine(numFile, line2.ToCharArray)
-                    WriteLine(numFile, line3.ToCharArray)
-                    WriteLine(numFile, m_4.ToCharArray)
-                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
-                    m_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
-                    WriteLine(numFile, m_5.ToCharArray)
-                    WriteLine(numFile, m_6.ToCharArray)
-                    WriteLine(numFile, m_7.ToCharArray)
-                    WriteLine(numFile, m_8.ToCharArray)
+        'XML PARA ASIGNAR PACK DE SERVICIOS---------------------------------------------------------------------
+        Try
+            For j = 0 To filasValidas - 1
+                numFile = 2
+                indexXML_Cloud += 1
+                fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignServices_request.xml"
+                fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, line1.ToCharArray)
+                WriteLine(numFile, line2.ToCharArray)
+                WriteLine(numFile, line3.ToCharArray)
+                WriteLine(numFile, l_4.ToCharArray)
+                phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+                l_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
+                WriteLine(numFile, l_5.ToCharArray)
+                device_type = DataGridView1.Rows(j).Cells(8).Value.ToString
+                If device_type = "Yealink-T19xE2" Then
+                    l_6 = "<servicePackName>Pack_Basico</servicePackName>"
+                ElseIf device_type = "Yealink-T21xE2" Then
+                    l_6 = "<servicePackName>Pack_Estandar</servicePackName>"
+                ElseIf device_type = "Yealink-T27G" Then
+                    l_6 = "<servicePackName>Pack_Avanzado</servicePackName>"
+                End If
+                WriteLine(numFile, l_6.ToCharArray)
+                WriteLine(numFile, l_7.ToCharArray)
+                WriteLine(numFile, finalLine.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(1, lineConfigFile.ToCharArray)
+            Next
+        Catch ex As Exception
+            grabaLog(1, 2, 6, ex.ToString)
+            In_Case_Error(1)
+            Exit Sub
+        End Try
 
-                    ocp_local = DataGridView1.Rows(j).Cells(20).Value.ToString
-                    If ocp_local = "bloqueado" Or ocp_local = "Bloqueado" Or ocp_local = "BLOQUEADO" Then
-                        m_9 = "<local>Disallow</local>"
-                    ElseIf ocp_local = "desbloqueado" Or ocp_local = "Desbloqueado" Or ocp_local = "DESBLOQUEADO" Then
-                        m_9 = "<local>Allow</local>"
-                    End If
-                    WriteLine(numFile, m_9.ToCharArray)
+        'XML PARA OCP OUTGOING-CALLING-PLAN------------------------------------------------------------------------
+        Try
+            For j = 0 To filasValidas - 1
+                numFile = 2
+                indexXML_Cloud += 1
+                fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_OCP_request.xml"
+                fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, line1.ToCharArray)
+                WriteLine(numFile, line2.ToCharArray)
+                WriteLine(numFile, line3.ToCharArray)
+                WriteLine(numFile, m_4.ToCharArray)
+                phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+                m_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
+                WriteLine(numFile, m_5.ToCharArray)
+                WriteLine(numFile, m_6.ToCharArray)
+                WriteLine(numFile, m_7.ToCharArray)
+                WriteLine(numFile, m_8.ToCharArray)
 
-                    ocp_tollFree = DataGridView1.Rows(j).Cells(21).Value.ToString
-                    If ocp_tollFree = "bloqueado" Or ocp_tollFree = "Bloqueado" Or ocp_tollFree = "BLOQUEADO" Then
-                        m_10 = "<tollFree>Disallow</tollFree>"
-                    ElseIf ocp_tollFree = "desbloqueado" Or ocp_tollFree = "Desbloqueado" Or ocp_tollFree = "DESBLOQUEADO" Then
-                        m_10 = "<tollFree>Allow</tollFree>"
-                    End If
-                    WriteLine(numFile, m_10.ToCharArray)
-                    WriteLine(numFile, m_11.ToCharArray)
+                ocp_local = DataGridView1.Rows(j).Cells(20).Value.ToString
+                If ocp_local = "bloqueado" Or ocp_local = "Bloqueado" Or ocp_local = "BLOQUEADO" Then
+                    m_9 = "<local>Disallow</local>"
+                ElseIf ocp_local = "desbloqueado" Or ocp_local = "Desbloqueado" Or ocp_local = "DESBLOQUEADO" Then
+                    m_9 = "<local>Allow</local>"
+                End If
+                WriteLine(numFile, m_9.ToCharArray)
 
-                    ocp_internacional = DataGridView1.Rows(j).Cells(22).Value.ToString
-                    If ocp_internacional = "bloqueado" Or ocp_internacional = "Bloqueado" Or ocp_internacional = "BLOQUEADO" Then
-                        m_12 = "<international>Disallow</international>"
-                    ElseIf ocp_internacional = "desbloqueado" Or ocp_internacional = "Desbloqueado" Or ocp_internacional = "DESBLOQUEADO" Then
-                        m_12 = "<international>Allow</international>"
-                    End If
-                    WriteLine(numFile, m_12.ToCharArray)
-                    WriteLine(numFile, m_13.ToCharArray)
-                    WriteLine(numFile, m_14.ToCharArray)
+                ocp_tollFree = DataGridView1.Rows(j).Cells(21).Value.ToString
+                If ocp_tollFree = "bloqueado" Or ocp_tollFree = "Bloqueado" Or ocp_tollFree = "BLOQUEADO" Then
+                    m_10 = "<tollFree>Disallow</tollFree>"
+                ElseIf ocp_tollFree = "desbloqueado" Or ocp_tollFree = "Desbloqueado" Or ocp_tollFree = "DESBLOQUEADO" Then
+                    m_10 = "<tollFree>Allow</tollFree>"
+                End If
+                WriteLine(numFile, m_10.ToCharArray)
+                WriteLine(numFile, m_11.ToCharArray)
 
-                    ocp_special1 = DataGridView1.Rows(j).Cells(23).Value.ToString
-                    If ocp_special1 = "bloqueado" Or ocp_special1 = "Bloqueado" Or ocp_special1 = "BLOQUEADO" Then
-                        m_15 = "<specialServicesI>Disallow</specialServicesI>"
-                    ElseIf ocp_special1 = "desbloqueado" Or ocp_special1 = "Desbloqueado" Or ocp_special1 = "DESBLOQUEADO" Then
-                        m_15 = "<specialServicesI>Allow</specialServicesI>"
-                    End If
-                    WriteLine(numFile, m_15.ToCharArray)
+                ocp_internacional = DataGridView1.Rows(j).Cells(22).Value.ToString
+                If ocp_internacional = "bloqueado" Or ocp_internacional = "Bloqueado" Or ocp_internacional = "BLOQUEADO" Then
+                    m_12 = "<international>Disallow</international>"
+                ElseIf ocp_internacional = "desbloqueado" Or ocp_internacional = "Desbloqueado" Or ocp_internacional = "DESBLOQUEADO" Then
+                    m_12 = "<international>Allow</international>"
+                End If
+                WriteLine(numFile, m_12.ToCharArray)
+                WriteLine(numFile, m_13.ToCharArray)
+                WriteLine(numFile, m_14.ToCharArray)
 
-                    ocp_special2 = DataGridView1.Rows(j).Cells(24).Value.ToString
-                    If ocp_special2 = "bloqueado" Or ocp_special2 = "Bloqueado" Or ocp_special2 = "BLOQUEADO" Then
-                        m_16 = "<specialServicesII>Disallow</specialServicesII>"
-                    ElseIf ocp_special2 = "desbloqueado" Or ocp_special2 = "Desbloqueado" Or ocp_special2 = "DESBLOQUEADO" Then
-                        m_16 = "<specialServicesII>Allow</specialServicesII>"
-                    End If
-                    WriteLine(numFile, m_16.ToCharArray)
+                ocp_special1 = DataGridView1.Rows(j).Cells(23).Value.ToString
+                If ocp_special1 = "bloqueado" Or ocp_special1 = "Bloqueado" Or ocp_special1 = "BLOQUEADO" Then
+                    m_15 = "<specialServicesI>Disallow</specialServicesI>"
+                ElseIf ocp_special1 = "desbloqueado" Or ocp_special1 = "Desbloqueado" Or ocp_special1 = "DESBLOQUEADO" Then
+                    m_15 = "<specialServicesI>Allow</specialServicesI>"
+                End If
+                WriteLine(numFile, m_15.ToCharArray)
 
-                    ocp_premium1 = DataGridView1.Rows(j).Cells(25).Value.ToString
-                    If ocp_premium1 = "bloqueado" Or ocp_premium1 = "Bloqueado" Or ocp_premium1 = "BLOQUEADO" Then
-                        m_17 = "<premiumServicesI>Disallow</premiumServicesI>"
-                    ElseIf ocp_premium1 = "desbloqueado" Or ocp_premium1 = "Desbloqueado" Or ocp_premium1 = "DESBLOQUEADO" Then
-                        m_17 = "<premiumServicesI>Allow</premiumServicesI>"
-                    End If
-                    WriteLine(numFile, m_17.ToCharArray)
-                    WriteLine(numFile, m_18.ToCharArray)
-                    WriteLine(numFile, m_19.ToCharArray)
-                    WriteLine(numFile, m_20.ToCharArray)
-                    WriteLine(numFile, m_21.ToCharArray)
-                    WriteLine(numFile, m_22.ToCharArray)
-                    WriteLine(numFile, m_23.ToCharArray)
-                    WriteLine(numFile, finalLine.ToCharArray)
-                    FileClose(numFile)
-                    lineConfigFile = fileIXML & ";" & fileOXML
-                    WriteLine(1, lineConfigFile.ToCharArray)
-                Next
-            Catch ex As Exception
-                grabaLog(1, 2, 6, ex.ToString)
-                In_Case_Error(1)
-                Exit Sub
-            End Try
+                ocp_special2 = DataGridView1.Rows(j).Cells(24).Value.ToString
+                If ocp_special2 = "bloqueado" Or ocp_special2 = "Bloqueado" Or ocp_special2 = "BLOQUEADO" Then
+                    m_16 = "<specialServicesII>Disallow</specialServicesII>"
+                ElseIf ocp_special2 = "desbloqueado" Or ocp_special2 = "Desbloqueado" Or ocp_special2 = "DESBLOQUEADO" Then
+                    m_16 = "<specialServicesII>Allow</specialServicesII>"
+                End If
+                WriteLine(numFile, m_16.ToCharArray)
 
-            'XML PARA ASIGNAR CONTRASEÑA SIP------------------------------------------------------------------------
-            Try
-                For j = 0 To filasValidas - 1
-                    numFile = 2
-                    indexXML_Cloud += 1
-                    fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignPasswordSIP_request.xml"
-                    fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
-                    FileOpen(numFile, fileIXML, OpenMode.Output)
-                    WriteLine(numFile, line1.ToCharArray)
-                    WriteLine(numFile, line2.ToCharArray)
-                    WriteLine(numFile, line3.ToCharArray)
-                    WriteLine(numFile, n_4.ToCharArray)
-                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
-                    n_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
-                    WriteLine(numFile, n_5.ToCharArray)
-                    n_6 = "<userName>" & phoneNumber & "</userName>"
-                    WriteLine(numFile, n_6.ToCharArray)
-                    'Dim domi As String = Mid(domain.ToString, 0, 4)
-                    Dim letras As String = group_id.Substring(0, 4)
-                    n_7 = "<newPassword>" & letras & phoneNumber & "</newPassword>"
-                    WriteLine(numFile, n_7.ToCharArray)
-                    WriteLine(numFile, n_8.ToCharArray)
-                    WriteLine(numFile, finalLine.ToCharArray)
-                    FileClose(numFile)
-                    lineConfigFile = fileIXML & ";" & fileOXML
-                    WriteLine(1, lineConfigFile.ToCharArray)
-                Next
-            Catch ex As Exception
-                grabaLog(1, 2, 6, ex.ToString)
-                In_Case_Error(1)
-                Exit Sub
-            End Try
+                ocp_premium1 = DataGridView1.Rows(j).Cells(25).Value.ToString
+                If ocp_premium1 = "bloqueado" Or ocp_premium1 = "Bloqueado" Or ocp_premium1 = "BLOQUEADO" Then
+                    m_17 = "<premiumServicesI>Disallow</premiumServicesI>"
+                ElseIf ocp_premium1 = "desbloqueado" Or ocp_premium1 = "Desbloqueado" Or ocp_premium1 = "DESBLOQUEADO" Then
+                    m_17 = "<premiumServicesI>Allow</premiumServicesI>"
+                End If
+                WriteLine(numFile, m_17.ToCharArray)
+                WriteLine(numFile, m_18.ToCharArray)
+                WriteLine(numFile, m_19.ToCharArray)
+                WriteLine(numFile, m_20.ToCharArray)
+                WriteLine(numFile, m_21.ToCharArray)
+                WriteLine(numFile, m_22.ToCharArray)
+                WriteLine(numFile, m_23.ToCharArray)
+                WriteLine(numFile, finalLine.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(1, lineConfigFile.ToCharArray)
+            Next
+        Catch ex As Exception
+            grabaLog(1, 2, 6, ex.ToString)
+            In_Case_Error(1)
+            Exit Sub
+        End Try
 
-            'XML PARA ACTIVAR LOS NUMEROS------------------------------------------------------------------------
-            Try
-                For j = 0 To filasValidas - 1
-                    numFile = 2
-                    indexXML_Cloud += 1
-                    fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_ActivateNumber_request.xml"
-                    fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
-                    FileOpen(numFile, fileIXML, OpenMode.Output)
-                    WriteLine(numFile, line1.ToCharArray)
-                    WriteLine(numFile, line2.ToCharArray)
-                    WriteLine(numFile, line3.ToCharArray)
-                    WriteLine(numFile, o_4.ToCharArray)
-                    WriteLine(numFile, o_5.ToCharArray)
-                    o_6 = "<groupId>" & group_id & "</groupId>"
-                    WriteLine(numFile, o_6.ToCharArray)
-                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
-                    o_7 = "<phoneNumber>+56-" & phoneNumber & "</phoneNumber>"
-                    WriteLine(numFile, o_7.ToCharArray)
-                    WriteLine(numFile, o_8.ToCharArray)
-                    WriteLine(numFile, finalLine.ToCharArray)
-                    FileClose(numFile)
-                    lineConfigFile = fileIXML & ";" & fileOXML
-                    WriteLine(1, lineConfigFile.ToCharArray)
-                Next
-            Catch ex As Exception
-                grabaLog(1, 2, 6, ex.ToString)
-                In_Case_Error(1)
-                Exit Sub
-            End Try
+        'XML PARA ASIGNAR CONTRASEÑA SIP------------------------------------------------------------------------
+        Try
+            For j = 0 To filasValidas - 1
+                numFile = 2
+                indexXML_Cloud += 1
+                fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_AssignPasswordSIP_request.xml"
+                fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, line1.ToCharArray)
+                WriteLine(numFile, line2.ToCharArray)
+                WriteLine(numFile, line3.ToCharArray)
+                WriteLine(numFile, n_4.ToCharArray)
+                phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+                n_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
+                WriteLine(numFile, n_5.ToCharArray)
+                n_6 = "<userName>" & phoneNumber & "</userName>"
+                WriteLine(numFile, n_6.ToCharArray)
+                'Dim domi As String = Mid(domain.ToString, 0, 4)
+                Dim letras As String = group_id.Substring(0, 4)
+                n_7 = "<newPassword>" & letras & phoneNumber & "</newPassword>"
+                WriteLine(numFile, n_7.ToCharArray)
+                WriteLine(numFile, n_8.ToCharArray)
+                WriteLine(numFile, finalLine.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(1, lineConfigFile.ToCharArray)
+            Next
+        Catch ex As Exception
+            grabaLog(1, 2, 6, ex.ToString)
+            In_Case_Error(1)
+            Exit Sub
+        End Try
+
+        'XML PARA ACTIVAR LOS NUMEROS------------------------------------------------------------------------
+        Try
+            For j = 0 To filasValidas - 1
+                numFile = 2
+                indexXML_Cloud += 1
+                fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_ActivateNumber_request.xml"
+                fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+                FileOpen(numFile, fileIXML, OpenMode.Output)
+                WriteLine(numFile, line1.ToCharArray)
+                WriteLine(numFile, line2.ToCharArray)
+                WriteLine(numFile, line3.ToCharArray)
+                WriteLine(numFile, o_4.ToCharArray)
+                WriteLine(numFile, o_5.ToCharArray)
+                o_6 = "<groupId>" & group_id & "</groupId>"
+                WriteLine(numFile, o_6.ToCharArray)
+                phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+                o_7 = "<phoneNumber>+56-" & phoneNumber & "</phoneNumber>"
+                WriteLine(numFile, o_7.ToCharArray)
+                WriteLine(numFile, o_8.ToCharArray)
+                WriteLine(numFile, finalLine.ToCharArray)
+                FileClose(numFile)
+                lineConfigFile = fileIXML & ";" & fileOXML
+                WriteLine(1, lineConfigFile.ToCharArray)
+            Next
+        Catch ex As Exception
+            grabaLog(1, 2, 6, ex.ToString)
+            In_Case_Error(1)
+            Exit Sub
+        End Try
 
         'XML PARA ACTIVAR LA MUSICA EN ESPERA DEL GRUPO--------------------------------------------------------------
         Try
-                numFile = 2
-                indexXML_Cloud += 1
-                fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_GroupMusicOnHold_request.xml"
-                fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
-                FileOpen(numFile, fileIXML, OpenMode.Output)
-                WriteLine(numFile, line1.ToCharArray)
-                WriteLine(numFile, line2.ToCharArray)
-                WriteLine(numFile, line3.ToCharArray)
-                WriteLine(numFile, q_4.ToCharArray)
-                WriteLine(numFile, q_5.ToCharArray)
-                q_6 = "<groupId>" & group_id & "</groupId>"
-                WriteLine(numFile, q_6.ToCharArray)
-                WriteLine(numFile, q_7.ToCharArray)
-                WriteLine(numFile, q_8.ToCharArray)
-                WriteLine(numFile, q_9.ToCharArray)
-                WriteLine(numFile, q_10.ToCharArray)
-                WriteLine(numFile, q_11.ToCharArray)
-                WriteLine(numFile, q_12.ToCharArray)
-                WriteLine(numFile, q_13.ToCharArray)
-                WriteLine(numFile, q_14.ToCharArray)
-                WriteLine(numFile, q_15.ToCharArray)
-                WriteLine(numFile, q_16.ToCharArray)
-                WriteLine(numFile, q_17.ToCharArray)
-                WriteLine(numFile, q_18.ToCharArray)
-                WriteLine(numFile, q_19.ToCharArray)
-                WriteLine(numFile, q_20.ToCharArray)
-                WriteLine(numFile, q_21.ToCharArray)
-                WriteLine(numFile, finalLine.ToCharArray)
-                FileClose(numFile)
-                lineConfigFile = fileIXML & ";" & fileOXML
-                WriteLine(1, lineConfigFile.ToCharArray)
-            Catch ex As Exception
-                grabaLog(1, 2, 6, ex.ToString)
-                In_Case_Error(1)
-                Exit Sub
-            End Try
+            numFile = 2
+            indexXML_Cloud += 1
+            fileIXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_GroupMusicOnHold_request.xml"
+            fileOXML = gblPathTmpCloud & "\" & indexXML_Cloud & "_cloudpbx_response.xml"
+            FileOpen(numFile, fileIXML, OpenMode.Output)
+            WriteLine(numFile, line1.ToCharArray)
+            WriteLine(numFile, line2.ToCharArray)
+            WriteLine(numFile, line3.ToCharArray)
+            WriteLine(numFile, q_4.ToCharArray)
+            WriteLine(numFile, q_5.ToCharArray)
+            q_6 = "<groupId>" & group_id & "</groupId>"
+            WriteLine(numFile, q_6.ToCharArray)
+            WriteLine(numFile, q_7.ToCharArray)
+            WriteLine(numFile, q_8.ToCharArray)
+            WriteLine(numFile, q_9.ToCharArray)
+            WriteLine(numFile, q_10.ToCharArray)
+            WriteLine(numFile, q_11.ToCharArray)
+            WriteLine(numFile, q_12.ToCharArray)
+            WriteLine(numFile, q_13.ToCharArray)
+            WriteLine(numFile, q_14.ToCharArray)
+            WriteLine(numFile, q_15.ToCharArray)
+            WriteLine(numFile, q_16.ToCharArray)
+            WriteLine(numFile, q_17.ToCharArray)
+            WriteLine(numFile, q_18.ToCharArray)
+            WriteLine(numFile, q_19.ToCharArray)
+            WriteLine(numFile, q_20.ToCharArray)
+            WriteLine(numFile, q_21.ToCharArray)
+            WriteLine(numFile, finalLine.ToCharArray)
+            FileClose(numFile)
+            lineConfigFile = fileIXML & ";" & fileOXML
+            WriteLine(1, lineConfigFile.ToCharArray)
+        Catch ex As Exception
+            grabaLog(1, 2, 6, ex.ToString)
+            In_Case_Error(1)
+            Exit Sub
+        End Try
 
-            FileClose(1)
+        FileClose(1)
 
         If lbl_state_cloud.GetCurrentParent.InvokeRequired Then
             lbl_state_cloud.GetCurrentParent.Invoke(Sub() lbl_state_cloud.Text = "Processing XML Files...")
@@ -2077,8 +2013,11 @@ Public Class Frm_Principal
         End If
 
         ExecuteShellBulk(multipleInputFile, 1)
+
         If codError = 0 Then
+
             grabaLog(2, 4, , "Se procesó correctamente el archivo " & FileName.ToString)
+            FileClose(numFileLog)
             My.Computer.FileSystem.MoveFile(foundFile, OutputFolderPath & "\" & FileName & "_[SuccessfullyProcessed]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
 
             If lbl_state_cloud.GetCurrentParent.InvokeRequired Then
@@ -2143,7 +2082,7 @@ Public Class Frm_Principal
         Catch ex As Exception
             grabaLog(1, 6, 9, ex.ToString)
             FileClose(numFile)
-            'Me.Cursor = Cursors.Default
+
             If numberSubroutine = 1 Then
                 codError = 1
                 In_Case_Error()
@@ -2253,7 +2192,6 @@ Public Class Frm_Principal
             Exit Sub
         End Try
     End Sub
-
 
     Private Sub ParseXML_cloudPBX()
 
@@ -2400,7 +2338,8 @@ Public Class Frm_Principal
             My.Application.DoEvents()
         End If
 
-        Dim mensaje As String = ""
+
+        Dim message As String = ""
         Dim fileLog As String = ""
         Dim linerr As String = ""
 
@@ -2442,38 +2381,41 @@ Public Class Frm_Principal
 
             Case 1
                 'My.Computer.FileSystem.MoveFile(foundFile, ErrorFolderPath & "\" & FileName & "_[communication error with the server]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
-                mensaje = "communication error with the server "
+                message = "communication error with the server "
             Case 2
-                mensaje = "error trying to open the file "
+                message = "error trying to open the file "
             Case 3
-                mensaje = "file validation error "
+                message = "file validation error "
             Case 4
-                mensaje = "database error "
+                message = "database error "
             Case 5
-                mensaje = "data validation error "
+                message = "data validation error "
             Case 6
-                mensaje = "Internal error trying to create xml file "
+                message = "Internal error trying to create xml file "
             Case 7
-                mensaje = "Internal error trying to delete old responses from Broadsoft "
+                message = "Internal error trying to delete old responses from Broadsoft "
             Case 8
-                mensaje = "Internal error trying to open multipleInputFile "
+                message = "Internal error trying to open multipleInputFile "
             Case 9
-                mensaje = "Internal error trying to create file ociclient.config "
+                message = "Internal error trying to create file ociclient.config "
             Case 10
-                mensaje = "Internal error trying to execute startASOCIClient.bat "
+                message = "Internal error trying to execute startASOCIClient.bat "
         End Select
 
-        linerr += DateAndTime.Now & " -> " & mensaje & vbNewLine & aditionalMessage
+        linerr += DateAndTime.Now & " -> " & message & vbNewLine & aditionalMessage
 
         fileLog = LogsFolderPath & "\" & FileName & "_" & Format(Now(), "dd-MM-yyyy_hhmmss") & ".log"
 
-        System.Threading.Thread.Sleep(2000)
+        'System.Threading.Thread.Sleep(500)
 
-        numFile = 4
+        Try
+            FileOpen(numFileLog, fileLog, OpenMode.Append, OpenAccess.Write)
 
-        FileOpen(numFile, fileLog, OpenMode.Append, OpenAccess.Write)
-        WriteLine(numFile, linerr.ToCharArray)
-        FileClose(numFile)
+        Catch ex As Exception
+
+        End Try
+
+        WriteLine(numFileLog, linerr.ToCharArray)
 
         If lbl_state_cloud.GetCurrentParent.InvokeRequired Then
             lbl_state_cloud.GetCurrentParent.Invoke(Sub() lbl_state_cloud.Text = "Log saved")

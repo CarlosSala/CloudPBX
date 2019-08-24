@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<BroadsoftDocument protocol="OCI" xmlns="C">
+<sessionId xmlns="">%%%OSS_USER%%%</sessionId>
+<command xsi:type="GroupAccessDeviceAddRequest14" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<serviceProviderId>CloudPBX_SMB</serviceProviderId>
+<groupId>MIGUEL_cloudpbx</groupId>
+<deviceName>DV_</deviceName>
+<deviceType></deviceType>
+<protocol>SIP 2.0</protocol>
+<macAddress></macAddress>
+<serialNumber></serialNumber>
+<physicalLocation></physicalLocation>
+<transportProtocol>Unspecified</transportProtocol>
+</command>
+</BroadsoftDocument>

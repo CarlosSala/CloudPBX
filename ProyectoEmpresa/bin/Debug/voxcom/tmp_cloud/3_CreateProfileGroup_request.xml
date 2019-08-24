@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<BroadsoftDocument protocol="OCI" xmlns="C">
+<sessionId xmlns="">%%%OSS_USER%%%</sessionId>
+<command xsi:type="GroupAddRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<serviceProviderId>CloudPBX_SMB</serviceProviderId>
+<groupId>MIGUEL_cloudpbx</groupId>
+<defaultDomain>felipe.cl</defaultDomain>
+<userLimit>25</userLimit>
+<groupName>felipe_empresa</groupName>
+<callingLineIdName>felipe_empresa</callingLineIdName>
+<contact>
+<contactName>juan</contactName>
+<contactNumber>998877660</contactNumber>
+</contact>
+<address>
+<addressLine1>Matias cousinho</addressLine1>
+<city>santiago</city>
+</address>
+</command>
+</BroadsoftDocument>

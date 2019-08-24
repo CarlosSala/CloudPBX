@@ -1,9 +1,9 @@
 ﻿Imports System.Xml
 Imports System.IO
 Imports System.Data.OleDb
-Imports System.Net
 Imports System.Text.RegularExpressions
 Imports System.Security.Permissions
+Imports System.Net
 
 Public Class Frm_Principal
 
@@ -63,7 +63,6 @@ Public Class Frm_Principal
     Dim OutputFolderPath As String = Desktop & My.Settings.OutputFolder
     Dim BrsResponseFolderPath As String = Desktop & My.Settings.BrsResponseFolder
 
-
     Dim FileName As String
     Dim foundFile As String
 
@@ -81,25 +80,25 @@ Public Class Frm_Principal
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom
         gblPathLog = My.Application.Info.DirectoryPath & My.Settings.PathLog
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\log
-
         gblPathTmpCloud = My.Application.Info.DirectoryPath & My.Settings.PathTmpCloud
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_cloud
-        Dim file_permissions As New FileIOPermission(FileIOPermissionAccess.Read, gblPathTmpCloud)
 
-        file_permissions.PermitOnly()
+        'Dim file_permissions As New FileIOPermission(FileIOPermissionAccess.Read, gblPathTmpCloud)
+
+        'file_permissions.PermitOnly()
 
     End Sub
 
     Private Sub FSW_Created(sender As Object, e As FileSystemEventArgs) Handles FSW.Created
 
-        If btn_report_cloudpbx.InvokeRequired Then
+        'If btn_report_cloudpbx.InvokeRequired Then
 
-            btn_report_cloudpbx.BeginInvoke(Sub() btn_report_cloudpbx.Enabled = True)
-            My.Application.DoEvents()
-        Else
-            btn_report_cloudpbx.Enabled = True
-            My.Application.DoEvents()
-        End If
+        '    btn_report_cloudpbx.BeginInvoke(Sub() btn_report_cloudpbx.Enabled = True)
+        '    My.Application.DoEvents()
+        'Else
+        '    btn_report_cloudpbx.Enabled = True
+        '    My.Application.DoEvents()
+        'End If
 
         System.Threading.Thread.Sleep(3000)
 
@@ -419,15 +418,6 @@ Public Class Frm_Principal
         End Try
         Conexion.Close()
 
-        'Se muestran los datos en el datagridview 
-        '    DataGridView1.DataSource = dtResults
-        '    DataGridView1.Refresh()
-        '    btnRun.Text = "Run Query"
-        '    btnRun.ForeColor = Color.Black
-
-        'Dim dt1 As New DataTable
-        'dt1 = dt
-
         If DataGridView1.InvokeRequired Then
 
             'Task.Run(Function() Sub()
@@ -435,8 +425,6 @@ Public Class Frm_Principal
             DataGridView1.Invoke(
                     Sub()
 
-                        'Dim dt1 As New DataTable
-                        'dt1 = dt
                         DataGridView1.DataSource = dt
 
                         'Se evita que el usuario pueda reordenar la grilla
@@ -1028,10 +1016,7 @@ Public Class Frm_Principal
             Next
         Next
 
-        'validar que la columna de los numeros sea igual o mayor a la de los dispositivos
-
         If estadoCeldas = 0 Then
-
             CloudPBX()
         Else
             In_Case_Error()
@@ -2018,7 +2003,7 @@ Public Class Frm_Principal
 
             grabaLog(2, 4, , "Se procesó correctamente el archivo " & FileName.ToString)
             FileClose(numFileLog)
-            My.Computer.FileSystem.MoveFile(foundFile, OutputFolderPath & "\" & FileName & "_[SuccessfullyProcessed]_" & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
+            My.Computer.FileSystem.MoveFile(foundFile, OutputFolderPath & "\" & FileName & " SuccessfullyProcessed " & Format(Now(), "dd-MM-yyyy_hhmmss"), FileIO.UIOption.AllDialogs, FileIO.UICancelOption.DoNothing)
 
             If lbl_state_cloud.GetCurrentParent.InvokeRequired Then
                 lbl_state_cloud.GetCurrentParent.Invoke(Sub() lbl_state_cloud.Text = "Finished")
@@ -2316,6 +2301,7 @@ Public Class Frm_Principal
             ProgressBar1.Value = ProgressBar1.Maximum
             My.Application.DoEvents()
         End If
+
         System.Threading.Thread.Sleep(1000)
     End Sub
 
@@ -2337,7 +2323,6 @@ Public Class Frm_Principal
             ProgressBar1.Value = 100
             My.Application.DoEvents()
         End If
-
 
         Dim message As String = ""
         Dim fileLog As String = ""
@@ -2427,29 +2412,10 @@ Public Class Frm_Principal
 
     End Sub
 
-
-
-    '    Dim number As Integer = 8
-    'Select Case number
-    '    Case 1 To 5
-    '        Debug.WriteLine("Between 1 and 5, inclusive")
-    '        ' The following is the only Case clause that evaluates to True.
-    '    Case 6, 7, 8
-    '        Debug.WriteLine("Between 6 and 8, inclusive")
-    '    Case 9 To 10
-    '        Debug.WriteLine("Equal to 9 or 10")
-    '    Case Else
-    '        Debug.WriteLine("Not between 1 and 10, inclusive")
-    'End Select
-
-
     Private Sub Btn_report_cloudpbx_Click(sender As Object, e As EventArgs) Handles btn_report_cloudpbx.Click
+
         ParseXML_cloudPBX()
         Process.Start("explorer.exe", Desktop & "\brs-response")
-    End Sub
-
-    Private Sub Btn_validate_data_Click(sender As Object, e As EventArgs)
-        Validate_Data()
     End Sub
 
     Private Sub Btn_mode_auto_Click(sender As Object, e As EventArgs) Handles btn_fileWatcher.Click

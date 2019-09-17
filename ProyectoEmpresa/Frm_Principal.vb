@@ -584,8 +584,9 @@ Public Class Frm_Principal
 
             'Si se compara con el signo = un string, no importaran las mayusculas o minusculas
             'If device_type.Equals("Yealink-T19xE2") Or device_type.Equals("Yealink-T21xE2") Or device_type.Equals("Yealink-T27G") Then
-            pattern = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)){1}\Z"
-            prohibited = "El campo de 'tipo de dispositivo' o device_type' solo puede contener uno de los siguientes tipos de teléfonos: Yealink-T19xE2 o Yealink-T21xE2 o Yealink-T27G"
+            'Panasonic-KX-TGP-600
+            pattern = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)|(TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
+            prohibited = "El campo de 'tipo de dispositivo' o device_type' solo puede contener uno de los siguientes tipos de teléfonos: Yealink-T19xE2 o Yealink-T21xE2 o Yealink-T27G o TGP-600-B o TGP-600-S o TGP-600-A"
 
             If Regex.IsMatch(device_type, pattern) Then
                 DataGridView1.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -606,14 +607,20 @@ Public Class Frm_Principal
                 'validar que no existan datos de ciertas columnas repetidas
                 For i = 0 To filasValidas - 1
 
-                    Dim valorComparado As String = DataGridView1.Rows(i).Cells(9).Value.ToString
-                    Dim valores As String
+                    Dim macComparada As String = DataGridView1.Rows(i).Cells(9).Value.ToString
+                    Dim deviceComparado As String = DataGridView1.Rows(i).Cells(8).Value.ToString
+
+                    Dim macValores As String
+                    Dim deviceValores As String
 
                     For k = 0 To filasValidas - 1
 
-                        valores = DataGridView1.Rows(k).Cells(9).Value.ToString
+                        macValores = DataGridView1.Rows(k).Cells(9).Value.ToString
+                        deviceValores = DataGridView1.Rows(k).Cells(8).Value.ToString
 
-                        If valorComparado.Equals(valores) And i <> k Then
+                        pattern = "\A((TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
+
+                        If Not (Regex.IsMatch(deviceComparado, pattern) And Regex.IsMatch(deviceValores, pattern)) And macComparada.Equals(macValores) And i <> k Then
 
                             DataGridView1.Rows(k).Cells(9).Style.BackColor = Color.FromArgb(182, 15, 196)
                             DataGridView1.Rows(k).Cells(9).ToolTipText = "El valor esta repetido"
@@ -628,10 +635,16 @@ Public Class Frm_Principal
                 estadoCeldas = 1
             End If
 
-            pattern = "\A[a-no-zA-NO-Z0-9]{16}\Z"
-            prohibited = "El campo de 'número de serie' o 'serial_number' debe contener exactamente 16 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
+            Dim pattern1 As String = "\A[a-no-zA-NO-Z0-9]{16}\Z"
+            Dim pattern2 As String = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)){1}\Z"
 
-            If Regex.IsMatch(serial_number, pattern) Then
+            Dim pattern3 As String = "\A[a-no-zA-NO-Z0-9]{11}\Z"
+            Dim pattern4 As String = "\A((TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
+
+            prohibited = "El campo de 'número de serie' o 'serial_number' debe contener 16 u 11 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
+
+            If (Regex.IsMatch(serial_number, pattern1) And Regex.IsMatch(device_type, pattern2)) Or (Regex.IsMatch(serial_number, pattern3) And Regex.IsMatch(device_type, pattern4)) Then
+
                 DataGridView1.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView1.Rows(j).Cells(10).ToolTipText = ""
             Else
@@ -1666,9 +1679,15 @@ Public Class Frm_Principal
                     mac = DataGridView1.Rows(j).Cells(9).Value.ToString
                     g_7 = "<deviceName>DV_" & mac & "</deviceName>"
                     WriteLine(numFile, g_7.ToCharArray)
+
                     device_type = DataGridView1.Rows(j).Cells(8).Value.ToString
-                    g_8 = "<deviceType>" & device_type & "</deviceType>"
+                    If device_type.Equals("TGP-600-A") Or device_type.Equals("TGP-600-B") Or device_type.Equals("TGP-600-S") Then
+                        g_8 = "<deviceType>Panasonic-KX-TGP-600</deviceType>"
+                    Else
+                        g_8 = "<deviceType>" & device_type & "</deviceType>"
+                    End If
                     WriteLine(numFile, g_8.ToCharArray)
+
                     WriteLine(numFile, g_9.ToCharArray)
                     g_10 = "<macAddress>" & mac & "</macAddress>"
                     WriteLine(numFile, g_10.ToCharArray)
@@ -1909,6 +1928,12 @@ Public Class Frm_Principal
                     ElseIf device_type = "Yealink-T21xE2" Then
                         l_6 = "<servicePackName>Pack_Estandar</servicePackName>"
                     ElseIf device_type = "Yealink-T27G" Then
+                        l_6 = "<servicePackName>Pack_Avanzado</servicePackName>"
+                    ElseIf device_type = "TGP-600-B" Then
+                        l_6 = "<servicePackName>Pack_Basico</servicePackName>"
+                    ElseIf device_type = "TGP-600-S" Then
+                        l_6 = "<servicePackName>Pack_Estandar</servicePackName>"
+                    ElseIf device_type = "TGP-600-A" Then
                         l_6 = "<servicePackName>Pack_Avanzado</servicePackName>"
                     End If
                     WriteLine(numFile, l_6.ToCharArray)
@@ -4714,8 +4739,8 @@ Public Class Frm_Principal
 
             'Si se compara con el signo = un string, no importaran las mayusculas o minusculas
             'If device_type.Equals("Yealink-T19xE2") Or device_type.Equals("Yealink-T21xE2") Or device_type.Equals("Yealink-T27G") Then
-            pattern = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)){1}\Z"
-            prohibited = "El campo de 'tipo de dispositivo' o device_type' solo puede contener uno de los siguientes tipos de teléfonos: Yealink-T19xE2 o Yealink-T21xE2 o Yealink-T27G"
+            pattern = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)|(TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
+            prohibited = "El campo de 'tipo de dispositivo' o device_type' solo puede contener uno de los siguientes tipos de teléfonos: Yealink-T19xE2 o Yealink-T21xE2 o Yealink-T27G o TGP-600-B o TGP-600-S o TGP-600-A"
 
             If Regex.IsMatch(device_type, pattern) Then
                 DataGridView4.Rows(j).Cells(3).Style.BackColor = Color.FromArgb(0, 247, 0)
@@ -4736,14 +4761,20 @@ Public Class Frm_Principal
                 'validar que no existan datos de ciertas columnas repetidas
                 For i = 0 To filasValidas - 1
 
-                    Dim valorComparado As String = DataGridView4.Rows(i).Cells(4).Value.ToString
-                    Dim valores As String
+                    Dim macComparada As String = DataGridView4.Rows(i).Cells(4).Value.ToString
+                    Dim deviceComparado As String = DataGridView4.Rows(i).Cells(3).Value.ToString
+
+                    Dim macValores As String
+                    Dim deviceValores As String
 
                     For k = 0 To filasValidas - 1
 
-                        valores = DataGridView4.Rows(k).Cells(4).Value.ToString
+                        macValores = DataGridView4.Rows(k).Cells(4).Value.ToString
+                        deviceValores = DataGridView4.Rows(k).Cells(3).Value.ToString
 
-                        If valorComparado.Equals(valores) And i <> k Then
+                        pattern = "\A((TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
+
+                        If Not (Regex.IsMatch(deviceComparado, pattern) And Regex.IsMatch(deviceValores, pattern)) And macComparada.Equals(macValores) And i <> k Then
 
                             DataGridView4.Rows(k).Cells(4).Style.BackColor = Color.FromArgb(182, 15, 196)
                             DataGridView4.Rows(k).Cells(4).ToolTipText = "El valor esta repetido"
@@ -4758,10 +4789,15 @@ Public Class Frm_Principal
                 estadoCeldas1 = 1
             End If
 
-            pattern = "\A[a-no-zA-NO-Z0-9]{16}\Z"
-            prohibited = "El campo de 'número de serie' o 'serial_number' debe contener exactamente 16 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
+            Dim pattern1 As String = "\A[a-no-zA-NO-Z0-9]{16}\Z"
+            Dim pattern2 As String = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)){1}\Z"
 
-            If Regex.IsMatch(serial_number, pattern) Then
+            Dim pattern3 As String = "\A[a-no-zA-NO-Z0-9]{11}\Z"
+            Dim pattern4 As String = "\A((TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
+
+            prohibited = "El campo de 'número de serie' o 'serial_number' debe contener 16 u 11 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
+
+            If (Regex.IsMatch(serial_number, pattern1) And Regex.IsMatch(device_type, pattern2)) Or (Regex.IsMatch(serial_number, pattern3) And Regex.IsMatch(device_type, pattern4)) Then
                 DataGridView4.Rows(j).Cells(5).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView4.Rows(j).Cells(5).ToolTipText = ""
             Else
@@ -5433,9 +5469,15 @@ Public Class Frm_Principal
                     mac = DataGridView4.Rows(j).Cells(4).Value.ToString
                     g_7 = "<deviceName>DV_" & mac & "</deviceName>"
                     WriteLine(numFile, g_7.ToCharArray)
+
                     device_type = DataGridView4.Rows(j).Cells(3).Value.ToString
-                    g_8 = "<deviceType>" & device_type & "</deviceType>"
+                    If device_type.Equals("TGP-600-A") Or device_type.Equals("TGP-600-B") Or device_type.Equals("TGP-600-S") Then
+                        g_8 = "<deviceType>Panasonic-KX-TGP-600</deviceType>"
+                    Else
+                        g_8 = "<deviceType>" & device_type & "</deviceType>"
+                    End If
                     WriteLine(numFile, g_8.ToCharArray)
+
                     WriteLine(numFile, g_9.ToCharArray)
                     g_10 = "<macAddress>" & mac & "</macAddress>"
                     WriteLine(numFile, g_10.ToCharArray)
@@ -5676,6 +5718,12 @@ Public Class Frm_Principal
                     ElseIf device_type = "Yealink-T21xE2" Then
                         l_6 = "<servicePackName>Pack_Estandar</servicePackName>"
                     ElseIf device_type = "Yealink-T27G" Then
+                        l_6 = "<servicePackName>Pack_Avanzado</servicePackName>"
+                    ElseIf device_type = "TGP-600-B" Then
+                        l_6 = "<servicePackName>Pack_Basico</servicePackName>"
+                    ElseIf device_type = "TGP-600-S" Then
+                        l_6 = "<servicePackName>Pack_Estandar</servicePackName>"
+                    ElseIf device_type = "TGP-600-A" Then
                         l_6 = "<servicePackName>Pack_Avanzado</servicePackName>"
                     End If
                     WriteLine(numFile, l_6.ToCharArray)

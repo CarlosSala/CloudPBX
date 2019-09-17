@@ -4,12 +4,12 @@
 <command xsi:type="GroupAccessDeviceAddRequest14" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
 <groupId>MIGUEL_cloudpbx</groupId>
-<deviceName>DV_</deviceName>
-<deviceType></deviceType>
+<deviceName>DV_805EC0568F3C</deviceName>
+<deviceType>Panasonic-KX-TGP-600</deviceType>
 <protocol>SIP 2.0</protocol>
-<macAddress></macAddress>
-<serialNumber></serialNumber>
-<physicalLocation></physicalLocation>
+<macAddress>805EC0568F3C</macAddress>
+<serialNumber>3127320000000000</serialNumber>
+<physicalLocation>ZONA_2_28</physicalLocation>
 <transportProtocol>Unspecified</transportProtocol>
 </command>
 </BroadsoftDocument>

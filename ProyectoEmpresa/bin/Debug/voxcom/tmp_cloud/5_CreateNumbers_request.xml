@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <BroadsoftDocument protocol="OCI" xmlns="C">
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
-<command xsi:type="GroupAccessDeviceAddRequest14" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<command xsi:type="ServiceProviderDnAddListRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
-<groupId>MIGUEL_cloudpbx</groupId>
+<phoneNumber>232781883</phoneNumber>
+</command>
+</BroadsoftDocument>

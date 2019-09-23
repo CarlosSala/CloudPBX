@@ -3,7 +3,7 @@
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
 <command xsi:type="GroupServiceAssignListRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
-<groupId>MIGUEL_cloudpbx</groupId>
+<groupId>FERNANDOFELICEVICH_cloudpbx</groupId>
 <serviceName>Account/Authorization Codes</serviceName>
 <serviceName>Call Capacity Management</serviceName>
 <serviceName>Call Park</serviceName>

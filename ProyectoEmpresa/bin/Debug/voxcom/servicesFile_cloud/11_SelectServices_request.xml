@@ -3,7 +3,7 @@
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
   <command xsi:type="GroupServiceModifyAuthorizationListRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <serviceProviderId>CloudPBX_SMB</serviceProviderId>
- <groupId>FERNANDOFELICEVICH_cloudpbx</groupId>
+ <groupId>MIGUEL_cloudpbx</groupId>
     <servicePackAuthorization>
       <servicePackName>Pack_Opcional_Mensajeria_de_voz</servicePackName>
       <unauthorized>true</unauthorized>

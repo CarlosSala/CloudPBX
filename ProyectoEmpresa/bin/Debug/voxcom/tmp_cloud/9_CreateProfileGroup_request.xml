@@ -3,18 +3,18 @@
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
 <command xsi:type="GroupAddRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
-<groupId>FERNANDOFELICEVICH_cloudpbx</groupId>
-<defaultDomain>fernandofelicevich.cl</defaultDomain>
+<groupId>MIGUEL_cloudpbx</groupId>
+<defaultDomain>felipe.cl</defaultDomain>
 <userLimit>25</userLimit>
-<groupName>ASESORIAS_TWENTY_TWO_CHILE_SPA</groupName>
-<callingLineIdName>ASESORIAS_TWENTY_TWO_CHILE_SPA</callingLineIdName>
+<groupName>felipe_empresa</groupName>
+<callingLineIdName>felipe_empresa</callingLineIdName>
 <contact>
-<contactName>ALEJANDRO FLETCHER </contactName>
-<contactNumber>966742895</contactNumber>
+<contactName>juan</contactName>
+<contactNumber>998877660</contactNumber>
 </contact>
 <address>
-<addressLine1>AV VITACURA 5250 OF 1006, VITACURA RM</addressLine1>
-<city>Santiago</city>
+<addressLine1>Matias cousinho</addressLine1>
+<city>santiago</city>
 </address>
 </command>
 </BroadsoftDocument>

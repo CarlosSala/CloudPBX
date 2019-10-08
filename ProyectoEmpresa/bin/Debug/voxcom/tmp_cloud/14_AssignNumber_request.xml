@@ -3,7 +3,7 @@
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
 <command xsi:type="GroupDnAssignListRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
-<groupId>FERNANDOFELICEVICH_cloudpbx</groupId>
-<phoneNumber>+56-223523626</phoneNumber>
+<groupId>MIGUEL_cloudpbx</groupId>
+<phoneNumber>+56-232781882</phoneNumber>
 </command>
 </BroadsoftDocument>

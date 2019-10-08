@@ -539,7 +539,7 @@ Public Class Frm_Principal
             estadoCeldas = 1
         End If
 
-        pattern = "\A([\w\,]\s{0,1}){1,80}\Z"
+        pattern = "\A([\w\,\.]\s{0,1}){1,80}\Z"
         prohibited = "El campo de 'dirección de empresa' o 'address' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
 
         If Regex.IsMatch(address, pattern) Then
@@ -754,7 +754,7 @@ Public Class Frm_Principal
                 estadoCeldas = 1
             End If
 
-            pattern = "\A([\w\,]\s{0,1}){1,80}\Z"
+            pattern = "\A([\w\,\.]\s{0,1}){1,80}\Z"
             prohibited = "El campo de 'dirección de usuario' o 'user_address' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
 
             If Regex.IsMatch(user_address, pattern) Then
@@ -4907,7 +4907,7 @@ Public Class Frm_Principal
                 estadoCeldas1 = 1
             End If
 
-            pattern = "\A([\w\,]\s{0,1}){1,80}\Z"
+            pattern = "\A([\w\,\.]\s{0,1}){1,80}\Z"
             prohibited = "El campo de 'dirección de usuario' o 'user_address' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
 
             If Regex.IsMatch(user_address, pattern) Then

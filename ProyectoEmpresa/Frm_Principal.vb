@@ -784,7 +784,9 @@ Public Class Frm_Principal
             'Si se compara con el signo = un string, no importaran las mayusculas o minusculas
             'If device_type.Equals("Yealink-T19xE2") Or device_type.Equals("Yealink-T21xE2") Or device_type.Equals("Yealink-T27G") Then
             'Panasonic-KX-TGP-600
-            pattern = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)|(TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
+            'pattern = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)|(TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
+
+            pattern = "\A((TPA60 \(Paquete Avanzado\))|(TPA60 \(Paquete Estándar\))|(TPA60 \(Paquete Básico\))|(T21P E2 \(Paqueta Estándar\))|(T27GN \(Paquete Avanzado\))|(T19P E2 \(Paquete Básico\))){1}\Z"
             prohibited = "El campo de 'tipo de dispositivo' o device_type' solo puede contener uno de los siguientes tipos de teléfonos: Yealink-T19xE2 o Yealink-T21xE2 o Yealink-T27G o TGP-600-B o TGP-600-S o TGP-600-A"
 
             If Regex.IsMatch(device_type, pattern) Then
@@ -798,10 +800,10 @@ Public Class Frm_Principal
 
 
             Dim pattern1 As String = "\A[a-no-zA-NO-Z0-9]{16}\Z"
-            Dim pattern2 As String = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)){1}\Z"
+            Dim pattern2 As String = "\A((T21P E2 \(Paqueta Estándar\))|(T27GN \(Paquete Avanzado\))|(T19P E2 \(Paquete Básico\))){1}\Z"
 
             Dim pattern3 As String = "\A[a-no-zA-NO-Z0-9]{11}\Z"
-            Dim pattern4 As String = "\A((TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
+            Dim pattern4 As String = "\A((TPA60 \(Paquete Básico\))|(TPA60 \(Paquete Estándar\))|(TPA60 \(Paquete Avanzado\))){1}\Z"
 
             prohibited = "El campo de 'número de serie' o 'serial_number' debe contener 16 u 11 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
 
@@ -837,7 +839,8 @@ Public Class Frm_Principal
                         macValores = DataGridView1.Rows(k).Cells(16).Value.ToString
                         deviceValores = DataGridView1.Rows(k).Cells(14).Value.ToString
 
-                        pattern = "\A((TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
+                        'pattern = "\A((TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
+                        pattern = "\A((TPA60 \(Paquete Básico\))|(TPA60 \(Paquete Estándar\))|(TPA60 \(Paquete Avanzado\))){1}\Z"
 
                         If Not (Regex.IsMatch(deviceComparado, pattern) And Regex.IsMatch(deviceValores, pattern)) And macComparada.Equals(macValores) And i <> k Then
 
@@ -1706,10 +1709,18 @@ Public Class Frm_Principal
                     WriteLine(numFile, g_7.ToCharArray)
 
                     device_type = DataGridView1.Rows(j).Cells(14).Value.ToString
-                    If device_type.Equals("TGP-600-A") Or device_type.Equals("TGP-600-B") Or device_type.Equals("TGP-600-S") Then
+                    If device_type.Equals("TPA60 (Paquete Básico)") Or device_type.Equals("TPA60 (Paquete Estándar)") Or device_type.Equals("TPA60 (Paquete Avanzado)") Then
                         g_8 = "<deviceType>Panasonic-KX-TGP-600</deviceType>"
-                    Else
-                        g_8 = "<deviceType>" & device_type & "</deviceType>"
+
+                    ElseIf device_type.Equals("T19P E2 (Paquete Básico)") Then
+                        g_8 = "<deviceType>Yealink-T19xE2</deviceType>"
+
+                    ElseIf device_type.Equals("T21P E2 (Paqueta Estándar)") Then
+                        g_8 = "<deviceType>Yealink-T21xE2</deviceType>"
+
+                    ElseIf device_type.Equals("T27GN (Paquete Avanzado)") Then
+                        g_8 = "<deviceType>Yealink-T27G</deviceType>"
+
                     End If
                     WriteLine(numFile, g_8.ToCharArray)
 
@@ -1947,21 +1958,31 @@ Public Class Frm_Principal
                     phoneNumber = DataGridView1.Rows(j).Cells(12).Value.ToString
                     l_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
                     WriteLine(numFile, l_5.ToCharArray)
+
+
                     device_type = DataGridView1.Rows(j).Cells(14).Value.ToString
-                    If device_type = "Yealink-T19xE2" Then
+                    If device_type = "T19P E2 (Paquete Básico)" Then
                         l_6 = "<servicePackName>Pack_Basico</servicePackName>"
-                    ElseIf device_type = "Yealink-T21xE2" Then
+                    ElseIf device_type = "T21P E2 (Paqueta Estándar)" Then
                         l_6 = "<servicePackName>Pack_Estandar</servicePackName>"
-                    ElseIf device_type = "Yealink-T27G" Then
+                    ElseIf device_type = "T27GN (Paquete Avanzado)" Then
                         l_6 = "<servicePackName>Pack_Avanzado</servicePackName>"
-                    ElseIf device_type = "TGP-600-B" Then
+                    ElseIf device_type = "TPA60 (Paquete Básico)" Then
                         l_6 = "<servicePackName>Pack_Basico</servicePackName>"
-                    ElseIf device_type = "TGP-600-S" Then
+                    ElseIf device_type = "TPA60 (Paquete Estándar)" Then
                         l_6 = "<servicePackName>Pack_Estandar</servicePackName>"
-                    ElseIf device_type = "TGP-600-A" Then
+                    ElseIf device_type = "TPA60 (Paquete Avanzado)" Then
                         l_6 = "<servicePackName>Pack_Avanzado</servicePackName>"
                     End If
                     WriteLine(numFile, l_6.ToCharArray)
+
+
+
+
+
+
+
+
                     WriteLine(numFile, l_7.ToCharArray)
                     WriteLine(numFile, finalLine.ToCharArray)
                     FileClose(numFile)

@@ -39,7 +39,7 @@ Public Class Frm_Principal
     Dim contact_name As String = ""
     Dim contact_number As String = ""
     Dim address As String = ""
-    Dim city As String = ""
+    'Dim city As String = ""
     Dim device_type As String = ""
     Dim mac As String = ""
     Dim serial_number As String = ""
@@ -49,10 +49,10 @@ Public Class Frm_Principal
     Dim last_name As String = ""
     Dim user_email As String = ""
     Dim user_address As String = ""
-    Dim user_city As String = ""
+    'Dim user_city As String = ""
     Dim proxy As String = ""
     Dim extensions As String = ""
-    Dim ocp_local As String = ""
+    'Dim ocp_local As String = ""
     Dim ocp_tollFree As String = ""
     Dim ocp_internacional As String = ""
     Dim ocp_special1 As String = ""
@@ -66,6 +66,7 @@ Public Class Frm_Principal
     Dim estadoCeldas As Integer = 0
     Dim estadoCeldas1 As Integer = 0
     Dim ArrayUserGetList() As String
+    Dim numFileCreateUsers As Integer = 0
 
     Private Sub For1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -170,7 +171,7 @@ Public Class Frm_Principal
         'Se haya seleccionado un archivo
         'El archivo no se encuentre en uso
         'El archivo no este vacio
-        'El archivo posea 26 columnas por cada fila, sin excepción
+        'El archivo posea 23 columnas por cada fila, sin excepción
 
         'Si no se escogió ningun archivo se expulsa del metodo
         If tb_file_name.Text = "" Then
@@ -204,8 +205,8 @@ Public Class Frm_Principal
             readLine = LineInput(1)
             arrayLine = Split(readLine, ";")
 
-            'Se comprueba que cada linea del archivo contenga 26 columnas por fila
-            If arrayLine.Length <> 26 Then
+            'Se comprueba que cada linea del archivo contenga 23 columnas por fila
+            If arrayLine.Length <> 23 Then
                 MsgBox("Revise el número de columnas del archivo cargado", MsgBoxStyle.Exclamation, "Error en la estructura del archivo")
                 FileClose(1)
                 In_Case_Error()
@@ -256,32 +257,59 @@ Public Class Frm_Principal
         Conexion.Close()
 
         'Variables que contendrán las valores a guardar en Access
+        'Dim Dominio As String = ""
+        'Dim Numeros As String = ""
+        'Dim Nombre_grupo As String = ""
+        'Dim Nombre_empresa As String = ""
+        'Dim Nombre_contacto As String = ""
+        'Dim Telefono_contacto As String = ""
+        'Dim Direccion_empresa As String = ""
+        'Dim Ciudad As String = ""
+        'Dim Tipo_dispositivo As String = ""
+        'Dim Mac As String = ""
+        'Dim Numero_serie As String = ""
+        'Dim Locacion_fisica As String = ""
+        'Dim Departamento As String = ""
+        'Dim Nombre_usuario As String = ""
+        'Dim Apellido_usuario As String = ""
+        'Dim Correo_usuario As String = ""
+        'Dim Direccion_usuario As String = ""
+        'Dim Ciudad_usuario As String = ""
+        'Dim Proxy As String = ""
+        'Dim Extensiones As String = ""
+        'Dim OCP_local As String = ""
+        'Dim OCP_linea_gratis As String = ""
+        'Dim OCP_internacional As String = ""
+        'Dim OCP_especial1 As String = ""
+        'Dim OCP_especial2 As String = ""
+        'Dim OCP_premium1 As String = ""
+
         Dim Dominio As String = ""
-        Dim Numeros As String = ""
         Dim Nombre_grupo As String = ""
         Dim Nombre_empresa As String = ""
         Dim Nombre_contacto As String = ""
         Dim Telefono_contacto As String = ""
         Dim Direccion_empresa As String = ""
-        Dim Ciudad As String = ""
-        Dim Tipo_dispositivo As String = ""
-        Dim Mac As String = ""
-        Dim Numero_serie As String = ""
-        Dim Locacion_fisica As String = ""
-        Dim Departamento As String = ""
+        'Dim Ciudad As String = ""
+        Dim Proxy As String = ""
         Dim Nombre_usuario As String = ""
         Dim Apellido_usuario As String = ""
         Dim Correo_usuario As String = ""
         Dim Direccion_usuario As String = ""
-        Dim Ciudad_usuario As String = ""
-        Dim Proxy As String = ""
+        'Dim Ciudad_usuario As String = ""
+        Dim Departamento As String = ""
+        Dim Numeros As String = ""
         Dim Extensiones As String = ""
-        Dim OCP_local As String = ""
-        Dim OCP_linea_gratis As String = ""
+        Dim Tipo_dispositivo As String = ""
+        Dim Numero_serie As String = ""
+        Dim Mac As String = ""
+        Dim Locacion_fisica As String = ""
+        ' Dim OCP_local As String = ""
         Dim OCP_internacional As String = ""
         Dim OCP_especial1 As String = ""
         Dim OCP_especial2 As String = ""
         Dim OCP_premium1 As String = ""
+        Dim OCP_linea_gratis As String = ""
 
         Dim readLine As String = ""
         Dim arrayLine() As String
@@ -291,64 +319,66 @@ Public Class Frm_Principal
 
             readLine = LineInput(1)
             arrayLine = Split(readLine, ";")
-            Dominio = arrayLine(0).ToString
-            Numeros = arrayLine(1).ToString
-            Nombre_grupo = arrayLine(2).ToString
-            Nombre_empresa = arrayLine(3).ToString
-            Nombre_contacto = arrayLine(4).ToString
-            Telefono_contacto = arrayLine(5).ToString
-            Direccion_empresa = arrayLine(6).ToString
-            Ciudad = arrayLine(7).ToString
-            Tipo_dispositivo = arrayLine(8).ToString
-            Mac = arrayLine(9).ToString
-            Numero_serie = arrayLine(10).ToString
-            Locacion_fisica = arrayLine(11).ToString
-            Departamento = arrayLine(12).ToString
-            Nombre_usuario = arrayLine(13).ToString
-            Apellido_usuario = arrayLine(14).ToString
-            Correo_usuario = arrayLine(15).ToString
-            Direccion_usuario = arrayLine(16).ToString
-            Ciudad_usuario = arrayLine(17).ToString
-            Proxy = arrayLine(18).ToString
-            Extensiones = arrayLine(19).ToString
-            OCP_local = arrayLine(20).ToString
-            OCP_linea_gratis = arrayLine(21).ToString
-            OCP_internacional = arrayLine(22).ToString
-            OCP_especial1 = arrayLine(23).ToString
-            OCP_especial2 = arrayLine(24).ToString
-            OCP_premium1 = arrayLine(25).ToString
 
-            Dim cadenaSQL As String = "insert into brs_cloudpbx ([domain], numbers, group_id, group_name, contact_name, contact_phone, enterprise_address, city,
-                                                                        device_type, mac, serial_number, physical_location, deparment_name,
-                                                                        first_name, last_name, user_email, user_address, user_city,
-                                                                        proxy, extensions,
-                                                                        ocp_local, ocp_tollFree, ocp_international, specialServices1, specialServices2, premiumServices1)"
+            Dominio = arrayLine(0).ToString
+            Nombre_grupo = arrayLine(1).ToString
+            Nombre_empresa = arrayLine(2).ToString
+            Nombre_contacto = arrayLine(3).ToString
+            Telefono_contacto = arrayLine(4).ToString
+            Direccion_empresa = arrayLine(5).ToString
+            'Ciudad = arrayLine(6).ToString
+            Proxy = arrayLine(6).ToString
+            Nombre_usuario = arrayLine(7).ToString
+            Apellido_usuario = arrayLine(8).ToString
+            Correo_usuario = arrayLine(9).ToString
+            Direccion_usuario = arrayLine(10).ToString
+            'Ciudad_usuario = arrayLine(17).ToString
+            Departamento = arrayLine(11).ToString
+            Numeros = arrayLine(12).ToString
+            Extensiones = arrayLine(13).ToString
+            Tipo_dispositivo = arrayLine(14).ToString
+            Numero_serie = arrayLine(15).ToString
+            Mac = arrayLine(16).ToString
+            Locacion_fisica = arrayLine(17).ToString
+            'ocp_local = arrayLine(20).ToString
+            OCP_internacional = arrayLine(18).ToString
+            OCP_especial1 = arrayLine(19).ToString
+            OCP_especial2 = arrayLine(20).ToString
+            OCP_premium1 = arrayLine(21).ToString
+            OCP_linea_gratis = arrayLine(22).ToString
+
+
+
+            Dim cadenaSQL As String = "insert into brs_cloudpbx ([domain], group_id, group_name, contact_name, contact_phone, enterprise_address,
+                                                                        proxy, first_name, last_name, user_email, user_address, department, numbers, extensions,
+                                                                        device_type, serial_number, mac, physical_location,
+                                                                        ocp_international, specialServices1, specialServices2, premiumServices1, ocp_tollFree)"
             cadenaSQL += " VALUES ( '" & Dominio & "',"
-            cadenaSQL += "          '" & Numeros & "',"
             cadenaSQL += "          '" & Nombre_grupo & "',"
             cadenaSQL += "          '" & Nombre_empresa & "',"
             cadenaSQL += "          '" & Nombre_contacto & "',"
             cadenaSQL += "          '" & Telefono_contacto & "',"
             cadenaSQL += "          '" & Direccion_empresa & "',"
-            cadenaSQL += "          '" & Ciudad & "',"
-            cadenaSQL += "          '" & Tipo_dispositivo & "',"
-            cadenaSQL += "          '" & Mac & "',"
-            cadenaSQL += "          '" & Numero_serie & "',"
-            cadenaSQL += "          '" & Locacion_fisica & "',"
-            cadenaSQL += "          '" & Departamento & "',"
+            'cadenaSQL += "          '" & Ciudad & "',"
+            cadenaSQL += "          '" & Proxy & "',"
             cadenaSQL += "          '" & Nombre_usuario & "',"
             cadenaSQL += "          '" & Apellido_usuario & "',"
             cadenaSQL += "          '" & Correo_usuario & "',"
             cadenaSQL += "          '" & Direccion_usuario & "',"
-            cadenaSQL += "          '" & Ciudad_usuario & "',"
-            cadenaSQL += "          '" & Proxy & "',"
+            'cadenaSQL += "          '" & Ciudad_usuario & "',"
+            cadenaSQL += "          '" & Departamento & "',"
+            cadenaSQL += "          '" & Numeros & "',"
             cadenaSQL += "          '" & Extensiones & "',"
-            cadenaSQL += "          '" & OCP_local & "',"
-            cadenaSQL += "          '" & OCP_linea_gratis & "',"
+            cadenaSQL += "          '" & Tipo_dispositivo & "',"
+            cadenaSQL += "          '" & Numero_serie & "',"
+            cadenaSQL += "          '" & Mac & "',"
+            cadenaSQL += "          '" & Locacion_fisica & "',"
+            'cadenaSQL += "          '" & OCP_local & "',"
             cadenaSQL += "          '" & OCP_internacional & "',"
             cadenaSQL += "          '" & OCP_especial1 & "',"
             cadenaSQL += "          '" & OCP_especial2 & "',"
-            cadenaSQL += "          '" & OCP_premium1 & "')"
+            cadenaSQL += "          '" & OCP_premium1 & "',"
+            cadenaSQL += "          '" & OCP_linea_gratis & "')"
 
             'Se crea el comando
             Dim Comando As OleDbCommand = Conexion.CreateCommand()
@@ -430,7 +460,7 @@ Public Class Frm_Principal
         'Dim match As Match
         'Dim pattern1 As String
 
-        'Si se eliminan todas las celdas con data de la grilla, solo quedan las cabeceras y la fila para agregar
+        'Actua en caso de que se eliminen todas las celdas con data de la grilla, y solo queden las cabeceras y la fila para agregar
         If DataGridView1.Rows.Count = 1 Then
 
             btn_validate_data.Enabled = False
@@ -439,9 +469,41 @@ Public Class Frm_Principal
             Exit Function
         End If
 
+
+        'validar creación de los departamentos
+        Dim varAcumulaDepto As String = ""
+        Dim arreglo() As String
+        ReDim arregloDeptos(DataGridView1.Rows.Count - 2)
+        Dim index As Integer
+        Dim numElementos As Integer = 0
+
+        For i = 0 To DataGridView1.RowCount - 2
+            varAcumulaDepto += DataGridView1.Rows(i).Cells(11).Value.ToString & ";"
+        Next
+
+        arreglo = Split(varAcumulaDepto, ";")
+
+        For k = 0 To arreglo.Length - 1
+            index = Array.IndexOf(arregloDeptos, arreglo(k))
+            'Se guarda en arregloDeptos todo aquello que no este repetido y que tenga un largo mayor a cero
+            If index = -1 And arreglo(k).Length > 0 Then
+                arregloDeptos(numElementos) = arreglo(k)
+                'MsgBox("Se guardó el elemento: " & arregloDeptos(numElementos) & " en arregloDeptos")
+                numElementos += 1
+            Else
+                'MsgBox("Elemento repetido no se guardó")
+            End If
+        Next
+
+        ReDim Preserve arregloDeptos(numElementos - 1)
+        'MsgBox("cantidad de departamentos a crear " & arregloDeptos.Length)
+        'For Each elemento As String In arregloDeptos
+        '    MsgBox(" arreglo final con los deptos " & vbCrLf & elemento)
+        'Next
+
+
         'Validación del dominio//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         domain = DataGridView1.Rows(0).Cells(0).Value.ToString.ToLower 'domain = dt.Rows(0)(0).ToString.ToLower
-
         pattern = "\A[a-no-z0-9.]{1,76}\.(cl|com|org){1}\Z"
         prohibited = "El campo del 'dominio' o 'domain' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (obviando la 'ñ' y los espacios) incluyendo obligatoriamente '.cl' o '.com' o '.org' al final de la expresión."
         'pattern1 = "[^a-no-z0-9.]"
@@ -467,58 +529,27 @@ Public Class Frm_Principal
             'Else
             '    DataGridView1.Rows(0).Cells(0).ToolTipText = "La expresión tiene un límite de 80 caracteres incluyendo obligatoriamente '.cl' o '.com' o '.org' al final"
             'End If
-
         End If
 
-        'Validación numeración//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        For j = 0 To DataGridView1.Rows.Count - 2  'dt.Rows.Count - 1
-
-            phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
-
-            pattern = "\A[0-9]{9}\Z"
-            prohibited = "El campo de los 'números de teléfono' o 'numbers' solo aceptan caracteres númericos con un largo de 9 dígitos"
-
-            If Regex.IsMatch(phoneNumber, pattern) Then
-                DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView1.Rows(j).Cells(1).ToolTipText = ""
-
-                'validar que no existan datos de ciertas columnas repetidas
-                For i = 0 To DataGridView1.RowCount - 2
-
-                    Dim valorComparado As String = DataGridView1.Rows(i).Cells(1).Value.ToString
-                    Dim valores As String
-
-                    For k = 0 To DataGridView1.RowCount - 2
-
-                        valores = DataGridView1.Rows(k).Cells(1).Value.ToString
-
-                        If valorComparado.Equals(valores) And i <> k Then
-
-                            DataGridView1.Rows(k).Cells(1).Style.BackColor = Color.FromArgb(182, 15, 196)
-                            DataGridView1.Rows(k).Cells(1).ToolTipText = "El número esta repetido."
-                            estadoCeldas = 1
-
-                        End If
-                    Next
-                Next
-
-            Else
-                DataGridView1.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView1.Rows(j).Cells(1).ToolTipText = prohibited
-                estadoCeldas = 1
-            End If
-        Next
-
         'Validación de información del grupo//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        group_id = DataGridView1.Rows(0).Cells(2).Value.ToString
-        group_name = DataGridView1.Rows(0).Cells(3).Value.ToString
-        address = DataGridView1.Rows(0).Cells(6).Value.ToString
-        city = DataGridView1.Rows(0).Cells(7).Value.ToString
-
+        group_id = DataGridView1.Rows(0).Cells(1).Value.ToString
         pattern = "\A[\w]{1,19}(_cloudpbx){1}\Z"
         prohibited = "El campo de 'identificación de grupo' o 'group_id' puede contener hasta 28 caracteres, que pueden ser alfanuméricos (obviando la 'ñ' y los espacios) incluyendo obligatoriamente '_cloudpbx' al final de la expresión."
 
         If Regex.IsMatch(group_id, pattern) Then
+            DataGridView1.Rows(0).Cells(1).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView1.Rows(0).Cells(1).ToolTipText = ""
+        Else
+            DataGridView1.Rows(0).Cells(1).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView1.Rows(0).Cells(1).ToolTipText = prohibited
+            estadoCeldas = 1
+        End If
+
+        group_name = DataGridView1.Rows(0).Cells(2).Value.ToString
+        pattern = "\A(([a-no-zA-NO-Z0-9_]\.{0,1}\s{0,1})){1,80}\Z"
+        prohibited = "El campo de 'nombre de grupo' o 'group_name' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), puntos, comas y no mas de un espacio consecutivo."
+
+        If Regex.IsMatch(group_name, pattern) Then
             DataGridView1.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(0, 247, 0)
             DataGridView1.Rows(0).Cells(2).ToolTipText = ""
         Else
@@ -527,68 +558,140 @@ Public Class Frm_Principal
             estadoCeldas = 1
         End If
 
-        pattern = "\A(([a-no-zA-NO-Z0-9_]\.{0,1}\s{0,1})){1,80}\Z"
-        prohibited = "El campo de 'nombre de grupo' o 'group_name' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), puntos, comas y no mas de un espacio consecutivo."
+        contact_name = DataGridView1.Rows(0).Cells(3).Value.ToString
+        contact_number = DataGridView1.Rows(0).Cells(4).Value.ToString
+        pattern = "\A([\w\.\,\-\/]\s{0,1}){1,30}\Z"
+        prohibited = "Los campos 'nombre de contacto' o 'contact_name' y 'número de contacto' o 'contact_number' puede contener hasta 30 caracteres cada uno, que pueden ser alfanuméricos (incluyendo la 'ñ'), puntos, comas, guiones, barras y no mas de un espacio consecutivo."
 
-        If Regex.IsMatch(group_name, pattern) Then
+        'Se llenan los campos y ambos cumplen
+        If Regex.IsMatch(contact_name, pattern) And Regex.IsMatch(contact_number, pattern) Then
             DataGridView1.Rows(0).Cells(3).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(0, 247, 0)
             DataGridView1.Rows(0).Cells(3).ToolTipText = ""
-        Else
+            DataGridView1.Rows(0).Cells(4).ToolTipText = ""
+            infoContact = 1
+
+            'Se llenan los campos y Niguno cumple
+        ElseIf Not Regex.IsMatch(contact_name, pattern) And Not Regex.IsMatch(contact_number, pattern) Then
+
+            'Ninguno cumple (apropósito)
+            If contact_name.Length = 0 And contact_number.Length = 0 Then
+                DataGridView1.Rows(0).Cells(3).Style.BackColor = Color.FromArgb(255, 255, 255)
+                DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(255, 255, 255)
+                DataGridView1.Rows(0).Cells(3).ToolTipText = ""
+                DataGridView1.Rows(0).Cells(4).ToolTipText = ""
+                infoContact = 0
+
+                'Ninguno cumple (Intento fallido)
+            Else
+                DataGridView1.Rows(0).Cells(3).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(0).Cells(3).ToolTipText = prohibited
+                DataGridView1.Rows(0).Cells(4).ToolTipText = prohibited
+                infoContact = 0
+                estadoCeldas = 1
+            End If
+
+            'Solo el primero cumple
+        ElseIf Regex.IsMatch(contact_name, pattern) And Not Regex.IsMatch(contact_number, pattern) Then
+            DataGridView1.Rows(0).Cells(3).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView1.Rows(0).Cells(3).ToolTipText = ""
+            DataGridView1.Rows(0).Cells(4).ToolTipText = prohibited
+            infoContact = 0
+            estadoCeldas = 1
+
+            'Solo el segundo cumple
+        ElseIf Not Regex.IsMatch(contact_name, pattern) And Regex.IsMatch(contact_number, pattern) Then
             DataGridView1.Rows(0).Cells(3).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(0, 247, 0)
             DataGridView1.Rows(0).Cells(3).ToolTipText = prohibited
+            DataGridView1.Rows(0).Cells(4).ToolTipText = ""
+            infoContact = 0
             estadoCeldas = 1
         End If
 
+        address = DataGridView1.Rows(0).Cells(5).Value.ToString
         pattern = "\A([\w\,\.]\s{0,1}){1,80}\Z"
         prohibited = "El campo de 'dirección de empresa' o 'address' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
 
         If Regex.IsMatch(address, pattern) Then
-            DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(0, 247, 0)
-            DataGridView1.Rows(0).Cells(6).ToolTipText = ""
+            DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView1.Rows(0).Cells(5).ToolTipText = ""
         Else
-            DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(254, 84, 97)
-            DataGridView1.Rows(0).Cells(6).ToolTipText = prohibited
+            DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView1.Rows(0).Cells(5).ToolTipText = prohibited
             estadoCeldas = 1
         End If
 
-        pattern = "\A([\w]\s{0,1}){1,80}\Z"
-        prohibited = "El campo 'ciudad' o 'city' contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ') y no mas de un espacio consecutivo."
+        proxy = DataGridView1.Rows(0).Cells(6).Value.ToString
+        pattern = "^(?:(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
+        prohibited = "El campo 'proxy' debe cumplir con el formato de una dirección IPv4"
 
-        If Regex.IsMatch(city, pattern) Then
-            DataGridView1.Rows(0).Cells(7).Style.BackColor = Color.FromArgb(0, 247, 0)
-            DataGridView1.Rows(0).Cells(7).ToolTipText = ""
-        Else
-            DataGridView1.Rows(0).Cells(7).Style.BackColor = Color.FromArgb(254, 84, 97)
-            DataGridView1.Rows(0).Cells(7).ToolTipText = prohibited
+        If Regex.IsMatch(proxy, pattern) Then
+            DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView1.Rows(0).Cells(6).ToolTipText = ""
+            proxyInfo = 1
+
+        ElseIf proxy.Length > 0 Then
+            DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView1.Rows(0).Cells(6).ToolTipText = prohibited
+            proxyInfo = 0
             estadoCeldas = 1
+
+        ElseIf proxy.Length = 0 Then
+            DataGridView1.Rows(0).Cells(6).Style.BackColor = Color.FromArgb(255, 255, 255)
+            DataGridView1.Rows(0).Cells(6).ToolTipText = ""
+            proxyInfo = 0
         End If
 
         'validar información de los dispositivos//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        'La columna 'device_type' es la referencia para las demas, por ello se valida lo sigte:
+        'La columna 'first_name' es la referencia para las demas, por ello se valida lo sigte:
         'No puede estar vacia la primera celda
         'No puede haber celdas vacias entremedio
 
         filasValidas = 0
         'For para saber cantidad de filas no vacias de la columna device_type
         For j = 0 To DataGridView1.Rows.Count - 2
-            If DataGridView1.Rows(j).Cells(8).Value.ToString.Length > 0 Then
+            If DataGridView1.Rows(j).Cells(7).Value.ToString.Length > 0 Then
                 filasValidas += 1
             End If
         Next
 
         For j = 0 To filasValidas - 1
-            device_type = DataGridView1.Rows(j).Cells(8).Value.ToString
-            mac = DataGridView1.Rows(j).Cells(9).Value.ToString
-            serial_number = DataGridView1.Rows(j).Cells(10).Value.ToString
-            physical_location = DataGridView1.Rows(j).Cells(11).Value.ToString
+            first_name = DataGridView1.Rows(j).Cells(7).Value.ToString
+            last_name = DataGridView1.Rows(j).Cells(8).Value.ToString
+            user_email = DataGridView1.Rows(j).Cells(9).Value.ToString
+            user_address = DataGridView1.Rows(j).Cells(10).Value.ToString
+            department = DataGridView1.Rows(j).Cells(11).Value.ToString
+            'user_city = DataGridView1.Rows(j).Cells(17).Value.ToString
+            extensions = DataGridView1.Rows(j).Cells(13).Value.ToString
+            device_type = DataGridView1.Rows(j).Cells(14).Value.ToString
+            serial_number = DataGridView1.Rows(j).Cells(15).Value.ToString
+            mac = DataGridView1.Rows(j).Cells(16).Value.ToString
+            physical_location = DataGridView1.Rows(j).Cells(17).Value.ToString
+            'ocp_local = DataGridView1.Rows(j).Cells(20).Value.ToString
+            ocp_internacional = DataGridView1.Rows(j).Cells(18).Value.ToString
+            ocp_special1 = DataGridView1.Rows(j).Cells(19).Value.ToString
+            ocp_special2 = DataGridView1.Rows(j).Cells(20).Value.ToString
+            ocp_premium1 = DataGridView1.Rows(j).Cells(21).Value.ToString
+            ocp_tollFree = DataGridView1.Rows(j).Cells(22).Value.ToString
 
-            'Si se compara con el signo = un string, no importaran las mayusculas o minusculas
-            'If device_type.Equals("Yealink-T19xE2") Or device_type.Equals("Yealink-T21xE2") Or device_type.Equals("Yealink-T27G") Then
-            'Panasonic-KX-TGP-600
-            pattern = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)|(TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
-            prohibited = "El campo de 'tipo de dispositivo' o device_type' solo puede contener uno de los siguientes tipos de teléfonos: Yealink-T19xE2 o Yealink-T21xE2 o Yealink-T27G o TGP-600-B o TGP-600-S o TGP-600-A"
+            pattern = "\A([a-no-zA-NO-Z0-9_\.\-]\s{0,1}){1,30}\Z"
+            prohibited = "El campo de 'nombre de usuario' o 'first_name' puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), guiones bajos y medios, puntos y no mas de un espacio consecutivo."
 
-            If Regex.IsMatch(device_type, pattern) Then
+            If Regex.IsMatch(first_name, pattern) Then
+                DataGridView1.Rows(j).Cells(7).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(7).ToolTipText = ""
+            Else
+                DataGridView1.Rows(j).Cells(7).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(7).ToolTipText = prohibited
+                estadoCeldas = 1
+            End If
+
+            prohibited = "El campo de 'apellido de usuario' o 'last_name' puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), guiones bajos y medios, puntos y no mas de un espacio consecutivo."
+
+            If Regex.IsMatch(last_name, pattern) Then
                 DataGridView1.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView1.Rows(j).Cells(8).ToolTipText = ""
             Else
@@ -597,43 +700,102 @@ Public Class Frm_Principal
                 estadoCeldas = 1
             End If
 
-            pattern = "\A[a-fA-F0-9]{12}\Z"
-            prohibited = "El campo de 'dirección mac' o 'mac' debe contener exactamente 12 caracteres, que deben pertenecer al sistema hexadecimal."
+            pattern = "^([a-no-zA-NO-Z0-9_\.\-]+)@([a-no-zA-NO-Z0-9\-]+)((\.[a-no-zA-NO-Z0-9]{2,3})+)$"
+            prohibited = "El campo de 'correo electrónico de usuario' o 'user_email' puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), puntos y guiones."
 
-            If Regex.IsMatch(mac, pattern) Then
+            If Regex.IsMatch(user_email, pattern) Then
                 DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView1.Rows(j).Cells(9).ToolTipText = ""
+
+            ElseIf user_email.Length > 0 Then
+                DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(9).ToolTipText = prohibited
+                estadoCeldas = 1
+
+                ElseIf user_email.Length = 0 Then
+                DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(255, 255, 255)
+                DataGridView1.Rows(j).Cells(9).ToolTipText = ""
+            End If
+
+            pattern = "\A([\w\,\.]\s{0,1}){1,80}\Z"
+            prohibited = "El campo de 'dirección de usuario' o 'user_address' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
+
+            If Regex.IsMatch(user_address, pattern) Then
+                DataGridView1.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(10).ToolTipText = ""
+            Else
+                DataGridView1.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(10).ToolTipText = prohibited
+                estadoCeldas = 1
+            End If
+
+
+            pattern = "\A([\w\.\,\-]\s{0,1}){1,80}\Z"
+            prohibited = "El campo 'departamento' o 'department' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), guiones bajos y medios, comas, puntos y no mas de un espacio consecutivo."
+
+            If Regex.IsMatch(department, pattern) Then
+                DataGridView1.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(11).ToolTipText = ""
+
+            ElseIf Not Regex.IsMatch(department, pattern) And department.Length = 0 Then
+                DataGridView1.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(255, 255, 255)
+                DataGridView1.Rows(j).Cells(11).ToolTipText = ""
+
+            ElseIf Not Regex.IsMatch(department, pattern) And department.Length > 0 Then
+                DataGridView1.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(11).ToolTipText = prohibited
+                estadoCeldas = 1
+            End If
+
+
+            pattern = "\A[0-9]{2,5}\Z"
+            prohibited = "El campo de 'extensiones' o 'extensions' solo puede contener numeros del 0 a 9 con un largo de 2 a 5 cifras y sin espacios."
+
+            If Regex.IsMatch(extensions, pattern) Then
+                DataGridView1.Rows(j).Cells(13).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(13).ToolTipText = ""
 
                 'validar que no existan datos de ciertas columnas repetidas
                 For i = 0 To filasValidas - 1
 
-                    Dim macComparada As String = DataGridView1.Rows(i).Cells(9).Value.ToString
-                    Dim deviceComparado As String = DataGridView1.Rows(i).Cells(8).Value.ToString
-
-                    Dim macValores As String
-                    Dim deviceValores As String
+                    Dim valorComparado As String = DataGridView1.Rows(i).Cells(13).Value.ToString
+                    Dim valores As String
 
                     For k = 0 To filasValidas - 1
 
-                        macValores = DataGridView1.Rows(k).Cells(9).Value.ToString
-                        deviceValores = DataGridView1.Rows(k).Cells(8).Value.ToString
+                        valores = DataGridView1.Rows(k).Cells(13).Value.ToString
 
-                        pattern = "\A((TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
+                        If valorComparado.Equals(valores) And i <> k Then
 
-                        If Not (Regex.IsMatch(deviceComparado, pattern) And Regex.IsMatch(deviceValores, pattern)) And macComparada.Equals(macValores) And i <> k Then
-
-                            DataGridView1.Rows(k).Cells(9).Style.BackColor = Color.FromArgb(182, 15, 196)
-                            DataGridView1.Rows(k).Cells(9).ToolTipText = "El valor esta repetido"
+                            DataGridView1.Rows(k).Cells(13).Style.BackColor = Color.FromArgb(182, 15, 196)
+                            DataGridView1.Rows(k).Cells(13).ToolTipText = "El valor esta repetido"
                             estadoCeldas = 1
                         End If
                     Next
                 Next
 
             Else
-                DataGridView1.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView1.Rows(j).Cells(9).ToolTipText = prohibited
+                DataGridView1.Rows(j).Cells(13).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(13).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
+
+
+            'Si se compara con el signo = un string, no importaran las mayusculas o minusculas
+            'If device_type.Equals("Yealink-T19xE2") Or device_type.Equals("Yealink-T21xE2") Or device_type.Equals("Yealink-T27G") Then
+            'Panasonic-KX-TGP-600
+            pattern = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)|(TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
+            prohibited = "El campo de 'tipo de dispositivo' o device_type' solo puede contener uno de los siguientes tipos de teléfonos: Yealink-T19xE2 o Yealink-T21xE2 o Yealink-T27G o TGP-600-B o TGP-600-S o TGP-600-A"
+
+            If Regex.IsMatch(device_type, pattern) Then
+                DataGridView1.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(14).ToolTipText = ""
+            Else
+                DataGridView1.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(14).ToolTipText = prohibited
+                estadoCeldas = 1
+            End If
+
 
             Dim pattern1 As String = "\A[a-no-zA-NO-Z0-9]{16}\Z"
             Dim pattern2 As String = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)){1}\Z"
@@ -645,130 +807,58 @@ Public Class Frm_Principal
 
             If (Regex.IsMatch(serial_number, pattern1) And Regex.IsMatch(device_type, pattern2)) Or (Regex.IsMatch(serial_number, pattern3) And Regex.IsMatch(device_type, pattern4)) Then
 
-                DataGridView1.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView1.Rows(j).Cells(10).ToolTipText = ""
+                DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(15).ToolTipText = ""
             Else
-                DataGridView1.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView1.Rows(j).Cells(10).ToolTipText = prohibited
+                DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(15).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
 
-            pattern = "\A[a-no-zA-NO-Z0-9_]{1,12}\Z"
-            prohibited = "El campo de 'locación física' o 'physical_location' puede contener hasta 12 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
 
-            If Regex.IsMatch(physical_location, pattern) Then
-                DataGridView1.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView1.Rows(j).Cells(11).ToolTipText = ""
-            Else
-                DataGridView1.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView1.Rows(j).Cells(11).ToolTipText = prohibited
-                estadoCeldas = 1
-            End If
-        Next
+            pattern = "\A[a-fA-F0-9]{12}\Z"
+            prohibited = "El campo de 'dirección mac' o 'mac' debe contener exactamente 12 caracteres, que deben pertenecer al sistema hexadecimal."
 
-        'validar información de los usuarios//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        'validar creación de los departamentos
-        Dim varAcumulaDepto As String = ""
-        Dim arreglo() As String
-        ReDim arregloDeptos(DataGridView1.Rows.Count - 2)
-        Dim index As Integer
-        Dim numElementos As Integer = 0
-
-        For i = 0 To DataGridView1.RowCount - 2
-            varAcumulaDepto += DataGridView1.Rows(i).Cells(12).Value.ToString & ";"
-        Next
-
-        arreglo = Split(varAcumulaDepto, ";")
-
-        For k = 0 To arreglo.Length - 1
-            index = Array.IndexOf(arregloDeptos, arreglo(k))
-            'Se guarda en arregloDeptos todo aquello que no este repetido y que tenga un largo mayor a cero
-            If index = -1 And arreglo(k).Length > 0 Then
-                arregloDeptos(numElementos) = arreglo(k)
-                'MsgBox("Se guardó el elemento: " & arregloDeptos(numElementos) & " en arregloDeptos")
-                numElementos += 1
-            Else
-                'MsgBox("Elemento repetido no se guardó")
-            End If
-        Next
-
-        ReDim Preserve arregloDeptos(numElementos - 1)
-        'MsgBox("cantidad de departamentos a crear " & arregloDeptos.Length)
-        'For Each elemento As String In arregloDeptos
-        '    MsgBox(" arreglo final con los deptos " & vbCrLf & elemento)
-        'Next
-        For j = 0 To filasValidas - 1
-            department = DataGridView1.Rows(j).Cells(12).Value.ToString
-
-            pattern = "\A([\w\.\,\-]\s{0,1}){1,80}\Z"
-            prohibited = "El campo 'departamento' o 'department' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), guiones bajos y medios, comas, puntos y no mas de un espacio consecutivo."
-
-            If Regex.IsMatch(department, pattern) Then
-                DataGridView1.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView1.Rows(j).Cells(12).ToolTipText = ""
-
-            ElseIf Not Regex.IsMatch(department, pattern) And department.Length = 0 Then
-                DataGridView1.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(255, 255, 255)
-                DataGridView1.Rows(j).Cells(12).ToolTipText = ""
-
-            ElseIf Not Regex.IsMatch(department, pattern) And department.Length > 0 Then
-                DataGridView1.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView1.Rows(j).Cells(12).ToolTipText = prohibited
-                estadoCeldas = 1
-            End If
-        Next
-
-        For j = 0 To filasValidas - 1
-            first_name = DataGridView1.Rows(j).Cells(13).Value.ToString
-            last_name = DataGridView1.Rows(j).Cells(14).Value.ToString
-            user_address = DataGridView1.Rows(j).Cells(16).Value.ToString
-            user_city = DataGridView1.Rows(j).Cells(17).Value.ToString
-            extensions = DataGridView1.Rows(j).Cells(19).Value.ToString
-            ocp_local = DataGridView1.Rows(j).Cells(20).Value.ToString
-            ocp_tollFree = DataGridView1.Rows(j).Cells(21).Value.ToString
-            ocp_internacional = DataGridView1.Rows(j).Cells(22).Value.ToString
-            ocp_special1 = DataGridView1.Rows(j).Cells(23).Value.ToString
-            ocp_special2 = DataGridView1.Rows(j).Cells(24).Value.ToString
-            ocp_premium1 = DataGridView1.Rows(j).Cells(25).Value.ToString
-
-            pattern = "\A([a-no-zA-NO-Z0-9_\.\-]\s{0,1}){1,30}\Z"
-            prohibited = "El campo de 'nombre de usuario' o 'first_name' puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), guiones bajos y medios, puntos y no mas de un espacio consecutivo."
-
-            If Regex.IsMatch(first_name, pattern) Then
-                DataGridView1.Rows(j).Cells(13).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView1.Rows(j).Cells(13).ToolTipText = ""
-            Else
-                DataGridView1.Rows(j).Cells(13).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView1.Rows(j).Cells(13).ToolTipText = prohibited
-                estadoCeldas = 1
-            End If
-
-            prohibited = "El campo de 'apellido de usuario' o 'last_name' puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), guiones bajos y medios, puntos y no mas de un espacio consecutivo."
-
-            If Regex.IsMatch(last_name, pattern) Then
-                DataGridView1.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView1.Rows(j).Cells(14).ToolTipText = ""
-            Else
-                DataGridView1.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView1.Rows(j).Cells(14).ToolTipText = prohibited
-                estadoCeldas = 1
-            End If
-
-            pattern = "\A([\w\,\.]\s{0,1}){1,80}\Z"
-            prohibited = "El campo de 'dirección de usuario' o 'user_address' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
-
-            If Regex.IsMatch(user_address, pattern) Then
+            If Regex.IsMatch(mac, pattern) Then
                 DataGridView1.Rows(j).Cells(16).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView1.Rows(j).Cells(16).ToolTipText = ""
+
+                'validar que no existan datos de ciertas columnas repetidas
+                For i = 0 To filasValidas - 1
+
+                    Dim macComparada As String = DataGridView1.Rows(i).Cells(16).Value.ToString
+                    Dim deviceComparado As String = DataGridView1.Rows(i).Cells(14).Value.ToString
+
+                    Dim macValores As String
+                    Dim deviceValores As String
+
+                    For k = 0 To filasValidas - 1
+
+                        macValores = DataGridView1.Rows(k).Cells(16).Value.ToString
+                        deviceValores = DataGridView1.Rows(k).Cells(14).Value.ToString
+
+                        pattern = "\A((TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
+
+                        If Not (Regex.IsMatch(deviceComparado, pattern) And Regex.IsMatch(deviceValores, pattern)) And macComparada.Equals(macValores) And i <> k Then
+
+                            DataGridView1.Rows(k).Cells(16).Style.BackColor = Color.FromArgb(182, 15, 196)
+                            DataGridView1.Rows(k).Cells(16).ToolTipText = "El valor esta repetido"
+                            estadoCeldas = 1
+                        End If
+                    Next
+                Next
+
             Else
                 DataGridView1.Rows(j).Cells(16).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(16).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
 
-            prohibited = "El campo de 'ciudad de usuario' o user_city' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
 
-            If Regex.IsMatch(user_city, pattern) Then
+            pattern = "\A[a-no-zA-NO-Z0-9_]{1,12}\Z"
+            prohibited = "El campo de 'locación física' o 'physical_location' puede contener hasta 12 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
+
+            If Regex.IsMatch(physical_location, pattern) Then
                 DataGridView1.Rows(j).Cells(17).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView1.Rows(j).Cells(17).ToolTipText = ""
             Else
@@ -777,42 +867,28 @@ Public Class Frm_Principal
                 estadoCeldas = 1
             End If
 
-            pattern = "\A[0-9]{2,5}\Z"
-            prohibited = "El campo de 'extensiones' o 'extensions' solo puede contener numeros del 0 a 9 con un largo de 2 a 5 cifras y sin espacios."
+            pattern = "\A(b|B)loqueado\Z|\A(BLOQUEADO)\Z|\A(d|D)esbloqueado\Z|\A(DESBLOQUEADO)\Z"
+            prohibited = "Los campos de 'ocp' u 'outgoing calling plan' solo pueden contener uno de los siguientes textos: bloqueado o Bloqueado o BLOQUEADO o desbloqueado o Desbloqueado o DESBLOQUEADO"
 
-            If Regex.IsMatch(extensions, pattern) Then
+            If Regex.IsMatch(ocp_internacional, pattern) Then
+                DataGridView1.Rows(j).Cells(18).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(18).ToolTipText = ""
+            Else
+                DataGridView1.Rows(j).Cells(18).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(18).ToolTipText = prohibited
+                estadoCeldas = 1
+            End If
+
+            If Regex.IsMatch(ocp_special1, pattern) Then
                 DataGridView1.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView1.Rows(j).Cells(19).ToolTipText = ""
-
-                'validar que no existan datos de ciertas columnas repetidas
-                For i = 0 To filasValidas - 1
-
-                    Dim valorComparado As String = DataGridView1.Rows(i).Cells(19).Value.ToString
-                    Dim valores As String
-
-                    For k = 0 To filasValidas - 1
-
-                        valores = DataGridView1.Rows(k).Cells(19).Value.ToString
-
-                        If valorComparado.Equals(valores) And i <> k Then
-
-                            DataGridView1.Rows(k).Cells(19).Style.BackColor = Color.FromArgb(182, 15, 196)
-                            DataGridView1.Rows(k).Cells(19).ToolTipText = "El valor esta repetido"
-                            estadoCeldas = 1
-                        End If
-                    Next
-                Next
-
             Else
                 DataGridView1.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView1.Rows(j).Cells(19).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
 
-            pattern = "\A(b|B)loqueado\Z|\A(BLOQUEADO)\Z|\A(d|D)esbloqueado\Z|\A(DESBLOQUEADO)\Z"
-            prohibited = "Los campos de 'ocp' u 'outgoing calling plan' solo pueden contener uno de los siguientes textos: bloqueado o Bloqueado o BLOQUEADO o desbloqueado o Desbloqueado o DESBLOQUEADO"
-
-            If Regex.IsMatch(ocp_local, pattern) Then
+            If Regex.IsMatch(ocp_special2, pattern) Then
                 DataGridView1.Rows(j).Cells(20).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView1.Rows(j).Cells(20).ToolTipText = ""
             Else
@@ -821,7 +897,7 @@ Public Class Frm_Principal
                 estadoCeldas = 1
             End If
 
-            If Regex.IsMatch(ocp_tollFree, pattern) Then
+            If Regex.IsMatch(ocp_premium1, pattern) Then
                 DataGridView1.Rows(j).Cells(21).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView1.Rows(j).Cells(21).ToolTipText = ""
             Else
@@ -830,7 +906,7 @@ Public Class Frm_Principal
                 estadoCeldas = 1
             End If
 
-            If Regex.IsMatch(ocp_internacional, pattern) Then
+            If Regex.IsMatch(ocp_tollFree, pattern) Then
                 DataGridView1.Rows(j).Cells(22).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView1.Rows(j).Cells(22).ToolTipText = ""
             Else
@@ -838,153 +914,101 @@ Public Class Frm_Principal
                 DataGridView1.Rows(j).Cells(22).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
+        Next
 
-            If Regex.IsMatch(ocp_special1, pattern) Then
-                DataGridView1.Rows(j).Cells(23).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView1.Rows(j).Cells(23).ToolTipText = ""
-            Else
-                DataGridView1.Rows(j).Cells(23).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView1.Rows(j).Cells(23).ToolTipText = prohibited
-                estadoCeldas = 1
-            End If
+        'Validación numeración//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        For j = 0 To DataGridView1.Rows.Count - 2  'dt.Rows.Count - 1
 
-            If Regex.IsMatch(ocp_special2, pattern) Then
-                DataGridView1.Rows(j).Cells(24).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView1.Rows(j).Cells(24).ToolTipText = ""
-            Else
-                DataGridView1.Rows(j).Cells(24).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView1.Rows(j).Cells(24).ToolTipText = prohibited
-                estadoCeldas = 1
-            End If
+            phoneNumber = DataGridView1.Rows(j).Cells(12).Value.ToString
 
-            If Regex.IsMatch(ocp_premium1, pattern) Then
-                DataGridView1.Rows(j).Cells(25).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView1.Rows(j).Cells(25).ToolTipText = ""
+            pattern = "\A[0-9]{9}\Z"
+            prohibited = "El campo de los 'números de teléfono' o 'numbers' solo aceptan caracteres númericos con un largo de 9 dígitos"
+
+            If Regex.IsMatch(phoneNumber, pattern) Then
+                DataGridView1.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView1.Rows(j).Cells(12).ToolTipText = ""
+
+                'validar que no existan datos de ciertas columnas repetidas
+                For i = 0 To DataGridView1.RowCount - 2
+
+                    Dim valorComparado As String = DataGridView1.Rows(i).Cells(12).Value.ToString
+                    Dim valores As String
+
+                    For k = 0 To DataGridView1.RowCount - 2
+
+                        valores = DataGridView1.Rows(k).Cells(12).Value.ToString
+
+                        If valorComparado.Equals(valores) And i <> k Then
+
+                            DataGridView1.Rows(k).Cells(12).Style.BackColor = Color.FromArgb(182, 15, 196)
+                            DataGridView1.Rows(k).Cells(12).ToolTipText = "El número esta repetido."
+                            estadoCeldas = 1
+
+                        End If
+                    Next
+                Next
+
             Else
-                DataGridView1.Rows(j).Cells(25).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView1.Rows(j).Cells(25).ToolTipText = prohibited
+                DataGridView1.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView1.Rows(j).Cells(12).ToolTipText = prohibited
                 estadoCeldas = 1
             End If
         Next
 
-        'INFORMACION OPCIONAL
+        'If Regex.IsMatch(ocp_local, pattern) Then
+        '    DataGridView1.Rows(j).Cells(20).Style.BackColor = Color.FromArgb(0, 247, 0)
+        '    DataGridView1.Rows(j).Cells(20).ToolTipText = ""
+        'Else
+        '    DataGridView1.Rows(j).Cells(20).Style.BackColor = Color.FromArgb(254, 84, 97)
+        '    DataGridView1.Rows(j).Cells(20).ToolTipText = prohibited
+        '    estadoCeldas = 1
+        'End If
 
-        contact_name = DataGridView1.Rows(0).Cells(4).Value.ToString
-        contact_number = DataGridView1.Rows(0).Cells(5).Value.ToString
+        'prohibited = "El campo de 'ciudad de usuario' o user_city' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
 
-        pattern = "\A([\w\.\,\-\/]\s{0,1}){1,30}\Z"
-        prohibited = "Los campos 'nombre de contacto' o 'contact_name' y 'número de contacto' o 'contact_number' puede contener hasta 30 caracteres cada uno, que pueden ser alfanuméricos (incluyendo la 'ñ'), puntos, comas, guiones, barras y no mas de un espacio consecutivo."
+        'If Regex.IsMatch(user_city, pattern) Then
+        '    DataGridView1.Rows(j).Cells(17).Style.BackColor = Color.FromArgb(0, 247, 0)
+        '    DataGridView1.Rows(j).Cells(17).ToolTipText = ""
+        'Else
+        '    DataGridView1.Rows(j).Cells(17).Style.BackColor = Color.FromArgb(254, 84, 97)
+        '    DataGridView1.Rows(j).Cells(17).ToolTipText = prohibited
+        '    estadoCeldas = 1
+        'End If
 
-        'Se llenan los campos y ambos cumplen
-        If Regex.IsMatch(contact_name, pattern) And Regex.IsMatch(contact_number, pattern) Then
-            DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(0, 247, 0)
-            DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(0, 247, 0)
-            DataGridView1.Rows(0).Cells(4).ToolTipText = ""
-            DataGridView1.Rows(0).Cells(5).ToolTipText = ""
-            infoContact = 1
+        'city = DataGridView1.Rows(0).Cells(7).Value.ToString
 
-            'Se llenan los campos y Niguno cumple
-        ElseIf Not Regex.IsMatch(contact_name, pattern) And Not Regex.IsMatch(contact_number, pattern) Then
+        'pattern = "\A([\w]\s{0,1}){1,80}\Z"
+        'prohibited = "El campo 'ciudad' o 'city' contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ') y no mas de un espacio consecutivo."
 
-            'Ninguno cumple (apropósito)
-            If contact_name.Length = 0 And contact_number.Length = 0 Then
-                DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(255, 255, 255)
-                DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(255, 255, 255)
-                DataGridView1.Rows(0).Cells(4).ToolTipText = ""
-                DataGridView1.Rows(0).Cells(5).ToolTipText = ""
-                infoContact = 0
+        'If Regex.IsMatch(city, pattern) Then
+        '    DataGridView1.Rows(0).Cells(7).Style.BackColor = Color.FromArgb(0, 247, 0)
+        '    DataGridView1.Rows(0).Cells(7).ToolTipText = ""
+        'Else
+        '    DataGridView1.Rows(0).Cells(7).Style.BackColor = Color.FromArgb(254, 84, 97)
+        '    DataGridView1.Rows(0).Cells(7).ToolTipText = prohibited
+        '    estadoCeldas = 1
+        'End If
 
-                'Ninguno cumple (Intento fallido)
-            Else
-                DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView1.Rows(0).Cells(4).ToolTipText = prohibited
-                DataGridView1.Rows(0).Cells(5).ToolTipText = prohibited
-                infoContact = 0
-                estadoCeldas = 1
-            End If
-
-            'Solo el primero cumple
-        ElseIf Regex.IsMatch(contact_name, pattern) And Not Regex.IsMatch(contact_number, pattern) Then
-            DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(0, 247, 0)
-            DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(254, 84, 97)
-            DataGridView1.Rows(0).Cells(4).ToolTipText = ""
-            DataGridView1.Rows(0).Cells(5).ToolTipText = prohibited
-            infoContact = 0
-            estadoCeldas = 1
-
-            'Solo el segundo cumple
-        ElseIf Not Regex.IsMatch(contact_name, pattern) And Regex.IsMatch(contact_number, pattern) Then
-            DataGridView1.Rows(0).Cells(4).Style.BackColor = Color.FromArgb(254, 84, 97)
-            DataGridView1.Rows(0).Cells(5).Style.BackColor = Color.FromArgb(0, 247, 0)
-            DataGridView1.Rows(0).Cells(4).ToolTipText = prohibited
-            DataGridView1.Rows(0).Cells(5).ToolTipText = ""
-            infoContact = 0
-            estadoCeldas = 1
-        End If
-
-        pattern = "^([a-no-zA-NO-Z0-9_\.\-]+)@([a-no-zA-NO-Z0-9\-]+)((\.[a-no-zA-NO-Z0-9]{2,3})+)$"
-        prohibited = "El campo de 'correo electrónico de usuario' o 'user_email' puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), puntos y guiones."
-
-        For j = 0 To filasValidas - 1
-
-            user_email = DataGridView1.Rows(j).Cells(15).Value.ToString
-
-            If Regex.IsMatch(user_email, pattern) Then
-                DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView1.Rows(j).Cells(15).ToolTipText = ""
-
-            ElseIf user_email.Length > 0 Then
-                DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView1.Rows(j).Cells(15).ToolTipText = prohibited
-                estadoCeldas = 1
-
-            ElseIf user_email.Length = 0 Then
-                DataGridView1.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(255, 255, 255)
-                DataGridView1.Rows(j).Cells(15).ToolTipText = ""
-            End If
-        Next
-
-        proxy = DataGridView1.Rows(0).Cells(18).Value.ToString
-        pattern = "^(?:(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
-        prohibited = "El campo 'proxy' debe cumplir con el formato de una dirección IPv4"
-
-        If Regex.IsMatch(proxy, pattern) Then
-            DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(0, 247, 0)
-            DataGridView1.Rows(0).Cells(18).ToolTipText = ""
-            proxyInfo = 1
-
-        ElseIf proxy.Length > 0 Then
-            DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(254, 84, 97)
-            DataGridView1.Rows(0).Cells(18).ToolTipText = prohibited
-            proxyInfo = 0
-            estadoCeldas = 1
-
-        ElseIf proxy.Length = 0 Then
-            DataGridView1.Rows(0).Cells(18).Style.BackColor = Color.FromArgb(255, 255, 255)
-            DataGridView1.Rows(0).Cells(18).ToolTipText = ""
-            proxyInfo = 0
-        End If
 
         For fila As Integer = 0 To DataGridView1.RowCount - 1
             For columna As Integer = 0 To DataGridView1.ColumnCount - 1
 
-                'Se bloquean todas las filas superiores a la posicion 0, en las columnas 0,2,3,4,5,6,7 y 18
-                If columna = 0 Or columna > 1 And columna < 8 Or columna = 18 Then
+                'se bloquean todas las filas superiores a la posicion 0, en las columnas 0,1,2,3,4,5,6,7 y 18
+                If columna >= 0 And columna < 7 Then
                     If fila > 0 Then
                         DataGridView1.Rows(fila).Cells(columna).ReadOnly = True
                         DataGridView1.Rows(fila).Cells(columna).Style.BackColor = Color.FromArgb(232, 232, 232)
                     End If
                 Else
-                    'filasValidas - 1 se iguala con fila, ya que esta parte en 0
-                    If fila > filasValidas - 1 And columna <> 1 And columna <> 8 Then
+                    'filasvalidas - 1 se iguala con fila, ya que esta parte en 0
+                    If fila > filasValidas - 1 And columna <> 7 Then
                         DataGridView1.Rows(fila).Cells(columna).ReadOnly = True
                         DataGridView1.Rows(fila).Cells(columna).Style.BackColor = Color.FromArgb(232, 232, 232)
                     Else
-                        DataGridView1.Rows(fila).Cells(columna).ReadOnly = False
+                        DataGridView1.Rows(fila).Cells(columna).readonly = False
                     End If
                 End If
-                'MsgBox(Me.DataGridView1.Item(Columnas, filas).Value)
+                'msgbox(me.datagridview1.item(columnas, filas).value)
             Next
         Next
 
@@ -993,9 +1017,10 @@ Public Class Frm_Principal
             Return 0
         Else
             btn_procesar.Enabled = False
-            'MsgBox("revise las celdas")
+            'msgbox("revise las celdas")
             Return 1
         End If
+
     End Function
 
     'Se esta validando nuevamente el codigo se va aqui desde donde se llama al metodo por primera vez
@@ -1397,7 +1422,7 @@ Public Class Frm_Principal
                     WriteLine(numFile, line3.ToCharArray)
                     WriteLine(numFile, c_4.ToCharArray)
                     WriteLine(numFile, c_5.ToCharArray)
-                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+                    phoneNumber = DataGridView1.Rows(j).Cells(12).Value.ToString
                     c_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
                     WriteLine(numFile, c_6.ToCharArray)
                     WriteLine(numFile, c_7.ToCharArray)
@@ -1464,8 +1489,8 @@ Public Class Frm_Principal
                 WriteLine(numFile, d_16.ToCharArray)
                 d_17 = "<addressLine1>" & address & "</addressLine1>"
                 WriteLine(numFile, d_17.ToCharArray)
-                d_18 = "<city>" & city & "</city>"
-                WriteLine(numFile, d_18.ToCharArray)
+                'd_18 = "<city>" & city & "</city>"
+                ' WriteLine(numFile, d_18.ToCharArray)
                 WriteLine(numFile, d_19.ToCharArray)
                 WriteLine(numFile, d_20.ToCharArray)
                 WriteLine(numFile, finalLine.ToCharArray)
@@ -1642,7 +1667,7 @@ Public Class Frm_Principal
                     WriteLine(numFile, f_5.ToCharArray)
                     f_6 = "<groupId>" & group_id & "</groupId>"
                     WriteLine(numFile, f_6.ToCharArray)
-                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+                    phoneNumber = DataGridView1.Rows(j).Cells(12).Value.ToString
                     f_7 = "<phoneNumber>+56-" & phoneNumber & "</phoneNumber>"
                     WriteLine(numFile, f_7.ToCharArray)
                     WriteLine(numFile, f_8.ToCharArray)
@@ -1676,11 +1701,11 @@ Public Class Frm_Principal
                     WriteLine(numFile, g_5.ToCharArray)
                     g_6 = "<groupId>" & group_id & "</groupId>"
                     WriteLine(numFile, g_6.ToCharArray)
-                    mac = DataGridView1.Rows(j).Cells(9).Value.ToString
+                    mac = DataGridView1.Rows(j).Cells(16).Value.ToString
                     g_7 = "<deviceName>DV_" & mac & "</deviceName>"
                     WriteLine(numFile, g_7.ToCharArray)
 
-                    device_type = DataGridView1.Rows(j).Cells(8).Value.ToString
+                    device_type = DataGridView1.Rows(j).Cells(14).Value.ToString
                     If device_type.Equals("TGP-600-A") Or device_type.Equals("TGP-600-B") Or device_type.Equals("TGP-600-S") Then
                         g_8 = "<deviceType>Panasonic-KX-TGP-600</deviceType>"
                     Else
@@ -1691,10 +1716,10 @@ Public Class Frm_Principal
                     WriteLine(numFile, g_9.ToCharArray)
                     g_10 = "<macAddress>" & mac & "</macAddress>"
                     WriteLine(numFile, g_10.ToCharArray)
-                    serial_number = DataGridView1.Rows(j).Cells(10).Value.ToString
+                    serial_number = DataGridView1.Rows(j).Cells(15).Value.ToString
                     g_11 = "<serialNumber>" & serial_number & "</serialNumber>"
                     WriteLine(numFile, g_11.ToCharArray)
-                    physical_location = DataGridView1.Rows(j).Cells(11).Value.ToString
+                    physical_location = DataGridView1.Rows(j).Cells(17).Value.ToString
                     g_12 = "<physicalLocation>" & physical_location & "</physicalLocation>"
                     WriteLine(numFile, g_12.ToCharArray)
                     WriteLine(numFile, g_13.ToCharArray)
@@ -1763,13 +1788,13 @@ Public Class Frm_Principal
                     WriteLine(numFile, i_5.ToCharArray)
                     i_6 = "<groupId>" & group_id & "</groupId>"
                     WriteLine(numFile, i_6.ToCharArray)
-                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+                    phoneNumber = DataGridView1.Rows(j).Cells(12).Value.ToString
                     i_7 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
                     WriteLine(numFile, i_7.ToCharArray)
-                    last_name = DataGridView1.Rows(j).Cells(14).Value.ToString
+                    last_name = DataGridView1.Rows(j).Cells(8).Value.ToString
                     i_8 = "<lastName>" & last_name & "</lastName>"
                     WriteLine(numFile, i_8.ToCharArray)
-                    first_name = DataGridView1.Rows(j).Cells(13).Value.ToString
+                    first_name = DataGridView1.Rows(j).Cells(7).Value.ToString
                     i_9 = "<firstName>" & first_name & "</firstName>"
                     WriteLine(numFile, i_9.ToCharArray)
                     i_10 = "<callingLineIdLastName>" & last_name & "</callingLineIdLastName>"
@@ -1777,7 +1802,7 @@ Public Class Frm_Principal
                     i_11 = "<callingLineIdFirstName>" & first_name & "</callingLineIdFirstName>"
                     WriteLine(numFile, i_11.ToCharArray)
                     WriteLine(numFile, i_12.ToCharArray)
-                    department = DataGridView1.Rows(j).Cells(12).Value.ToString
+                    department = DataGridView1.Rows(j).Cells(11).Value.ToString
                     If department.Length > 0 Then
                         WriteLine(numFile, i_13.ToCharArray)
                         WriteLine(numFile, i_14.ToCharArray)
@@ -1789,18 +1814,18 @@ Public Class Frm_Principal
                     End If
                     WriteLine(numFile, i_18.ToCharArray)
                     WriteLine(numFile, i_19.ToCharArray)
-                    user_email = DataGridView1.Rows(j).Cells(15).Value.ToString
+                    user_email = DataGridView1.Rows(j).Cells(9).Value.ToString
                     If user_email.Length > 0 Then
                         i_20 = "<emailAddress>" & user_email & "</emailAddress>"
                         WriteLine(numFile, i_20.ToCharArray)
                     End If
                     WriteLine(numFile, i_21.ToCharArray)
-                    user_address = DataGridView1.Rows(j).Cells(16).Value.ToString
+                    user_address = DataGridView1.Rows(j).Cells(10).Value.ToString
                     i_22 = "<addressLine1>" & user_address & "</addressLine1>"
                     WriteLine(numFile, i_22.ToCharArray)
-                    user_city = DataGridView1.Rows(j).Cells(17).Value.ToString
-                    i_23 = "<city>" & user_city & "</city>"
-                    WriteLine(numFile, i_23.ToCharArray)
+                    'user_city = DataGridView1.Rows(j).Cells(17).Value.ToString
+                    'i_23 = "<city>" & user_city & "</city>"
+                    'WriteLine(numFile, i_23.ToCharArray)
                     WriteLine(numFile, i_24.ToCharArray)
                     WriteLine(numFile, i_25.ToCharArray)
                     WriteLine(numFile, finalLine.ToCharArray)
@@ -1834,7 +1859,7 @@ Public Class Frm_Principal
                         WriteLine(numFile, j_5.ToCharArray)
                         j_6 = "<groupId>" & group_id & "</groupId>"
                         WriteLine(numFile, j_6.ToCharArray)
-                        mac = DataGridView1.Rows(j).Cells(9).Value.ToString
+                        mac = DataGridView1.Rows(j).Cells(16).Value.ToString
                         j_7 = "<deviceName>DV_" & mac & "</deviceName>"
                         WriteLine(numFile, j_7.ToCharArray)
                         WriteLine(numFile, j_8.ToCharArray)
@@ -1869,12 +1894,12 @@ Public Class Frm_Principal
                     WriteLine(numFile, line2.ToCharArray)
                     WriteLine(numFile, line3.ToCharArray)
                     WriteLine(numFile, k_4.ToCharArray)
-                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+                    phoneNumber = DataGridView1.Rows(j).Cells(12).Value.ToString
                     k_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
                     WriteLine(numFile, k_5.ToCharArray)
                     k_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
                     WriteLine(numFile, k_6.ToCharArray)
-                    extensions = DataGridView1.Rows(j).Cells(19).Value.ToString
+                    extensions = DataGridView1.Rows(j).Cells(13).Value.ToString
                     k_7 = "<extension>" & extensions & "</extension>"
                     WriteLine(numFile, k_7.ToCharArray)
                     WriteLine(numFile, k_8.ToCharArray)
@@ -1882,7 +1907,7 @@ Public Class Frm_Principal
                     WriteLine(numFile, k_10.ToCharArray)
                     WriteLine(numFile, k_11.ToCharArray)
                     WriteLine(numFile, k_12.ToCharArray)
-                    mac = DataGridView1.Rows(j).Cells(9).Value.ToString
+                    mac = DataGridView1.Rows(j).Cells(16).Value.ToString
                     k_13 = "<deviceName>DV_" & mac & "</deviceName>"
                     WriteLine(numFile, k_13.ToCharArray)
                     WriteLine(numFile, k_14.ToCharArray)
@@ -1919,10 +1944,10 @@ Public Class Frm_Principal
                     WriteLine(numFile, line2.ToCharArray)
                     WriteLine(numFile, line3.ToCharArray)
                     WriteLine(numFile, l_4.ToCharArray)
-                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+                    phoneNumber = DataGridView1.Rows(j).Cells(12).Value.ToString
                     l_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
                     WriteLine(numFile, l_5.ToCharArray)
-                    device_type = DataGridView1.Rows(j).Cells(8).Value.ToString
+                    device_type = DataGridView1.Rows(j).Cells(14).Value.ToString
                     If device_type = "Yealink-T19xE2" Then
                         l_6 = "<servicePackName>Pack_Basico</servicePackName>"
                     ElseIf device_type = "Yealink-T21xE2" Then
@@ -1965,22 +1990,22 @@ Public Class Frm_Principal
                     WriteLine(numFile, line2.ToCharArray)
                     WriteLine(numFile, line3.ToCharArray)
                     WriteLine(numFile, m_4.ToCharArray)
-                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+                    phoneNumber = DataGridView1.Rows(j).Cells(12).Value.ToString
                     m_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
                     WriteLine(numFile, m_5.ToCharArray)
                     WriteLine(numFile, m_6.ToCharArray)
                     WriteLine(numFile, m_7.ToCharArray)
                     WriteLine(numFile, m_8.ToCharArray)
 
-                    ocp_local = DataGridView1.Rows(j).Cells(20).Value.ToString
-                    If ocp_local = "bloqueado" Or ocp_local = "Bloqueado" Or ocp_local = "BLOQUEADO" Then
-                        m_9 = "<local>Disallow</local>"
-                    ElseIf ocp_local = "desbloqueado" Or ocp_local = "Desbloqueado" Or ocp_local = "DESBLOQUEADO" Then
-                        m_9 = "<local>Allow</local>"
-                    End If
+                    'ocp_local = DataGridView1.Rows(j).Cells(20).Value.ToString
+                    'If ocp_local = "bloqueado" Or ocp_local = "Bloqueado" Or ocp_local = "BLOQUEADO" Then
+                    '    m_9 = "<local>Disallow</local>"
+                    'ElseIf ocp_local = "desbloqueado" Or ocp_local = "Desbloqueado" Or ocp_local = "DESBLOQUEADO" Then
+                    '    m_9 = "<local>Allow</local>"
+                    'End If
                     WriteLine(numFile, m_9.ToCharArray)
 
-                    ocp_tollFree = DataGridView1.Rows(j).Cells(21).Value.ToString
+                    ocp_tollFree = DataGridView1.Rows(j).Cells(22).Value.ToString
                     If ocp_tollFree = "bloqueado" Or ocp_tollFree = "Bloqueado" Or ocp_tollFree = "BLOQUEADO" Then
                         m_10 = "<tollFree>Disallow</tollFree>"
                     ElseIf ocp_tollFree = "desbloqueado" Or ocp_tollFree = "Desbloqueado" Or ocp_tollFree = "DESBLOQUEADO" Then
@@ -1989,7 +2014,7 @@ Public Class Frm_Principal
                     WriteLine(numFile, m_10.ToCharArray)
                     WriteLine(numFile, m_11.ToCharArray)
 
-                    ocp_internacional = DataGridView1.Rows(j).Cells(22).Value.ToString
+                    ocp_internacional = DataGridView1.Rows(j).Cells(18).Value.ToString
                     If ocp_internacional = "bloqueado" Or ocp_internacional = "Bloqueado" Or ocp_internacional = "BLOQUEADO" Then
                         m_12 = "<international>Disallow</international>"
                     ElseIf ocp_internacional = "desbloqueado" Or ocp_internacional = "Desbloqueado" Or ocp_internacional = "DESBLOQUEADO" Then
@@ -1999,7 +2024,7 @@ Public Class Frm_Principal
                     WriteLine(numFile, m_13.ToCharArray)
                     WriteLine(numFile, m_14.ToCharArray)
 
-                    ocp_special1 = DataGridView1.Rows(j).Cells(23).Value.ToString
+                    ocp_special1 = DataGridView1.Rows(j).Cells(19).Value.ToString
                     If ocp_special1 = "bloqueado" Or ocp_special1 = "Bloqueado" Or ocp_special1 = "BLOQUEADO" Then
                         m_15 = "<specialServicesI>Disallow</specialServicesI>"
                     ElseIf ocp_special1 = "desbloqueado" Or ocp_special1 = "Desbloqueado" Or ocp_special1 = "DESBLOQUEADO" Then
@@ -2007,7 +2032,7 @@ Public Class Frm_Principal
                     End If
                     WriteLine(numFile, m_15.ToCharArray)
 
-                    ocp_special2 = DataGridView1.Rows(j).Cells(24).Value.ToString
+                    ocp_special2 = DataGridView1.Rows(j).Cells(20).Value.ToString
                     If ocp_special2 = "bloqueado" Or ocp_special2 = "Bloqueado" Or ocp_special2 = "BLOQUEADO" Then
                         m_16 = "<specialServicesII>Disallow</specialServicesII>"
                     ElseIf ocp_special2 = "desbloqueado" Or ocp_special2 = "Desbloqueado" Or ocp_special2 = "DESBLOQUEADO" Then
@@ -2015,7 +2040,7 @@ Public Class Frm_Principal
                     End If
                     WriteLine(numFile, m_16.ToCharArray)
 
-                    ocp_premium1 = DataGridView1.Rows(j).Cells(25).Value.ToString
+                    ocp_premium1 = DataGridView1.Rows(j).Cells(21).Value.ToString
                     If ocp_premium1 = "bloqueado" Or ocp_premium1 = "Bloqueado" Or ocp_premium1 = "BLOQUEADO" Then
                         m_17 = "<premiumServicesI>Disallow</premiumServicesI>"
                     ElseIf ocp_premium1 = "desbloqueado" Or ocp_premium1 = "Desbloqueado" Or ocp_premium1 = "DESBLOQUEADO" Then
@@ -2055,7 +2080,7 @@ Public Class Frm_Principal
                     WriteLine(numFile, line2.ToCharArray)
                     WriteLine(numFile, line3.ToCharArray)
                     WriteLine(numFile, n_4.ToCharArray)
-                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+                    phoneNumber = DataGridView1.Rows(j).Cells(12).Value.ToString
                     n_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
                     WriteLine(numFile, n_5.ToCharArray)
                     n_6 = "<userName>" & phoneNumber & "</userName>"
@@ -2095,7 +2120,7 @@ Public Class Frm_Principal
                     WriteLine(numFile, o_5.ToCharArray)
                     o_6 = "<groupId>" & group_id & "</groupId>"
                     WriteLine(numFile, o_6.ToCharArray)
-                    phoneNumber = DataGridView1.Rows(j).Cells(1).Value.ToString
+                    phoneNumber = DataGridView1.Rows(j).Cells(12).Value.ToString
                     o_7 = "<phoneNumber>+56-" & phoneNumber & "</phoneNumber>"
                     WriteLine(numFile, o_7.ToCharArray)
                     WriteLine(numFile, o_8.ToCharArray)
@@ -4400,7 +4425,7 @@ Public Class Frm_Principal
         'Se haya seleccionado un archivo
         'El archivo no se encuentre en uso
         'El archivo no este vacio
-        'El archivo posea 26 columnas por cada fila, sin excepción
+        'El archivo posea 19 columnas por cada fila, sin excepción
 
         'Si no se escogió ningun archivo se expulsa del metodo
         If tb_file_name2.Text = "" Then
@@ -4433,9 +4458,10 @@ Public Class Frm_Principal
             Dim arrayLine() As String
             readLine = LineInput(30)
             arrayLine = Split(readLine, ";")
+            Dim ho As Integer = arrayLine.Length
 
-            'Se comprueba que cada linea del archivo contenga 26 columnas por fila
-            If arrayLine.Length <> 21 Then
+            'Se comprueba que cada linea del archivo contenga 19 columnas por fila
+            If arrayLine.Length <> 19 Then
                 MsgBox("Revise el número de columnas del archivo cargado", MsgBoxStyle.Exclamation, "Error en la estructura del archivo")
                 FileClose(30)
                 In_Case_Error3()
@@ -4488,26 +4514,27 @@ Public Class Frm_Principal
         'Variables que contendrán las valores a guardar en Access
 
         Dim Dominio As String = ""
-        Dim Numeros As String = ""
         Dim Nombre_grupo As String = ""
-        Dim Tipo_dispositivo As String = ""
-        Dim Mac As String = ""
-        Dim Numero_serie As String = ""
-        Dim Locacion_fisica As String = ""
-        Dim Departamento As String = ""
+        Dim Proxy As String = ""
         Dim Nombre_usuario As String = ""
         Dim Apellido_usuario As String = ""
         Dim Correo_usuario As String = ""
         Dim Direccion_usuario As String = ""
-        Dim Ciudad_usuario As String = ""
-        Dim Proxy As String = ""
+        Dim Departamento As String = ""
+        Dim Numeros As String = ""
         Dim Extensiones As String = ""
-        Dim OCP_local As String = ""
-        Dim OCP_linea_gratis As String = ""
+        Dim Tipo_dispositivo As String = ""
+        Dim Numero_serie As String = ""
+        Dim Mac As String = ""
+        Dim Locacion_fisica As String = ""
         Dim OCP_internacional As String = ""
         Dim OCP_especial1 As String = ""
         Dim OCP_especial2 As String = ""
         Dim OCP_premium1 As String = ""
+        Dim OCP_linea_gratis As String = ""
+
+        'Dim Ciudad_usuario As String = ""
+        'Dim OCP_local As String = ""
 
         Dim readLine As String = ""
         Dim arrayLine() As String
@@ -4517,52 +4544,55 @@ Public Class Frm_Principal
 
             readLine = LineInput(30)
             arrayLine = Split(readLine, ";")
-            Dominio = arrayLine(0).ToString
-            Numeros = arrayLine(1).ToString
-            Nombre_grupo = arrayLine(2).ToString
-            Tipo_dispositivo = arrayLine(3).ToString
-            Mac = arrayLine(4).ToString
-            Numero_serie = arrayLine(5).ToString
-            Locacion_fisica = arrayLine(6).ToString
-            Departamento = arrayLine(7).ToString
-            Nombre_usuario = arrayLine(8).ToString
-            Apellido_usuario = arrayLine(9).ToString
-            Correo_usuario = arrayLine(10).ToString
-            Direccion_usuario = arrayLine(11).ToString
-            Ciudad_usuario = arrayLine(12).ToString
-            Proxy = arrayLine(13).ToString
-            Extensiones = arrayLine(14).ToString
-            OCP_local = arrayLine(15).ToString
-            OCP_linea_gratis = arrayLine(16).ToString
-            OCP_internacional = arrayLine(17).ToString
-            OCP_especial1 = arrayLine(18).ToString
-            OCP_especial2 = arrayLine(19).ToString
-            OCP_premium1 = arrayLine(20).ToString
 
-            Dim cadenaSQL As String = "insert into brs_create_users ([domain], numbers, group_id, device_type, mac, serial_number, physical_location, deparment_name,
-                                                                        first_name, last_name, user_email, user_address, user_city, proxy, extensions,
-                                                                        ocp_local, ocp_tollFree, ocp_international, specialServices1, specialServices2, premiumServices1)"
+            Dominio = arrayLine(0).ToString
+            Nombre_grupo = arrayLine(1).ToString
+            Proxy = arrayLine(2).ToString
+            Nombre_usuario = arrayLine(3).ToString
+            Apellido_usuario = arrayLine(4).ToString
+            Correo_usuario = arrayLine(5).ToString
+            Direccion_usuario = arrayLine(6).ToString
+            Departamento = arrayLine(7).ToString
+            Numeros = arrayLine(8).ToString
+            Extensiones = arrayLine(9).ToString
+            Tipo_dispositivo = arrayLine(10).ToString
+            Numero_serie = arrayLine(11).ToString
+            Mac = arrayLine(12).ToString
+            Locacion_fisica = arrayLine(13).ToString
+            OCP_internacional = arrayLine(14).ToString
+            OCP_especial1 = arrayLine(15).ToString
+            OCP_especial2 = arrayLine(16).ToString
+            OCP_premium1 = arrayLine(17).ToString
+            OCP_linea_gratis = arrayLine(18).ToString
+
+            'Ciudad_usuario = arrayLine(12).ToString
+            'OCP_local = arrayLine(15).ToString
+
+            Dim cadenaSQL As String = "insert into brs_create_users ([domain], group_id, proxy, first_name, last_name, user_email, user_address, department, numbers,
+                                                                     extensions, device_type, serial_number, mac, physical_location, 
+                                                                     ocp_international, specialServices1, specialServices2, premiumServices1, ocp_tollFree)"
             cadenaSQL += " VALUES ( '" & Dominio & "',"
-            cadenaSQL += "          '" & Numeros & "',"
             cadenaSQL += "          '" & Nombre_grupo & "',"
-            cadenaSQL += "          '" & Tipo_dispositivo & "',"
-            cadenaSQL += "          '" & Mac & "',"
-            cadenaSQL += "          '" & Numero_serie & "',"
-            cadenaSQL += "          '" & Locacion_fisica & "',"
-            cadenaSQL += "          '" & Departamento & "',"
+            cadenaSQL += "          '" & Proxy & "',"
             cadenaSQL += "          '" & Nombre_usuario & "',"
             cadenaSQL += "          '" & Apellido_usuario & "',"
             cadenaSQL += "          '" & Correo_usuario & "',"
             cadenaSQL += "          '" & Direccion_usuario & "',"
-            cadenaSQL += "          '" & Ciudad_usuario & "',"
-            cadenaSQL += "          '" & Proxy & "',"
+            cadenaSQL += "          '" & Departamento & "',"
+            cadenaSQL += "          '" & Numeros & "',"
             cadenaSQL += "          '" & Extensiones & "',"
-            cadenaSQL += "          '" & OCP_local & "',"
-            cadenaSQL += "          '" & OCP_linea_gratis & "',"
+            cadenaSQL += "          '" & Tipo_dispositivo & "',"
+            cadenaSQL += "          '" & Numero_serie & "',"
+            cadenaSQL += "          '" & Mac & "',"
+            cadenaSQL += "          '" & Locacion_fisica & "',"
             cadenaSQL += "          '" & OCP_internacional & "',"
             cadenaSQL += "          '" & OCP_especial1 & "',"
             cadenaSQL += "          '" & OCP_especial2 & "',"
-            cadenaSQL += "          '" & OCP_premium1 & "')"
+            cadenaSQL += "          '" & OCP_premium1 & "',"
+            cadenaSQL += "          '" & OCP_linea_gratis & "')"
+
+            'cadenaSQL += "          '" & Ciudad_usuario & "',"
+            'cadenaSQL += "          '" & OCP_local & "',"
 
             'Se crea el comando
             Dim Comando As OleDbCommand = Conexion.CreateCommand()
@@ -4626,7 +4656,7 @@ Public Class Frm_Principal
         btn_procesar2.Enabled = False
         btn_validate_data2.Enabled = True
         My.Application.DoEvents()
-
+        Exit Sub
     End Sub
 
     Public Function Validate_Data2() As Integer
@@ -4649,177 +4679,7 @@ Public Class Frm_Principal
             Exit Function
         End If
 
-        'Validación del dominio//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        domain = DataGridView4.Rows(0).Cells(0).Value.ToString.ToLower 'domain = dt.Rows(0)(0).ToString.ToLower
 
-        pattern = "\A[a-no-z0-9.]{1,76}\.(cl|com|org){1}\Z"
-        prohibited = "El campo del 'dominio' o 'domain' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (obviando la 'ñ' y los espacios) incluyendo obligatoriamente '.cl' o '.com' o '.org' al final de la expresión."
-
-        If Regex.IsMatch(domain, pattern) Then
-            DataGridView4.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(0, 247, 0)
-            DataGridView4.Rows(0).Cells(0).ToolTipText = ""
-        Else
-            DataGridView4.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(254, 84, 97)
-            DataGridView4.Rows(0).Cells(0).ToolTipText = prohibited
-            estadoCeldas1 = 1
-        End If
-
-        'Validación numeración//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        For j = 0 To DataGridView4.Rows.Count - 2
-
-            phoneNumber = DataGridView4.Rows(j).Cells(1).Value.ToString
-
-            pattern = "\A[0-9]{9}\Z"
-            prohibited = "El campo de los 'números de teléfono' o 'numbers' solo aceptan caracteres númericos con un largo de 9 dígitos"
-
-            If Regex.IsMatch(phoneNumber, pattern) Then
-                DataGridView4.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView4.Rows(j).Cells(1).ToolTipText = ""
-
-                'validar que no existan datos de ciertas columnas repetidas
-                For i = 0 To DataGridView4.RowCount - 2
-
-                    Dim valorComparado As String = DataGridView4.Rows(i).Cells(1).Value.ToString
-                    Dim valores As String
-
-                    For k = 0 To DataGridView4.RowCount - 2
-
-                        valores = DataGridView4.Rows(k).Cells(1).Value.ToString
-
-                        If valorComparado.Equals(valores) And i <> k Then
-
-                            DataGridView4.Rows(k).Cells(1).Style.BackColor = Color.FromArgb(182, 15, 196)
-                            DataGridView4.Rows(k).Cells(1).ToolTipText = "El número esta repetido."
-                            estadoCeldas1 = 1
-
-                        End If
-                    Next
-                Next
-
-            Else
-                DataGridView4.Rows(j).Cells(1).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView4.Rows(j).Cells(1).ToolTipText = prohibited
-                estadoCeldas1 = 1
-            End If
-        Next
-
-        'Validación de información del grupo//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        group_id = DataGridView4.Rows(0).Cells(2).Value.ToString
-
-        pattern = "\A[\w]{1,19}(_cloudpbx){1}\Z"
-        prohibited = "El campo de 'identificación de grupo' o 'group_id' puede contener hasta 28 caracteres, que pueden ser alfanuméricos (obviando la 'ñ' y los espacios) incluyendo obligatoriamente '_cloudpbx' al final de la expresión."
-
-        If Regex.IsMatch(group_id, pattern) Then
-            DataGridView4.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(0, 247, 0)
-            DataGridView4.Rows(0).Cells(2).ToolTipText = ""
-        Else
-            DataGridView4.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(254, 84, 97)
-            DataGridView4.Rows(0).Cells(2).ToolTipText = prohibited
-            estadoCeldas1 = 1
-        End If
-
-        'validar información de los dispositivos//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        'La columna 'device_type' es la referencia para las demas, por ello se valida lo sigte:
-        'No puede estar vacia la primera celda
-        'No puede haber celdas vacias entremedio
-
-        filasValidas = 0
-        'For para saber cantidad de filas no vacias de la columna device_type
-        For j = 0 To DataGridView4.Rows.Count - 2
-            If DataGridView4.Rows(j).Cells(3).Value.ToString.Length > 0 Then
-                filasValidas += 1
-            End If
-        Next
-
-        For j = 0 To filasValidas - 1
-            device_type = DataGridView4.Rows(j).Cells(3).Value.ToString
-            mac = DataGridView4.Rows(j).Cells(4).Value.ToString
-            serial_number = DataGridView4.Rows(j).Cells(5).Value.ToString
-            physical_location = DataGridView4.Rows(j).Cells(6).Value.ToString
-
-            'Si se compara con el signo = un string, no importaran las mayusculas o minusculas
-            'If device_type.Equals("Yealink-T19xE2") Or device_type.Equals("Yealink-T21xE2") Or device_type.Equals("Yealink-T27G") Then
-            pattern = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)|(TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
-            prohibited = "El campo de 'tipo de dispositivo' o device_type' solo puede contener uno de los siguientes tipos de teléfonos: Yealink-T19xE2 o Yealink-T21xE2 o Yealink-T27G o TGP-600-B o TGP-600-S o TGP-600-A"
-
-            If Regex.IsMatch(device_type, pattern) Then
-                DataGridView4.Rows(j).Cells(3).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView4.Rows(j).Cells(3).ToolTipText = ""
-            Else
-                DataGridView4.Rows(j).Cells(3).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView4.Rows(j).Cells(3).ToolTipText = prohibited
-                estadoCeldas1 = 1
-            End If
-
-            pattern = "\A[a-fA-F0-9]{12}\Z"
-            prohibited = "El campo de 'dirección mac' o 'mac' debe contener exactamente 12 caracteres, que deben pertenecer al sistema hexadecimal."
-
-            If Regex.IsMatch(mac, pattern) Then
-                DataGridView4.Rows(j).Cells(4).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView4.Rows(j).Cells(4).ToolTipText = ""
-
-                'validar que no existan datos de ciertas columnas repetidas
-                For i = 0 To filasValidas - 1
-
-                    Dim macComparada As String = DataGridView4.Rows(i).Cells(4).Value.ToString
-                    Dim deviceComparado As String = DataGridView4.Rows(i).Cells(3).Value.ToString
-
-                    Dim macValores As String
-                    Dim deviceValores As String
-
-                    For k = 0 To filasValidas - 1
-
-                        macValores = DataGridView4.Rows(k).Cells(4).Value.ToString
-                        deviceValores = DataGridView4.Rows(k).Cells(3).Value.ToString
-
-                        pattern = "\A((TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
-
-                        If Not (Regex.IsMatch(deviceComparado, pattern) And Regex.IsMatch(deviceValores, pattern)) And macComparada.Equals(macValores) And i <> k Then
-
-                            DataGridView4.Rows(k).Cells(4).Style.BackColor = Color.FromArgb(182, 15, 196)
-                            DataGridView4.Rows(k).Cells(4).ToolTipText = "El valor esta repetido"
-                            estadoCeldas1 = 1
-                        End If
-                    Next
-                Next
-
-            Else
-                DataGridView4.Rows(j).Cells(4).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView4.Rows(j).Cells(4).ToolTipText = prohibited
-                estadoCeldas1 = 1
-            End If
-
-            Dim pattern1 As String = "\A[a-no-zA-NO-Z0-9]{16}\Z"
-            Dim pattern2 As String = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)){1}\Z"
-
-            Dim pattern3 As String = "\A[a-no-zA-NO-Z0-9]{11}\Z"
-            Dim pattern4 As String = "\A((TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
-
-            prohibited = "El campo de 'número de serie' o 'serial_number' debe contener 16 u 11 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
-
-            If (Regex.IsMatch(serial_number, pattern1) And Regex.IsMatch(device_type, pattern2)) Or (Regex.IsMatch(serial_number, pattern3) And Regex.IsMatch(device_type, pattern4)) Then
-                DataGridView4.Rows(j).Cells(5).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView4.Rows(j).Cells(5).ToolTipText = ""
-            Else
-                DataGridView4.Rows(j).Cells(5).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView4.Rows(j).Cells(5).ToolTipText = prohibited
-                estadoCeldas1 = 1
-            End If
-
-            pattern = "\A[a-no-zA-NO-Z0-9_]{1,12}\Z"
-            prohibited = "El campo de 'locación física' o 'physical_location' puede contener hasta 12 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
-
-            If Regex.IsMatch(physical_location, pattern) Then
-                DataGridView4.Rows(j).Cells(6).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView4.Rows(j).Cells(6).ToolTipText = ""
-            Else
-                DataGridView4.Rows(j).Cells(6).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView4.Rows(j).Cells(6).ToolTipText = prohibited
-                estadoCeldas1 = 1
-            End If
-        Next
-
-        'validar información de los usuarios//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         'validar creación de los departamentos
         Dim varAcumulaDepto As String = ""
         Dim arreglo() As String
@@ -4850,8 +4710,142 @@ Public Class Frm_Principal
         'For Each elemento As String In arregloDeptos
         '    MsgBox(" arreglo final con los deptos " & vbCrLf & elemento)
         'Next
+
+
+        'Validación del dominio//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        domain = DataGridView4.Rows(0).Cells(0).Value.ToString.ToLower 'domain = dt.Rows(0)(0).ToString.ToLower
+
+        pattern = "\A[a-no-z0-9.]{1,76}\.(cl|com|org){1}\Z"
+        prohibited = "El campo del 'dominio' o 'domain' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (obviando la 'ñ' y los espacios) incluyendo obligatoriamente '.cl' o '.com' o '.org' al final de la expresión."
+
+        If Regex.IsMatch(domain, pattern) Then
+            DataGridView4.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView4.Rows(0).Cells(0).ToolTipText = ""
+        Else
+            DataGridView4.Rows(0).Cells(0).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView4.Rows(0).Cells(0).ToolTipText = prohibited
+            estadoCeldas1 = 1
+        End If
+
+        group_id = DataGridView4.Rows(0).Cells(1).Value.ToString
+
+        pattern = "\A[\w]{1,19}(_cloudpbx){1}\Z"
+        prohibited = "El campo de 'identificación de grupo' o 'group_id' puede contener hasta 28 caracteres, que pueden ser alfanuméricos (obviando la 'ñ' y los espacios) incluyendo obligatoriamente '_cloudpbx' al final de la expresión."
+
+        If Regex.IsMatch(group_id, pattern) Then
+            DataGridView4.Rows(0).Cells(1).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView4.Rows(0).Cells(1).ToolTipText = ""
+        Else
+            DataGridView4.Rows(0).Cells(1).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView4.Rows(0).Cells(1).ToolTipText = prohibited
+            estadoCeldas1 = 1
+        End If
+
+        proxy = DataGridView4.Rows(0).Cells(2).Value.ToString
+        pattern = "^(?:(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
+        prohibited = "El campo 'proxy' debe cumplir con el formato de una dirección IPv4"
+
+        If Regex.IsMatch(proxy, pattern) Then
+            DataGridView4.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(0, 247, 0)
+            DataGridView4.Rows(0).Cells(2).ToolTipText = ""
+            proxyInfo = 1
+
+        ElseIf proxy.Length > 0 Then
+            DataGridView4.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(254, 84, 97)
+            DataGridView4.Rows(0).Cells(2).ToolTipText = prohibited
+            proxyInfo = 0
+            estadoCeldas1 = 1
+
+        ElseIf proxy.Length = 0 Then
+            DataGridView4.Rows(0).Cells(2).Style.BackColor = Color.FromArgb(255, 255, 255)
+            DataGridView4.Rows(0).Cells(2).ToolTipText = ""
+            proxyInfo = 0
+        End If
+
+        'validar información de los dispositivos//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        'La columna 'first_name' es la referencia para las demas, por ello se valida lo sigte:
+        'No puede estar vacia la primera celda
+        'No puede haber celdas vacias entremedio
+
+        filasValidas = 0
+        'For para saber cantidad de filas no vacias de la columna device_type
+        For j = 0 To DataGridView4.Rows.Count - 2
+            If DataGridView4.Rows(j).Cells(3).Value.ToString.Length > 0 Then
+                filasValidas += 1
+            End If
+        Next
+
         For j = 0 To filasValidas - 1
+            first_name = DataGridView4.Rows(j).Cells(3).Value.ToString
+            last_name = DataGridView4.Rows(j).Cells(4).Value.ToString
+            user_email = DataGridView4.Rows(j).Cells(5).Value.ToString
+            user_address = DataGridView4.Rows(j).Cells(6).Value.ToString
             department = DataGridView4.Rows(j).Cells(7).Value.ToString
+            ' user_city = DataGridView4.Rows(j).Cells(12).Value.ToString
+            extensions = DataGridView4.Rows(j).Cells(9).Value.ToString
+            device_type = DataGridView4.Rows(j).Cells(10).Value.ToString
+            serial_number = DataGridView4.Rows(j).Cells(11).Value.ToString
+            mac = DataGridView4.Rows(j).Cells(12).Value.ToString
+            physical_location = DataGridView4.Rows(j).Cells(13).Value.ToString
+            ' ocp_local = DataGridView4.Rows(j).Cells(15).Value.ToString
+            ocp_internacional = DataGridView4.Rows(j).Cells(14).Value.ToString
+            ocp_special1 = DataGridView4.Rows(j).Cells(15).Value.ToString
+            ocp_special2 = DataGridView4.Rows(j).Cells(16).Value.ToString
+            ocp_premium1 = DataGridView4.Rows(j).Cells(17).Value.ToString
+            ocp_tollFree = DataGridView4.Rows(j).Cells(18).Value.ToString
+
+            pattern = "\A([a-no-zA-NO-Z0-9_\.\-]\s{0,1}){1,30}\Z"
+            prohibited = "El campo de 'nombre de usuario' o 'first_name' puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), guiones bajos y medios, puntos y no mas de un espacio consecutivo."
+
+            If Regex.IsMatch(first_name, pattern) Then
+                DataGridView4.Rows(j).Cells(3).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(3).ToolTipText = ""
+            Else
+                DataGridView4.Rows(j).Cells(3).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(3).ToolTipText = prohibited
+                estadoCeldas1 = 1
+            End If
+
+            prohibited = "El campo de 'apellido de usuario' o 'last_name' puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), guiones bajos y medios, puntos y no mas de un espacio consecutivo."
+
+            If Regex.IsMatch(last_name, pattern) Then
+                DataGridView4.Rows(j).Cells(4).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(4).ToolTipText = ""
+            Else
+                DataGridView4.Rows(j).Cells(4).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(4).ToolTipText = prohibited
+                estadoCeldas1 = 1
+            End If
+
+            pattern = "^([a-no-zA-NO-Z0-9_\.\-]+)@([a-no-zA-NO-Z0-9\-]+)((\.[a-no-zA-NO-Z0-9]{2,3})+)$"
+            prohibited = "El campo de 'correo electrónico de usuario' o 'user_email' puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), puntos y guiones."
+
+            If Regex.IsMatch(user_email, pattern) Then
+                DataGridView4.Rows(j).Cells(5).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(5).ToolTipText = ""
+
+            ElseIf user_email.Length > 0 Then
+                DataGridView4.Rows(j).Cells(5).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(5).ToolTipText = prohibited
+
+                estadoCeldas1 = 1
+
+            ElseIf user_email.Length = 0 Then
+                DataGridView4.Rows(j).Cells(5).Style.BackColor = Color.FromArgb(255, 255, 255)
+                DataGridView4.Rows(j).Cells(5).ToolTipText = ""
+            End If
+
+            pattern = "\A([\w\,\.]\s{0,1}){1,80}\Z"
+            prohibited = "El campo de 'dirección de usuario' o 'user_address' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
+
+            If Regex.IsMatch(user_address, pattern) Then
+                DataGridView4.Rows(j).Cells(6).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(6).ToolTipText = ""
+            Else
+                DataGridView4.Rows(j).Cells(6).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(6).ToolTipText = prohibited
+                estadoCeldas1 = 1
+            End If
 
             pattern = "\A([\w\.\,\-]\s{0,1}){1,80}\Z"
             prohibited = "El campo 'departamento' o 'department' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), guiones bajos y medios, comas, puntos y no mas de un espacio consecutivo."
@@ -4869,48 +4863,62 @@ Public Class Frm_Principal
                 DataGridView4.Rows(j).Cells(7).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
-        Next
 
-        For j = 0 To filasValidas - 1
-            first_name = DataGridView4.Rows(j).Cells(8).Value.ToString
-            last_name = DataGridView4.Rows(j).Cells(9).Value.ToString
-            user_address = DataGridView4.Rows(j).Cells(11).Value.ToString
-            user_city = DataGridView4.Rows(j).Cells(12).Value.ToString
-            extensions = DataGridView4.Rows(j).Cells(14).Value.ToString
-            ocp_local = DataGridView4.Rows(j).Cells(15).Value.ToString
-            ocp_tollFree = DataGridView4.Rows(j).Cells(16).Value.ToString
-            ocp_internacional = DataGridView4.Rows(j).Cells(17).Value.ToString
-            ocp_special1 = DataGridView4.Rows(j).Cells(18).Value.ToString
-            ocp_special2 = DataGridView4.Rows(j).Cells(19).Value.ToString
-            ocp_premium1 = DataGridView4.Rows(j).Cells(20).Value.ToString
+            pattern = "\A[0-9]{2,5}\Z"
+            prohibited = "El campo de 'extensiones' o 'extensions' solo puede contener numeros del 0 a 9 con un largo de 2 a 5 cifras y sin espacios."
 
-            pattern = "\A([a-no-zA-NO-Z0-9_\.\-]\s{0,1}){1,30}\Z"
-            prohibited = "El campo de 'nombre de usuario' o 'first_name' puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), guiones bajos y medios, puntos y no mas de un espacio consecutivo."
-
-            If Regex.IsMatch(first_name, pattern) Then
-                DataGridView4.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView4.Rows(j).Cells(8).ToolTipText = ""
-            Else
-                DataGridView4.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView4.Rows(j).Cells(8).ToolTipText = prohibited
-                estadoCeldas1 = 1
-            End If
-
-            prohibited = "El campo de 'apellido de usuario' o 'last_name' puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), guiones bajos y medios, puntos y no mas de un espacio consecutivo."
-
-            If Regex.IsMatch(last_name, pattern) Then
+            If Regex.IsMatch(extensions, pattern) Then
                 DataGridView4.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView4.Rows(j).Cells(9).ToolTipText = ""
+
+                'validar que no existan datos de ciertas columnas repetidas
+                For i = 0 To filasValidas - 1
+
+                    Dim valorComparado As String = DataGridView4.Rows(i).Cells(9).Value.ToString
+                    Dim valores As String
+
+                    For k = 0 To filasValidas - 1
+
+                        valores = DataGridView4.Rows(k).Cells(9).Value.ToString
+
+                        If valorComparado.Equals(valores) And i <> k Then
+
+                            DataGridView4.Rows(k).Cells(9).Style.BackColor = Color.FromArgb(182, 15, 196)
+                            DataGridView4.Rows(k).Cells(9).ToolTipText = "El valor esta repetido"
+                            estadoCeldas1 = 1
+                        End If
+                    Next
+                Next
+
             Else
                 DataGridView4.Rows(j).Cells(9).Style.BackColor = Color.FromArgb(254, 84, 97)
                 DataGridView4.Rows(j).Cells(9).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
 
-            pattern = "\A([\w\,\.]\s{0,1}){1,80}\Z"
-            prohibited = "El campo de 'dirección de usuario' o 'user_address' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
+            'Si se compara con el signo = un string, no importaran las mayusculas o minusculas
+            'If device_type.Equals("Yealink-T19xE2") Or device_type.Equals("Yealink-T21xE2") Or device_type.Equals("Yealink-T27G") Then
+            pattern = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)|(TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
+            prohibited = "El campo de 'tipo de dispositivo' o device_type' solo puede contener uno de los siguientes tipos de teléfonos: Yealink-T19xE2 o Yealink-T21xE2 o Yealink-T27G o TGP-600-B o TGP-600-S o TGP-600-A"
 
-            If Regex.IsMatch(user_address, pattern) Then
+            If Regex.IsMatch(device_type, pattern) Then
+                DataGridView4.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(10).ToolTipText = ""
+            Else
+                DataGridView4.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(10).ToolTipText = prohibited
+                estadoCeldas1 = 1
+            End If
+
+            Dim pattern1 As String = "\A[a-no-zA-NO-Z0-9]{16}\Z"
+            Dim pattern2 As String = "\A((Yealink-T19xE2)|(Yealink-T21xE2)|(Yealink-T27G)){1}\Z"
+
+            Dim pattern3 As String = "\A[a-no-zA-NO-Z0-9]{11}\Z"
+            Dim pattern4 As String = "\A((TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
+
+            prohibited = "El campo de 'número de serie' o 'serial_number' debe contener 16 u 11 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
+
+            If (Regex.IsMatch(serial_number, pattern1) And Regex.IsMatch(device_type, pattern2)) Or (Regex.IsMatch(serial_number, pattern3) And Regex.IsMatch(device_type, pattern4)) Then
                 DataGridView4.Rows(j).Cells(11).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView4.Rows(j).Cells(11).ToolTipText = ""
             Else
@@ -4919,53 +4927,69 @@ Public Class Frm_Principal
                 estadoCeldas1 = 1
             End If
 
-            prohibited = "El campo de 'ciudad de usuario' o user_city' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
+            pattern = "\A[a-fA-F0-9]{12}\Z"
+            prohibited = "El campo de 'dirección mac' o 'mac' debe contener exactamente 12 caracteres, que deben pertenecer al sistema hexadecimal."
 
-            If Regex.IsMatch(user_city, pattern) Then
+            If Regex.IsMatch(mac, pattern) Then
                 DataGridView4.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView4.Rows(j).Cells(12).ToolTipText = ""
-            Else
-                DataGridView4.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView4.Rows(j).Cells(12).ToolTipText = prohibited
-                estadoCeldas1 = 1
-            End If
-
-            pattern = "\A[0-9]{2,5}\Z"
-            prohibited = "El campo de 'extensiones' o 'extensions' solo puede contener numeros del 0 a 9 con un largo de 2 a 5 cifras y sin espacios."
-
-            If Regex.IsMatch(extensions, pattern) Then
-                DataGridView4.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView4.Rows(j).Cells(14).ToolTipText = ""
 
                 'validar que no existan datos de ciertas columnas repetidas
                 For i = 0 To filasValidas - 1
 
-                    Dim valorComparado As String = DataGridView4.Rows(i).Cells(14).Value.ToString
-                    Dim valores As String
+                    Dim macComparada As String = DataGridView4.Rows(i).Cells(12).Value.ToString
+                    Dim deviceComparado As String = DataGridView4.Rows(i).Cells(10).Value.ToString
+
+                    Dim macValores As String
+                    Dim deviceValores As String
 
                     For k = 0 To filasValidas - 1
 
-                        valores = DataGridView4.Rows(k).Cells(14).Value.ToString
+                        macValores = DataGridView4.Rows(k).Cells(12).Value.ToString
+                        deviceValores = DataGridView4.Rows(k).Cells(10).Value.ToString
 
-                        If valorComparado.Equals(valores) And i <> k Then
+                        pattern = "\A((TGP-600-A)|(TGP-600-S)|(TGP-600-B)){1}\Z"
 
-                            DataGridView4.Rows(k).Cells(14).Style.BackColor = Color.FromArgb(182, 15, 196)
-                            DataGridView4.Rows(k).Cells(14).ToolTipText = "El valor esta repetido"
+                        If Not (Regex.IsMatch(deviceComparado, pattern) And Regex.IsMatch(deviceValores, pattern)) And macComparada.Equals(macValores) And i <> k Then
+
+                            DataGridView4.Rows(k).Cells(12).Style.BackColor = Color.FromArgb(182, 15, 196)
+                            DataGridView4.Rows(k).Cells(12).ToolTipText = "El valor esta repetido"
                             estadoCeldas1 = 1
                         End If
                     Next
                 Next
 
             Else
-                DataGridView4.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView4.Rows(j).Cells(14).ToolTipText = prohibited
+                DataGridView4.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(12).ToolTipText = prohibited
+                estadoCeldas1 = 1
+            End If
+
+            pattern = "\A[a-no-zA-NO-Z0-9_]{1,12}\Z"
+            prohibited = "El campo de 'locación física' o 'physical_location' puede contener hasta 12 caracteres que solo pueden ser alfanuméricos (obviando la 'ñ')."
+
+            If Regex.IsMatch(physical_location, pattern) Then
+                DataGridView4.Rows(j).Cells(13).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(13).ToolTipText = ""
+            Else
+                DataGridView4.Rows(j).Cells(13).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(13).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
 
             pattern = "\A(b|B)loqueado\Z|\A(BLOQUEADO)\Z|\A(d|D)esbloqueado\Z|\A(DESBLOQUEADO)\Z"
             prohibited = "Los campos de 'ocp' u 'outgoing calling plan' solo pueden contener uno de los siguientes textos: bloqueado o Bloqueado o BLOQUEADO o desbloqueado o Desbloqueado o DESBLOQUEADO"
 
-            If Regex.IsMatch(ocp_local, pattern) Then
+            If Regex.IsMatch(ocp_internacional, pattern) Then
+                DataGridView4.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(14).ToolTipText = ""
+            Else
+                DataGridView4.Rows(j).Cells(14).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(14).ToolTipText = prohibited
+                estadoCeldas1 = 1
+            End If
+
+            If Regex.IsMatch(ocp_special1, pattern) Then
                 DataGridView4.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView4.Rows(j).Cells(15).ToolTipText = ""
             Else
@@ -4974,7 +4998,7 @@ Public Class Frm_Principal
                 estadoCeldas1 = 1
             End If
 
-            If Regex.IsMatch(ocp_tollFree, pattern) Then
+            If Regex.IsMatch(ocp_special2, pattern) Then
                 DataGridView4.Rows(j).Cells(16).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView4.Rows(j).Cells(16).ToolTipText = ""
             Else
@@ -4983,7 +5007,7 @@ Public Class Frm_Principal
                 estadoCeldas1 = 1
             End If
 
-            If Regex.IsMatch(ocp_internacional, pattern) Then
+            If Regex.IsMatch(ocp_premium1, pattern) Then
                 DataGridView4.Rows(j).Cells(17).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView4.Rows(j).Cells(17).ToolTipText = ""
             Else
@@ -4992,7 +5016,7 @@ Public Class Frm_Principal
                 estadoCeldas1 = 1
             End If
 
-            If Regex.IsMatch(ocp_special1, pattern) Then
+            If Regex.IsMatch(ocp_tollFree, pattern) Then
                 DataGridView4.Rows(j).Cells(18).Style.BackColor = Color.FromArgb(0, 247, 0)
                 DataGridView4.Rows(j).Cells(18).ToolTipText = ""
             Else
@@ -5000,83 +5024,80 @@ Public Class Frm_Principal
                 DataGridView4.Rows(j).Cells(18).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
+        Next
 
-            If Regex.IsMatch(ocp_special2, pattern) Then
-                DataGridView4.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView4.Rows(j).Cells(19).ToolTipText = ""
-            Else
-                DataGridView4.Rows(j).Cells(19).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView4.Rows(j).Cells(19).ToolTipText = prohibited
-                estadoCeldas1 = 1
-            End If
+        'Validación numeración//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        For j = 0 To DataGridView4.Rows.Count - 2
 
-            If Regex.IsMatch(ocp_premium1, pattern) Then
-                DataGridView4.Rows(j).Cells(20).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView4.Rows(j).Cells(20).ToolTipText = ""
+            phoneNumber = DataGridView4.Rows(j).Cells(8).Value.ToString
+
+            pattern = "\A[0-9]{9}\Z"
+            prohibited = "El campo de los 'números de teléfono' o 'numbers' solo aceptan caracteres númericos con un largo de 9 dígitos"
+
+            If Regex.IsMatch(phoneNumber, pattern) Then
+                DataGridView4.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(0, 247, 0)
+                DataGridView4.Rows(j).Cells(8).ToolTipText = ""
+
+                'validar que no existan datos de ciertas columnas repetidas
+                For i = 0 To DataGridView4.RowCount - 2
+
+                    Dim valorComparado As String = DataGridView4.Rows(i).Cells(8).Value.ToString
+                    Dim valores As String
+
+                    For k = 0 To DataGridView4.RowCount - 2
+
+                        valores = DataGridView4.Rows(k).Cells(8).Value.ToString
+
+                        If valorComparado.Equals(valores) And i <> k Then
+
+                            DataGridView4.Rows(k).Cells(8).Style.BackColor = Color.FromArgb(182, 15, 196)
+                            DataGridView4.Rows(k).Cells(8).ToolTipText = "El número esta repetido."
+                            estadoCeldas1 = 1
+
+                        End If
+                    Next
+                Next
+
             Else
-                DataGridView4.Rows(j).Cells(20).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView4.Rows(j).Cells(20).ToolTipText = prohibited
+                DataGridView4.Rows(j).Cells(8).Style.BackColor = Color.FromArgb(254, 84, 97)
+                DataGridView4.Rows(j).Cells(8).ToolTipText = prohibited
                 estadoCeldas1 = 1
             End If
         Next
 
-        'INFORMACION OPCIONAL
+        'prohibited = "El campo de 'ciudad de usuario' o user_city' puede contener hasta 80 caracteres, que pueden ser alfanuméricos (incluyendo la 'ñ'), comas y no mas de un espacio consecutivo."
 
-        pattern = "^([a-no-zA-NO-Z0-9_\.\-]+)@([a-no-zA-NO-Z0-9\-]+)((\.[a-no-zA-NO-Z0-9]{2,3})+)$"
-        prohibited = "El campo de 'correo electrónico de usuario' o 'user_email' puede contener hasta 30 caracteres, que pueden ser alfanuméricos (obviando la 'ñ'), puntos y guiones."
+        'If Regex.IsMatch(user_city, pattern) Then
+        '    DataGridView4.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(0, 247, 0)
+        '    DataGridView4.Rows(j).Cells(12).ToolTipText = ""
+        'Else
+        '    DataGridView4.Rows(j).Cells(12).Style.BackColor = Color.FromArgb(254, 84, 97)
+        '    DataGridView4.Rows(j).Cells(12).ToolTipText = prohibited
+        '    estadoCeldas1 = 1
+        'End If
 
-        For j = 0 To filasValidas - 1
+        'If Regex.IsMatch(ocp_local, pattern) Then
+        '    DataGridView4.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(0, 247, 0)
+        '    DataGridView4.Rows(j).Cells(15).ToolTipText = ""
+        'Else
+        '    DataGridView4.Rows(j).Cells(15).Style.BackColor = Color.FromArgb(254, 84, 97)
+        '    DataGridView4.Rows(j).Cells(15).ToolTipText = prohibited
+        '    estadoCeldas1 = 1
+        'End If
 
-            user_email = DataGridView4.Rows(j).Cells(10).Value.ToString
-
-            If Regex.IsMatch(user_email, pattern) Then
-                DataGridView4.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(0, 247, 0)
-                DataGridView4.Rows(j).Cells(10).ToolTipText = ""
-
-            ElseIf user_email.Length > 0 Then
-                DataGridView4.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(254, 84, 97)
-                DataGridView4.Rows(j).Cells(10).ToolTipText = prohibited
-                estadoCeldas1 = 1
-
-            ElseIf user_email.Length = 0 Then
-                DataGridView4.Rows(j).Cells(10).Style.BackColor = Color.FromArgb(255, 255, 255)
-                DataGridView4.Rows(j).Cells(10).ToolTipText = ""
-            End If
-        Next
-
-        proxy = DataGridView4.Rows(0).Cells(13).Value.ToString
-        pattern = "^(?:(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(?:[1-9]?[0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
-        prohibited = "El campo 'proxy' debe cumplir con el formato de una dirección IPv4"
-
-        If Regex.IsMatch(proxy, pattern) Then
-            DataGridView4.Rows(0).Cells(13).Style.BackColor = Color.FromArgb(0, 247, 0)
-            DataGridView4.Rows(0).Cells(13).ToolTipText = ""
-            proxyInfo = 1
-
-        ElseIf proxy.Length > 0 Then
-            DataGridView4.Rows(0).Cells(13).Style.BackColor = Color.FromArgb(254, 84, 97)
-            DataGridView4.Rows(0).Cells(13).ToolTipText = prohibited
-            proxyInfo = 0
-            estadoCeldas1 = 1
-
-        ElseIf proxy.Length = 0 Then
-            DataGridView4.Rows(0).Cells(13).Style.BackColor = Color.FromArgb(255, 255, 255)
-            DataGridView4.Rows(0).Cells(13).ToolTipText = ""
-            proxyInfo = 0
-        End If
 
         For fila As Integer = 0 To DataGridView4.RowCount - 1
             For columna As Integer = 0 To DataGridView4.ColumnCount - 1
 
-                'Se bloquean todas las filas superiores a la posicion 0, en las columnas 0,2,3,4,5,6,7 y 18
-                If columna = 0 Or columna = 2 Or columna = 13 Then
+                'Se bloquean todas las filas superiores a la posicion 0, en las columnas 0,1 y 2
+                If columna >= 0 And columna <= 2 Then
                     If fila > 0 Then
                         DataGridView4.Rows(fila).Cells(columna).ReadOnly = True
                         DataGridView4.Rows(fila).Cells(columna).Style.BackColor = Color.FromArgb(232, 232, 232)
                     End If
                 Else
                     'filasValidas - 1 se iguala con fila, ya que esta parte en 0
-                    If fila > filasValidas - 1 And columna <> 1 And columna <> 3 Then
+                    If fila > filasValidas - 1 And columna <> 3 Then
                         DataGridView4.Rows(fila).Cells(columna).ReadOnly = True
                         DataGridView4.Rows(fila).Cells(columna).Style.BackColor = Color.FromArgb(232, 232, 232)
                     Else
@@ -5097,11 +5118,12 @@ Public Class Frm_Principal
             'MsgBox("revise las celdas")
             Return 1
         End If
+
     End Function
 
     Private Sub In_Case_Error4()
         FileClose(numFile)
-        FileClose(1)
+        FileClose(numFileCreateUsers)
         Me.Cursor = Cursors.Default
         btn_procesar2.Enabled = True
         btn_validate_data2.Enabled = True
@@ -5370,7 +5392,7 @@ Public Class Frm_Principal
         Dim lineConfigFile As String = ""
 
         numFile = 30
-        Dim numFileCreateUsers = numFile
+        numFileCreateUsers = numFile
 
         Try
             FileOpen(numFileCreateUsers, multipleInputFile, OpenMode.Output, OpenAccess.Write)
@@ -5398,7 +5420,7 @@ Public Class Frm_Principal
                     WriteLine(numFile, line3.ToCharArray)
                     WriteLine(numFile, c_4.ToCharArray)
                     WriteLine(numFile, c_5.ToCharArray)
-                    phoneNumber = DataGridView4.Rows(j).Cells(1).Value.ToString
+                    phoneNumber = DataGridView4.Rows(j).Cells(8).Value.ToString
                     c_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
                     WriteLine(numFile, c_6.ToCharArray)
                     WriteLine(numFile, c_7.ToCharArray)
@@ -5432,7 +5454,7 @@ Public Class Frm_Principal
                     WriteLine(numFile, f_5.ToCharArray)
                     f_6 = "<groupId>" & group_id & "</groupId>"
                     WriteLine(numFile, f_6.ToCharArray)
-                    phoneNumber = DataGridView4.Rows(j).Cells(1).Value.ToString
+                    phoneNumber = DataGridView4.Rows(j).Cells(8).Value.ToString
                     f_7 = "<phoneNumber>+56-" & phoneNumber & "</phoneNumber>"
                     WriteLine(numFile, f_7.ToCharArray)
                     WriteLine(numFile, f_8.ToCharArray)
@@ -5466,11 +5488,11 @@ Public Class Frm_Principal
                     WriteLine(numFile, g_5.ToCharArray)
                     g_6 = "<groupId>" & group_id & "</groupId>"
                     WriteLine(numFile, g_6.ToCharArray)
-                    mac = DataGridView4.Rows(j).Cells(4).Value.ToString
+                    mac = DataGridView4.Rows(j).Cells(12).Value.ToString
                     g_7 = "<deviceName>DV_" & mac & "</deviceName>"
                     WriteLine(numFile, g_7.ToCharArray)
 
-                    device_type = DataGridView4.Rows(j).Cells(3).Value.ToString
+                    device_type = DataGridView4.Rows(j).Cells(10).Value.ToString
                     If device_type.Equals("TGP-600-A") Or device_type.Equals("TGP-600-B") Or device_type.Equals("TGP-600-S") Then
                         g_8 = "<deviceType>Panasonic-KX-TGP-600</deviceType>"
                     Else
@@ -5481,10 +5503,10 @@ Public Class Frm_Principal
                     WriteLine(numFile, g_9.ToCharArray)
                     g_10 = "<macAddress>" & mac & "</macAddress>"
                     WriteLine(numFile, g_10.ToCharArray)
-                    serial_number = DataGridView4.Rows(j).Cells(5).Value.ToString
+                    serial_number = DataGridView4.Rows(j).Cells(11).Value.ToString
                     g_11 = "<serialNumber>" & serial_number & "</serialNumber>"
                     WriteLine(numFile, g_11.ToCharArray)
-                    physical_location = DataGridView4.Rows(j).Cells(6).Value.ToString
+                    physical_location = DataGridView4.Rows(j).Cells(13).Value.ToString
                     g_12 = "<physicalLocation>" & physical_location & "</physicalLocation>"
                     WriteLine(numFile, g_12.ToCharArray)
                     WriteLine(numFile, g_13.ToCharArray)
@@ -5553,13 +5575,13 @@ Public Class Frm_Principal
                     WriteLine(numFile, i_5.ToCharArray)
                     i_6 = "<groupId>" & group_id & "</groupId>"
                     WriteLine(numFile, i_6.ToCharArray)
-                    phoneNumber = DataGridView4.Rows(j).Cells(1).Value.ToString
+                    phoneNumber = DataGridView4.Rows(j).Cells(8).Value.ToString
                     i_7 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
                     WriteLine(numFile, i_7.ToCharArray)
-                    last_name = DataGridView4.Rows(j).Cells(9).Value.ToString
+                    last_name = DataGridView4.Rows(j).Cells(4).Value.ToString
                     i_8 = "<lastName>" & last_name & "</lastName>"
                     WriteLine(numFile, i_8.ToCharArray)
-                    first_name = DataGridView4.Rows(j).Cells(8).Value.ToString
+                    first_name = DataGridView4.Rows(j).Cells(3).Value.ToString
                     i_9 = "<firstName>" & first_name & "</firstName>"
                     WriteLine(numFile, i_9.ToCharArray)
                     i_10 = "<callingLineIdLastName>" & last_name & "</callingLineIdLastName>"
@@ -5579,18 +5601,18 @@ Public Class Frm_Principal
                     End If
                     WriteLine(numFile, i_18.ToCharArray)
                     WriteLine(numFile, i_19.ToCharArray)
-                    user_email = DataGridView4.Rows(j).Cells(10).Value.ToString
+                    user_email = DataGridView4.Rows(j).Cells(5).Value.ToString
                     If user_email.Length > 0 Then
                         i_20 = "<emailAddress>" & user_email & "</emailAddress>"
                         WriteLine(numFile, i_20.ToCharArray)
                     End If
                     WriteLine(numFile, i_21.ToCharArray)
-                    user_address = DataGridView4.Rows(j).Cells(11).Value.ToString
+                    user_address = DataGridView4.Rows(j).Cells(6).Value.ToString
                     i_22 = "<addressLine1>" & user_address & "</addressLine1>"
                     WriteLine(numFile, i_22.ToCharArray)
-                    user_city = DataGridView4.Rows(j).Cells(12).Value.ToString
-                    i_23 = "<city>" & user_city & "</city>"
-                    WriteLine(numFile, i_23.ToCharArray)
+                    'user_city = DataGridView4.Rows(j).Cells(12).Value.ToString
+                    'i_23 = "<city>" & user_city & "</city>"
+                    'WriteLine(numFile, i_23.ToCharArray)
                     WriteLine(numFile, i_24.ToCharArray)
                     WriteLine(numFile, i_25.ToCharArray)
                     WriteLine(numFile, finalLine.ToCharArray)
@@ -5624,7 +5646,7 @@ Public Class Frm_Principal
                         WriteLine(numFile, j_5.ToCharArray)
                         j_6 = "<groupId>" & group_id & "</groupId>"
                         WriteLine(numFile, j_6.ToCharArray)
-                        mac = DataGridView4.Rows(j).Cells(4).Value.ToString
+                        mac = DataGridView4.Rows(j).Cells(12).Value.ToString
                         j_7 = "<deviceName>DV_" & mac & "</deviceName>"
                         WriteLine(numFile, j_7.ToCharArray)
                         WriteLine(numFile, j_8.ToCharArray)
@@ -5659,12 +5681,12 @@ Public Class Frm_Principal
                     WriteLine(numFile, line2.ToCharArray)
                     WriteLine(numFile, line3.ToCharArray)
                     WriteLine(numFile, k_4.ToCharArray)
-                    phoneNumber = DataGridView4.Rows(j).Cells(1).Value.ToString
+                    phoneNumber = DataGridView4.Rows(j).Cells(8).Value.ToString
                     k_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
                     WriteLine(numFile, k_5.ToCharArray)
                     k_6 = "<phoneNumber>" & phoneNumber & "</phoneNumber>"
                     WriteLine(numFile, k_6.ToCharArray)
-                    extensions = DataGridView4.Rows(j).Cells(14).Value.ToString
+                    extensions = DataGridView4.Rows(j).Cells(9).Value.ToString
                     k_7 = "<extension>" & extensions & "</extension>"
                     WriteLine(numFile, k_7.ToCharArray)
                     WriteLine(numFile, k_8.ToCharArray)
@@ -5672,7 +5694,7 @@ Public Class Frm_Principal
                     WriteLine(numFile, k_10.ToCharArray)
                     WriteLine(numFile, k_11.ToCharArray)
                     WriteLine(numFile, k_12.ToCharArray)
-                    mac = DataGridView4.Rows(j).Cells(4).Value.ToString
+                    mac = DataGridView4.Rows(j).Cells(12).Value.ToString
                     k_13 = "<deviceName>DV_" & mac & "</deviceName>"
                     WriteLine(numFile, k_13.ToCharArray)
                     WriteLine(numFile, k_14.ToCharArray)
@@ -5709,10 +5731,10 @@ Public Class Frm_Principal
                     WriteLine(numFile, line2.ToCharArray)
                     WriteLine(numFile, line3.ToCharArray)
                     WriteLine(numFile, l_4.ToCharArray)
-                    phoneNumber = DataGridView4.Rows(j).Cells(1).Value.ToString
+                    phoneNumber = DataGridView4.Rows(j).Cells(8).Value.ToString
                     l_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
                     WriteLine(numFile, l_5.ToCharArray)
-                    device_type = DataGridView4.Rows(j).Cells(3).Value.ToString
+                    device_type = DataGridView4.Rows(j).Cells(10).Value.ToString
                     If device_type = "Yealink-T19xE2" Then
                         l_6 = "<servicePackName>Pack_Basico</servicePackName>"
                     ElseIf device_type = "Yealink-T21xE2" Then
@@ -5755,22 +5777,22 @@ Public Class Frm_Principal
                     WriteLine(numFile, line2.ToCharArray)
                     WriteLine(numFile, line3.ToCharArray)
                     WriteLine(numFile, m_4.ToCharArray)
-                    phoneNumber = DataGridView4.Rows(j).Cells(1).Value.ToString
+                    phoneNumber = DataGridView4.Rows(j).Cells(8).Value.ToString
                     m_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
                     WriteLine(numFile, m_5.ToCharArray)
                     WriteLine(numFile, m_6.ToCharArray)
                     WriteLine(numFile, m_7.ToCharArray)
                     WriteLine(numFile, m_8.ToCharArray)
 
-                    ocp_local = DataGridView4.Rows(j).Cells(15).Value.ToString
-                    If ocp_local = "bloqueado" Or ocp_local = "Bloqueado" Or ocp_local = "BLOQUEADO" Then
-                        m_9 = "<local>Disallow</local>"
-                    ElseIf ocp_local = "desbloqueado" Or ocp_local = "Desbloqueado" Or ocp_local = "DESBLOQUEADO" Then
-                        m_9 = "<local>Allow</local>"
-                    End If
-                    WriteLine(numFile, m_9.ToCharArray)
+                    'ocp_local = DataGridView4.Rows(j).Cells(15).Value.ToString
+                    'If ocp_local = "bloqueado" Or ocp_local = "Bloqueado" Or ocp_local = "BLOQUEADO" Then
+                    '    m_9 = "<local>Disallow</local>"
+                    'ElseIf ocp_local = "desbloqueado" Or ocp_local = "Desbloqueado" Or ocp_local = "DESBLOQUEADO" Then
+                    '    m_9 = "<local>Allow</local>"
+                    'End If
+                    'WriteLine(numFile, m_9.ToCharArray)
 
-                    ocp_tollFree = DataGridView4.Rows(j).Cells(16).Value.ToString
+                    ocp_tollFree = DataGridView4.Rows(j).Cells(18).Value.ToString
                     If ocp_tollFree = "bloqueado" Or ocp_tollFree = "Bloqueado" Or ocp_tollFree = "BLOQUEADO" Then
                         m_10 = "<tollFree>Disallow</tollFree>"
                     ElseIf ocp_tollFree = "desbloqueado" Or ocp_tollFree = "Desbloqueado" Or ocp_tollFree = "DESBLOQUEADO" Then
@@ -5779,7 +5801,7 @@ Public Class Frm_Principal
                     WriteLine(numFile, m_10.ToCharArray)
                     WriteLine(numFile, m_11.ToCharArray)
 
-                    ocp_internacional = DataGridView4.Rows(j).Cells(17).Value.ToString
+                    ocp_internacional = DataGridView4.Rows(j).Cells(14).Value.ToString
                     If ocp_internacional = "bloqueado" Or ocp_internacional = "Bloqueado" Or ocp_internacional = "BLOQUEADO" Then
                         m_12 = "<international>Disallow</international>"
                     ElseIf ocp_internacional = "desbloqueado" Or ocp_internacional = "Desbloqueado" Or ocp_internacional = "DESBLOQUEADO" Then
@@ -5789,7 +5811,7 @@ Public Class Frm_Principal
                     WriteLine(numFile, m_13.ToCharArray)
                     WriteLine(numFile, m_14.ToCharArray)
 
-                    ocp_special1 = DataGridView4.Rows(j).Cells(18).Value.ToString
+                    ocp_special1 = DataGridView4.Rows(j).Cells(15).Value.ToString
                     If ocp_special1 = "bloqueado" Or ocp_special1 = "Bloqueado" Or ocp_special1 = "BLOQUEADO" Then
                         m_15 = "<specialServicesI>Disallow</specialServicesI>"
                     ElseIf ocp_special1 = "desbloqueado" Or ocp_special1 = "Desbloqueado" Or ocp_special1 = "DESBLOQUEADO" Then
@@ -5797,7 +5819,7 @@ Public Class Frm_Principal
                     End If
                     WriteLine(numFile, m_15.ToCharArray)
 
-                    ocp_special2 = DataGridView4.Rows(j).Cells(19).Value.ToString
+                    ocp_special2 = DataGridView4.Rows(j).Cells(16).Value.ToString
                     If ocp_special2 = "bloqueado" Or ocp_special2 = "Bloqueado" Or ocp_special2 = "BLOQUEADO" Then
                         m_16 = "<specialServicesII>Disallow</specialServicesII>"
                     ElseIf ocp_special2 = "desbloqueado" Or ocp_special2 = "Desbloqueado" Or ocp_special2 = "DESBLOQUEADO" Then
@@ -5805,7 +5827,7 @@ Public Class Frm_Principal
                     End If
                     WriteLine(numFile, m_16.ToCharArray)
 
-                    ocp_premium1 = DataGridView4.Rows(j).Cells(20).Value.ToString
+                    ocp_premium1 = DataGridView4.Rows(j).Cells(17).Value.ToString
                     If ocp_premium1 = "bloqueado" Or ocp_premium1 = "Bloqueado" Or ocp_premium1 = "BLOQUEADO" Then
                         m_17 = "<premiumServicesI>Disallow</premiumServicesI>"
                     ElseIf ocp_premium1 = "desbloqueado" Or ocp_premium1 = "Desbloqueado" Or ocp_premium1 = "DESBLOQUEADO" Then
@@ -5845,7 +5867,7 @@ Public Class Frm_Principal
                     WriteLine(numFile, line2.ToCharArray)
                     WriteLine(numFile, line3.ToCharArray)
                     WriteLine(numFile, n_4.ToCharArray)
-                    phoneNumber = DataGridView4.Rows(j).Cells(1).Value.ToString
+                    phoneNumber = DataGridView4.Rows(j).Cells(8).Value.ToString
                     n_5 = "<userId>" & phoneNumber & "@" & domain & "</userId>"
                     WriteLine(numFile, n_5.ToCharArray)
                     n_6 = "<userName>" & phoneNumber & "</userName>"
@@ -5885,7 +5907,7 @@ Public Class Frm_Principal
                     WriteLine(numFile, o_5.ToCharArray)
                     o_6 = "<groupId>" & group_id & "</groupId>"
                     WriteLine(numFile, o_6.ToCharArray)
-                    phoneNumber = DataGridView4.Rows(j).Cells(1).Value.ToString
+                    phoneNumber = DataGridView4.Rows(j).Cells(8).Value.ToString
                     o_7 = "<phoneNumber>+56-" & phoneNumber & "</phoneNumber>"
                     WriteLine(numFile, o_7.ToCharArray)
                     WriteLine(numFile, o_8.ToCharArray)
@@ -6002,7 +6024,7 @@ Public Class Frm_Principal
                 lbl_state_create_users.Text = "Error to generate report"
                 ProgressBar5.Value = ProgressBar5.Maximum
                 Me.Cursor = Cursors.Default
-                In_Case_Error2()
+                In_Case_Error4()
                 Exit Sub
             End Try
         Next

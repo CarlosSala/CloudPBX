@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<BroadsoftDocument protocol="OCI" xmlns="C">
+<sessionId xmlns="">%%%OSS_USER%%%</sessionId>
+<command xsi:type="UserOutgoingCallingPlanOriginatingModifyRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<userId>223523627@fernandofelicevich.cl</userId>
+<useCustomSettings>true</useCustomSettings>
+<userPermissions>
+<group>Allow</group>
+<tollFree>Allow</tollFree>
+<toll>Allow</toll>
+<international>Allow</international>
+<operatorAssisted>Allow</operatorAssisted>
+<chargeableDirectoryAssisted>Allow</chargeableDirectoryAssisted>
+<specialServicesI>Allow</specialServicesI>
+<specialServicesII>Allow</specialServicesII>
+<premiumServicesI>Allow</premiumServicesI>
+<premiumServicesII>Disallow</premiumServicesII>
+<casual>Disallow</casual>
+<urlDialing>Allow</urlDialing>
+<unknown>Allow</unknown>
+</userPermissions>
+</command>
+</BroadsoftDocument>

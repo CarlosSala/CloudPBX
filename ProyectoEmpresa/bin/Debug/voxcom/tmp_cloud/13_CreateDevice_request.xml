@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<BroadsoftDocument protocol="OCI" xmlns="C">
+<sessionId xmlns="">%%%OSS_USER%%%</sessionId>
+<command xsi:type="GroupAccessDeviceAddRequest14" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<serviceProviderId>CloudPBX_SMB</serviceProviderId>
+<groupId>FERNANDOFELICEVICH_cloudpbx</groupId>
+<deviceName>DV_22aabbccddff</deviceName>
+<deviceType>Yealink-T19xE2</deviceType>
+<protocol>SIP 2.0</protocol>
+<macAddress>22aabbccddff</macAddress>
+<serialNumber>1212121212121212</serialNumber>
+<physicalLocation>zona3</physicalLocation>
+<transportProtocol>Unspecified</transportProtocol>
+</command>
+</BroadsoftDocument>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<BroadsoftDocument protocol="OCI" xmlns="C">
+<sessionId xmlns="">%%%OSS_USER%%%</sessionId>
+<command xsi:type="GroupAddRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<serviceProviderId>CloudPBX_SMB</serviceProviderId>
+<groupId>FERNANDOFELICEVICH_cloudpbx</groupId>
+<defaultDomain>fernandofelicevich.cl</defaultDomain>
+<userLimit>25</userLimit>
+<groupName>ASESORIAS_TWENTY_TWO_CHILE_SPA</groupName>
+<callingLineIdName>ASESORIAS_TWENTY_TWO_CHILE_SPA</callingLineIdName>
+<contact>
+<contactName>ALEJANDRO FLETCHER </contactName>
+<contactNumber>966742895</contactNumber>
+</contact>
+<address>
+<addressLine1>santa ana, santiago</addressLine1>
+</address>
+</command>
+</BroadsoftDocument>

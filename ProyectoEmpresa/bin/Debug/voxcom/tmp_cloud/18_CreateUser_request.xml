@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<BroadsoftDocument protocol="OCI" xmlns="C">
+<sessionId xmlns="">%%%OSS_USER%%%</sessionId>
+<command xsi:type="UserAddRequest17sp4" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<serviceProviderId>CloudPBX_SMB</serviceProviderId>
+<groupId>FERNANDOFELICEVICH_cloudpbx</groupId>
+<userId>263523627@fernandofelicevich.cl</userId>
+<lastName>Tapia</lastName>
+<firstName>Mario</firstName>
+<callingLineIdLastName>Tapia</callingLineIdLastName>
+<callingLineIdFirstName>Mario</callingLineIdFirstName>
+<password>a1234567</password>
+<language>Spanish</language>
+<timeZone>Chile/Continental</timeZone>
+<address>
+<addressLine1>santiago</addressLine1>
+</address>
+</command>
+</BroadsoftDocument>

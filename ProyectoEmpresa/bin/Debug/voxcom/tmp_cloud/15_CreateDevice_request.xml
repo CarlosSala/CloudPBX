@@ -5,10 +5,10 @@
 <serviceProviderId>CloudPBX_SMB</serviceProviderId>
 <groupId>FERNANDOFELICEVICH_cloudpbx</groupId>
 <deviceName>DV_22acbbccddff</deviceName>
-<deviceType>Yealink-T19xE2</deviceType>
+<deviceType>Yealink-T27G</deviceType>
 <protocol>SIP 2.0</protocol>
 <macAddress>22acbbccddff</macAddress>
-<serialNumber>6767676767676767</serialNumber>
+<serialNumber>6554545434512345</serialNumber>
 <physicalLocation>zona5</physicalLocation>
 <transportProtocol>Unspecified</transportProtocol>
 </command>

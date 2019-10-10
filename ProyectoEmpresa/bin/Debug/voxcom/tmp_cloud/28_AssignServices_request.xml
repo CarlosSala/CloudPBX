@@ -3,6 +3,6 @@
 <sessionId xmlns="">%%%OSS_USER%%%</sessionId>
 <command xsi:type="UserServiceAssignListRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 <userId>223523627@fernandofelicevich.cl</userId>
-<servicePackName>Pack_Basico</servicePackName>
+<servicePackName>Pack_Avanzado</servicePackName>
 </command>
 </BroadsoftDocument>

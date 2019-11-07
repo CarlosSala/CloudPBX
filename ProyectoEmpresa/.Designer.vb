@@ -96,6 +96,7 @@ Partial Class Frm_Principal
         Me.btn_procesar2 = New System.Windows.Forms.Button()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
+        Me.TabPage6 = New System.Windows.Forms.TabPage()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -123,12 +124,13 @@ Partial Class Frm_Principal
         Me.TabControl1.Controls.Add(Me.TabPage3)
         Me.TabControl1.Controls.Add(Me.TabPage4)
         Me.TabControl1.Controls.Add(Me.TabPage5)
+        Me.TabControl1.Controls.Add(Me.TabPage6)
         Me.TabControl1.Location = New System.Drawing.Point(12, 12)
         Me.TabControl1.MaximumSize = New System.Drawing.Size(1325, 690)
         Me.TabControl1.MinimumSize = New System.Drawing.Size(625, 500)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(625, 500)
+        Me.TabControl1.Size = New System.Drawing.Size(792, 500)
         Me.TabControl1.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight
         Me.TabControl1.TabIndex = 0
         '
@@ -146,7 +148,7 @@ Partial Class Frm_Principal
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(617, 474)
+        Me.TabPage1.Size = New System.Drawing.Size(784, 474)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Create CloudPBX"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -166,7 +168,7 @@ Partial Class Frm_Principal
         'btn_validate_data
         '
         Me.btn_validate_data.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_validate_data.Location = New System.Drawing.Point(474, 340)
+        Me.btn_validate_data.Location = New System.Drawing.Point(641, 340)
         Me.btn_validate_data.Name = "btn_validate_data"
         Me.btn_validate_data.Size = New System.Drawing.Size(132, 75)
         Me.btn_validate_data.TabIndex = 53
@@ -178,7 +180,7 @@ Partial Class Frm_Principal
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar1, Me.lbl_state_cloud})
         Me.StatusStrip1.Location = New System.Drawing.Point(3, 449)
         Me.StatusStrip1.Name = "StatusStrip1"
-        Me.StatusStrip1.Size = New System.Drawing.Size(611, 22)
+        Me.StatusStrip1.Size = New System.Drawing.Size(778, 22)
         Me.StatusStrip1.TabIndex = 52
         Me.StatusStrip1.Text = "StatusStrip1"
         '
@@ -212,7 +214,7 @@ Partial Class Frm_Principal
         Me.lbl_wait.BackColor = System.Drawing.Color.White
         Me.lbl_wait.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbl_wait.ForeColor = System.Drawing.Color.Black
-        Me.lbl_wait.Location = New System.Drawing.Point(189, 209)
+        Me.lbl_wait.Location = New System.Drawing.Point(273, 209)
         Me.lbl_wait.Name = "lbl_wait"
         Me.lbl_wait.Size = New System.Drawing.Size(267, 31)
         Me.lbl_wait.TabIndex = 0
@@ -238,7 +240,7 @@ Partial Class Frm_Principal
         Me.DataGridView1.MinimumSize = New System.Drawing.Size(600, 250)
         Me.DataGridView1.Name = "DataGridView1"
         Me.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
-        Me.DataGridView1.Size = New System.Drawing.Size(600, 250)
+        Me.DataGridView1.Size = New System.Drawing.Size(767, 250)
         Me.DataGridView1.TabIndex = 51
         '
         'btn_procesar
@@ -262,7 +264,7 @@ Partial Class Frm_Principal
         Me.tb_file_name.MaximumSize = New System.Drawing.Size(1225, 20)
         Me.tb_file_name.MinimumSize = New System.Drawing.Size(523, 20)
         Me.tb_file_name.Name = "tb_file_name"
-        Me.tb_file_name.Size = New System.Drawing.Size(523, 20)
+        Me.tb_file_name.Size = New System.Drawing.Size(690, 20)
         Me.tb_file_name.TabIndex = 2
         '
         'btn_browse_CSV
@@ -274,7 +276,7 @@ Partial Class Frm_Principal
         Me.btn_browse_CSV.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
         Me.btn_browse_CSV.Cursor = System.Windows.Forms.Cursors.Hand
         Me.btn_browse_CSV.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_browse_CSV.Location = New System.Drawing.Point(536, 7)
+        Me.btn_browse_CSV.Location = New System.Drawing.Point(703, 7)
         Me.btn_browse_CSV.Margin = New System.Windows.Forms.Padding(4)
         Me.btn_browse_CSV.MaximumSize = New System.Drawing.Size(70, 70)
         Me.btn_browse_CSV.MinimumSize = New System.Drawing.Size(70, 70)
@@ -706,7 +708,7 @@ Partial Class Frm_Principal
         Me.TabPage5.Location = New System.Drawing.Point(4, 22)
         Me.TabPage5.Name = "TabPage5"
         Me.TabPage5.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage5.Size = New System.Drawing.Size(617, 474)
+        Me.TabPage5.Size = New System.Drawing.Size(784, 474)
         Me.TabPage5.TabIndex = 4
         Me.TabPage5.Text = "Create Users"
         Me.TabPage5.UseVisualStyleBackColor = True
@@ -720,7 +722,7 @@ Partial Class Frm_Principal
         Me.tb_file_name2.MaximumSize = New System.Drawing.Size(1225, 20)
         Me.tb_file_name2.MinimumSize = New System.Drawing.Size(523, 20)
         Me.tb_file_name2.Name = "tb_file_name2"
-        Me.tb_file_name2.Size = New System.Drawing.Size(523, 20)
+        Me.tb_file_name2.Size = New System.Drawing.Size(690, 20)
         Me.tb_file_name2.TabIndex = 63
         '
         'Btn_browse_CSV2
@@ -732,7 +734,7 @@ Partial Class Frm_Principal
         Me.Btn_browse_CSV2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
         Me.Btn_browse_CSV2.Cursor = System.Windows.Forms.Cursors.Hand
         Me.Btn_browse_CSV2.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_browse_CSV2.Location = New System.Drawing.Point(536, 7)
+        Me.Btn_browse_CSV2.Location = New System.Drawing.Point(703, 7)
         Me.Btn_browse_CSV2.Margin = New System.Windows.Forms.Padding(4)
         Me.Btn_browse_CSV2.MaximumSize = New System.Drawing.Size(70, 70)
         Me.Btn_browse_CSV2.MinimumSize = New System.Drawing.Size(70, 70)
@@ -746,7 +748,7 @@ Partial Class Frm_Principal
         Me.StatusStrip5.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar5, Me.lbl_state_create_users})
         Me.StatusStrip5.Location = New System.Drawing.Point(3, 449)
         Me.StatusStrip5.Name = "StatusStrip5"
-        Me.StatusStrip5.Size = New System.Drawing.Size(611, 22)
+        Me.StatusStrip5.Size = New System.Drawing.Size(778, 22)
         Me.StatusStrip5.TabIndex = 61
         Me.StatusStrip5.Text = "StatusStrip5"
         '
@@ -776,7 +778,7 @@ Partial Class Frm_Principal
         'btn_validate_data2
         '
         Me.btn_validate_data2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btn_validate_data2.Location = New System.Drawing.Point(474, 340)
+        Me.btn_validate_data2.Location = New System.Drawing.Point(641, 340)
         Me.btn_validate_data2.Name = "btn_validate_data2"
         Me.btn_validate_data2.Size = New System.Drawing.Size(132, 75)
         Me.btn_validate_data2.TabIndex = 59
@@ -802,7 +804,7 @@ Partial Class Frm_Principal
         Me.lbl_wait2.BackColor = System.Drawing.Color.White
         Me.lbl_wait2.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbl_wait2.ForeColor = System.Drawing.Color.Black
-        Me.lbl_wait2.Location = New System.Drawing.Point(189, 209)
+        Me.lbl_wait2.Location = New System.Drawing.Point(273, 209)
         Me.lbl_wait2.Name = "lbl_wait2"
         Me.lbl_wait2.Size = New System.Drawing.Size(267, 31)
         Me.lbl_wait2.TabIndex = 55
@@ -828,7 +830,7 @@ Partial Class Frm_Principal
         Me.DataGridView4.MinimumSize = New System.Drawing.Size(600, 250)
         Me.DataGridView4.Name = "DataGridView4"
         Me.DataGridView4.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
-        Me.DataGridView4.Size = New System.Drawing.Size(600, 250)
+        Me.DataGridView4.Size = New System.Drawing.Size(767, 250)
         Me.DataGridView4.TabIndex = 58
         '
         'btn_procesar2
@@ -847,11 +849,21 @@ Partial Class Frm_Principal
         '
         Me.openFileDialogCSV.FileName = "OpenFileDialog1"
         '
+        'TabPage6
+        '
+        Me.TabPage6.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage6.Name = "TabPage6"
+        Me.TabPage6.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage6.Size = New System.Drawing.Size(784, 474)
+        Me.TabPage6.TabIndex = 5
+        Me.TabPage6.Text = "Create Massive CloudPBX"
+        Me.TabPage6.UseVisualStyleBackColor = True
+        '
         'Frm_Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(654, 519)
+        Me.ClientSize = New System.Drawing.Size(821, 519)
         Me.Controls.Add(Me.TabControl1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MaximumSize = New System.Drawing.Size(1366, 768)
@@ -961,4 +973,5 @@ Partial Class Frm_Principal
     Friend WithEvents lbl_state_create_users As ToolStripStatusLabel
     Friend WithEvents tb_file_name2 As TextBox
     Friend WithEvents Btn_browse_CSV2 As Button
+    Friend WithEvents TabPage6 As TabPage
 End Class

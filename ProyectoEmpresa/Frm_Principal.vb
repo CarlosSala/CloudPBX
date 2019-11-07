@@ -1004,7 +1004,7 @@ Public Class Frm_Principal
                     End If
                 Else
                     'filasvalidas - 1 se iguala con fila, ya que esta parte en 0
-                    If fila > filasValidas - 1 And columna <> 7 Then
+                    If fila > filasValidas - 1 And columna <> 7 And columna <> 12 Then
                         DataGridView1.Rows(fila).Cells(columna).ReadOnly = True
                         DataGridView1.Rows(fila).Cells(columna).Style.BackColor = Color.FromArgb(232, 232, 232)
                     Else
@@ -5110,7 +5110,7 @@ Public Class Frm_Principal
                     End If
                 Else
                     'filasValidas - 1 se iguala con fila, ya que esta parte en 0
-                    If fila > filasValidas - 1 And columna <> 3 Then
+                    If fila > filasValidas - 1 And columna <> 3 And columna <> 8 Then
                         DataGridView4.Rows(fila).Cells(columna).ReadOnly = True
                         DataGridView4.Rows(fila).Cells(columna).Style.BackColor = Color.FromArgb(232, 232, 232)
                     Else
@@ -6072,6 +6072,28 @@ Public Class Frm_Principal
         Process.Start("explorer.exe", My.Computer.FileSystem.SpecialDirectories.Desktop & "\" & group_id & "createUsers_report.txt")
 
     End Sub
+
+
+
+    '///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    'SEXTA INTERFAZ-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------/
+    '/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

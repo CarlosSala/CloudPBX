@@ -94,9 +94,11 @@ Partial Class Frm_Principal
         Me.lbl_wait2 = New System.Windows.Forms.Label()
         Me.DataGridView4 = New System.Windows.Forms.DataGridView()
         Me.btn_procesar2 = New System.Windows.Forms.Button()
+        Me.TabPage6 = New System.Windows.Forms.TabPage()
+        Me.TabPage7 = New System.Windows.Forms.TabPage()
         Me.openFileDialogCSV = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTipHelpButtons = New System.Windows.Forms.ToolTip(Me.components)
-        Me.TabPage6 = New System.Windows.Forms.TabPage()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.StatusStrip1.SuspendLayout()
@@ -112,6 +114,7 @@ Partial Class Frm_Principal
         Me.TabPage5.SuspendLayout()
         Me.StatusStrip5.SuspendLayout()
         CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage7.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -125,6 +128,7 @@ Partial Class Frm_Principal
         Me.TabControl1.Controls.Add(Me.TabPage4)
         Me.TabControl1.Controls.Add(Me.TabPage5)
         Me.TabControl1.Controls.Add(Me.TabPage6)
+        Me.TabControl1.Controls.Add(Me.TabPage7)
         Me.TabControl1.Location = New System.Drawing.Point(12, 12)
         Me.TabControl1.MaximumSize = New System.Drawing.Size(1325, 690)
         Me.TabControl1.MinimumSize = New System.Drawing.Size(625, 500)
@@ -302,7 +306,7 @@ Partial Class Frm_Principal
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(617, 474)
+        Me.TabPage2.Size = New System.Drawing.Size(784, 474)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Rebuild the Proxy File"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -312,7 +316,7 @@ Partial Class Frm_Principal
         Me.StatusStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar2, Me.lbl_state_proxy})
         Me.StatusStrip2.Location = New System.Drawing.Point(3, 449)
         Me.StatusStrip2.Name = "StatusStrip2"
-        Me.StatusStrip2.Size = New System.Drawing.Size(611, 22)
+        Me.StatusStrip2.Size = New System.Drawing.Size(778, 22)
         Me.StatusStrip2.TabIndex = 12
         Me.StatusStrip2.Text = "StatusStrip2"
         '
@@ -436,7 +440,7 @@ Partial Class Frm_Principal
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage3.Size = New System.Drawing.Size(617, 474)
+        Me.TabPage3.Size = New System.Drawing.Size(784, 474)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Assign User Licenses"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -509,7 +513,7 @@ Partial Class Frm_Principal
         Me.StatusStrip3.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar3, Me.lbl_state_userLicense})
         Me.StatusStrip3.Location = New System.Drawing.Point(3, 449)
         Me.StatusStrip3.Name = "StatusStrip3"
-        Me.StatusStrip3.Size = New System.Drawing.Size(611, 22)
+        Me.StatusStrip3.Size = New System.Drawing.Size(778, 22)
         Me.StatusStrip3.TabIndex = 22
         Me.StatusStrip3.Text = "StatusStrip3"
         '
@@ -572,7 +576,7 @@ Partial Class Frm_Principal
         Me.TabPage4.Location = New System.Drawing.Point(4, 22)
         Me.TabPage4.Name = "TabPage4"
         Me.TabPage4.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage4.Size = New System.Drawing.Size(617, 474)
+        Me.TabPage4.Size = New System.Drawing.Size(784, 474)
         Me.TabPage4.TabIndex = 3
         Me.TabPage4.Text = "Modify Users Names"
         Me.TabPage4.UseVisualStyleBackColor = True
@@ -582,7 +586,7 @@ Partial Class Frm_Principal
         Me.StatusStrip4.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProgressBar4, Me.lbl_state_usersNames})
         Me.StatusStrip4.Location = New System.Drawing.Point(3, 449)
         Me.StatusStrip4.Name = "StatusStrip4"
-        Me.StatusStrip4.Size = New System.Drawing.Size(611, 22)
+        Me.StatusStrip4.Size = New System.Drawing.Size(778, 22)
         Me.StatusStrip4.TabIndex = 33
         Me.StatusStrip4.Text = "StatusStrip4"
         '
@@ -845,10 +849,6 @@ Partial Class Frm_Principal
         Me.btn_procesar2.Text = "Process"
         Me.btn_procesar2.UseVisualStyleBackColor = True
         '
-        'openFileDialogCSV
-        '
-        Me.openFileDialogCSV.FileName = "OpenFileDialog1"
-        '
         'TabPage6
         '
         Me.TabPage6.Location = New System.Drawing.Point(4, 22)
@@ -858,6 +858,35 @@ Partial Class Frm_Principal
         Me.TabPage6.TabIndex = 5
         Me.TabPage6.Text = "Create Massive CloudPBX"
         Me.TabPage6.UseVisualStyleBackColor = True
+        '
+        'TabPage7
+        '
+        Me.TabPage7.Controls.Add(Me.Button1)
+        Me.TabPage7.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage7.Name = "TabPage7"
+        Me.TabPage7.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage7.Size = New System.Drawing.Size(784, 474)
+        Me.TabPage7.TabIndex = 6
+        Me.TabPage7.Text = "Alternate Numbers"
+        Me.TabPage7.UseVisualStyleBackColor = True
+        '
+        'openFileDialogCSV
+        '
+        Me.openFileDialogCSV.FileName = "OpenFileDialog1"
+        '
+        'Button1
+        '
+        Me.Button1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button1.Location = New System.Drawing.Point(350, 94)
+        Me.Button1.MaximumSize = New System.Drawing.Size(100, 50)
+        Me.Button1.MinimumSize = New System.Drawing.Size(100, 50)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(100, 50)
+        Me.Button1.TabIndex = 0
+        Me.Button1.Text = "Send Consult"
+        Me.Button1.UseVisualStyleBackColor = True
         '
         'Frm_Principal
         '
@@ -897,6 +926,7 @@ Partial Class Frm_Principal
         Me.StatusStrip5.ResumeLayout(False)
         Me.StatusStrip5.PerformLayout()
         CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage7.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -974,4 +1004,6 @@ Partial Class Frm_Principal
     Friend WithEvents tb_file_name2 As TextBox
     Friend WithEvents Btn_browse_CSV2 As Button
     Friend WithEvents TabPage6 As TabPage
+    Friend WithEvents TabPage7 As TabPage
+    Friend WithEvents Button1 As Button
 End Class

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<BroadsoftDocument protocol="OCI" xmlns="C">
-<sessionId xmlns="">%%%OSS_USER%%%</sessionId>
-<command xsi:type="GroupDnAssignListRequest" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-<serviceProviderId>CloudPBX_SMB</serviceProviderId>
-<groupId>FERNANDOFELICEVICH_cloudpbx</groupId>
-<phoneNumber>+56-223523627</phoneNumber>
-</command>
-</BroadsoftDocument>

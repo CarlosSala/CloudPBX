@@ -1,1 +1,58 @@
-<?xml version="1.0" encoding="ISO-8859-1"?><BroadsoftDocument protocol="OCI" xmlns="C" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><sessionId xmlns="">10.184.67.230,312714112,1568735866938</sessionId><command echo="" xsi:type="UserGetListInGroupResponse" xmlns=""><userTable><colHeading>User Id</colHeading><colHeading>Last Name</colHeading><colHeading>First Name</colHeading><colHeading>Department</colHeading><colHeading>Phone Number</colHeading><colHeading>Phone Number Activated</colHeading><colHeading>Email Address</colHeading><colHeading>Hiragana Last Name</colHeading><colHeading>Hiragana First Name</colHeading><colHeading>In Trunk Group</colHeading><colHeading>Extension</colHeading><row><col>222360347@felipe.cl</col><col>Tapia</col><col>Dangelo</col><col/><col/><col/><col/><col>Tapia</col><col>Dangelo</col><col>false</col><col/></row><row><col>232781882@felipe.cl</col><col>Tapia</col><col>Mario</col><col/><col/><col/><col/><col>Tapia</col><col>Mario</col><col>false</col><col/></row><row><col>232781883@felipe.cl</col><col>Cerro</col><col>Gladys</col><col/><col/><col/><col/><col>Cerro</col><col>Gladys</col><col>false</col><col/></row></userTable></command></BroadsoftDocument>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<BroadsoftDocument xmlns="C" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" protocol="OCI">
+  <sessionId xmlns="">10.184.67.230,312714112,1568735866938</sessionId>
+  <command xmlns="" echo="" xsi:type="UserGetListInGroupResponse">
+    <userTable>
+      <colHeading>User Id</colHeading>
+      <colHeading>Last Name</colHeading>
+      <colHeading>First Name</colHeading>
+      <colHeading>Department</colHeading>
+      <colHeading>Phone Number</colHeading>
+      <colHeading>Phone Number Activated</colHeading>
+      <colHeading>Email Address</colHeading>
+      <colHeading>Hiragana Last Name</colHeading>
+      <colHeading>Hiragana First Name</colHeading>
+      <colHeading>In Trunk Group</colHeading>
+      <colHeading>Extension</colHeading>
+      <row>
+        <col>222360347@felipe.cl</col>
+        <col>Tapia</col>
+        <col>Dangelo</col>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+        <col>Tapia</col>
+        <col>Dangelo</col>
+        <col>false</col>
+        <col/>
+      </row>
+      <row>
+        <col>232781882@felipe.cl</col>
+        <col>Tapia</col>
+        <col>Mario</col>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+        <col>Tapia</col>
+        <col>Mario</col>
+        <col>false</col>
+        <col/>
+      </row>
+      <row>
+        <col>232781883@felipe.cl</col>
+        <col>Cerro</col>
+        <col>Gladys</col>
+        <col/>
+        <col/>
+        <col/>
+        <col/>
+        <col>Cerro</col>
+        <col>Gladys</col>
+        <col>false</col>
+        <col/>
+      </row>
+    </userTable>
+  </command>
+</BroadsoftDocument>

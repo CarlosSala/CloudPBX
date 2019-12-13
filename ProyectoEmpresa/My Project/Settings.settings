@@ -53,5 +53,8 @@
     <Setting Name="PathTmpCreateUsers" Type="System.String" Scope="User">
       <Value Profile="(Default)">\voxcom\tmp_createUsers</Value>
     </Setting>
+    <Setting Name="PathTmpAlternateNumbers" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\voxcom\tmp_alternateNumbers</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

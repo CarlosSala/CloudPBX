@@ -14,6 +14,7 @@ Public Class Frm_Principal
     Dim gblPathTmpUserLicense As String
     Dim gblPathTmpUsersNames As String
     Dim gblPathTmpCreateUsers As String
+    Dim gblPathTmpAlternateNumbers As String
 
     Dim gblTimePing As Integer = 2000
     Dim gblSession As String = ""
@@ -27,6 +28,7 @@ Public Class Frm_Principal
     Dim indexXML_UsersNames_Group As Integer = 0
     Dim indexXML_UsersNames As Integer = 0
     Dim indexXML_CreateUsers As Integer = 0
+    Dim indexXML_AlternateNumbers As Integer = 0
 
     Dim codError As Integer = 0
     Dim numFile As Integer = 1
@@ -67,6 +69,8 @@ Public Class Frm_Principal
     Dim estadoCeldas1 As Integer = 0
     Dim ArrayUserGetList() As String
     Dim numFileCreateUsers As Integer = 0
+    Dim numFileAlternateNumbers As Integer = 0
+    Dim alternateNumbersReport As Integer = 34
 
     Private Sub For1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -90,6 +94,10 @@ Public Class Frm_Principal
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_usersNames
         gblPathTmpCreateUsers = My.Application.Info.DirectoryPath & My.Settings.PathTmpCreateUsers
         'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_Createusers
+        gblPathTmpAlternateNumbers = My.Application.Info.DirectoryPath & My.Settings.PathTmpAlternateNumbers
+        'C:\Users\cs\Desktop\VisualStudioProjects\CloudPBX\ProyectoEmpresa\bin\Debug\voxcom\tmp_alternateNumbers
+
+
     End Sub
 
     Private Sub First_Interface()
@@ -2280,6 +2288,11 @@ Public Class Frm_Principal
                 lbl_state_create_users.Text = "Error File archivo ociclient.config"
                 ProgressBar5.Value = ProgressBar5.Maximum
                 My.Application.DoEvents()
+            ElseIf numberSubroutine = 6 Then
+                codError = 6
+                'lbl_state_usersNames.Text = "Error en archivo ociclient.config"
+                'ProgressBar6.Value = ProgressBar6.Maximum
+                'My.Application.DoEvents()
             End If
             Exit Sub
         End Try
@@ -2304,6 +2317,10 @@ Public Class Frm_Principal
             lbl_state_create_users.Text = "Executing App Voxcom..."
             ProgressBar5.Value = 50
             My.Application.DoEvents()
+        ElseIf numberSubroutine = 6 Then
+            'lbl_state_usersNames.Text = "Executing App Voxcom..."
+            'ProgressBar6.Value = 50
+            'My.Application.DoEvents()
         End If
 
         Try
@@ -2346,6 +2363,11 @@ Public Class Frm_Principal
                 lbl_state_create_users.Text = "Error to the execute startASOCIClient.bat"
                 ProgressBar5.Value = ProgressBar5.Maximum
                 My.Application.DoEvents()
+            ElseIf numberSubroutine = 6 Then
+                'codError = 6
+                'lbl_state_usersNames.Text = "Error to the execute startASOCIClient.bat"
+                'ProgressBar6.Value = ProgressBar6.Maximum
+                'My.Application.DoEvents()
             End If
             Exit Sub
         End Try
@@ -6080,7 +6102,401 @@ Public Class Frm_Principal
     '/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+    Public Function RequestGroupId_AlternateNumbers() As DataRowCollection
 
+        Dim cmd As New OleDbCommand
+        Dim da As New OleDbDataAdapter
+        Dim dtAlternateNumbers As New DataTable
+        Dim instruction As String = "select * from brs_alternateNumbers"
+
+        Try
+            Conexion.Open()
+            cmd.Connection = Conexion
+            cmd.CommandText = instruction
+            da.SelectCommand = cmd
+            da.Fill(dtAlternateNumbers)
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("No se pudo traer la información desde la tabla brs_alternateNumbers", MsgBoxStyle.Exclamation, "Error con base de datos")
+            'lbl_state_userLicense.Text = "Error with Database"
+            'ProgressBar3.Value = ProgressBar3.Maximum
+            Me.Cursor = Cursors.Default
+            Conexion.Close()
+            Exit Function
+        End Try
+        Conexion.Close()
+
+        Dim collectionRows As DataRowCollection
+        '   Dim rows As DataRow
+        collectionRows = dtAlternateNumbers.Rows
+
+        Return collectionRows
+
+        'DataGridView2.Rows.Clear()
+        'DataGridView2.Refresh()
+
+        'Se extraen los datos de CollectionRows
+        'For Each rows In collectionRows
+        '    DataGridView2.Rows.Add(rows.ItemArray)
+        'Next
+
+        'DataGridView2.Enabled = True
+        'DataGridView2.EnableHeadersVisualStyles = True
+
+        'lbl_numUser.Text = "They were found " + dtAlternateNumbers.Rows.Count.ToString() + " users in the group " + tb_groupId_UserGetList.Text
+
+        'lbl_state_userLicense.Text = "Finished"
+        'ProgressBar3.Value = ProgressBar3.Maximum
+        'Me.Cursor = Cursors.Default
+        'btn_process_userLicense.Enabled = True
+        'My.Application.DoEvents()
+
+        'DataGridView2.DataSource = dtproxy
+        'DataGridView2.Columns.Clear()
+
+        'Assignment_UserLicensse()
+
+        'Dim btn As New DataGridViewButtonColumn()
+        'DataGridView2.Columns.Add(btn)
+        'btn.HeaderText = "Click Data"
+        'btn.Text = "Click Here"
+        'btn.Name = "btn"
+        'btn.UseColumnTextForButtonValue = True
+
+        'para mostrar el listado de usuarios en el listbox
+        'Me.ListBox2.Items.Clear()
+        'For j = 0 To dtproxy.Rows.Count - 1
+        '    ListBox2.Items.Add(dtproxy.Rows.Item(j)(0).ToString)
+        'Next
+        'ListBox2.Refresh()
+    End Function
+
+
+
+
+
+    Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
+
+
+        ' Chr(34) = " 
+        Dim line1 As String = "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "ISO-8859-1" & Chr(34) & "?>"
+        Dim line2 As String = "<BroadsoftDocument protocol=" & Chr(34) & "OCI" & Chr(34) & " xmlns=" & Chr(34) & "C" & Chr(34) & ">"
+        Dim line3 As String = "<sessionId xmlns=" & Chr(34) & Chr(34) & ">%%%OSS_USER%%%</sessionId>"
+
+        'XML PARA CONSULTAR ALTERNATE NUMBERS------------------------------------------------------------------------------
+        Dim a_1 As String = "<command xsi:type=" & Chr(34) & "GroupCallProcessingGetPolicyRequest15sp2" & Chr(34) & " xmlns=" & Chr(34) & Chr(34) & " xmlns:xsi=" & Chr(34) & "http://www.w3.org/2001/XMLSchema-instance" & Chr(34) & ">"
+        Dim a_2 As String = "<serviceProviderId>CloudPBX_SMB</serviceProviderId>"
+        Dim a_3 As String = "<groupId>AGENCIAALDEA_cloudpbx</groupId>"
+        Dim a_4 As String = "</command>"
+
+        Dim finalLine As String = "</BroadsoftDocument>"
+
+        'SearchAllSubDirectories
+        Try
+            For Each foundFile As String In My.Computer.FileSystem.GetFiles(gblPathTmpAlternateNumbers, FileIO.SearchOption.SearchAllSubDirectories, "*.*")
+                My.Computer.FileSystem.DeleteFile(foundFile)
+            Next
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("No se pudieron eliminar los archivos antiguos de la carpeta " & gblPathTmpAlternateNumbers & ", verifique que los archivos no esten siendo utilizados por otro proceso", MsgBoxStyle.Exclamation, "Error al eliminar archivos")
+            'Me.Cursor = Cursors.Default
+            'btn_procesar2.Enabled = True
+            'Btn_browse_CSV2.Enabled = True
+            'btn_validate_data2.Enabled = True
+            Exit Sub
+        End Try
+
+        Dim fileIXML As String = ""
+        Dim fileOXML As String = ""
+        Dim estadoArchivo As Integer = 1
+        Dim multipleInputFile As String = gblPathTmpAlternateNumbers & "\multipleInputFile.txt"
+        Dim lineConfigFile As String = ""
+        Dim groupId As String = ""
+
+        Try
+            FileOpen(alternateNumbersReport, My.Computer.FileSystem.SpecialDirectories.Desktop & "\" & group_id & "_report.txt", OpenMode.Output, OpenAccess.Write)
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("Se produjo un error al crear el archivo " & My.Computer.FileSystem.SpecialDirectories.Desktop & "\" & group_id & "_report.txt" & " que genera el reporte", MsgBoxStyle.Exclamation, "Error al crear archivo")
+            FileClose(numFile)
+            Me.Cursor = Cursors.Default
+            Exit Sub
+        End Try
+
+        numFile = 35
+        numFileAlternateNumbers = numFile
+
+        Dim collectionRows As DataRowCollection = RequestGroupId_AlternateNumbers()
+        Dim rows As DataRow
+
+
+
+        'XML PARA CONSULTAR ALTERNATE NUMBERS-------------------------------------------------------------------
+        For Each rows In collectionRows
+
+            Try
+                FileOpen(numFileAlternateNumbers, multipleInputFile, OpenMode.Output, OpenAccess.Write)
+            Catch ex As Exception
+                MsgBox(ex.ToString)
+                FileClose(numFileAlternateNumbers)
+                Me.Cursor = Cursors.Default
+                btn_procesar.Enabled = True
+                Btn_browse_CSV2.Enabled = True
+                btn_validate_data2.Enabled = True
+                Exit Sub
+            End Try
+
+
+
+            If estadoArchivo = 1 Then
+                Try
+                    numFile = 36
+                    indexXML_AlternateNumbers += 1
+                    fileIXML = gblPathTmpAlternateNumbers & "\" & indexXML_AlternateNumbers & "_AlternateNumbers_request.xml"
+                    fileOXML = gblPathTmpAlternateNumbers & "\" & indexXML_AlternateNumbers & "_cloudpbx_response.xml"
+                    FileOpen(numFile, fileIXML, OpenMode.Output)
+                    WriteLine(numFile, line1.ToCharArray)
+                    WriteLine(numFile, line2.ToCharArray)
+                    WriteLine(numFile, line3.ToCharArray)
+                    WriteLine(numFile, a_1.ToCharArray)
+                    WriteLine(numFile, a_2.ToCharArray)
+
+                    groupId = rows.ItemArray(0).ToString
+
+                    a_3 = "<groupId>" & rows.ItemArray(0).ToString & "</groupId>"
+
+                    WriteLine(numFile, a_3.ToCharArray)
+                    WriteLine(numFile, a_4.ToCharArray)
+                    WriteLine(numFile, finalLine.ToCharArray)
+                    FileClose(numFile)
+                    lineConfigFile = fileIXML & ";" & fileOXML
+                    WriteLine(numFileAlternateNumbers, lineConfigFile.ToCharArray)
+
+                Catch ex As Exception
+                    MsgBox(ex.ToString)
+                    MsgBox("Error al crear el archivo " & fileIXML, MsgBoxStyle.Exclamation, "Error al crear el archivo")
+                    ' In_Case_Error4()
+                    Exit Sub
+                End Try
+            End If
+
+            FileClose(numFileAlternateNumbers)
+
+            ExecuteShellBulk(multipleInputFile, 6)
+            If codError = 0 Then
+                ParseXML_AlternateNumbers(groupId)
+            End If
+
+
+        Next
+
+        FileClose(alternateNumbersReport)
+    End Sub
+
+    Private Sub ParseXML_AlternateNumbers(GroupId As String)
+
+        'lbl_state_usersNames.Text = "Getting Users..."
+        'ProgressBar4.Value = 50
+        'My.Application.DoEvents()
+
+        'Dim comando As New OleDbCommand
+        'comando.Connection = Conexion
+        'Dim instruction As String = "delete * from brs_alternateNumbers"
+        'comando.CommandText = instruction
+
+        'Try
+        '    Conexion.Open()
+        '    comando.ExecuteNonQuery()
+        'Catch ex As Exception
+        '    MsgBox(ex.ToString)
+        '    MsgBox("Error al acceder a la base de datos e intentar eliminar los elementos antiguos de la tabla 'brs_get_user_license'", MsgBoxStyle.Exclamation, "Error al generar reporte")
+        '    lbl_state_usersNames.Text = "Error with Database"
+        '    ProgressBar4.Value = ProgressBar4.Maximum
+        '    Me.Cursor = Cursors.Default
+        '    Conexion.Close()
+        '    Exit Sub
+        'End Try
+        'Conexion.Close()
+
+
+
+        'Codigo anterior
+
+        'Dim xmldoc As New XmlDocument
+        'Dim xmlnode As XmlNodeList
+        'Dim xmlnodeSummary As XmlNodeList
+        'Dim response As String = ""
+        'Dim response1 As String = ""
+        'Dim response2 As String = ""
+
+        'Try
+        '    Dim fs As New FileStream(gblPathTmpAlternateNumbers & "\" & indexXML_AlternateNumbers & "_cloudpbx_response.xml", FileMode.Open, FileAccess.Read)
+
+        '    xmldoc.Load(fs)
+        '    xmlnode = xmldoc.GetElementsByTagName("col")
+        '    xmlnodeSummary = xmldoc.GetElementsByTagName("summary")
+
+        '    If xmlnodeSummary.Count = 1 Then
+        '        MsgBox(xmlnodeSummary(0).InnerText.ToString, MsgBoxStyle.Exclamation, "Broadsoft Response")
+        '        'lbl_state_usersNames.Text = xmlnodeSummary(0).InnerText.ToString
+        '        'ProgressBar4.Value = ProgressBar4.Maximum
+        '        Me.Cursor = Cursors.Default
+        '        fs.Close()
+        '        Exit Sub
+        '    Else
+        '        xmlnode = xmldoc.GetElementsByTagName("col")
+
+        '        'xmlnode contiene todos los nodos "col" del unico archivo response posible y puede puede tener un valor minimo de 11 elementos
+
+        '        Dim contador As Integer = 0
+
+        '        For i = 0 To xmlnode.Count - 1
+
+        '            If xmlnode(i).InnerText.ToString.Equals("Alternate Numbers") Then
+
+        '                response += "GroupId: " & GroupId & ", Alternate Numbers: "
+        '                response += xmlnode(i + 1).InnerText.ToString
+
+        '                WriteLine(alternateNumbersReport, response)
+
+        '                response = ""
+
+        '                fs.Close()
+
+        '                Exit For
+
+        '            End If
+
+        '        Next
+
+        '        fs.Close()
+        '    End If
+
+        'Catch ex As Exception
+        '    MsgBox(ex.ToString)
+        '    MsgBox("Ha ocurrido un error con el archivo respuesta ", MsgBoxStyle.Exclamation, "Error al generar reporte")
+        '    ''grabaLog(1, 2, "Error al leer archivo XML>" & gblPathTmpUsersNames & "\" & num & "_cloudpbx_response.xml")
+        '    'lbl_state_usersNames.Text = "Error al generar reporte"
+        '    'ProgressBar4.Value = ProgressBar4.Maximum
+        '    'Me.Cursor = Cursors.Default
+        '    'Exit Sub
+        'End Try
+
+
+
+
+
+
+
+
+        Dim xmldoc As New XmlDocument
+        Dim xmlnode As XmlNodeList
+        Dim xmlnodeSummary As XmlNodeList
+        Dim response As String = ""
+        Dim response1 As String = ""
+        Dim response2 As String = ""
+
+        Try
+            Dim fs As New FileStream(gblPathTmpAlternateNumbers & "\" & indexXML_AlternateNumbers & "_cloudpbx_response.xml", FileMode.Open, FileAccess.Read)
+
+            xmldoc.Load(fs)
+            xmlnode = xmldoc.GetElementsByTagName("useGroupCLIDSetting")
+            xmlnodeSummary = xmldoc.GetElementsByTagName("summary")
+
+            If xmlnodeSummary.Count = 1 Then
+                MsgBox(xmlnodeSummary(0).InnerText.ToString, MsgBoxStyle.Exclamation, "Broadsoft Response")
+                'lbl_state_usersNames.Text = xmlnodeSummary(0).InnerText.ToString
+                'ProgressBar4.Value = ProgressBar4.Maximum
+                Me.Cursor = Cursors.Default
+                fs.Close()
+                Exit Sub
+            Else
+                xmlnode = xmldoc.GetElementsByTagName("useGroupCLIDSetting")
+
+                'xmlnode contiene todos los nodos "col" del unico archivo response posible y puede puede tener un valor minimo de 11 elementos
+
+                Dim contador As Integer = 0
+
+
+                response += "GroupId: " & GroupId & ", Alternate Numbers: "
+                response += xmlnode(0).InnerText.ToString
+
+                WriteLine(alternateNumbersReport, response)
+
+                response = ""
+
+                fs.Close()
+
+            End If
+
+            fs.Close()
+
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+            MsgBox("Ha ocurrido un error con el archivo respuesta ", MsgBoxStyle.Exclamation, "Error al generar reporte")
+            ''grabaLog(1, 2, "Error al leer archivo XML>" & gblPathTmpUsersNames & "\" & num & "_cloudpbx_response.xml")
+            'lbl_state_usersNames.Text = "Error al generar reporte"
+            'ProgressBar4.Value = ProgressBar4.Maximum
+            'Me.Cursor = Cursors.Default
+            'Exit Sub
+        End Try
+
+
+
+
+
+
+
+
+
+
+
+
+        'If i = 0 Then
+        '    response = xmlnode(i).InnerText.ToString
+        'ElseIf i = 1 Then
+        '    response1 = xmlnode(i).InnerText.ToString
+        'ElseIf i = 2 Then
+        '    response2 = xmlnode(i).InnerText.ToString
+        'ElseIf i > 0 And (i Mod 11) = 0 Then
+        '    response = xmlnode(i).InnerText.ToString
+        '    response1 = xmlnode(i + 1).InnerText.ToString
+        '    response2 = xmlnode(i + 2).InnerText.ToString
+        'End If
+
+        'If response.Length > 0 And response1.Length > 0 And response2.Length > 0 Then
+
+        '    Dim cadena As String = "insert into brs_get_users_names (user_id, first_name, last_name)  values (@value,  @value1, @value2)"
+
+        '    Dim Comando1 As New OleDbCommand(cadena, Conexion)
+
+        '    Comando1.Parameters.AddWithValue("@value", response)
+        '    Comando1.Parameters.AddWithValue("@value1", response2)
+        '    Comando1.Parameters.AddWithValue("@value2", response1)
+
+        '    Try
+        '        Conexion.Open()
+        '        Comando1.ExecuteNonQuery()
+        '    Catch ex As Exception
+        '        MsgBox(ex.ToString)
+        '        MsgBox("Error al acceder a la base de datos e intentar insertar nuevos elementos en la tabla 'brs_get_users_names'", MsgBoxStyle.Exclamation, "Error al generar reporte")
+        '        lbl_state_usersNames.Text = "Error with Database"
+        '        ProgressBar4.Value = ProgressBar4.Maximum
+        '        Me.Cursor = Cursors.Default
+        '        Conexion.Close()
+        '        Exit Sub
+        '    End Try
+        '    Conexion.Close()
+        '    response = ""
+        '    response1 = ""
+        '    response2 = ""
+        'Else
+
+        'End If
+
+
+
+    End Sub
 
 
 
@@ -6248,4 +6664,6 @@ Public Class Frm_Principal
     Private Sub Btn_validate_data2_MouseEnter(sender As Object, e As EventArgs) Handles btn_validate_data2.MouseEnter
         Tooltip_Help_Buttons(ToolTipHelpButtons, btn_validate_data2, "Se valida localmente la información a procesar")
     End Sub
+
+
 End Class
